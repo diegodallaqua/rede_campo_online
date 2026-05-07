@@ -1,0 +1,33 @@
+import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import '../features/home/screens/home_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('pt_BR', null);
+
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      builder: (context, widget) => ResponsiveWrapper.builder(
+        ClampingScrollWrapper.builder(context, widget!),
+        defaultScale: true,
+        breakpoints: [
+          const ResponsiveBreakpoint.resize(400, name: MOBILE),
+          const ResponsiveBreakpoint.autoScale(768, name: TABLET),
+          const ResponsiveBreakpoint.resize(1024, name: DESKTOP),
+        ],
+      ),
+      debugShowCheckedModeBanner: false,
+      title: 'Rede Campo Online',
+      home: const HomeScreen(),
+    );
+  }
+}
