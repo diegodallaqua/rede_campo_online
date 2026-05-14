@@ -41,14 +41,13 @@ class ProjectTileDesktopVersion extends StatelessWidget {
               height: coverHeight,
               child: project.name != null
                   ? Image.network(
-                "assets/images/avatar.jpg",
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => const ImagePlaceholder(),
-              )
+                      "assets/images/avatar.jpg",
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const ImagePlaceholder(),
+                    )
                   : const ImagePlaceholder(),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
             child: Column(
@@ -109,7 +108,7 @@ class ProjectTileDesktopVersion extends StatelessWidget {
                     child: const Text(
                       'SAIBA MAIS',
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.5,
                       ),
@@ -128,15 +127,13 @@ class ProjectTileDesktopVersion extends StatelessWidget {
       child: onTap == null
           ? content
           : Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(borderRadius),
-          onTap: onTap,
-          child: content,
-        ),
-      ),
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(borderRadius),
+                onTap: onTap,
+                child: content,
+              ),
+            ),
     );
   }
 }
-
-

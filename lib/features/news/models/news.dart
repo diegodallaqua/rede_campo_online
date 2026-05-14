@@ -4,18 +4,17 @@ import '../../members/models/members.dart';
 import '../../projects/models/projects.dart';
 
 class News {
-  News({
-    this.id,
-    this.project,
-    this.member,
-    this.title,
-    this.description,
-    this.content,
-    this.publication_date,
-    this.research_areas
-  });
+  News(
+      {this.id,
+      this.project,
+      this.member,
+      this.title,
+      this.description,
+      this.content,
+      this.publication_date,
+      this.research_areas});
 
-  String? id;
+  int? id;
   Projects? project;
   Members? member;
   String? title;
@@ -32,23 +31,32 @@ class News {
   factory News.fromMap(Map<String, dynamic> map) {
     return News(
       id: map['id'],
-      project: map.containsKey('project') && map['project'] != null ? Projects.fromMap(map['project'] ?? {}) : null,
-      member: map.containsKey('member') && map['member'] != null ? Members.fromMap(map['member'] ?? {}) : null,
+      project: map.containsKey('project') && map['project'] != null
+          ? Projects.fromMap(map['project'] ?? {})
+          : null,
+      member: map.containsKey('member') && map['member'] != null
+          ? Members.fromMap(map['member'] ?? {})
+          : null,
       title: (map['title'] ?? '') as String,
       description: (map['description'] ?? '') as String,
       content: (map['content'] ?? '') as String,
-      publication_date: (map['publication_date'] ?? '') as DateTime,
-      research_areas: map.containsKey('research_areas') ? List<ResearchAreas>.from((map['research_areas'] ?? []).map((x) => ResearchAreas.fromMap(x))) : [],
+      publication_date: map['publication_date'] != null
+          ? DateTime.parse(map['publication_date'])
+          : null,
+      research_areas: map.containsKey('research_areas')
+          ? List<ResearchAreas>.from((map['research_areas'] ?? [])
+              .map((x) => ResearchAreas.fromMap(x)))
+          : [],
     );
   }
 
   Map<String, dynamic> toMap() => {
-    'project_id': project!.id,
-    'member_id': member!.id!,
-    'title': title,
-    'description': description,
-    'content': content,
-    'publication_date': publication_date,
-    'research_area_ids': research_areas!.map((city) => city.id).toList(),
-  };
+        'project_id': project!.id,
+        'member_id': member!.id!,
+        'title': title,
+        'description': description,
+        'content': content,
+        'publication_date': publication_date,
+        'research_area_ids': research_areas!.map((city) => city.id).toList(),
+      };
 }

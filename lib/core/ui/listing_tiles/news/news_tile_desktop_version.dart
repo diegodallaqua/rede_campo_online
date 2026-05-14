@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
 import '../../../../features/news/models/news.dart';
 import '../../../../features/news/models/news_media.dart';
-import '../../../../features/projects/models/projects.dart';
 import '../../../utils/placeholders.dart';
 import '../../theme/custom_colors.dart';
 
@@ -22,17 +21,20 @@ class NewsTileDesktopVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double cardWidth = 350.0;
-    const double coverHeight = 200.0;
+    const double coverHeight = 180.0;
     const double borderRadius = 12.0;
-    const double titleFontSize = 14.0;
-    const double textFontSize = 12.0;
 
     final content = Container(
-      width: cardWidth,
       decoration: BoxDecoration(
-        color: CustomColors.honey_cream,
+        color: CustomColors.vanilla_haze,
         borderRadius: BorderRadius.circular(borderRadius),
+        boxShadow: [
+          BoxShadow(
+            color: CustomColors.midnight_slate.withOpacity(0.18),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -44,93 +46,58 @@ class NewsTileDesktopVersion extends StatelessWidget {
             ),
             child: SizedBox(
               height: coverHeight,
-              child: newsMedia != null && newsMedia!.media != null && newsMedia!.media!.isNotEmpty
+              child: newsMedia != null &&
+                      newsMedia!.media != null &&
+                      newsMedia!.media!.isNotEmpty
                   ? Image.network(
-                    newsMedia!.media!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => const ImagePlaceholder(),
-              ) : const ImagePlaceholder(),
+                      newsMedia!.media!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const ImagePlaceholder(),
+                    )
+                  : const ImagePlaceholder(),
             ),
           ),
-
+          Container(height: 2, color: CustomColors.pine_shadow),
           Padding(
-            padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   news.title ?? '—',
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: titleFontSize,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: CustomColors.pine_shadow,
-                    height: 1.3,
+                    height: 1.35,
                   ),
                 ),
-
-                const SizedBox(height: 6),
-
-                if (news.publication_date != null) ...[
-                  RichText(
-                    text: TextSpan(
-                      style: const TextStyle(
-                        fontSize: textFontSize,
-                        color: CustomColors.pine_shadow,
-                        height: 1.35,
-                      ),
-                      children: [
-                        const TextSpan(
-                          text: 'Data de Publicação: ',
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        TextSpan(
-                          text: news.publication_date!.formattedDate(),
-                          style: const TextStyle(fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 3),
-                ],
-
-                if (news.research_areas != null &&
-                    news.research_areas!.isNotEmpty) ...[
-                  RichText(
-                    text: TextSpan(
-                      style: const TextStyle(
-                        fontSize: textFontSize,
-                        color: CustomColors.pine_shadow,
-                        height: 1.35,
-                      ),
-                      children: [
-                        const TextSpan(
-                          text: 'Áreas de Interesse: ',
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        TextSpan(
-                          text: () {
-                            final areas = news.research_areas!
-                                .map((e) => e.name ?? '')
-                                .where((name) => name.isNotEmpty)
-                                .toList();
-
-                            if (areas.length > 3) {
-                              return '${areas.take(3).join(', ')}...';
-                            }
-                            return areas.join(', ');
-                          }(),
-                          style: const TextStyle(fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-
                 const SizedBox(height: 10),
-
-                // Botão "SAIBA MAIS"
+                if (news.publication_date != null) ...[
+                  _MetaRow(
+                    icon: Icons.calendar_today_outlined,
+                    text: news.publication_date!.formattedDate(),
+                  ),
+                  const SizedBox(height: 5),
+                ],
+                if (news.research_areas != null &&
+                    news.research_areas!.isNotEmpty)
+                  _MetaRow(
+                    icon: Icons.sell_outlined,
+                    text: () {
+                      final areas = news.research_areas!
+                          .map((e) => e.name ?? '')
+                          .where((n) => n.isNotEmpty)
+                          .toList();
+                      if (areas.length > 2) {
+                        return '${areas.take(2).join(', ')} +${areas.length - 2}';
+                      }
+                      return areas.join(', ');
+                    }(),
+                  ),
+                const SizedBox(height: 12),
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
@@ -152,7 +119,7 @@ class NewsTileDesktopVersion extends StatelessWidget {
                     child: const Text(
                       'SAIBA MAIS',
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.5,
                       ),
@@ -171,15 +138,43 @@ class NewsTileDesktopVersion extends StatelessWidget {
       child: onTap == null
           ? content
           : Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(borderRadius),
-          onTap: onTap,
-          child: content,
-        ),
-      ),
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(borderRadius),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(borderRadius),
+                onTap: onTap,
+                child: content,
+              ),
+            ),
     );
   }
 }
 
+class _MetaRow extends StatelessWidget {
+  final IconData icon;
+  final String text;
 
+  const _MetaRow({required this.icon, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 14, color: CustomColors.copper_spice),
+        const SizedBox(width: 5),
+        Expanded(
+          child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 14,
+              color: CustomColors.pine_shadow,
+              height: 1.3,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

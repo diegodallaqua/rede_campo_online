@@ -23,9 +23,9 @@ class PublicationTileMobileVersion extends StatelessWidget {
 
     final double horizontalPadding = isVerySmall ? 14 : 18;
     final double verticalPadding = isVerySmall ? 12 : 14;
-    final double titleFontSize = isVerySmall ? 18 : 20;
-    final double textFontSize = isVerySmall ? 14 : 16;
-    final double borderRadius = 12;
+    final double titleFontSize = isVerySmall ? 14 : 16;
+    final double textFontSize = isVerySmall ? 10 : 12;
+    const double borderRadius = 12;
 
     final content = Container(
       width: width,
@@ -73,8 +73,8 @@ class PublicationTileMobileVersion extends StatelessWidget {
                         .where((name) => name.isNotEmpty)
                         .toList();
 
-                    if (areas.length > 2) {
-                      return '${areas.take(2).join(', ')}...';
+                    if (areas.length > 1) {
+                      return '${areas.take(1).join(', ')}...';
                     }
                     return areas.join(', ');
                   }(),
@@ -113,13 +113,13 @@ class PublicationTileMobileVersion extends StatelessWidget {
       child: onTap == null
           ? content
           : Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(borderRadius),
-          onTap: onTap,
-          child: content,
-        ),
-      ),
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(borderRadius),
+                onTap: onTap,
+                child: content,
+              ),
+            ),
     );
   }
 }

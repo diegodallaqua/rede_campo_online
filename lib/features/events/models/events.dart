@@ -12,7 +12,7 @@ class Events {
     this.date
   });
 
-  String? id;
+  int? id;
   Projects? project;
   Addresses? address;
   String? name;

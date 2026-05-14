@@ -7,7 +7,7 @@ class Organizations {
     this.name,
   });
 
-  String? id;
+  int? id;
   Addresses? address;
   String? name;
 

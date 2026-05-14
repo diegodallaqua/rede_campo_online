@@ -24,8 +24,8 @@ class NewsTileMobileVersion extends StatelessWidget {
     final double cardWidth = MediaQuery.sizeOf(context).width * 0.9;
     const double imageSize = 90.0;
     const double borderRadius = 12.0;
-    const double titleFontSize = 13.0;
-    const double textFontSize = 11.0;
+    const double titleFontSize = 16.0;
+    const double textFontSize = 12.0;
 
     final content = Container(
       width: cardWidth,
@@ -45,16 +45,17 @@ class NewsTileMobileVersion extends StatelessWidget {
               child: SizedBox(
                 width: imageSize,
                 height: imageSize,
-                child: newsMedia != null && newsMedia!.media != null && newsMedia!.media!.isNotEmpty
+                child: newsMedia != null &&
+                        newsMedia!.media != null &&
+                        newsMedia!.media!.isNotEmpty
                     ? Image.network(
-                  newsMedia!.media!,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const ImagePlaceholder(),
-                )
+                        newsMedia!.media!,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => const ImagePlaceholder(),
+                      )
                     : const ImagePlaceholder(),
               ),
             ),
-
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
@@ -73,9 +74,7 @@ class NewsTileMobileVersion extends StatelessWidget {
                         height: 1.3,
                       ),
                     ),
-
                     const SizedBox(height: 5),
-
                     if (news.publication_date != null) ...[
                       RichText(
                         text: TextSpan(
@@ -91,14 +90,14 @@ class NewsTileMobileVersion extends StatelessWidget {
                             ),
                             TextSpan(
                               text: news.publication_date!.formattedDate(),
-                              style: const TextStyle(fontWeight: FontWeight.w400),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(height: 3),
                     ],
-
                     if (news.research_areas != null &&
                         news.research_areas!.isNotEmpty) ...[
                       RichText(
@@ -125,7 +124,8 @@ class NewsTileMobileVersion extends StatelessWidget {
                                 }
                                 return areas.join(', ');
                               }(),
-                              style: const TextStyle(fontWeight: FontWeight.w400),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),
@@ -145,13 +145,13 @@ class NewsTileMobileVersion extends StatelessWidget {
       child: onTap == null
           ? content
           : Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(borderRadius),
-          onTap: onTap,
-          child: content,
-        ),
-      ),
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(borderRadius),
+                onTap: onTap,
+                child: content,
+              ),
+            ),
     );
   }
 }

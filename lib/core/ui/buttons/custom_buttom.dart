@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import '../theme/custom_colors.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({
-    super.key,
-    required this.width,
-    required this.color,
-    required this.text,
-    required this.function,
-    this.textColor,
-    this.borderRadius
-  });
+  const CustomButton(
+      {super.key,
+      required this.width,
+      required this.color,
+      required this.text,
+      required this.function,
+      this.textColor,
+      this.borderRadius,
+      this.fontWeight});
 
   final double? width;
   final Color color;
@@ -18,6 +18,7 @@ class CustomButton extends StatelessWidget {
   final String text;
   final Function()? function;
   final double? borderRadius;
+  final FontWeight? fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +33,14 @@ class CustomButton extends StatelessWidget {
             backgroundColor: color,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             elevation: 8,
-            shadowColor: CustomColors.midnight_slate
-        ),
-
+            shadowColor: CustomColors.midnight_slate),
         onPressed: function,
         child: Text(
           text,
           style: TextStyle(
-              fontSize: 17,
-              color: textColor ?? CustomColors.fresh_sprout
+            fontSize: 17,
+            color: textColor ?? CustomColors.fresh_sprout,
+            fontWeight: fontWeight ?? FontWeight.w600,
           ),
         ),
       ),

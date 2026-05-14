@@ -12,10 +12,9 @@ class Members {
     this.lattesUrl,
     this.linkedInUrl,
     this.profilePicture,
-    this.password,
   });
 
-  String? id;
+  int? id;
   MemberRoles? memberRole;
   Organizations? organization;
   String? name;
@@ -24,7 +23,6 @@ class Members {
   String? lattesUrl;
   String? linkedInUrl;
   String? profilePicture;
-  String? password;
 
   @override
   String toString() {
@@ -52,7 +50,6 @@ class Members {
       lattesUrl: (map['lattes_url'] ?? '') as String,
       linkedInUrl: (map['linked_in_url'] ?? '') as String,
       profilePicture: (map['profile_picture'] ?? '') as String,
-      password: map.containsKey('password') ? map['password'] as String? : null,
     );
   }
 

@@ -16,7 +16,7 @@ class Projects {
     this.members
   });
 
-  String? id;
+  int? id;
   ProjectTypes? projectType;
   String? name;
   String? description;

@@ -4,7 +4,7 @@ class States {
     this.name,
   });
 
-  String? id;
+  int? id;
   String? name;
 
   @override

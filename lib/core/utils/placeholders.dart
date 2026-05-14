@@ -8,12 +8,12 @@ class ImagePlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: CustomColors.copper_spice.withOpacity(0.25),
+      color: CustomColors.pine_shadow.withOpacity(0.25),
       child: const Center(
         child: Icon(
           Icons.newspaper_outlined,
           size: 32,
-          color: CustomColors.copper_spice,
+          color: CustomColors.pine_shadow,
         ),
       ),
     );

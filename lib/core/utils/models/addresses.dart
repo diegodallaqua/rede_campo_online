@@ -11,7 +11,7 @@ class Addresses {
     this.complement
   });
 
-  String? id;
+  int? id;
   Cities? city;
   String? street;
   String? neighborhood;

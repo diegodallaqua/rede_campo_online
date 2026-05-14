@@ -4,7 +4,7 @@ class ResearchAreas {
     this.name,
   });
 
-  String? id;
+  int? id;
   String? name;
 
   @override

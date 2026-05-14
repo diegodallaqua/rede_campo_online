@@ -10,7 +10,7 @@ class Publications {
     this.research_areas
   });
 
-  String? id;
+  int? id;
   String? title;
   String? abstract;
   DateTime? publication_date;

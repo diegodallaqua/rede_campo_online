@@ -35,10 +35,6 @@ class ResearchAreaTile extends StatelessWidget {
         ? Border.all(color: CustomColors.pine_shadow, width: 1.5)
         : Border.all(color: CustomColors.concrete_mist, width: 1.5);
 
-    final FontWeight fontWeight = green
-        ? FontWeight.w400
-        : FontWeight.w900;
-
     final content = Container(
       padding: const EdgeInsets.symmetric(
         horizontal: horizontalPadding,
@@ -53,7 +49,7 @@ class ResearchAreaTile extends StatelessWidget {
         researchArea.name ?? '—',
         style: TextStyle(
           fontSize: fontSize,
-          fontWeight: fontWeight,
+          fontWeight: FontWeight.w600,
           color: textColor,
         ),
       ),

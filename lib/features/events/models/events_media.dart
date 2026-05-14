@@ -8,7 +8,7 @@ class EventMedia {
     this.media
   });
 
-  String? id;
+  int? id;
   Events? event;
   String? name;
   String? media;

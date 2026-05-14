@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/features/home/screens/home_screen.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import '../features/home/screens/home_screen.dart';
+import '../core/global/injection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupDependencies();
   await initializeDateFormatting('pt_BR', null);
 
   runApp(const MyApp());

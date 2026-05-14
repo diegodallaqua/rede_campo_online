@@ -8,7 +8,7 @@ class NewsMedia {
     this.media
   });
 
-  String? id;
+  int? id;
   News? news;
   String? name;
   String? media;

@@ -4,7 +4,7 @@ class ProjectTypes {
     this.name,
   });
 
-  String? id;
+  int? id;
   String? name;
 
   @override

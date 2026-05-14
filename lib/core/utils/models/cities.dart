@@ -7,7 +7,7 @@ class Cities {
     this.state,
   });
 
-  String? id;
+  int? id;
   String? name;
   States? state;
 

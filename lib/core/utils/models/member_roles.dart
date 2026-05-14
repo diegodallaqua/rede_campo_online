@@ -4,7 +4,7 @@ class MemberRoles {
     this.name,
   });
 
-  String? id;
+  int? id;
   String? name;
 
   @override
@@ -18,4 +18,9 @@ class MemberRoles {
       name: (map['name'] ?? '') as String,
     );
   }
+
+  Map<String, dynamic> toMap() => {
+    'id': id,
+    'name': name,
+  };
 }
