@@ -9,18 +9,6 @@ class AboutUsHeaderSectionMobileVersion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned.fill(
-          child: Opacity(
-            opacity: 1,
-            child: Transform.scale(
-              scale: 2.25,
-              child: Image.asset(
-                'assets/images/logo_icon.png',
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-        ),
         SizedBox(
           width: double.infinity,
           child: Padding(

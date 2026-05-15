@@ -12,7 +12,7 @@ class HomeHeaderSectionMobileVersion extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Opacity(
-            opacity: 1,
+            opacity: 0.1,
             child: Transform.scale(
               scale: 2.25,
               child: Image.asset(

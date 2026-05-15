@@ -8,27 +8,16 @@ class AboutUsHeaderSectionDesktopVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Stack(
-        children: [
-          Positioned(
-            right: -60,
-            top: -40,
-            child: Opacity(
-              opacity: 0.18,
-              child: Image.asset(
-                'assets/images/logo_icon.png',
-                width: 520,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          Center(
+    return Stack(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1100),
+              constraints: const BoxConstraints(maxWidth: 1440),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 72),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 48, vertical: 72),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -58,7 +47,8 @@ class AboutUsHeaderSectionDesktopVersion extends StatelessWidget {
                                 TextSpan(text: 'Rede '),
                                 TextSpan(
                                   text: 'Campo',
-                                  style: TextStyle(color: CustomColors.copper_spice),
+                                  style: TextStyle(
+                                      color: CustomColors.copper_spice),
                                 ),
                               ],
                             ),
@@ -93,8 +83,8 @@ class AboutUsHeaderSectionDesktopVersion extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

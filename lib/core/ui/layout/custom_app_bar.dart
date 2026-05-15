@@ -19,7 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         child: Image.asset(
-          'assets/images/logo.png',
+          'assets/images/logo_horizontal.png',
           fit: BoxFit.cover,
           alignment: Alignment.centerLeft,
         ),

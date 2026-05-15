@@ -11,7 +11,7 @@ class HomeHeaderSectionDesktopVersion extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Opacity(
-            opacity: 1.0,
+            opacity: 0.1,
             child: Transform.scale(
               scale: 2.0,
               child: Image.asset(
