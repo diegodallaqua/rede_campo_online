@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
+import '../../../../app/router.dart';
 import '../../../../core/ui/buttons/custom_buttom.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
 
@@ -42,9 +43,7 @@ class HomeAboutUsSectionMobileVersion extends StatelessWidget {
             textColor: CustomColors.midnight_slate,
             borderRadius: 12,
             fontWeight: FontWeight.w700,
-            function: () {
-              // TODO: navegar para a tela sobre nós
-            },
+            function: () => context.go(AppRoutes.aboutUs),
           ),
         ],
       ),

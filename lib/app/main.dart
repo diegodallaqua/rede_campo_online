@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rede_campo_online/features/about_us/screens/about_us_screen.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../core/global/injection.dart';
+import 'router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter,
       builder: (context, widget) => ResponsiveWrapper.builder(
         ClampingScrollWrapper.builder(context, widget!),
         defaultScale: true,
@@ -29,7 +30,6 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Rede Campo Online',
-      home: const AboutUsScreen(),
     );
   }
 }
