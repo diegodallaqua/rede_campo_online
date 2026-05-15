@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
 import '../../../news/stores/news_store.dart';
-import '../listing/news_list_widget_desktop_version.dart';
+import '../listing/recent_news_list_widget_desktop_version.dart';
 
-class NewsSectionDesktopVersion extends StatelessWidget {
+class HomeRecentNewsSectionDesktopVersion extends StatelessWidget {
   final NewsStore newsStore;
 
-  const NewsSectionDesktopVersion({super.key, required this.newsStore});
+  const HomeRecentNewsSectionDesktopVersion(
+      {super.key, required this.newsStore});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class NewsSectionDesktopVersion extends StatelessWidget {
                       'Notícias Recentes',
                       style: TextStyle(
                         fontSize: 32,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                         color: CustomColors.fresh_sprout,
                         letterSpacing: 0.2,
                       ),
@@ -66,7 +67,8 @@ class NewsSectionDesktopVersion extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          NewsListWidgetDesktopVersion(newsStore: newsStore, totalCount: 10),
+          RecentNewsListWidgetDesktopVersion(
+              newsStore: newsStore, totalCount: 10),
         ],
       ),
     );

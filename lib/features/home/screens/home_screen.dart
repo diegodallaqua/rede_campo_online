@@ -5,16 +5,16 @@ import '../../../../features/news/stores/news_store.dart';
 import '../../../core/ui/layout/custom_app_bar.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 import '../../publications/stores/publications_store.dart';
-import '../widgets/sections/about_section_desktop_version.dart';
-import '../widgets/sections/about_section_mobile_version.dart';
-import '../widgets/sections/header_section_desktop_version.dart';
-import '../widgets/sections/header_section_mobile_version.dart';
-import '../widgets/sections/news_section_desktop_version.dart';
-import '../widgets/sections/news_section_mobile_version.dart';
-import '../widgets/sections/partners_section_desktop_version.dart';
-import '../widgets/sections/partners_section_mobile_version.dart';
-import '../widgets/sections/publications_section_desktop_version.dart';
-import '../widgets/sections/publications_section_mobile_version.dart';
+import '../widgets/sections/home_about_us_section_desktop_version.dart';
+import '../widgets/sections/home_about_us_section_mobile_version.dart';
+import '../widgets/sections/home_header_section_desktop_version.dart';
+import '../widgets/sections/home_header_section_mobile_version.dart';
+import '../widgets/sections/home_recent_news_section_desktop_version.dart';
+import '../widgets/sections/home_recent_news_section_mobile_version.dart';
+import '../widgets/sections/home_partners_section_desktop_version.dart';
+import '../widgets/sections/home_partners_section_mobile_version.dart';
+import '../widgets/sections/home_recent_publications_section_desktop_version.dart';
+import '../widgets/sections/home_recent_publications_section_mobile_version.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -35,21 +35,21 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const HeaderSectionMobileVersion(),
+              const HomeHeaderSectionMobileVersion(),
               ColoredBox(
                 color: CustomColors.midnight_slate,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const AboutSectionMobileVersion(),
-                    NewsSectionMobileVersion(newsStore: newsStore),
+                    const HomeAboutUsSectionMobileVersion(),
+                    HomeRecentNewsSectionMobileVersion(newsStore: newsStore),
                   ],
                 ),
               ),
               const SizedBox(height: 12),
-              PublicationsSectionMobileVersion(
+              HomeRecentPublicationsSectionMobileVersion(
                   publicationsStore: publicationsStore),
-              const PartnersSectionMobileVersion(),
+              const HomePartnersSectionMobileVersion(),
               const Footer(),
             ],
           ),
@@ -59,20 +59,20 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const HeaderSectionDesktopVersion(),
+              const HomeHeaderSectionDesktopVersion(),
               ColoredBox(
                 color: CustomColors.midnight_slate,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const AboutSectionDesktopVersion(),
-                    NewsSectionDesktopVersion(newsStore: newsStore),
+                    const HomeAboutUsSectionDesktopVersion(),
+                    HomeRecentNewsSectionDesktopVersion(newsStore: newsStore),
                   ],
                 ),
               ),
-              PublicationsSectionDesktopVersion(
+              HomeRecentPublicationsSectionDesktopVersion(
                   publicationsStore: publicationsStore),
-              const PartnersSectionDesktopVersion(),
+              const HomePartnersSectionDesktopVersion(),
               const Footer(),
             ],
           ),

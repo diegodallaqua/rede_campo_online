@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/ui/listing_tiles/partners_tile.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
 
-class PartnersSectionDesktopVersion extends StatelessWidget {
-  const PartnersSectionDesktopVersion({super.key});
+class HomePartnersSectionDesktopVersion extends StatelessWidget {
+  const HomePartnersSectionDesktopVersion({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class PartnersSectionDesktopVersion extends StatelessWidget {
             'Parceiros Institucionais',
             style: TextStyle(
               fontSize: 32,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
               color: CustomColors.copper_spice,
               letterSpacing: 0.2,
             ),

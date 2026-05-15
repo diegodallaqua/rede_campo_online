@@ -6,23 +6,23 @@ import '../../../../core/ui/theme/custom_colors.dart';
 import '../../../news/models/news.dart';
 import '../../../news/stores/news_store.dart';
 
-class NewsListWidgetDesktopVersion extends StatefulWidget {
+class RecentNewsListWidgetDesktopVersion extends StatefulWidget {
   final NewsStore newsStore;
   final int totalCount;
 
-  const NewsListWidgetDesktopVersion({
+  const RecentNewsListWidgetDesktopVersion({
     super.key,
     required this.newsStore,
     this.totalCount = 10,
   });
 
   @override
-  State<NewsListWidgetDesktopVersion> createState() =>
-      _NewsListWidgetDesktopVersionState();
+  State<RecentNewsListWidgetDesktopVersion> createState() =>
+      _RecentNewsListWidgetDesktopVersionState();
 }
 
-class _NewsListWidgetDesktopVersionState
-    extends State<NewsListWidgetDesktopVersion> {
+class _RecentNewsListWidgetDesktopVersionState
+    extends State<RecentNewsListWidgetDesktopVersion> {
   static const double _listHeight = 315.0;
   final ScrollController _scrollController = ScrollController();
 

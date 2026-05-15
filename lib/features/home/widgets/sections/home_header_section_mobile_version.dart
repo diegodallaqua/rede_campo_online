@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/ui/buttons/custom_buttom.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
 
-class HeaderSectionMobileVersion extends StatelessWidget {
-  const HeaderSectionMobileVersion({super.key});
+class HomeHeaderSectionMobileVersion extends StatelessWidget {
+  const HomeHeaderSectionMobileVersion({super.key});
 
   @override
   Widget build(BuildContext context) {

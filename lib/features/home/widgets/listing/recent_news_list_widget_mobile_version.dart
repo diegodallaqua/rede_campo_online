@@ -7,7 +7,7 @@ import '../../../../features/news/stores/news_store.dart';
 import '../../../../core/ui/listing_tiles/news/news_tile_mobile_version.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
 
-class NewsListWidgetMobileVersion extends StatefulWidget {
+class RecentNewsListWidgetMobileVersion extends StatefulWidget {
   final NewsStore newsStore;
 
   final int visibleCount;
@@ -17,7 +17,7 @@ class NewsListWidgetMobileVersion extends StatefulWidget {
   static const double _tileHeight = 110.0;
   static const double _separatorHeight = 8.0;
 
-  const NewsListWidgetMobileVersion({
+  const RecentNewsListWidgetMobileVersion({
     super.key,
     required this.newsStore,
     this.visibleCount = 3,
@@ -25,11 +25,12 @@ class NewsListWidgetMobileVersion extends StatefulWidget {
   });
 
   @override
-  State<NewsListWidgetMobileVersion> createState() =>
-      _HomeNewsListWidgetState();
+  State<RecentNewsListWidgetMobileVersion> createState() =>
+      _RecentNewsListWidgetMobileVersionState();
 }
 
-class _HomeNewsListWidgetState extends State<NewsListWidgetMobileVersion> {
+class _RecentNewsListWidgetMobileVersionState
+    extends State<RecentNewsListWidgetMobileVersion> {
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -47,8 +48,8 @@ class _HomeNewsListWidgetState extends State<NewsListWidgetMobileVersion> {
   // Calcula a altura visível para [n] itens, incluindo seus separadores.
   double _heightForItems(int n) {
     if (n <= 0) return 0;
-    return (n * NewsListWidgetMobileVersion._tileHeight) +
-        ((n - 1) * NewsListWidgetMobileVersion._separatorHeight);
+    return (n * RecentNewsListWidgetMobileVersion._tileHeight) +
+        ((n - 1) * RecentNewsListWidgetMobileVersion._separatorHeight);
   }
 
   // Busca o [NewsMedia] correspondente à notícia por id.
@@ -99,7 +100,7 @@ class _HomeNewsListWidgetState extends State<NewsListWidgetMobileVersion> {
           padding: EdgeInsets.zero,
           itemCount: news.length,
           separatorBuilder: (_, __) => const SizedBox(
-            height: NewsListWidgetMobileVersion._separatorHeight,
+            height: RecentNewsListWidgetMobileVersion._separatorHeight,
           ),
           itemBuilder: (context, index) {
             final item = news[index];

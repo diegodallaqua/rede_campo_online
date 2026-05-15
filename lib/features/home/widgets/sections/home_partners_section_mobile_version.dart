@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
 import '../../../../core/ui/listing_tiles/partners_tile.dart';
 
-class PartnersSectionMobileVersion extends StatelessWidget {
-  const PartnersSectionMobileVersion({super.key});
+class HomePartnersSectionMobileVersion extends StatelessWidget {
+  const HomePartnersSectionMobileVersion({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class PartnersSectionMobileVersion extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 22,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
               color: CustomColors.copper_spice,
             ),
           ),

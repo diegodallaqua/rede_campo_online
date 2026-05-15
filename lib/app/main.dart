@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rede_campo_online/features/home/screens/home_screen.dart';
+import 'package:rede_campo_online/features/about_us/screens/about_us_screen.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../core/global/injection.dart';
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Rede Campo Online',
-      home: const HomeScreen(),
+      home: const AboutUsScreen(),
     );
   }
 }

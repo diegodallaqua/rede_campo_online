@@ -1,8 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import '../theme/custom_colors.dart';
 
 class CustomFormLabel extends StatelessWidget {
-  CustomFormLabel({required this.title, this.textAlign, Key? key}) : super(key: key);
+  CustomFormLabel({required this.title, this.textAlign, Key? key})
+      : super(key: key);
 
   String title;
   TextAlign? textAlign;

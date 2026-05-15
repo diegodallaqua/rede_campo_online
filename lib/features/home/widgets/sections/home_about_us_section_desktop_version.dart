@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/ui/buttons/custom_buttom.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
 
-class AboutSectionDesktopVersion extends StatelessWidget {
-  const AboutSectionDesktopVersion({super.key});
+class HomeAboutUsSectionDesktopVersion extends StatelessWidget {
+  const HomeAboutUsSectionDesktopVersion({super.key});
 
   static const String _aboutText =
       'Eu te amarei do coração, ó Senhor, fortaleza minha. O Senhor é o meu rochedo, e o meu lugar forte, e o meu libertador; o meu Deus, a minha fortaleza, em quem confio; o meu escudo, a força da minha salvação, e o meu alto refúgio. Invocarei o nome do Senhor, que é digno de louvor, e ficarei livre dos meus inimigos. Cordas de morte me cercaram, e torrentes de impiedade me assombraram. Cordas do inferno me cingiram, laços de morte me surpreenderam. Na angústia invoquei o Senhor, e clamei ao meu Deus; desde o seu templo ouviu a minha voz, e aos seus ouvidos chegou o meu clamor perante a sua face.';
@@ -22,7 +22,7 @@ class AboutSectionDesktopVersion extends StatelessWidget {
                 'Sobre nós',
                 style: TextStyle(
                   fontSize: 40,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                   color: CustomColors.fresh_sprout,
                 ),
               ),

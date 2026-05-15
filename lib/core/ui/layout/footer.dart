@@ -31,10 +31,7 @@ class Footer extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
 // Desktop
-// ---------------------------------------------------------------------------
-
 class _FooterDesktop extends StatelessWidget {
   const _FooterDesktop();
 
@@ -78,11 +75,11 @@ class _FooterDesktop extends StatelessWidget {
               ),
               const SizedBox(width: 48),
               // Contact
-              Expanded(
+              const Expanded(
                 flex: 3,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'Fale Conosco',
                       style: TextStyle(
@@ -283,10 +280,7 @@ class _FooterMobile extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
 // Shared
-// ---------------------------------------------------------------------------
-
 class _SocialIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;

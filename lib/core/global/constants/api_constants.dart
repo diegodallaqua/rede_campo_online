@@ -19,3 +19,6 @@ const newsURL = '/news';
 
 // PUBLICATIONS
 const publicationsURL = '/publications';
+
+// MEMBERS
+const membersURL = '/members';

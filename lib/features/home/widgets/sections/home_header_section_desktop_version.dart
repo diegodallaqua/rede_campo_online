@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/ui/buttons/custom_buttom.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
 
-class HeaderSectionDesktopVersion extends StatelessWidget {
-  const HeaderSectionDesktopVersion({super.key});
+class HomeHeaderSectionDesktopVersion extends StatelessWidget {
+  const HomeHeaderSectionDesktopVersion({super.key});
 
   @override
   Widget build(BuildContext context) {

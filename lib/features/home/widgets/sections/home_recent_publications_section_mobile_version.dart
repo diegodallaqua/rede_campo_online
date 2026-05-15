@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/ui/theme/custom_colors.dart';
-import '../../../news/stores/news_store.dart';
-import '../listing/news_list_widget_mobile_version.dart';
+import '../../../publications/stores/publications_store.dart';
+import '../listing/recent_publications_list_widget_mobile_version.dart';
 
-class NewsSectionMobileVersion extends StatelessWidget {
-  final NewsStore newsStore;
+class HomeRecentPublicationsSectionMobileVersion extends StatelessWidget {
+  final PublicationsStore publicationsStore;
 
-  const NewsSectionMobileVersion({super.key, required this.newsStore});
+  const HomeRecentPublicationsSectionMobileVersion(
+      {super.key, required this.publicationsStore});
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +20,11 @@ class NewsSectionMobileVersion extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
-              'Notícias',
+              'Publicações Recentes',
               style: TextStyle(
                 fontSize: 24,
-                fontWeight: FontWeight.w800,
-                color: CustomColors.fresh_sprout,
+                fontWeight: FontWeight.w700,
+                color: CustomColors.copper_spice,
                 letterSpacing: 0.2,
               ),
             ),
@@ -31,8 +32,8 @@ class NewsSectionMobileVersion extends StatelessWidget {
           const SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: NewsListWidgetMobileVersion(
-              newsStore: newsStore,
+            child: PublicationsListWidgetMobileVersion(
+              publicationsStore: publicationsStore,
               visibleCount: 3,
               totalCount: 10,
             ),

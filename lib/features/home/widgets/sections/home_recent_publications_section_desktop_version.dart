@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
 import '../../../publications/stores/publications_store.dart';
-import '../listing/publications_list_widget_desktop_version.dart';
+import '../listing/recent_publications_list_widget_desktop_version.dart';
 
-class PublicationsSectionDesktopVersion extends StatelessWidget {
+class HomeRecentPublicationsSectionDesktopVersion extends StatelessWidget {
   final PublicationsStore publicationsStore;
 
-  const PublicationsSectionDesktopVersion(
+  const HomeRecentPublicationsSectionDesktopVersion(
       {super.key, required this.publicationsStore});
 
   @override
@@ -28,7 +28,7 @@ class PublicationsSectionDesktopVersion extends StatelessWidget {
                       'Publicações Recentes',
                       style: TextStyle(
                         fontSize: 32,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                         color: CustomColors.copper_spice,
                         letterSpacing: 0.2,
                       ),
