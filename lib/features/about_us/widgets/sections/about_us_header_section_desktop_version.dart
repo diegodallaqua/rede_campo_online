@@ -14,7 +14,7 @@ class AboutUsHeaderSectionDesktopVersion extends StatelessWidget {
           width: double.infinity,
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1440),
+              constraints: const BoxConstraints(maxWidth: 1280),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 48, vertical: 72),

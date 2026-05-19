@@ -12,7 +12,7 @@ import 'package:rede_campo_online/features/about_us/widgets/sections/about_us_pa
 import 'package:rede_campo_online/features/about_us/widgets/sections/about_us_partners_section_mobile_version.dart';
 import 'package:rede_campo_online/features/members/stores/members_store.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import '../../../core/ui/layout/custom_app_bar.dart';
+import '../../../core/ui/layout/app_scaffold.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 
 class AboutUsScreen extends StatelessWidget {
@@ -22,9 +22,7 @@ class AboutUsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final MembersStore membersStore = MembersStore();
 
-    return Scaffold(
-      backgroundColor: CustomColors.vanilla_haze,
-      appBar: const CustomAppBar(),
+    return AppScaffold(
       body: ResponsiveVisibility(
         visible: false,
         visibleWhen: const [Condition.largerThan(name: TABLET)],

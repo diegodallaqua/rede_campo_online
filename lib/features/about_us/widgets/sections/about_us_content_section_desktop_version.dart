@@ -21,13 +21,13 @@ class AboutUsContentSectionDesktopVersion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1440),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 64),
+        constraints: const BoxConstraints(maxWidth: 1280),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 48, vertical: 64),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 _summaryText,
                 style: TextStyle(
                   fontSize: 15,
@@ -36,7 +36,7 @@ class AboutUsContentSectionDesktopVersion extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 56),
+              SizedBox(height: 56),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

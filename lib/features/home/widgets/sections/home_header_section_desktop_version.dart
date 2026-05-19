@@ -13,7 +13,7 @@ class HomeHeaderSectionDesktopVersion extends StatelessWidget {
           child: Opacity(
             opacity: 0.1,
             child: Transform.scale(
-              scale: 2.0,
+              scale: 2.5,
               child: Image.asset(
                 'assets/images/logo_icon.png',
                 fit: BoxFit.contain,
@@ -27,7 +27,7 @@ class HomeHeaderSectionDesktopVersion extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 100),
             child: Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1440),
+                constraints: const BoxConstraints(maxWidth: 1280),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 48),
                   child: Column(

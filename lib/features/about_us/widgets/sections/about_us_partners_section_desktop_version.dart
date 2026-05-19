@@ -47,7 +47,7 @@ class _AboutUsPartnersSectionDesktopVersionState
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1440),
+        constraints: const BoxConstraints(maxWidth: 1280),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 64),
           child: Row(

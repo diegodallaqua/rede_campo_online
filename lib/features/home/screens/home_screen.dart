@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/layout/footer.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import '../../../../features/news/stores/news_store.dart';
-import '../../../core/ui/layout/custom_app_bar.dart';
+import '../../../core/ui/layout/app_scaffold.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 import '../../publications/stores/publications_store.dart';
 import '../widgets/sections/home_about_us_section_desktop_version.dart';
@@ -24,9 +24,7 @@ class HomeScreen extends StatelessWidget {
     final NewsStore newsStore = NewsStore();
     final PublicationsStore publicationsStore = PublicationsStore();
 
-    return Scaffold(
-      backgroundColor: CustomColors.vanilla_haze,
-      appBar: const CustomAppBar(),
+    return AppScaffold(
       body: ResponsiveVisibility(
         visible: false,
         visibleWhen: const [Condition.largerThan(name: TABLET)],
