@@ -14,9 +14,11 @@ class ProjectsStore = ProjectsStoreBase with _$ProjectsStore;
 abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
   final ProjectsRepository _repository = ProjectsRepository();
 
-  ProjectsStoreBase() {
+  ProjectsStoreBase({this.pageSize = 5}) {
     loadData();
   }
+
+  final int pageSize;
 
   @observable
   FilterSearchStore filterStore = FilterSearchStore();
@@ -79,11 +81,9 @@ abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
     loadData();
   }
 
-  static const int _pageSize = 5;
-
   @action
   void _addNewItems(List<Projects> newItems) {
-    if (newItems.length < _pageSize) _lastPage = true;
+    if (newItems.length < pageSize) _lastPage = true;
     list.addAll(newItems);
   }
 
@@ -94,9 +94,10 @@ abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
         () => _repository.findAllProjects(
           page: _page,
           filterSearchStore: filterStore,
+          take: pageSize,
         ),
       );
-      if (list.length < _pageSize) _lastPage = true;
+      if (list.length < pageSize) _lastPage = true;
     } else {
       // Páginas subsequentes, sem cache para não conflitar.
       setLoading(true);
@@ -104,6 +105,7 @@ abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
         final result = await _repository.findAllProjects(
           page: _page,
           filterSearchStore: filterStore,
+          take: pageSize,
         );
         _addNewItems(result);
       } catch (e, s) {

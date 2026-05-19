@@ -45,12 +45,12 @@ class ProjectsRepository {
   }
 
   Future<List<Projects>> findAllProjects(
-      {int? page = 1, FilterSearchStore? filterSearchStore}) async {
+      {int? page = 1, FilterSearchStore? filterSearchStore, int take = 5}) async {
     final token = await TokenRepository().getToken();
 
     final url = Uri.parse('$baseURL$projectsURL').replace(queryParameters: {
       'page': '$page',
-      'take': '5',
+      'take': '$take',
       if (filterSearchStore != null && filterSearchStore.search.isNotEmpty)
         'project_name': filterSearchStore.search,
     });

@@ -41,7 +41,7 @@ class ProjectTileMobileVersion extends StatelessWidget {
               height: coverHeight,
               child: project.name != null
                   ? Image.network(
-                      "assets/images/logo.jpg",
+                      "assets/images/logo.png",
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) => const ImagePlaceholder(),
                     )
