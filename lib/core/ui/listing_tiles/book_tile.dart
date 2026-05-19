@@ -41,14 +41,13 @@ class BookTile extends StatelessWidget {
               height: coverHeight,
               child: book.publisher != null
                   ? Image.network(
-                "assets/images/avatar.jpg",
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => const CoverPlaceholder(),
-              )
+                      "assets/images/logo.jpg",
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const CoverPlaceholder(),
+                    )
                   : const CoverPlaceholder(),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
             child: Column(
@@ -65,9 +64,7 @@ class BookTile extends StatelessWidget {
                     height: 1.3,
                   ),
                 ),
-
                 const SizedBox(height: 6),
-
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -88,9 +85,7 @@ class BookTile extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 3),
-
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -111,9 +106,7 @@ class BookTile extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 10),
-
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
@@ -154,13 +147,13 @@ class BookTile extends StatelessWidget {
       child: onTap == null
           ? content
           : Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(borderRadius),
-          onTap: onTap,
-          child: content,
-        ),
-      ),
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(borderRadius),
+                onTap: onTap,
+                child: content,
+              ),
+            ),
     );
   }
 }

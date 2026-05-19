@@ -59,7 +59,7 @@ class _DesktopNavLinks extends StatelessWidget {
   static const List<_NavItem> _items = [
     _NavItem(label: 'Início', route: AppRoutes.home),
     _NavItem(label: 'A Rede Campo', route: AppRoutes.aboutUs),
-    _NavItem(label: 'Projetos'),
+    _NavItem(label: 'Projetos', route: AppRoutes.projects),
     _NavItem(label: 'Publicações'),
     _NavItem(label: 'Eventos'),
     _NavItem(label: 'Notícias'),
@@ -120,8 +120,7 @@ class _NavLink extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 14,
-              fontWeight:
-                  isActive ? FontWeight.w700 : FontWeight.w500,
+              fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
               letterSpacing: 0.2,
             ),
           ),

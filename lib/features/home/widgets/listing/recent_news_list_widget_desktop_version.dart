@@ -3,6 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../core/ui/listing_tiles/news/news_tile_desktop_version.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
+import '../../../../core/ui/widgets/arrow_button.dart';
+import '../../../../core/ui/widgets/list_empty_state.dart';
+import '../../../../core/ui/widgets/list_error_state.dart';
+import '../../../../core/ui/widgets/list_loading_state.dart';
 import '../../../news/models/news.dart';
 import '../../../news/stores/news_store.dart';
 
@@ -77,10 +81,25 @@ class _RecentNewsListWidgetDesktopVersionState
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        if (widget.newsStore.showRecentProgress) return _buildLoading();
-        if (widget.newsStore.recentNewsError != null &&
-            widget.newsStore.recentNews.isEmpty) return _buildError();
-        if (widget.newsStore.recentNews.isEmpty) return _buildEmpty();
+        if (widget.newsStore.showRecentProgress) {
+          return const ListLoadingState(
+            color: CustomColors.fresh_sprout,
+          );
+        } else if (widget.newsStore.recentNewsError != null &&
+            widget.newsStore.recentNews.isEmpty) {
+          return ListErrorState(
+            message: 'Não foi possível carregar as notícias.',
+            onRetry: () =>
+                widget.newsStore.refreshRecentNews(limit: widget.totalCount),
+            iconColor: CustomColors.copper_spice,
+            messageColor: CustomColors.vanilla_haze,
+          );
+        } else if (widget.newsStore.recentNews.isEmpty) {
+          return const ListEmptyState(
+            message: 'Nenhuma notícia encontrada.',
+            messageColor: CustomColors.vanilla_haze,
+          );
+        }
         return _buildList();
       },
     );
@@ -92,10 +111,13 @@ class _RecentNewsListWidgetDesktopVersionState
       padding: const EdgeInsets.symmetric(horizontal: 48),
       child: Row(
         children: [
-          _ArrowButton(
+          ArrowButton(
             icon: Icons.chevron_left_rounded,
             enabled: _canScrollLeft,
             onTap: _scrollLeft,
+            iconColor: Colors.white,
+            backgroundColor: Colors.white.withOpacity(0.1),
+            disabledOpacity: 0.25,
           ),
           const SizedBox(width: 8),
           Expanded(
@@ -128,10 +150,13 @@ class _RecentNewsListWidgetDesktopVersionState
             ),
           ),
           const SizedBox(width: 8),
-          _ArrowButton(
+          ArrowButton(
             icon: Icons.chevron_right_rounded,
             enabled: _canScrollRight,
             onTap: _scrollRight,
+            iconColor: Colors.white,
+            backgroundColor: Colors.white.withOpacity(0.1),
+            disabledOpacity: 0.25,
           ),
         ],
       ),
@@ -140,97 +165,5 @@ class _RecentNewsListWidgetDesktopVersionState
 
   void _onNewsTap(News news) {
     // TODO: navegar para a tela de detalhe da notícia.
-  }
-
-  Widget _buildLoading() {
-    return const SizedBox(
-      height: _listHeight,
-      child: Center(
-        child: CircularProgressIndicator(
-          color: CustomColors.fresh_sprout,
-          strokeWidth: 2.5,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildError() {
-    return SizedBox(
-      height: _listHeight,
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.wifi_off_rounded,
-                color: CustomColors.concrete_mist, size: 36),
-            const SizedBox(height: 8),
-            const Text(
-              'Não foi possível carregar as notícias.',
-              style: TextStyle(fontSize: 14, color: CustomColors.concrete_mist),
-            ),
-            const SizedBox(height: 12),
-            TextButton(
-              onPressed: () =>
-                  widget.newsStore.refreshRecentNews(limit: widget.totalCount),
-              child: const Text(
-                'Tentar novamente',
-                style: TextStyle(
-                    fontSize: 13,
-                    color: CustomColors.fresh_sprout,
-                    fontWeight: FontWeight.w700),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmpty() {
-    return const SizedBox(
-      height: _listHeight,
-      child: Center(
-        child: Text(
-          'Nenhuma notícia disponível no momento.',
-          style: TextStyle(fontSize: 14, color: CustomColors.concrete_mist),
-        ),
-      ),
-    );
-  }
-}
-
-class _ArrowButton extends StatelessWidget {
-  final IconData icon;
-  final bool enabled;
-  final VoidCallback onTap;
-
-  const _ArrowButton({
-    required this.icon,
-    required this.enabled,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: enabled ? 1.0 : 0.25,
-      duration: const Duration(milliseconds: 200),
-      child: Material(
-        color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(24),
-        child: InkWell(
-          onTap: enabled ? onTap : null,
-          borderRadius: BorderRadius.circular(24),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Icon(
-              icon,
-              color: Colors.white,
-              size: 28,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

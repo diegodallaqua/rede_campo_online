@@ -22,3 +22,6 @@ const publicationsURL = '/publications';
 
 // MEMBERS
 const membersURL = '/members';
+
+// PROJECTS
+const projectsURL = '/projects';

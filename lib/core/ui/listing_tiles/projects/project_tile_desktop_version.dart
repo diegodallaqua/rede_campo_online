@@ -41,7 +41,7 @@ class ProjectTileDesktopVersion extends StatelessWidget {
               height: coverHeight,
               child: project.name != null
                   ? Image.network(
-                      "assets/images/avatar.jpg",
+                      "assets/images/logo.jpg",
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) => const ImagePlaceholder(),
                     )

@@ -3,6 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../core/ui/listing_tiles/publications/publication_tile_desktop_version.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
+import '../../../../core/ui/widgets/arrow_button.dart';
+import '../../../../core/ui/widgets/list_empty_state.dart';
+import '../../../../core/ui/widgets/list_error_state.dart';
+import '../../../../core/ui/widgets/list_loading_state.dart';
 import '../../../publications/models/publications.dart';
 import '../../../publications/stores/publications_store.dart';
 
@@ -77,13 +81,23 @@ class _PublicationsListWidgetDesktopVersionState
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        if (widget.publicationsStore.showRecentProgress) return _buildLoading();
-        if (widget.publicationsStore.recentPublicationsError != null &&
+        if (widget.publicationsStore.showRecentProgress) {
+          return const ListLoadingState(
+            color: CustomColors.copper_spice,
+          );
+        } else if (widget.publicationsStore.recentPublicationsError != null &&
             widget.publicationsStore.recentPublications.isEmpty) {
-          return _buildError();
-        }
-        if (widget.publicationsStore.recentPublications.isEmpty) {
-          return _buildEmpty();
+          return ListErrorState(
+            message: 'Não foi possível carregar as publicações.',
+            onRetry: () => widget.publicationsStore
+                .refreshRecentPublications(limit: widget.totalCount),
+            iconColor: CustomColors.copper_spice,
+            messageColor: CustomColors.pine_shadow,
+          );
+        } else if (widget.publicationsStore.recentPublications.isEmpty) {
+          return const ListEmptyState(
+            message: 'Nenhuma publicação encontrada.',
+          );
         }
         return _buildList();
       },
@@ -96,17 +110,20 @@ class _PublicationsListWidgetDesktopVersionState
       padding: const EdgeInsets.symmetric(horizontal: 48),
       child: Row(
         children: [
-          _ArrowButton(
+          ArrowButton(
             icon: Icons.chevron_left_rounded,
             enabled: _canScrollLeft,
             onTap: _scrollLeft,
+            iconColor: CustomColors.midnight_slate,
+            backgroundColor: CustomColors.midnight_slate.withOpacity(0.08),
+            disabledOpacity: 0.25,
           ),
           const SizedBox(width: 8),
           Expanded(
             child: LayoutBuilder(
               builder: (context, constraints) {
-                _tileWidth = ((constraints.maxWidth - 3 * 16) / 4)
-                    .clamp(200.0, 320.0);
+                _tileWidth =
+                    ((constraints.maxWidth - 3 * 16) / 4).clamp(200.0, 320.0);
                 return SizedBox(
                   height: _listHeight,
                   child: ListView.separated(
@@ -131,10 +148,13 @@ class _PublicationsListWidgetDesktopVersionState
             ),
           ),
           const SizedBox(width: 8),
-          _ArrowButton(
+          ArrowButton(
             icon: Icons.chevron_right_rounded,
             enabled: _canScrollRight,
             onTap: _scrollRight,
+            iconColor: CustomColors.midnight_slate,
+            backgroundColor: CustomColors.midnight_slate.withOpacity(0.08),
+            disabledOpacity: 0.25,
           ),
         ],
       ),
@@ -143,97 +163,5 @@ class _PublicationsListWidgetDesktopVersionState
 
   void _onPublicationTap(Publications publication) {
     // TODO: navegar para a tela de detalhe da publicação.
-  }
-
-  Widget _buildLoading() {
-    return const SizedBox(
-      height: _listHeight,
-      child: Center(
-        child: CircularProgressIndicator(
-          color: CustomColors.copper_spice,
-          strokeWidth: 2.5,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildError() {
-    return SizedBox(
-      height: _listHeight,
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.wifi_off_rounded,
-                color: CustomColors.pine_shadow, size: 36),
-            const SizedBox(height: 8),
-            const Text(
-              'Não foi possível carregar as publicações.',
-              style: TextStyle(fontSize: 14, color: CustomColors.pine_shadow),
-            ),
-            const SizedBox(height: 12),
-            TextButton(
-              onPressed: () => widget.publicationsStore
-                  .refreshRecentPublications(limit: widget.totalCount),
-              child: const Text(
-                'Tentar novamente',
-                style: TextStyle(
-                    fontSize: 13,
-                    color: CustomColors.copper_spice,
-                    fontWeight: FontWeight.w700),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmpty() {
-    return const SizedBox(
-      height: _listHeight,
-      child: Center(
-        child: Text(
-          'Nenhuma publicação disponível no momento.',
-          style: TextStyle(fontSize: 14, color: CustomColors.pine_shadow),
-        ),
-      ),
-    );
-  }
-}
-
-class _ArrowButton extends StatelessWidget {
-  final IconData icon;
-  final bool enabled;
-  final VoidCallback onTap;
-
-  const _ArrowButton({
-    required this.icon,
-    required this.enabled,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: enabled ? 1.0 : 0.25,
-      duration: const Duration(milliseconds: 200),
-      child: Material(
-        color: CustomColors.midnight_slate.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(24),
-        child: InkWell(
-          onTap: enabled ? onTap : null,
-          borderRadius: BorderRadius.circular(24),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Icon(
-              icon,
-              color: CustomColors.midnight_slate,
-              size: 28,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

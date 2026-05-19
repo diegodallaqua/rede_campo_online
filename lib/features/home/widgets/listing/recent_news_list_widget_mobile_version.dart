@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../../../../core/ui/widgets/list_empty_state.dart';
+import '../../../../core/ui/widgets/list_error_state.dart';
+import '../../../../core/ui/widgets/list_loading_state.dart';
 import '../../../../features/news/models/news.dart';
 import '../../../../features/news/models/news_media.dart';
 import '../../../../features/news/stores/news_store.dart';
@@ -67,15 +70,23 @@ class _RecentNewsListWidgetMobileVersionState
     return Observer(
       builder: (_) {
         if (widget.newsStore.showRecentProgress) {
-          return _buildLoadingState();
-        }
-        if (widget.newsStore.recentNewsError != null &&
+          return const ListLoadingState(
+            color: CustomColors.fresh_sprout,
+          );
+        } else if (widget.newsStore.recentNewsError != null &&
             widget.newsStore.recentNews.isEmpty) {
-          return _buildErrorState();
-        }
-
-        if (widget.newsStore.recentNews.isEmpty) {
-          return _buildEmptyState();
+          return ListErrorState(
+            message: 'Não foi possível carregar as notícias.',
+            onRetry: () =>
+                widget.newsStore.refreshRecentNews(limit: widget.totalCount),
+            iconColor: CustomColors.copper_spice,
+            messageColor: CustomColors.vanilla_haze,
+          );
+        } else if (widget.newsStore.recentNews.isEmpty) {
+          return const ListEmptyState(
+            message: 'Nenhuma notícia encontrada.',
+            messageColor: CustomColors.vanilla_haze,
+          );
         }
 
         return _buildList();
@@ -124,73 +135,5 @@ class _RecentNewsListWidgetMobileVersionState
 
   void _onNewsTap(News news) {
     // TODO: navegar para a tela de detalhe da notícia.
-  }
-
-  Widget _buildLoadingState() {
-    return SizedBox(
-      height: _heightForItems(widget.visibleCount),
-      child: const Center(
-        child: CircularProgressIndicator(
-          color: CustomColors.pine_shadow,
-          strokeWidth: 2.5,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildErrorState() {
-    return SizedBox(
-      height: _heightForItems(widget.visibleCount),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              Icons.wifi_off_rounded,
-              color: CustomColors.pine_shadow,
-              size: 32,
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Não foi possível carregar as notícias.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
-                color: CustomColors.pine_shadow,
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextButton(
-              onPressed: () =>
-                  widget.newsStore.refreshRecentNews(limit: widget.totalCount),
-              child: const Text(
-                'Tentar novamente',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: CustomColors.pine_shadow,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return SizedBox(
-      height: _heightForItems(widget.visibleCount),
-      child: const Center(
-        child: Text(
-          'Nenhuma notícia disponível no momento.',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 12,
-            color: CustomColors.pine_shadow,
-          ),
-        ),
-      ),
-    );
   }
 }

@@ -26,7 +26,7 @@ class ProjectTileMobileVersion extends StatelessWidget {
     final content = Container(
       width: cardWidth,
       decoration: BoxDecoration(
-        color: CustomColors.honey_cream,
+        color: CustomColors.vanilla_haze,
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: Column(
@@ -41,14 +41,13 @@ class ProjectTileMobileVersion extends StatelessWidget {
               height: coverHeight,
               child: project.name != null
                   ? Image.network(
-                "assets/images/avatar.jpg",
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => const ImagePlaceholder(),
-              )
+                      "assets/images/logo.jpg",
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const ImagePlaceholder(),
+                    )
                   : const ImagePlaceholder(),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
             child: Column(
@@ -65,9 +64,7 @@ class ProjectTileMobileVersion extends StatelessWidget {
                     height: 1.3,
                   ),
                 ),
-
                 const SizedBox(height: 6),
-
                 RichText(
                   textAlign: TextAlign.start,
                   text: TextSpan(
@@ -84,9 +81,7 @@ class ProjectTileMobileVersion extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 10),
-
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
@@ -127,13 +122,13 @@ class ProjectTileMobileVersion extends StatelessWidget {
       child: onTap == null
           ? content
           : Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(borderRadius),
-          onTap: onTap,
-          child: content,
-        ),
-      ),
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(borderRadius),
+                onTap: onTap,
+                child: content,
+              ),
+            ),
     );
   }
 }

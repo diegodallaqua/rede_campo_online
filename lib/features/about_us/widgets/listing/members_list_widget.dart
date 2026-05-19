@@ -3,6 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../core/ui/listing_tiles/member_tile.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
+import '../../../../core/ui/widgets/arrow_button.dart';
+import '../../../../core/ui/widgets/list_empty_state.dart';
+import '../../../../core/ui/widgets/list_error_state.dart';
+import '../../../../core/ui/widgets/list_loading_state.dart';
 import '../../../members/models/members.dart';
 import '../../../members/stores/members_store.dart';
 
@@ -70,10 +74,23 @@ class _MembersListWidgetState extends State<MembersListWidget> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        if (widget.membersStore.showProgress) return _buildLoading();
-        if (widget.membersStore.membersError != null &&
-            widget.membersStore.list.isEmpty) return _buildError();
-        if (widget.membersStore.list.isEmpty) return _buildEmpty();
+        if (widget.membersStore.showProgress) {
+          return const ListLoadingState(
+            color: CustomColors.copper_spice,
+          );
+        } else if (widget.membersStore.membersError != null &&
+            widget.membersStore.list.isEmpty) {
+          return ListErrorState(
+            message: 'Não foi possível carregar os membros.',
+            onRetry: () => widget.membersStore.refreshMembers,
+            iconColor: CustomColors.copper_spice,
+            messageColor: CustomColors.pine_shadow,
+          );
+        } else if (widget.membersStore.list.isEmpty) {
+          return const ListEmptyState(
+            message: 'Nenhum membro encontrado.',
+          );
+        }
         return _buildList(widget.membersStore.list);
       },
     );
@@ -90,7 +107,7 @@ class _MembersListWidgetState extends State<MembersListWidget> {
 
         return Row(
           children: [
-            _ArrowButton(
+            ArrowButton(
               icon: Icons.chevron_left_rounded,
               enabled: !allFit && _canScrollLeft,
               onTap: _scrollLeft,
@@ -116,7 +133,7 @@ class _MembersListWidgetState extends State<MembersListWidget> {
               ),
             ),
             const SizedBox(width: 8),
-            _ArrowButton(
+            ArrowButton(
               icon: Icons.chevron_right_rounded,
               enabled: !allFit && _canScrollRight,
               onTap: _scrollRight,
@@ -129,99 +146,5 @@ class _MembersListWidgetState extends State<MembersListWidget> {
 
   void _onMemberTap(Members member) {
     // TODO: navegar para a tela de detalhe do membro
-  }
-
-  Widget _buildLoading() {
-    return const SizedBox(
-      height: _cardHeight,
-      child: Center(
-        child: CircularProgressIndicator(
-          color: CustomColors.copper_spice,
-          strokeWidth: 2.5,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildError() {
-    return SizedBox(
-      height: _cardHeight,
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.wifi_off_rounded,
-                color: CustomColors.pine_shadow, size: 32),
-            const SizedBox(height: 8),
-            const Text(
-              'Não foi possível carregar os membros.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: CustomColors.pine_shadow),
-            ),
-            const SizedBox(height: 12),
-            TextButton(
-              onPressed: widget.membersStore.refreshMembers,
-              child: const Text(
-                'Tentar novamente',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: CustomColors.copper_spice,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmpty() {
-    return const SizedBox(
-      height: _cardHeight,
-      child: Center(
-        child: Text(
-          'Nenhum membro cadastrado no momento.',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 13, color: CustomColors.pine_shadow),
-        ),
-      ),
-    );
-  }
-}
-
-class _ArrowButton extends StatelessWidget {
-  final IconData icon;
-  final bool enabled;
-  final VoidCallback onTap;
-
-  const _ArrowButton({
-    required this.icon,
-    required this.enabled,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: enabled ? 1.0 : 0.2,
-      duration: const Duration(milliseconds: 200),
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(24),
-        child: InkWell(
-          onTap: enabled ? onTap : null,
-          borderRadius: BorderRadius.circular(24),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Icon(
-              icon,
-              color: CustomColors.copper_spice,
-              size: 28,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

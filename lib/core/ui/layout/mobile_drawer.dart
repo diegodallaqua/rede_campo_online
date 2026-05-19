@@ -12,7 +12,7 @@ class MobileDrawer extends StatelessWidget {
   static const _menuItems = [
     _MenuItem(label: 'Início', route: AppRoutes.home),
     _MenuItem(label: 'A Rede Campo', route: AppRoutes.aboutUs),
-    _MenuItem(label: 'Projetos', route: null),
+    _MenuItem(label: 'Projetos', route: AppRoutes.projects),
     _MenuItem(label: 'Publicações', route: null),
     _MenuItem(label: 'Eventos', route: null),
     _MenuItem(label: 'Notícias', route: null),

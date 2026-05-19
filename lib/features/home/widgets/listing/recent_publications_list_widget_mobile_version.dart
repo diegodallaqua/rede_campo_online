@@ -3,6 +3,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../core/ui/listing_tiles/publications/publication_tile_mobile_version.dart';
 import '../../../../core/ui/theme/custom_colors.dart';
+import '../../../../core/ui/widgets/list_empty_state.dart';
+import '../../../../core/ui/widgets/list_error_state.dart';
+import '../../../../core/ui/widgets/list_loading_state.dart';
 import '../../../publications/models/publications.dart';
 import '../../../publications/stores/publications_store.dart';
 
@@ -56,15 +59,22 @@ class _HomePublicationsListWidgetState
     return Observer(
       builder: (_) {
         if (widget.publicationsStore.showRecentProgress) {
-          return _buildLoadingState();
-        }
-        if (widget.publicationsStore.recentPublicationsError != null &&
+          return const ListLoadingState(
+            color: CustomColors.copper_spice,
+          );
+        } else if (widget.publicationsStore.recentPublicationsError != null &&
             widget.publicationsStore.recentPublications.isEmpty) {
-          return _buildErrorState();
-        }
-
-        if (widget.publicationsStore.recentPublications.isEmpty) {
-          return _buildEmptyState();
+          return ListErrorState(
+            message: 'Não foi possível carregar as publicações.',
+            onRetry: () => widget.publicationsStore
+                .refreshRecentPublications(limit: widget.totalCount),
+            iconColor: CustomColors.copper_spice,
+            messageColor: CustomColors.pine_shadow,
+          );
+        } else if (widget.publicationsStore.recentPublications.isEmpty) {
+          return const ListEmptyState(
+            message: 'Nenhuma publicação encontrada.',
+          );
         }
 
         return _buildList();
@@ -107,73 +117,5 @@ class _HomePublicationsListWidgetState
 
   void _onPublicationTap(Publications publication) {
     // TODO: navegar para a tela de detalhe da publicação.
-  }
-
-  Widget _buildLoadingState() {
-    return SizedBox(
-      height: _heightForItems(widget.visibleCount),
-      child: const Center(
-        child: CircularProgressIndicator(
-          color: CustomColors.copper_spice,
-          strokeWidth: 2.5,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildErrorState() {
-    return SizedBox(
-      height: _heightForItems(widget.visibleCount),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              Icons.wifi_off_rounded,
-              color: CustomColors.pine_shadow,
-              size: 32,
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Não foi possível carregar as publicações.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
-                color: CustomColors.pine_shadow,
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextButton(
-              onPressed: () => widget.publicationsStore
-                  .refreshRecentPublications(limit: widget.totalCount),
-              child: const Text(
-                'Tentar novamente',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: CustomColors.pine_shadow,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return SizedBox(
-      height: _heightForItems(widget.visibleCount),
-      child: const Center(
-        child: Text(
-          'Nenhuma publicação disponível no momento.',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 12,
-            color: CustomColors.copper_spice,
-          ),
-        ),
-      ),
-    );
   }
 }
