@@ -1,20 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../../../../core/ui/listing_tiles/news/news_tile_mobile_version.dart';
+import '../../../../core/ui/theme/custom_colors.dart';
 import '../../../../core/ui/widgets/list_empty_state.dart';
 import '../../../../core/ui/widgets/list_error_state.dart';
 import '../../../../core/ui/widgets/list_loading_state.dart';
-import '../../../../features/news/models/news.dart';
-import '../../../../features/news/models/news_media.dart';
-import '../../../../features/news/stores/news_store.dart';
-import '../../../../core/ui/listing_tiles/news/news_tile_mobile_version.dart';
-import '../../../../core/ui/theme/custom_colors.dart';
+import '../../../news/models/news.dart';
+import '../../../news/models/news_media.dart';
+import '../../../news/repositories/news_media_repository.dart';
+import '../../../news/stores/news_store.dart';
 
 class RecentNewsListWidgetMobileVersion extends StatefulWidget {
   final NewsStore newsStore;
-
   final int visibleCount;
-
   final int totalCount;
 
   static const double _tileHeight = 110.0;
@@ -35,11 +36,13 @@ class RecentNewsListWidgetMobileVersion extends StatefulWidget {
 class _RecentNewsListWidgetMobileVersionState
     extends State<RecentNewsListWidgetMobileVersion> {
   final ScrollController _scrollController = ScrollController();
+  late final Future<Map<int, NewsMedia>> _mediaFuture;
 
   @override
   void initState() {
     super.initState();
     widget.newsStore.loadRecentNews(limit: widget.totalCount);
+    _mediaFuture = _loadMedia();
   }
 
   @override
@@ -48,21 +51,27 @@ class _RecentNewsListWidgetMobileVersionState
     super.dispose();
   }
 
-  // Calcula a altura visível para [n] itens, incluindo seus separadores.
+  Future<Map<int, NewsMedia>> _loadMedia() async {
+    try {
+      final mediaList = await NewsMediaRepository().findAll();
+      final map = <int, NewsMedia>{};
+      for (final m in mediaList) {
+        final newsId = m.news?.id;
+        if (newsId != null && !map.containsKey(newsId)) {
+          map[newsId] = m;
+        }
+      }
+      return map;
+    } catch (e, s) {
+      log('RecentNewsListWidgetMobile: erro ao carregar media', error: e, stackTrace: s);
+      return {};
+    }
+  }
+
   double _heightForItems(int n) {
     if (n <= 0) return 0;
     return (n * RecentNewsListWidgetMobileVersion._tileHeight) +
         ((n - 1) * RecentNewsListWidgetMobileVersion._separatorHeight);
-  }
-
-  // Busca o [NewsMedia] correspondente à notícia por id.
-  // Retorna null com segurança caso não exista correspondência.
-  NewsMedia? _mediaForNews(News news, List<NewsMedia> mediaList) {
-    try {
-      return mediaList.firstWhere((m) => m.news?.id == news.id);
-    } catch (_) {
-      return null;
-    }
   }
 
   @override
@@ -70,9 +79,7 @@ class _RecentNewsListWidgetMobileVersionState
     return Observer(
       builder: (_) {
         if (widget.newsStore.showRecentProgress) {
-          return const ListLoadingState(
-            color: CustomColors.fresh_sprout,
-          );
+          return const ListLoadingState(color: CustomColors.fresh_sprout);
         } else if (widget.newsStore.recentNewsError != null &&
             widget.newsStore.recentNews.isEmpty) {
           return ListErrorState(
@@ -88,7 +95,6 @@ class _RecentNewsListWidgetMobileVersionState
             messageColor: CustomColors.vanilla_haze,
           );
         }
-
         return _buildList();
       },
     );
@@ -96,40 +102,39 @@ class _RecentNewsListWidgetMobileVersionState
 
   Widget _buildList() {
     final news = widget.newsStore.recentNews;
-
     final double maxHeight = _heightForItems(widget.visibleCount);
 
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: maxHeight),
-      child: Scrollbar(
-        thumbVisibility: true,
-        controller: _scrollController,
-        child: ListView.separated(
-          controller: _scrollController,
-          physics: const ClampingScrollPhysics(),
-          shrinkWrap: false,
-          padding: EdgeInsets.zero,
-          itemCount: news.length,
-          separatorBuilder: (_, __) => const SizedBox(
-            height: RecentNewsListWidgetMobileVersion._separatorHeight,
+    return FutureBuilder<Map<int, NewsMedia>>(
+      future: _mediaFuture,
+      builder: (context, snapshot) {
+        final mediaMap = snapshot.data ?? {};
+        return ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: maxHeight),
+          child: Scrollbar(
+            thumbVisibility: true,
+            controller: _scrollController,
+            child: ListView.separated(
+              controller: _scrollController,
+              physics: const ClampingScrollPhysics(),
+              shrinkWrap: false,
+              padding: EdgeInsets.zero,
+              itemCount: news.length,
+              separatorBuilder: (_, __) => const SizedBox(
+                height: RecentNewsListWidgetMobileVersion._separatorHeight,
+              ),
+              itemBuilder: (context, index) {
+                final item = news[index];
+                return NewsTileMobileVersion(
+                  news: item,
+                  newsMedia: item.id != null ? mediaMap[item.id] : null,
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  onTap: () => _onNewsTap(item),
+                );
+              },
+            ),
           ),
-          itemBuilder: (context, index) {
-            final item = news[index];
-
-            final media = _mediaForNews(
-              item,
-              [],
-            );
-
-            return NewsTileMobileVersion(
-              news: item,
-              newsMedia: media,
-              margin: const EdgeInsets.symmetric(horizontal: 2),
-              onTap: () => _onNewsTap(item),
-            );
-          },
-        ),
-      ),
+        );
+      },
     );
   }
 

@@ -25,3 +25,9 @@ const membersURL = '/members';
 
 // PROJECTS
 const projectsURL = '/projects';
+
+// PROJECT MEDIA
+const projectMediaURL = '/project-media';
+
+// NEWS MEDIA
+const newsMediaURL = '/news-media';

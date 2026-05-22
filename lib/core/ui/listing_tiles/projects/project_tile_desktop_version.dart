@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import '../../../../features/projects/models/project_media.dart';
 import '../../../../features/projects/models/projects.dart';
 import '../../../utils/placeholders.dart';
 import '../../theme/custom_colors.dart';
 
 class ProjectTileDesktopVersion extends StatelessWidget {
   final Projects project;
+  final ProjectMedia? projectMedia;
   final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
 
   const ProjectTileDesktopVersion({
     super.key,
     required this.project,
+    this.projectMedia,
     this.onTap,
     this.margin,
   });
@@ -37,15 +40,18 @@ class ProjectTileDesktopVersion extends StatelessWidget {
             ),
             child: SizedBox(
               height: coverHeight,
-              child: project.name != null
+              child: projectMedia != null &&
+                      projectMedia!.media != null &&
+                      projectMedia!.media!.isNotEmpty
                   ? Image.network(
-                      "assets/images/logo.png",
+                      projectMedia!.media!,
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) => const ImagePlaceholder(),
                     )
                   : const ImagePlaceholder(),
             ),
           ),
+          Container(height: 1, color: CustomColors.pine_shadow),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),

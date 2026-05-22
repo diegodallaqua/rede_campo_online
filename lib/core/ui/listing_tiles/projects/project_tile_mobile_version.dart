@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import '../../../../features/projects/models/project_media.dart';
 import '../../../../features/projects/models/projects.dart';
 import '../../../utils/placeholders.dart';
 import '../../theme/custom_colors.dart';
 
 class ProjectTileMobileVersion extends StatelessWidget {
   final Projects project;
+  final ProjectMedia? projectMedia;
   final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
 
   const ProjectTileMobileVersion({
     super.key,
     required this.project,
+    this.projectMedia,
     this.onTap,
     this.margin,
   });
@@ -39,9 +42,11 @@ class ProjectTileMobileVersion extends StatelessWidget {
             ),
             child: SizedBox(
               height: coverHeight,
-              child: project.name != null
+              child: projectMedia != null &&
+                      projectMedia!.media != null &&
+                      projectMedia!.media!.isNotEmpty
                   ? Image.network(
-                      "assets/images/logo.png",
+                      projectMedia!.media!,
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) => const ImagePlaceholder(),
                     )

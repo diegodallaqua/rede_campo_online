@@ -57,7 +57,7 @@ class NewsTileDesktopVersion extends StatelessWidget {
                   : const ImagePlaceholder(),
             ),
           ),
-          Container(height: 2, color: CustomColors.pine_shadow),
+          Container(height: 1, color: CustomColors.pine_shadow),
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 10),
             child: Column(

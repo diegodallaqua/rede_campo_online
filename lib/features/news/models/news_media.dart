@@ -1,12 +1,7 @@
 import 'news.dart';
 
 class NewsMedia {
-  NewsMedia({
-    this.id,
-    this.news,
-    this.name,
-    this.media
-  });
+  NewsMedia({this.id, this.news, this.name, this.media});
 
   int? id;
   News? news;
@@ -21,16 +16,17 @@ class NewsMedia {
   factory NewsMedia.fromMap(Map<String, dynamic> map) {
     return NewsMedia(
       id: map['id'],
-      news: map.containsKey('news') && map['news'] != null ? News.fromMap(map['news'] ?? {}) : null,
+      news: map.containsKey('news') && map['news'] != null
+          ? News.fromMap(map['news'] ?? {})
+          : null,
       name: (map['name'] ?? '') as String,
       media: (map['media'] ?? '') as String,
     );
   }
 
   Map<String, dynamic> toMap() => {
-    'news_id': news!.id,
-    'name': name!,
-    'media': media!,
-  };
+        'news_id': news!.id,
+        'name': name!,
+        'media': media!,
+      };
 }
-
