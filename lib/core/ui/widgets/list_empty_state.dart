@@ -5,12 +5,14 @@ class ListEmptyState extends StatelessWidget {
   final String message;
   final Color messageColor;
   final double height;
+  final Color? iconColor;
 
   const ListEmptyState({
     super.key,
     this.message = 'Nenhum item encontrado.',
     this.messageColor = CustomColors.pine_shadow,
     this.height = 200,
+    this.iconColor = CustomColors.vanilla_haze,
   });
 
   @override
@@ -18,13 +20,24 @@ class ListEmptyState extends StatelessWidget {
     return SizedBox(
       height: height,
       child: Center(
-        child: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 12,
-            color: messageColor,
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.search_off,
+              size: 36,
+              color: iconColor,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                color: messageColor,
+              ),
+            ),
+          ],
         ),
       ),
     );

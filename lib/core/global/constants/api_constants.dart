@@ -31,3 +31,9 @@ const projectMediaURL = '/project-media';
 
 // NEWS MEDIA
 const newsMediaURL = '/news-media';
+
+// EVENTS
+const eventsURL = '/events';
+
+// EVENT MEDIA
+const eventMediaURL = '/event-media';

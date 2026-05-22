@@ -42,8 +42,13 @@ class Members {
   factory Members.fromMap(Map<String, dynamic> map) {
     return Members(
       id: map['id'],
-      memberRole: map.containsKey('member_role') && map['member_role'] != null ? MemberRoles.fromMap(map['member_role'] ?? {}) : null,
-      organization: map.containsKey('organization') && map['organization'] != null ? Organizations.fromMap(map['organization'] ?? {}) : null,
+      memberRole: map.containsKey('memberRole') && map['memberRole'] != null
+          ? MemberRoles.fromMap(map['memberRole'] ?? {})
+          : null,
+      organization:
+          map.containsKey('organization') && map['organization'] != null
+              ? Organizations.fromMap(map['organization'] ?? {})
+              : null,
       name: (map['name'] ?? '') as String,
       email: (map['email'] ?? '') as String,
       description: (map['description'] ?? '') as String,
@@ -54,13 +59,13 @@ class Members {
   }
 
   Map<String, dynamic> toMap() => {
-    'member_role_id': memberRole?.id,
-    'organization_id': organization?.id,
-    'name': name!,
-    'email': email!,
-    'description': description,
-    'lattes_url': lattesUrl,
-    'linked_in_url': linkedInUrl,
-    'profile_picture': profilePicture,
-  };
+        'member_role_id': memberRole?.id,
+        'organization_id': organization?.id,
+        'name': name!,
+        'email': email!,
+        'description': description,
+        'lattes_url': lattesUrl,
+        'linked_in_url': linkedInUrl,
+        'profile_picture': profilePicture,
+      };
 }

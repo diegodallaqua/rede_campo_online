@@ -15,6 +15,16 @@ extension DateTimeExtension on DateTime {
   }
 }
 
+String formattedLocation(Addresses? address) {
+  final city = address?.city?.name;
+  final state = address?.city?.state?.name;
+  if (city != null && city.isNotEmpty && state != null && state.isNotEmpty) {
+    return '$city, $state';
+  }
+  if (city != null && city.isNotEmpty) return city;
+  return 'Local não informado';
+}
+
 String formattedAddress(Addresses address) {
   final parts = <String>[];
 

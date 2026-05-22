@@ -5,16 +5,16 @@ import '../../../../features/news/stores/news_store.dart';
 import '../../../core/ui/layout/app_scaffold.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 import '../../publications/stores/publications_store.dart';
-import '../widgets/sections/home_about_us_section_desktop_version.dart';
-import '../widgets/sections/home_about_us_section_mobile_version.dart';
-import '../widgets/sections/home_header_section_desktop_version.dart';
-import '../widgets/sections/home_header_section_mobile_version.dart';
-import '../widgets/sections/home_recent_news_section_desktop_version.dart';
-import '../widgets/sections/home_recent_news_section_mobile_version.dart';
-import '../widgets/sections/home_partners_section_desktop_version.dart';
-import '../widgets/sections/home_partners_section_mobile_version.dart';
-import '../widgets/sections/home_recent_publications_section_desktop_version.dart';
-import '../widgets/sections/home_recent_publications_section_mobile_version.dart';
+import 'widgets/sections/home_about_us_section_desktop_version.dart';
+import 'widgets/sections/home_about_us_section_mobile_version.dart';
+import 'widgets/sections/home_header_section_desktop_version.dart';
+import 'widgets/sections/home_header_section_mobile_version.dart';
+import 'widgets/sections/home_recent_news_section_desktop_version.dart';
+import 'widgets/sections/home_recent_news_section_mobile_version.dart';
+import 'widgets/sections/home_partners_section_desktop_version.dart';
+import 'widgets/sections/home_partners_section_mobile_version.dart';
+import 'widgets/sections/home_recent_publications_section_desktop_version.dart';
+import 'widgets/sections/home_recent_publications_section_mobile_version.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

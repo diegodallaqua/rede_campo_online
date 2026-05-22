@@ -33,7 +33,7 @@ class Events {
       name: (map['name'] ?? '') as String,
       description: (map['description'] ?? '') as String,
       registration_url: (map['registration_url'] ?? '') as String,
-      date: (map['date'] ?? '') as DateTime,
+      date: map['date'] != null ? DateTime.tryParse(map['date'].toString()) : null,
     );
   }
 
