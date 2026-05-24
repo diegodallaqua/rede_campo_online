@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/layout/footer.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
+import 'package:rede_campo_online/core/utils/stores/filter_search_store.dart';
 import 'package:rede_campo_online/features/articles/stores/articles_store.dart';
 import 'package:rede_campo_online/features/book_chapters/stores/book_chapters_store.dart';
 import 'package:rede_campo_online/features/books/stores/books_store.dart';
@@ -36,14 +37,11 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
   }
 
   void _onSearch(String value) {
-    _articlesStore.filterStore.setSearch(value);
-    _articlesStore.refreshData();
-    _technicalReportsStore.filterStore.setSearch(value);
-    _technicalReportsStore.refreshData();
-    _booksStore.filterStore.setSearch(value);
-    _booksStore.refreshData();
-    _bookChaptersStore.filterStore.setSearch(value);
-    _bookChaptersStore.refreshData();
+    final filter = FilterSearchStore()..setSearch(value);
+    _articlesStore.setFilter(filter);
+    _technicalReportsStore.setFilter(filter);
+    _booksStore.setFilter(filter);
+    _bookChaptersStore.setFilter(filter);
   }
 
   @override

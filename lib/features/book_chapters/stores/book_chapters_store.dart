@@ -31,8 +31,14 @@ abstract class BookChaptersStoreBase extends BaseStore<BookChapters>
   @action
   void setFilter(FilterSearchStore value) {
     filterStore = value;
-    _cachedChapters = [];
-    resetPage();
+    setPage(1);
+    if (_cachedChapters.isEmpty) {
+      setLastPage(false);
+      setData([]);
+      loadData();
+    } else {
+      _applyPage();
+    }
   }
 
   @readonly
@@ -91,10 +97,18 @@ abstract class BookChaptersStoreBase extends BaseStore<BookChapters>
   }
 
   void _applyPage() {
-    final total = _cachedChapters.length;
+    final query = filterStore.search.toLowerCase().trim();
+    final filtered = query.isEmpty
+        ? _cachedChapters
+        : _cachedChapters
+            .where((c) =>
+                (c.publication?.title ?? '').toLowerCase().contains(query) ||
+                (c.book_name ?? '').toLowerCase().contains(query))
+            .toList();
+    final total = filtered.length;
     final start = (_page - 1) * pageSize;
     final end = (start + pageSize).clamp(0, total);
-    setData(_cachedChapters.sublist(start.clamp(0, total), end));
+    setData(filtered.sublist(start.clamp(0, total), end));
     setLastPage(end >= total);
   }
 

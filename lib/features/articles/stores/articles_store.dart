@@ -30,8 +30,14 @@ abstract class ArticlesStoreBase extends BaseStore<Articles> with Store {
   @action
   void setFilter(FilterSearchStore value) {
     filterStore = value;
-    _cachedArticles = [];
-    resetPage();
+    setPage(1);
+    if (_cachedArticles.isEmpty) {
+      setLastPage(false);
+      setData([]);
+      loadData();
+    } else {
+      _applyPage();
+    }
   }
 
   @readonly
@@ -90,10 +96,19 @@ abstract class ArticlesStoreBase extends BaseStore<Articles> with Store {
   }
 
   void _applyPage() {
-    final total = _cachedArticles.length;
+    final query = filterStore.search.toLowerCase().trim();
+    final filtered = query.isEmpty
+        ? _cachedArticles
+        : _cachedArticles
+            .where((a) =>
+                (a.publication?.title ?? '').toLowerCase().contains(query) ||
+                (a.journal_name ?? '').toLowerCase().contains(query) ||
+                (a.publisher ?? '').toLowerCase().contains(query))
+            .toList();
+    final total = filtered.length;
     final start = (_page - 1) * pageSize;
     final end = (start + pageSize).clamp(0, total);
-    setData(_cachedArticles.sublist(start.clamp(0, total), end));
+    setData(filtered.sublist(start.clamp(0, total), end));
     setLastPage(end >= total);
   }
 

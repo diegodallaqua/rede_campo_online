@@ -30,8 +30,14 @@ abstract class BooksStoreBase extends BaseStore<Books> with Store {
   @action
   void setFilter(FilterSearchStore value) {
     filterStore = value;
-    _cachedBooks = [];
-    resetPage();
+    setPage(1);
+    if (_cachedBooks.isEmpty) {
+      setLastPage(false);
+      setData([]);
+      loadData();
+    } else {
+      _applyPage();
+    }
   }
 
   @readonly
@@ -90,10 +96,18 @@ abstract class BooksStoreBase extends BaseStore<Books> with Store {
   }
 
   void _applyPage() {
-    final total = _cachedBooks.length;
+    final query = filterStore.search.toLowerCase().trim();
+    final filtered = query.isEmpty
+        ? _cachedBooks
+        : _cachedBooks
+            .where((b) =>
+                (b.publication?.title ?? '').toLowerCase().contains(query) ||
+                (b.publisher ?? '').toLowerCase().contains(query))
+            .toList();
+    final total = filtered.length;
     final start = (_page - 1) * pageSize;
     final end = (start + pageSize).clamp(0, total);
-    setData(_cachedBooks.sublist(start.clamp(0, total), end));
+    setData(filtered.sublist(start.clamp(0, total), end));
     setLastPage(end >= total);
   }
 
