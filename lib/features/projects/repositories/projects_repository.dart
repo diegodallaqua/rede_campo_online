@@ -45,7 +45,9 @@ class ProjectsRepository {
   }
 
   Future<List<Projects>> findAllProjects(
-      {int? page = 1, FilterSearchStore? filterSearchStore, int take = 5}) async {
+      {int? page = 1,
+      FilterSearchStore? filterSearchStore,
+      int take = 3}) async {
     final token = await TokenRepository().getToken();
 
     final url = Uri.parse('$baseURL$projectsURL').replace(queryParameters: {

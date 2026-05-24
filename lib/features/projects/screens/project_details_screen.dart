@@ -6,14 +6,14 @@ import '../../../core/ui/layout/footer.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 import '../models/projects.dart';
 import '../stores/project_detail_store.dart';
-import 'widgets/sections/project_detail_header_section_desktop_version.dart';
-import 'widgets/sections/project_detail_header_section_mobile_version.dart';
-import 'widgets/sections/project_events_section_desktop_version.dart';
-import 'widgets/sections/project_events_section_mobile_version.dart';
-import 'widgets/sections/project_gallery_section_desktop_version.dart';
-import 'widgets/sections/project_gallery_section_mobile_version.dart';
-import 'widgets/sections/project_team_section_desktop_version.dart';
-import 'widgets/sections/project_team_section_mobile_version.dart';
+import 'widgets/sections/project_detail_header_section/project_detail_header_section_desktop_version.dart';
+import 'widgets/sections/project_detail_header_section/project_detail_header_section_mobile_version.dart';
+import 'widgets/sections/project_events_section/project_events_section_desktop_version.dart';
+import 'widgets/sections/project_events_section/project_events_section_mobile_version.dart';
+import 'widgets/sections/project_gallery_section/project_gallery_section_desktop_version.dart';
+import 'widgets/sections/project_gallery_section/project_gallery_section_mobile_version.dart';
+import 'widgets/sections/project_team_section/project_team_section_desktop_version.dart';
+import 'widgets/sections/project_team_section/project_team_section_mobile_version.dart';
 
 class ProjectDetailsScreen extends StatelessWidget {
   final Projects project;

@@ -37,3 +37,15 @@ const eventsURL = '/events';
 
 // EVENT MEDIA
 const eventMediaURL = '/event-media';
+
+// ARTICLES
+const articlesURL = '/articles';
+
+// BOOK CHAPTERS
+const bookChaptersURL = '/book-chapters';
+
+// BOOK
+const booksURL = '/books';
+
+// TECHNICAL REPORTS
+const technicalReportsURL = '/technical-reports';

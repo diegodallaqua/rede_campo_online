@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/layout/footer.dart';
 import 'package:rede_campo_online/features/projects/stores/projects_store.dart';
-import 'package:rede_campo_online/features/projects/screens/widgets/sections/projects_header_section_desktop_version.dart';
-import 'package:rede_campo_online/features/projects/screens/widgets/sections/projects_header_section_mobile_version.dart';
-import 'package:rede_campo_online/features/projects/screens/widgets/sections/projects_list_section_mobile_version.dart';
+import 'package:rede_campo_online/features/projects/screens/widgets/sections/projects_header_section/projects_header_section_desktop_version.dart';
+import 'package:rede_campo_online/features/projects/screens/widgets/sections/projects_header_section/projects_header_section_mobile_version.dart';
+import 'package:rede_campo_online/features/projects/screens/widgets/sections/projects_list_section/projects_list_section_mobile_version.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import '../../../core/ui/layout/app_scaffold.dart';
 import '../../../core/ui/theme/custom_colors.dart';
-import 'widgets/sections/projects_list_section_desktop_version.dart';
+import 'widgets/sections/projects_list_section/projects_list_section_desktop_version.dart';
 
 class ProjectsScreen extends StatelessWidget {
   const ProjectsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ProjectsStore projectsStoreMobile = ProjectsStore();
+    final ProjectsStore projectsStoreMobile = ProjectsStore(pageSize: 3);
     final ProjectsStore projectsStoreDesktop = ProjectsStore(pageSize: 4);
 
     return AppScaffold(

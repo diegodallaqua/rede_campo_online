@@ -5,12 +5,14 @@ import 'package:rede_campo_online/features/home/screens/home_screen.dart';
 import '../features/projects/models/projects.dart';
 import '../features/projects/screens/project_details_screen.dart';
 import '../features/projects/screens/projects_screen.dart';
+import '../features/publications/screens/publications_screen.dart';
 
 abstract class AppRoutes {
   static const home = '/';
   static const aboutUs = '/sobre-nos';
   static const projects = '/projects';
   static const projectDetail = '/projects/:id';
+  static const publications = '/publications';
 }
 
 final appRouter = GoRouter(
@@ -35,6 +37,10 @@ final appRouter = GoRouter(
         if (extra is! Projects) return const ProjectsScreen();
         return ProjectDetailsScreen(project: extra);
       },
+    ),
+    GoRoute(
+      path: AppRoutes.publications,
+      builder: (context, state) => const PublicationsScreen(),
     ),
   ],
 );

@@ -87,7 +87,7 @@ class BookChapterTileDesktopVersion extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
                 TextSpan(
-                  text: bookChapter.chapter_number!,
+                  text: bookChapter.chapter_number!.toString(),
                   style: const TextStyle(fontWeight: FontWeight.w400),
                 ),
               ],
@@ -102,13 +102,13 @@ class BookChapterTileDesktopVersion extends StatelessWidget {
       child: onTap == null
           ? content
           : Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(borderRadius),
-          onTap: onTap,
-          child: content,
-        ),
-      ),
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(borderRadius),
+                onTap: onTap,
+                child: content,
+              ),
+            ),
     );
   }
 }

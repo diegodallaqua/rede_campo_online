@@ -4,6 +4,7 @@ import '../../../../features/news/models/news.dart';
 import '../../../../features/news/models/news_media.dart';
 import '../../../utils/placeholders.dart';
 import '../../theme/custom_colors.dart';
+import '../../widgets/custom_row.dart';
 
 class NewsTileDesktopVersion extends StatelessWidget {
   final News news;
@@ -76,7 +77,7 @@ class NewsTileDesktopVersion extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 if (news.publication_date != null) ...[
-                  _MetaRow(
+                  CustomRow(
                     icon: Icons.calendar_today_outlined,
                     text: news.publication_date!.formattedDate(),
                   ),
@@ -84,7 +85,7 @@ class NewsTileDesktopVersion extends StatelessWidget {
                 ],
                 if (news.research_areas != null &&
                     news.research_areas!.isNotEmpty)
-                  _MetaRow(
+                  CustomRow(
                     icon: Icons.sell_outlined,
                     text: () {
                       final areas = news.research_areas!
@@ -146,35 +147,6 @@ class NewsTileDesktopVersion extends StatelessWidget {
                 child: content,
               ),
             ),
-    );
-  }
-}
-
-class _MetaRow extends StatelessWidget {
-  final IconData icon;
-  final String text;
-
-  const _MetaRow({required this.icon, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 14, color: CustomColors.copper_spice),
-        const SizedBox(width: 5),
-        Expanded(
-          child: Text(
-            text,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 14,
-              color: CustomColors.pine_shadow,
-              height: 1.3,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
 import '../../../../features/publications/models/publications.dart';
 import '../../theme/custom_colors.dart';
+import '../../widgets/custom_row.dart';
 
 class PublicationTileDesktopVersion extends StatelessWidget {
   final Publications publication;
@@ -90,7 +91,7 @@ class PublicationTileDesktopVersion extends StatelessWidget {
                   ),
                   const Spacer(),
                   if (publication.publication_date != null) ...[
-                    _MetaRow(
+                    CustomRow(
                       icon: Icons.calendar_today_outlined,
                       text: publication.publication_date!.formattedDate(),
                     ),
@@ -98,7 +99,7 @@ class PublicationTileDesktopVersion extends StatelessWidget {
                   ],
                   if (publication.research_areas != null &&
                       publication.research_areas!.isNotEmpty)
-                    _MetaRow(
+                    CustomRow(
                       icon: Icons.sell_outlined,
                       text: () {
                         final areas = publication.research_areas!
@@ -161,35 +162,6 @@ class PublicationTileDesktopVersion extends StatelessWidget {
                 child: content,
               ),
             ),
-    );
-  }
-}
-
-class _MetaRow extends StatelessWidget {
-  final IconData icon;
-  final String text;
-
-  const _MetaRow({required this.icon, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 14, color: CustomColors.copper_spice),
-        const SizedBox(width: 5),
-        Expanded(
-          child: Text(
-            text,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 14,
-              color: CustomColors.pine_shadow,
-              height: 1.3,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

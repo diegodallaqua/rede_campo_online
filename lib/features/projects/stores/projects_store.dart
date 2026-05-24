@@ -14,7 +14,7 @@ class ProjectsStore = ProjectsStoreBase with _$ProjectsStore;
 abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
   final ProjectsRepository _repository = ProjectsRepository();
 
-  ProjectsStoreBase({this.pageSize = 5}) {
+  ProjectsStoreBase({this.pageSize = 3}) {
     loadData();
   }
 
@@ -97,7 +97,11 @@ abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
           take: pageSize,
         ),
       );
-      if (list.length < pageSize) _lastPage = true;
+      if (list.length < pageSize) {
+        _lastPage = true;
+      } else {
+        _peekNextPage(_page);
+      }
     } else {
       // Páginas subsequentes, sem cache para não conflitar.
       setLoading(true);
@@ -108,6 +112,7 @@ abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
           take: pageSize,
         );
         _addNewItems(result);
+        if (!_lastPage) _peekNextPage(_page);
       } catch (e, s) {
         log(
           'ProjectsStore: Erro ao carregar Projetos (página $_page)',
@@ -119,5 +124,16 @@ abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
         setLoading(false);
       }
     }
+  }
+
+  Future<void> _peekNextPage(int forPage) async {
+    try {
+      final peek = await _repository.findAllProjects(
+        page: forPage + 1,
+        filterSearchStore: filterStore,
+        take: pageSize,
+      );
+      if (peek.isEmpty && _page == forPage) setLastPage(true);
+    } catch (_) {}
   }
 }

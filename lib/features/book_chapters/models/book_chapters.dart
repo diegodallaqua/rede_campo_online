@@ -9,7 +9,7 @@ class BookChapters {
 
   Publications? publication;
   String? book_name;
-  String? chapter_number;
+  num? chapter_number;
 
   @override
   String toString() {
@@ -18,16 +18,17 @@ class BookChapters {
 
   factory BookChapters.fromMap(Map<String, dynamic> map) {
     return BookChapters(
-      publication: map.containsKey('publication') && map['publication'] != null ? Publications.fromMap(map['publication'] ?? {}) : null,
+      publication: map.containsKey('publication') && map['publication'] != null
+          ? Publications.fromMap(map['publication'] ?? {})
+          : null,
       book_name: (map['book_name'] ?? '') as String,
-      chapter_number: (map['chapter_number'] ?? '') as String,
+      chapter_number: (map['chapter_number'] ?? 0) as num,
     );
   }
 
   Map<String, dynamic> toMap() => {
-    'publication_id': publication!.id,
-    'book_name': book_name!,
-    'chapter_number': chapter_number!,
-  };
+        'publication_id': publication!.id,
+        'book_name': book_name!,
+        'chapter_number': chapter_number!,
+      };
 }
-
