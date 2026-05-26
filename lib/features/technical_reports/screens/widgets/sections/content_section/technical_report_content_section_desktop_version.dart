@@ -1,24 +1,24 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:rede_campo_online/core/utils/formatters.dart';
+import 'package:rede_campo_online/core/utils/repositories/translation_repository.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
-import '../../../../models/articles.dart';
+import '../../../../models/technical_reports.dart';
 
-class ArticleContentSectionDesktopVersion extends StatefulWidget {
-  final Articles article;
+class TechnicalReportContentSectionDesktopVersion extends StatefulWidget {
+  final TechnicalReports technicalReport;
 
-  const ArticleContentSectionDesktopVersion({super.key, required this.article});
+  const TechnicalReportContentSectionDesktopVersion({
+    super.key,
+    required this.technicalReport,
+  });
 
   @override
-  State<ArticleContentSectionDesktopVersion> createState() =>
-      _ArticleContentSectionDesktopVersionState();
+  State<TechnicalReportContentSectionDesktopVersion> createState() =>
+      _TechnicalReportContentSectionDesktopVersionState();
 }
 
-class _ArticleContentSectionDesktopVersionState
-    extends State<ArticleContentSectionDesktopVersion> {
+class _TechnicalReportContentSectionDesktopVersionState
+    extends State<TechnicalReportContentSectionDesktopVersion> {
   String? _summary;
   bool _translating = false;
 
@@ -29,55 +29,26 @@ class _ArticleContentSectionDesktopVersionState
   }
 
   Future<void> _fetchTranslation() async {
-    final text = widget.article.publication?.abstract ?? '';
+    final text = widget.technicalReport.publication?.abstract ?? '';
     if (text.isEmpty) return;
 
     setState(() => _translating = true);
 
     try {
-      final uri = Uri.parse(
-        'https://translate.googleapis.com/translate_a/single'
-        '?client=gtx&sl=pt&tl=en&dt=t&q=${Uri.encodeComponent(text)}',
-      );
-      final response = await http.get(uri);
-
-      if (response.statusCode == 200 && mounted) {
-        final List<dynamic> body = json.decode(response.body) as List<dynamic>;
-        final List<dynamic> segments = body[0] as List<dynamic>;
-        final translated = segments
-            .map((s) => ((s as List<dynamic>)[0] as String?) ?? '')
-            .join();
-        setState(() => _summary = translated.isNotEmpty ? translated : null);
-      }
-    } catch (_) {
-      // Silently omit the summary if the request fails
+      final translated = await TranslationRepository.translateToEnglish(text);
+      if (mounted) setState(() => _summary = translated);
     } finally {
       if (mounted) setState(() => _translating = false);
     }
   }
 
-  String get _publicationLabel {
-    final parts = <String>[];
-    final journal = widget.article.journal_name ?? '';
-    final volume = widget.article.volume ?? '';
-    final date = widget.article.publication?.publication_date;
-    if (journal.isNotEmpty) parts.add(journal);
-    if (volume.isNotEmpty) parts.add('v.$volume');
-    if (date != null) {
-      final dateStr = date.formattedDate();
-      if (dateStr.isNotEmpty) parts.add(dateStr);
-    }
-    return parts.join(', ');
-  }
-
   @override
   Widget build(BuildContext context) {
-    final abstract = widget.article.publication?.abstract ?? '';
-    final pubLabel = _publicationLabel;
+    final abstract = widget.technicalReport.publication?.abstract ?? '';
     final showSummaryColumn =
         abstract.isNotEmpty && (_translating || (_summary?.isNotEmpty == true));
 
-    if (abstract.isEmpty && pubLabel.isEmpty) return const SizedBox.shrink();
+    if (abstract.isEmpty) return const SizedBox.shrink();
 
     return Center(
       child: ConstrainedBox(
@@ -130,26 +101,6 @@ class _ArticleContentSectionDesktopVersionState
                 ),
                 const SizedBox(height: 32),
               ],
-              if (pubLabel.isNotEmpty)
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: CustomColors.vanilla_haze.withOpacity(0.6),
-                      height: 1.5,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: 'Publicado em: ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: CustomColors.vanilla_haze.withOpacity(0.8),
-                        ),
-                      ),
-                      TextSpan(text: pubLabel),
-                    ],
-                  ),
-                ),
             ],
           ),
         ),

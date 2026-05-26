@@ -4,18 +4,18 @@ import 'package:responsive_framework/responsive_framework.dart';
 import '../../../core/ui/layout/app_scaffold.dart';
 import '../../../core/ui/layout/footer.dart';
 import '../../../core/ui/theme/custom_colors.dart';
-import '../models/articles.dart';
-import 'widgets/sections/authors_section/article_authors_section_desktop_version.dart';
-import 'widgets/sections/authors_section/article_authors_section_mobile_version.dart';
-import 'widgets/sections/content_section/article_content_section_desktop_version.dart';
-import 'widgets/sections/content_section/article_content_section_mobile_version.dart';
-import 'widgets/sections/header_section/article_header_section_desktop_version.dart';
-import 'widgets/sections/header_section/article_header_section_mobile_version.dart';
+import '../models/technical_reports.dart';
+import 'widgets/sections/authors_section/technical_report_authors_section_desktop_version.dart';
+import 'widgets/sections/authors_section/technical_report_authors_section_mobile_version.dart';
+import 'widgets/sections/content_section/technical_report_content_section_desktop_version.dart';
+import 'widgets/sections/content_section/technical_report_content_section_mobile_version.dart';
+import 'widgets/sections/header_section/technical_report_header_section_desktop_version.dart';
+import 'widgets/sections/header_section/technical_report_header_section_mobile_version.dart';
 
-class ArticleDetailsScreen extends StatelessWidget {
-  final Articles article;
+class TechnicalReportDetailsScreen extends StatelessWidget {
+  final TechnicalReports technicalReport;
 
-  const ArticleDetailsScreen({super.key, required this.article});
+  const TechnicalReportDetailsScreen({super.key, required this.technicalReport});
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +28,11 @@ class ArticleDetailsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ArticleHeaderSectionMobileVersion(article: article),
-              ArticleContentSectionMobileVersion(article: article),
+              TechnicalReportHeaderSectionMobileVersion(technicalReport: technicalReport),
+              TechnicalReportContentSectionMobileVersion(technicalReport: technicalReport),
               ColoredBox(
                 color: CustomColors.midnight_slate,
-                child: ArticleAuthorsSectionMobileVersion(article: article),
+                child: TechnicalReportAuthorsSectionMobileVersion(technicalReport: technicalReport),
               ),
               const SizedBox(height: 16),
               const Footer(),
@@ -44,14 +44,14 @@ class ArticleDetailsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ArticleHeaderSectionDesktopVersion(article: article),
+              TechnicalReportHeaderSectionDesktopVersion(technicalReport: technicalReport),
               ColoredBox(
                 color: CustomColors.midnight_slate,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    ArticleContentSectionDesktopVersion(article: article),
-                    ArticleAuthorsSectionDesktopVersion(article: article),
+                    TechnicalReportContentSectionDesktopVersion(technicalReport: technicalReport),
+                    TechnicalReportAuthorsSectionDesktopVersion(technicalReport: technicalReport),
                   ],
                 ),
               ),

@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:rede_campo_online/core/utils/formatters.dart';
+import 'package:rede_campo_online/core/utils/repositories/translation_repository.dart';
 
 import '../../../../../../core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
@@ -36,22 +34,8 @@ class _ArticleContentSectionMobileVersionState
     setState(() => _translating = true);
 
     try {
-      final uri = Uri.parse(
-        'https://translate.googleapis.com/translate_a/single'
-        '?client=gtx&sl=pt&tl=en&dt=t&q=${Uri.encodeComponent(text)}',
-      );
-      final response = await http.get(uri);
-
-      if (response.statusCode == 200 && mounted) {
-        final List<dynamic> body = json.decode(response.body) as List<dynamic>;
-        final List<dynamic> segments = body[0] as List<dynamic>;
-        final translated = segments
-            .map((s) => ((s as List<dynamic>)[0] as String?) ?? '')
-            .join();
-        setState(() => _summary = translated.isNotEmpty ? translated : null);
-      }
-    } catch (_) {
-      // Silently omit the summary if the request fails
+      final translated = await TranslationRepository.translateToEnglish(text);
+      if (mounted) setState(() => _summary = translated);
     } finally {
       if (mounted) setState(() => _translating = false);
     }

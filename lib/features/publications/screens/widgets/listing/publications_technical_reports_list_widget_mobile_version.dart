@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rede_campo_online/app/router.dart';
 import 'package:rede_campo_online/core/ui/listing_tiles/technical_reports/technical_reports_tile_mobile_version.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
@@ -92,8 +94,13 @@ class _PublicationsTechnicalReportsListWidgetMobileVersionState
       itemCount: reports.length,
       separatorBuilder: (_, __) => const SizedBox(height: 16),
       itemBuilder: (context, index) {
+        final report = reports[index];
         return TechnicalReportTileMobileVersion(
-          technicalReport: reports[index],
+          technicalReport: report,
+          onTap: () => context.push(
+            '/publications/technical-reports/${report.publication?.id}',
+            extra: report,
+          ),
         );
       },
     );
