@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rede_campo_online/core/ui/listing_tiles/book_chapters/book_chapter_tile_desktop_version.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
@@ -107,8 +108,13 @@ class _PublicationsBookChaptersListWidgetDesktopVersionState
         ),
         itemCount: chapters.length,
         itemBuilder: (context, index) {
+          final chapter = chapters[index];
           return BookChapterTileDesktopVersion(
-            bookChapter: chapters[index],
+            bookChapter: chapter,
+            onTap: () => context.push(
+              '/publications/book-chapters/${chapter.publication?.id}',
+              extra: chapter,
+            ),
           );
         },
       ),
