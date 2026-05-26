@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rede_campo_online/app/router.dart';
 import 'package:rede_campo_online/core/ui/listing_tiles/news/news_tile_desktop_version.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
@@ -211,8 +213,12 @@ class _NewsListWidgetDesktopVersionState
     );
   }
 
-  // ignore: unused_element
-  void _onNewsTap(News news) {}
+  void _onNewsTap(News news) {
+    context.go(
+      AppRoutes.newsDetail.replaceFirst(':id', '${news.id}'),
+      extra: news,
+    );
+  }
 }
 
 class _PageNumberButton extends StatelessWidget {

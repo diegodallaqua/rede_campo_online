@@ -42,8 +42,8 @@ class Members {
   factory Members.fromMap(Map<String, dynamic> map) {
     return Members(
       id: map['id'],
-      memberRole: map.containsKey('memberRole') && map['memberRole'] != null
-          ? MemberRoles.fromMap(map['memberRole'] ?? {})
+      memberRole: map.containsKey('member_role') && map['member_role'] != null
+          ? MemberRoles.fromMap(map['member_role'] ?? {})
           : null,
       organization:
           map.containsKey('organization') && map['organization'] != null

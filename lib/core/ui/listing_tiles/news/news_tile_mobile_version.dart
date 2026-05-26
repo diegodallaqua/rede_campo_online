@@ -91,7 +91,7 @@ class NewsTileMobileVersion extends StatelessWidget {
                       const SizedBox(height: 3),
                       Text(
                         description,
-                        maxLines: 3,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 11,

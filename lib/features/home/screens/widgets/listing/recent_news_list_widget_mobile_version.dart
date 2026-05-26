@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import 'package:go_router/go_router.dart';
+import '../../../../../app/router.dart';
 import '../../../../../core/ui/listing_tiles/news/news_tile_mobile_version.dart';
 import '../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../core/ui/widgets/list_empty_state.dart';
@@ -140,6 +142,9 @@ class _RecentNewsListWidgetMobileVersionState
   }
 
   void _onNewsTap(News news) {
-    // TODO: navegar para a tela de detalhe da notícia.
+    context.go(
+      AppRoutes.newsDetail.replaceFirst(':id', '${news.id}'),
+      extra: news,
+    );
   }
 }

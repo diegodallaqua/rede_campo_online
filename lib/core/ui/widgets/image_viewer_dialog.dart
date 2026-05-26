@@ -136,6 +136,40 @@ class _ImageViewerDialogState extends State<ImageViewerDialog> {
               ),
             ),
 
+            // ── Left / Right arrows ────────────────────────────────
+            if (_hasMultiple) ...[
+              Positioned(
+                left: 12,
+                top: 0,
+                bottom: 0,
+                child: Center(
+                  child: _ArrowButton(
+                    icon: Icons.chevron_left_rounded,
+                    enabled: _currentIndex > 0,
+                    onTap: () => _controller.previousPage(
+                      duration: const Duration(milliseconds: 280),
+                      curve: Curves.easeInOut,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 12,
+                top: 0,
+                bottom: 0,
+                child: Center(
+                  child: _ArrowButton(
+                    icon: Icons.chevron_right_rounded,
+                    enabled: _currentIndex < widget.imageUrls.length - 1,
+                    onTap: () => _controller.nextPage(
+                      duration: const Duration(milliseconds: 280),
+                      curve: Curves.easeInOut,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+
             // ── Bottom: name + dot indicators / counter ─────────────
             Positioned(
               bottom: 0,
@@ -244,6 +278,34 @@ class _BottomCounter extends StatelessWidget {
         color: Colors.white.withOpacity(0.7),
         fontSize: 13,
         fontWeight: FontWeight.w500,
+      ),
+    );
+  }
+}
+
+class _ArrowButton extends StatelessWidget {
+  final IconData icon;
+  final bool enabled;
+  final VoidCallback onTap;
+  const _ArrowButton({required this.icon, required this.enabled, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: enabled ? onTap : null,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 150),
+        opacity: enabled ? 1.0 : 0.25,
+        child: Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.15),
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white.withOpacity(0.35), width: 1),
+          ),
+          child: Icon(icon, color: Colors.white, size: 28),
+        ),
       ),
     );
   }
