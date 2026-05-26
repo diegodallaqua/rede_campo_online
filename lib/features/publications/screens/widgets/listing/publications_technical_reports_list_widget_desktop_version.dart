@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rede_campo_online/app/router.dart';
 import 'package:rede_campo_online/core/ui/listing_tiles/technical_reports/technical_report_tile_desktop_version.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
@@ -50,11 +49,10 @@ class _PublicationsTechnicalReportsListWidgetDesktopVersionState
           _notifyPageDiscovered(discovered);
         }
 
-        final showPagination =
-            widget.technicalReportsStore.list.isNotEmpty &&
-                (!widget.technicalReportsStore.lastPage ||
-                    widget.technicalReportsStore.page > 1 ||
-                    widget.maxDiscoveredPage > 1);
+        final showPagination = widget.technicalReportsStore.list.isNotEmpty &&
+            (!widget.technicalReportsStore.lastPage ||
+                widget.technicalReportsStore.page > 1 ||
+                widget.maxDiscoveredPage > 1);
 
         if (widget.technicalReportsStore.showProgress) {
           return const Padding(
@@ -143,8 +141,7 @@ class _PublicationsTechnicalReportsListWidgetDesktopVersionState
           ArrowButton(
             icon: Icons.chevron_left_rounded,
             enabled: !isLoading && currentPage > 1,
-            onTap: () =>
-                widget.technicalReportsStore.goToPage(currentPage - 1),
+            onTap: () => widget.technicalReportsStore.goToPage(currentPage - 1),
             iconColor: CustomColors.vanilla_haze,
             disabledIconColor: CustomColors.concrete_mist,
             backgroundColor: Colors.white.withOpacity(0.1),

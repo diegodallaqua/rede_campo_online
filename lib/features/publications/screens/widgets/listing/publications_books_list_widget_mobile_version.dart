@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rede_campo_online/core/ui/listing_tiles/books/book_tile_mobile_version.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
@@ -89,7 +90,14 @@ class _PublicationsBooksListWidgetMobileVersionState
       itemCount: books.length,
       separatorBuilder: (_, __) => const SizedBox(height: 16),
       itemBuilder: (context, index) {
-        return BookTileMobileVersion(book: books[index]);
+        final book = books[index];
+        return BookTileMobileVersion(
+          book: book,
+          onTap: () => context.push(
+            '/publications/books/${book.publication?.id}',
+            extra: book,
+          ),
+        );
       },
     );
   }

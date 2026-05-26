@@ -2,6 +2,8 @@ import 'package:go_router/go_router.dart';
 import 'package:rede_campo_online/features/about_us/screens/about_us_screen.dart';
 import 'package:rede_campo_online/features/articles/models/articles.dart';
 import 'package:rede_campo_online/features/articles/screens/article_details_screen.dart';
+import 'package:rede_campo_online/features/books/models/books.dart';
+import 'package:rede_campo_online/features/books/screens/book_details_screen.dart';
 import 'package:rede_campo_online/features/home/screens/home_screen.dart';
 import 'package:rede_campo_online/features/technical_reports/models/technical_reports.dart';
 import 'package:rede_campo_online/features/technical_reports/screens/technical_report_details_screen.dart';
@@ -19,6 +21,7 @@ abstract class AppRoutes {
   static const publications = '/publications';
   static const articleDetail = '/publications/articles/:id';
   static const technicalReportDetail = '/publications/technical-reports/:id';
+  static const bookDetail = '/publications/books/:id';
 }
 
 final appRouter = GoRouter(
@@ -62,6 +65,14 @@ final appRouter = GoRouter(
         final extra = state.extra;
         if (extra is! TechnicalReports) return const PublicationsScreen();
         return TechnicalReportDetailsScreen(technicalReport: extra);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.bookDetail,
+      builder: (context, state) {
+        final extra = state.extra;
+        if (extra is! Books) return const PublicationsScreen();
+        return BookDetailsScreen(book: extra);
       },
     ),
   ],

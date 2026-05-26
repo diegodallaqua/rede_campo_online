@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rede_campo_online/app/router.dart';
 import 'package:rede_campo_online/core/ui/listing_tiles/technical_reports/technical_reports_tile_mobile_version.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
@@ -11,7 +10,8 @@ import 'package:rede_campo_online/core/ui/widgets/list_error_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_loading_state.dart';
 import 'package:rede_campo_online/features/technical_reports/stores/technical_reports_store.dart';
 
-class PublicationsTechnicalReportsListWidgetMobileVersion extends StatefulWidget {
+class PublicationsTechnicalReportsListWidgetMobileVersion
+    extends StatefulWidget {
   final TechnicalReportsStore technicalReportsStore;
   final int maxDiscoveredPage;
   final ValueChanged<int> onPageDiscovered;
@@ -143,8 +143,7 @@ class _PublicationsTechnicalReportsListWidgetMobileVersionState
                 page: page,
                 isActive: page == currentPage,
                 enabled: !isLoading,
-                onTap: () =>
-                    widget.technicalReportsStore.goToPage(page),
+                onTap: () => widget.technicalReportsStore.goToPage(page),
               );
             }),
             if (!isLastPage)
