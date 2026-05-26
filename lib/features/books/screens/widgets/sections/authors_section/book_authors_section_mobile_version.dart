@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../models/books.dart';
-import '../../listing/book_authors_list_widget_mobile_version.dart';
+import '../../listing/authors/book_authors_list_widget_mobile_version.dart';
 
 class BookAuthorsSectionMobileVersion extends StatelessWidget {
   final Books book;

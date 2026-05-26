@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../models/book_chapters.dart';
-import '../../listing/book_chapter_authors_list_widget_desktop_version.dart';
+import '../../listing/authors/book_chapter_authors_list_widget_desktop_version.dart';
 
 class BookChapterAuthorsSectionDesktopVersion extends StatelessWidget {
   final BookChapters bookChapter;

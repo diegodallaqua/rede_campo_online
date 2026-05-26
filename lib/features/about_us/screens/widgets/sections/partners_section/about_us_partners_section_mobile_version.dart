@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 
-import '../../listing/about_us_partners_tile_mobile_version.dart';
+import '../../listing/partners/about_us_partners_tile_mobile_version.dart';
 
 class AboutUsPartnersSectionMobileVersion extends StatefulWidget {
   const AboutUsPartnersSectionMobileVersion({super.key});
@@ -95,7 +95,8 @@ class _AboutUsPartnersSectionMobileVersionState
                 controller: _scrollController,
                 physics: const ClampingScrollPhysics(),
                 itemCount: _partners.length,
-                separatorBuilder: (_, __) => const SizedBox(height: _separatorHeight),
+                separatorBuilder: (_, __) =>
+                    const SizedBox(height: _separatorHeight),
                 itemBuilder: (context, index) {
                   final partner = _partners[index];
                   return AboutUsPartnersTileMobileVersion(

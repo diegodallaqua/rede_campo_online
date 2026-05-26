@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/features/articles/stores/articles_store.dart';
-import '../../listing/publications_articles_list_widget_desktop_version.dart';
+import '../../listing/articles/publications_articles_list_widget_desktop_version.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 
 class PublicationsArticlesSectionDesktopVersion extends StatefulWidget {

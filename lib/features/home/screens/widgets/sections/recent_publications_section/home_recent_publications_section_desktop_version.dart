@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../publications/stores/publications_store.dart';
-import '../../listing/recent_publications_list_widget_desktop_version.dart';
+import '../../listing/recent_publications/recent_publications_list_widget_desktop_version.dart';
 
 class HomeRecentPublicationsSectionDesktopVersion extends StatelessWidget {
   final PublicationsStore publicationsStore;

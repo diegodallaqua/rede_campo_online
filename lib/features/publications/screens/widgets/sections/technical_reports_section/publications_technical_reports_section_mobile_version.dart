@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/features/technical_reports/stores/technical_reports_store.dart';
-import '../../listing/publications_technical_reports_list_widget_mobile_version.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
+import '../../listing/technical_reports/publications_technical_reports_list_widget_mobile_version.dart';
 
 class PublicationsTechnicalReportsSectionMobileVersion extends StatefulWidget {
   final TechnicalReportsStore technicalReportsStore;

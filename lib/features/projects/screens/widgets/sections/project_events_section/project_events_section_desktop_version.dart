@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../stores/project_detail_store.dart';
-import '../../listing/project_events_list_widget_desktop_version.dart';
+import '../../listing/events/project_events_list_widget_desktop_version.dart';
 
 class ProjectEventsSectionDesktopVersion extends StatelessWidget {
   final ProjectDetailStore projectDetailStore;

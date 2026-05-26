@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 
-import '../../listing/metric_highlights_widget.dart';
+import '../../listing/metrics/metric_highlights_widget.dart';
 
 class AboutUsHistorySectionMobileVersion extends StatelessWidget {
   const AboutUsHistorySectionMobileVersion({super.key});

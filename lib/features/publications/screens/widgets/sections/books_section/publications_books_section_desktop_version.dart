@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/features/books/stores/books_store.dart';
-import '../../listing/publications_books_list_widget_desktop_version.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
+import '../../listing/books/publications_books_list_widget_desktop_version.dart';
 
 class PublicationsBooksSectionDesktopVersion extends StatefulWidget {
   final BooksStore booksStore;

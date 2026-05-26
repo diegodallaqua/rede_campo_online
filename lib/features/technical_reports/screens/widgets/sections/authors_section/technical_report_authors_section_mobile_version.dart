@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../models/technical_reports.dart';
-import '../../listing/technical_report_authors_list_widget_mobile_version.dart';
+import '../../listing/authors/technical_report_authors_list_widget_mobile_version.dart';
 
 class TechnicalReportAuthorsSectionMobileVersion extends StatelessWidget {
   final TechnicalReports technicalReport;

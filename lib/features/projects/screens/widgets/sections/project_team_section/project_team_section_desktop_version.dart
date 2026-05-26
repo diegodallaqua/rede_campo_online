@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../models/projects.dart';
-import '../../listing/project_members_list_widget_desktop_version.dart';
+import '../../listing/members/project_members_list_widget_desktop_version.dart';
 
 class ProjectTeamSectionDesktopVersion extends StatelessWidget {
   final Projects project;

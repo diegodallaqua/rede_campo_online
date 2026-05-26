@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
-import '../../listing/metric_highlights_widget.dart';
+import '../../listing/metrics/metric_highlights_widget.dart';
 
 class AboutUsHistorySectionDesktopVersion extends StatelessWidget {
   const AboutUsHistorySectionDesktopVersion({super.key});

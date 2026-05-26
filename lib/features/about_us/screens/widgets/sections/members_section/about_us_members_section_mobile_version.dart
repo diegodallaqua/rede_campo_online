@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../members/stores/members_store.dart';
-import '../../listing/about_us_members_list_widget.dart';
+import '../../listing/members/about_us_members_list_widget.dart';
 
 class AboutUsMembersSectionMobileVersion extends StatelessWidget {
   final MembersStore membersStore;

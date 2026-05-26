@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../models/articles.dart';
-import '../../listing/article_authors_list_widget_mobile_version.dart';
+import '../../listing/authors/article_authors_list_widget_mobile_version.dart';
 
 class ArticleAuthorsSectionMobileVersion extends StatelessWidget {
   final Articles article;

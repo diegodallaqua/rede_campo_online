@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/features/books/stores/books_store.dart';
-import '../../listing/publications_books_list_widget_mobile_version.dart';
+import '../../listing/books/publications_books_list_widget_mobile_version.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 
 class PublicationsBooksSectionMobileVersion extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/features/projects/stores/projects_store.dart';
-import '../../listing/projects_list_widget_mobile_version.dart';
+import '../../listing/projects/projects_list_widget_mobile_version.dart';
 
 class ProjectsListSectionMobileVersion extends StatefulWidget {
   final ProjectsStore projectsStore;

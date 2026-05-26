@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../news/stores/news_store.dart';
-import '../../listing/recent_news_list_widget_mobile_version.dart';
+import '../../listing/recent_news/recent_news_list_widget_mobile_version.dart';
 
 class HomeRecentNewsSectionMobileVersion extends StatelessWidget {
   final NewsStore newsStore;
