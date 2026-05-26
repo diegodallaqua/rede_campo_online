@@ -1,62 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
-import 'package:rede_campo_online/core/utils/repositories/translation_repository.dart';
 
 import '../../../../../../core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../models/articles.dart';
+import '../../../../stores/article_details_store.dart';
 
-class ArticleContentSectionMobileVersion extends StatefulWidget {
+class ArticleContentSectionMobileVersion extends StatelessWidget {
   final Articles article;
+  final ArticleDetailsStore store;
 
-  const ArticleContentSectionMobileVersion({super.key, required this.article});
-
-  @override
-  State<ArticleContentSectionMobileVersion> createState() =>
-      _ArticleContentSectionMobileVersionState();
-}
-
-class _ArticleContentSectionMobileVersionState
-    extends State<ArticleContentSectionMobileVersion> {
-  String? _summary;
-  bool _translating = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchTranslation();
-  }
-
-  Future<void> _fetchTranslation() async {
-    final text = widget.article.publication?.abstract ?? '';
-    if (text.isEmpty) return;
-
-    setState(() => _translating = true);
-
-    try {
-      final translated = await TranslationRepository.translateToEnglish(text);
-      if (mounted) setState(() => _summary = translated);
-    } finally {
-      if (mounted) setState(() => _translating = false);
-    }
-  }
+  const ArticleContentSectionMobileVersion({
+    super.key,
+    required this.article,
+    required this.store,
+  });
 
   String get _publicationLabel {
     final parts = <String>[];
-    final journal = widget.article.journal_name ?? '';
-    final volume = widget.article.volume ?? '';
-    final date = widget.article.publication?.publication_date;
+    final journal = article.journal_name ?? '';
+    final volume = article.volume ?? '';
+    final date = article.publication?.publication_date;
     if (journal.isNotEmpty) parts.add(journal);
     if (volume.isNotEmpty) parts.add('v.$volume');
-    final dateStr = date!.formattedDate();
-    if (dateStr.isNotEmpty) parts.add(dateStr);
+    if (date!.formattedDate().isNotEmpty) parts.add(date.formattedDate());
     return parts.join(', ');
   }
 
   @override
   Widget build(BuildContext context) {
-    final abstract = widget.article.publication?.abstract ?? '';
-    final areas = widget.article.publication?.research_areas ?? [];
+    final abstract = article.publication?.abstract ?? '';
+    final areas = article.publication?.research_areas ?? [];
     final pubLabel = _publicationLabel;
 
     return Container(
@@ -79,13 +54,25 @@ class _ArticleContentSectionMobileVersionState
             ),
             const SizedBox(height: 20),
           ],
-          if (abstract.isNotEmpty &&
-              (_translating || (_summary?.isNotEmpty == true))) ...[
-            const _SectionLabel(label: 'Summary'),
-            const SizedBox(height: 10),
-            _SummaryBody(translating: _translating, summary: _summary),
-            const SizedBox(height: 20),
-          ],
+          Observer(
+            builder: (_) {
+              final showSummary = abstract.isNotEmpty &&
+                  (store.translating || (store.summary?.isNotEmpty == true));
+              if (!showSummary) return const SizedBox.shrink();
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const _SectionLabel(label: 'Summary'),
+                  const SizedBox(height: 10),
+                  _SummaryBody(
+                    translating: store.translating,
+                    summary: store.summary,
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              );
+            },
+          ),
           const Divider(
               height: 1, thickness: 0.8, color: CustomColors.concrete_mist),
           const SizedBox(height: 16),

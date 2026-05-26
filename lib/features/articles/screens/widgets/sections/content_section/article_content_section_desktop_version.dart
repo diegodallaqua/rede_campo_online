@@ -1,49 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:rede_campo_online/core/utils/repositories/translation_repository.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../models/articles.dart';
+import '../../../../stores/article_details_store.dart';
 
-class ArticleContentSectionDesktopVersion extends StatefulWidget {
+class ArticleContentSectionDesktopVersion extends StatelessWidget {
   final Articles article;
+  final ArticleDetailsStore store;
 
-  const ArticleContentSectionDesktopVersion({super.key, required this.article});
-
-  @override
-  State<ArticleContentSectionDesktopVersion> createState() =>
-      _ArticleContentSectionDesktopVersionState();
-}
-
-class _ArticleContentSectionDesktopVersionState
-    extends State<ArticleContentSectionDesktopVersion> {
-  String? _summary;
-  bool _translating = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchTranslation();
-  }
-
-  Future<void> _fetchTranslation() async {
-    final text = widget.article.publication?.abstract ?? '';
-    if (text.isEmpty) return;
-
-    setState(() => _translating = true);
-
-    try {
-      final translated = await TranslationRepository.translateToEnglish(text);
-      if (mounted) setState(() => _summary = translated);
-    } finally {
-      if (mounted) setState(() => _translating = false);
-    }
-  }
+  const ArticleContentSectionDesktopVersion({
+    super.key,
+    required this.article,
+    required this.store,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final abstract = widget.article.publication?.abstract ?? '';
-    final showSummaryColumn =
-        abstract.isNotEmpty && (_translating || (_summary?.isNotEmpty == true));
+    final abstract = article.publication?.abstract ?? '';
 
     if (abstract.isEmpty) return const SizedBox.shrink();
 
@@ -55,49 +29,54 @@ class _ArticleContentSectionDesktopVersionState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (abstract.isNotEmpty) ...[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const _SectionLabel(label: 'Resumo'),
-                          const SizedBox(height: 14),
-                          Text(
-                            abstract,
-                            style: TextStyle(
-                              fontSize: 15,
-                              color:
-                                  CustomColors.vanilla_haze.withOpacity(0.85),
-                              height: 1.8,
-                            ),
-                            textAlign: TextAlign.justify,
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (showSummaryColumn) ...[
-                      const SizedBox(width: 48),
+              Observer(
+                builder: (_) {
+                  final showSummaryColumn = abstract.isNotEmpty &&
+                      (store.translating ||
+                          (store.summary?.isNotEmpty == true));
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const _SectionLabel(label: 'Summary'),
+                            const _SectionLabel(label: 'Resumo'),
                             const SizedBox(height: 14),
-                            _SummaryBody(
-                              translating: _translating,
-                              summary: _summary,
+                            Text(
+                              abstract,
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: CustomColors.vanilla_haze
+                                    .withOpacity(0.85),
+                                height: 1.8,
+                              ),
+                              textAlign: TextAlign.justify,
                             ),
                           ],
                         ),
                       ),
+                      if (showSummaryColumn) ...[
+                        const SizedBox(width: 48),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const _SectionLabel(label: 'Summary'),
+                              const SizedBox(height: 14),
+                              _SummaryBody(
+                                translating: store.translating,
+                                summary: store.summary,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ],
-                  ],
-                ),
-                const SizedBox(height: 32),
-              ],
+                  );
+                },
+              ),
+              const SizedBox(height: 32),
             ],
           ),
         ),
