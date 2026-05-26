@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/ui/listing_tiles/members/member_tile.dart';
+import '../../../../../core/ui/listing_tiles/contributors/contributor_tile.dart';
 import '../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../core/ui/widgets/arrow_button.dart';
 import '../../../../../core/ui/widgets/list_empty_state.dart';
-import '../../../../members/models/members.dart';
+import '../../../../../core/utils/models/contributor.dart';
 
-class ProjectMembersListWidgetMobileVersion extends StatefulWidget {
-  final List<Members> members;
+class ArticleAuthorsListWidgetDesktopVersion extends StatefulWidget {
+  final List<Contributors> contributors;
 
   static const double _cardWidth = 160.0;
   static const double _cardHeight = 220.0;
   static const double _gap = 12.0;
 
-  const ProjectMembersListWidgetMobileVersion({
+  const ArticleAuthorsListWidgetDesktopVersion({
     super.key,
-    required this.members,
+    required this.contributors,
   });
 
   @override
-  State<ProjectMembersListWidgetMobileVersion> createState() =>
-      _ProjectMembersListWidgetMobileVersionState();
+  State<ArticleAuthorsListWidgetDesktopVersion> createState() =>
+      _ArticleAuthorsListWidgetDesktopVersionState();
 }
 
-class _ProjectMembersListWidgetMobileVersionState
-    extends State<ProjectMembersListWidgetMobileVersion> {
+class _ArticleAuthorsListWidgetDesktopVersionState
+    extends State<ArticleAuthorsListWidgetDesktopVersion> {
   final ScrollController _scrollController = ScrollController();
   bool _canScrollLeft = false;
   bool _canScrollRight = true;
@@ -53,8 +53,8 @@ class _ProjectMembersListWidgetMobileVersionState
 
   void _scrollLeft() {
     final target = (_scrollController.offset -
-            ProjectMembersListWidgetMobileVersion._cardWidth -
-            ProjectMembersListWidgetMobileVersion._gap)
+            ArticleAuthorsListWidgetDesktopVersion._cardWidth -
+            ArticleAuthorsListWidgetDesktopVersion._gap)
         .clamp(0.0, _scrollController.position.maxScrollExtent);
     _scrollController.animateTo(
       target,
@@ -65,8 +65,8 @@ class _ProjectMembersListWidgetMobileVersionState
 
   void _scrollRight() {
     final target = (_scrollController.offset +
-            ProjectMembersListWidgetMobileVersion._cardWidth +
-            ProjectMembersListWidgetMobileVersion._gap)
+            ArticleAuthorsListWidgetDesktopVersion._cardWidth +
+            ArticleAuthorsListWidgetDesktopVersion._gap)
         .clamp(0.0, _scrollController.position.maxScrollExtent);
     _scrollController.animateTo(
       target,
@@ -77,27 +77,27 @@ class _ProjectMembersListWidgetMobileVersionState
 
   @override
   Widget build(BuildContext context) {
-    if (widget.members.isEmpty) {
+    if (widget.contributors.isEmpty) {
       return const ListEmptyState(
-        message: 'Nenhum membro vinculado a este projeto.',
+        message: 'Nenhum autor vinculado a este artigo.',
         messageColor: CustomColors.vanilla_haze,
         iconColor: CustomColors.vanilla_haze,
       );
     }
-    return _buildList(widget.members);
+    return _buildList(widget.contributors);
   }
 
-  Widget _buildList(List<Members> members) {
+  Widget _buildList(List<Contributors> contributors) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double availableWidth = constraints.maxWidth - 2 * 40 - 2 * 8;
         final int visibleCount =
-            ((availableWidth + ProjectMembersListWidgetMobileVersion._gap) /
-                    (ProjectMembersListWidgetMobileVersion._cardWidth +
-                        ProjectMembersListWidgetMobileVersion._gap))
+            ((availableWidth + ArticleAuthorsListWidgetDesktopVersion._gap) /
+                    (ArticleAuthorsListWidgetDesktopVersion._cardWidth +
+                        ArticleAuthorsListWidgetDesktopVersion._gap))
                 .floor()
-                .clamp(1, members.length);
-        final bool allFit = members.length <= visibleCount;
+                .clamp(1, contributors.length);
+        final bool allFit = contributors.length <= visibleCount;
 
         return Row(
           children: [
@@ -110,19 +110,19 @@ class _ProjectMembersListWidgetMobileVersionState
             const SizedBox(width: 8),
             Expanded(
               child: SizedBox(
-                height: ProjectMembersListWidgetMobileVersion._cardHeight,
+                height: ArticleAuthorsListWidgetDesktopVersion._cardHeight,
                 child: ListView.separated(
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
                   physics: const ClampingScrollPhysics(),
                   padding: const EdgeInsets.symmetric(vertical: 4),
-                  itemCount: members.length,
+                  itemCount: contributors.length,
                   separatorBuilder: (_, __) => const SizedBox(
-                    width: ProjectMembersListWidgetMobileVersion._gap,
+                    width: ArticleAuthorsListWidgetDesktopVersion._gap,
                   ),
-                  itemBuilder: (context, index) {
-                    return MemberTile(member: members[index]);
-                  },
+                  itemBuilder: (context, index) => ContributorTile(
+                    contributor: contributors[index],
+                  ),
                 ),
               ),
             ),

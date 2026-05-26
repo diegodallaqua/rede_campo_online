@@ -1,5 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:rede_campo_online/features/about_us/screens/about_us_screen.dart';
+import 'package:rede_campo_online/features/articles/models/articles.dart';
+import 'package:rede_campo_online/features/articles/screens/article_details_screen.dart';
 import 'package:rede_campo_online/features/home/screens/home_screen.dart';
 
 import '../features/projects/models/projects.dart';
@@ -13,6 +15,7 @@ abstract class AppRoutes {
   static const projects = '/projects';
   static const projectDetail = '/projects/:id';
   static const publications = '/publications';
+  static const articleDetail = '/publications/articles/:id';
 }
 
 final appRouter = GoRouter(
@@ -41,6 +44,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.publications,
       builder: (context, state) => const PublicationsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.articleDetail,
+      builder: (context, state) {
+        final extra = state.extra;
+        if (extra is! Articles) return const PublicationsScreen();
+        return ArticleDetailsScreen(article: extra);
+      },
     ),
   ],
 );

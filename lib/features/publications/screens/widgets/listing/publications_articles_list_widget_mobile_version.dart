@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rede_campo_online/app/router.dart';
 import 'package:rede_campo_online/core/ui/listing_tiles/articles/article_tile_mobile_version.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_empty_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_error_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_loading_state.dart';
+import 'package:rede_campo_online/features/articles/models/articles.dart';
 import 'package:rede_campo_online/features/articles/stores/articles_store.dart';
 
 class PublicationsArticlesListWidgetMobileVersion extends StatefulWidget {
@@ -92,8 +95,13 @@ class _PublicationsArticlesListWidgetMobileVersionState
       itemCount: articles.length,
       separatorBuilder: (_, __) => const SizedBox(height: 16),
       itemBuilder: (context, index) {
+        final Articles article = articles[index];
         return ArticleTileMobileVersion(
-          article: articles[index],
+          article: article,
+          onTap: () => context.push(
+            '/publications/articles/${article.publication?.id}',
+            extra: article,
+          ),
         );
       },
     );

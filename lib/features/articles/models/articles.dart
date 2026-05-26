@@ -24,7 +24,9 @@ class Articles {
 
   factory Articles.fromMap(Map<String, dynamic> map) {
     return Articles(
-      publication: map.containsKey('publication') && map['publication'] != null ? Publications.fromMap(map['publication'] ?? {}) : null,
+      publication: map.containsKey('publication') && map['publication'] != null
+          ? Publications.fromMap(map['publication'] ?? {})
+          : null,
       journal_name: (map['journal_name'] ?? '') as String,
       volume: (map['volume'] ?? '') as String,
       issue: (map['issue'] ?? '') as String,
@@ -34,11 +36,11 @@ class Articles {
   }
 
   Map<String, dynamic> toMap() => {
-    'publication_id': publication!.id,
-    'journal_name': journal_name!,
-    'volume': volume,
-    'issue': issue,
-    'pages': pages,
-    'publisher': publisher,
-  };
+        'publication_id': publication!.id,
+        'journal_name': journal_name!,
+        'volume': volume,
+        'issue': issue,
+        'pages': pages,
+        'publisher': publisher,
+      };
 }

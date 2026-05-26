@@ -36,8 +36,9 @@ class CoverPlaceholder extends StatelessWidget {
 
 class AvatarPlaceholder extends StatelessWidget {
   final String? name;
+  final Color? backgroundColor;
 
-  const AvatarPlaceholder({super.key, this.name});
+  const AvatarPlaceholder({super.key, this.name, this.backgroundColor});
 
   String get _initial {
     final trimmed = name?.trim() ?? '';
@@ -47,14 +48,15 @@ class AvatarPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: CustomColors.copper_spice.withOpacity(0.25),
+      color: backgroundColor?.withOpacity(0.25) ??
+          CustomColors.copper_spice.withOpacity(0.25),
       child: Center(
         child: Text(
           _initial,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.w700,
-            color: CustomColors.copper_spice,
+            color: backgroundColor ?? CustomColors.copper_spice,
           ),
         ),
       ),

@@ -1,30 +1,42 @@
 import 'package:flutter/material.dart';
 
-import '../../../../features/members/models/members.dart';
+import '../../../../core/utils/models/contributor.dart';
 import '../../../utils/placeholders.dart';
 import '../../theme/custom_colors.dart';
 
-class MemberTile extends StatelessWidget {
-  final Members member;
+class ContributorTile extends StatelessWidget {
+  final Contributors contributor;
   final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
 
-  final Color accentColor;
-
-  const MemberTile({
+  const ContributorTile({
     super.key,
-    required this.member,
+    required this.contributor,
     this.onTap,
     this.margin,
-    this.accentColor = CustomColors.fresh_sprout,
   });
 
   static const double _cardWidth = 160.0;
   static const double _avatarDiameter = 80.0;
   static const double _borderRadius = 14.0;
+  static const Color _accentColor = CustomColors.fresh_sprout;
+
+  bool get _isExternal => contributor.external_author != null;
+
+  String get _name =>
+      contributor.member?.name ?? contributor.external_author?.name ?? '—';
 
   bool get _hasValidPicture =>
-      member.profilePicture != null && member.profilePicture!.isNotEmpty;
+      contributor.member?.profilePicture != null &&
+      contributor.member!.profilePicture!.isNotEmpty;
+
+  String? get _subInfo {
+    final org = contributor.member?.organization?.name;
+    if (org != null && org.isNotEmpty) return org;
+    final orcid = contributor.external_author?.orcid;
+    if (orcid != null && orcid.isNotEmpty) return orcid;
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,22 +58,22 @@ class MemberTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(height: 3, color: accentColor),
+            Container(height: 3, color: _accentColor),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 14),
               child: Center(
                 child: _AvatarRing(
                   diameter: _avatarDiameter,
-                  ringColor: accentColor,
+                  ringColor: _accentColor,
                   child: _hasValidPicture
                       ? Image.network(
-                          member.profilePicture!,
+                          contributor.member!.profilePicture!,
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) => AvatarPlaceholder(
-                              name: member.name, backgroundColor: accentColor),
+                              name: _name, backgroundColor: _accentColor),
                         )
                       : AvatarPlaceholder(
-                          name: member.name, backgroundColor: accentColor),
+                          name: _name, backgroundColor: _accentColor),
                 ),
               ),
             ),
@@ -72,7 +84,7 @@ class MemberTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    member.name ?? '—',
+                    _name,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
@@ -83,17 +95,17 @@ class MemberTile extends StatelessWidget {
                       height: 1.3,
                     ),
                   ),
-                  if (member.memberRole?.name != null) ...[
+                  if (contributor.contributor_role?.name != null) ...[
                     const SizedBox(height: 6),
                     _RoleBadge(
-                      label: member.memberRole!.name!,
-                      color: accentColor,
+                      label: contributor.contributor_role!.name!,
+                      color: _accentColor,
                     ),
                   ],
-                  if (member.organization?.name != null) ...[
+                  if (_subInfo != null) ...[
                     const SizedBox(height: 4),
                     Text(
-                      member.organization!.name!,
+                      _subInfo!,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
@@ -103,6 +115,10 @@ class MemberTile extends StatelessWidget {
                         height: 1.35,
                       ),
                     ),
+                  ],
+                  if (_isExternal) ...[
+                    const SizedBox(height: 5),
+                    _ExternalBadge(),
                   ],
                 ],
               ),
@@ -184,6 +200,28 @@ class _RoleBadge extends StatelessWidget {
           fontSize: 10,
           fontWeight: FontWeight.w600,
           color: color,
+        ),
+      ),
+    );
+  }
+}
+
+class _ExternalBadge extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: CustomColors.concrete_mist.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        'Externo',
+        style: TextStyle(
+          fontSize: 9,
+          fontWeight: FontWeight.w600,
+          color: CustomColors.pine_shadow.withOpacity(0.5),
+          letterSpacing: 0.3,
         ),
       ),
     );
