@@ -86,7 +86,7 @@ class ArticleTileMobileVersion extends StatelessWidget {
                     Row(
                       children: [
                         const Icon(
-                          Icons.article_outlined,
+                          Icons.menu_book_outlined,
                           size: 12,
                           color: CustomColors.pine_shadow,
                         ),

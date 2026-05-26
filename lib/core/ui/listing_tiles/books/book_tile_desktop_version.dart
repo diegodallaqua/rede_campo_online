@@ -15,7 +15,6 @@ class BookTileDesktopVersion extends StatelessWidget {
     this.margin,
   });
 
-  static const double _cardWidth = 220.0;
   static const double _coverHeight = 140.0;
   static const double _borderRadius = 12.0;
 
@@ -41,7 +40,6 @@ class BookTileDesktopVersion extends StatelessWidget {
     final year = date != null ? date.year.toString() : '';
 
     final card = Container(
-      width: _cardWidth,
       decoration: BoxDecoration(
         color: CustomColors.honey_cream,
         borderRadius: BorderRadius.circular(_borderRadius),
@@ -56,59 +54,60 @@ class BookTileDesktopVersion extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
             height: _coverHeight,
             child: _buildCover(book.cover_photo),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: CustomColors.pine_shadow,
-                    height: 1.35,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Divider(
-                  height: 1,
-                  thickness: 0.8,
-                  color: CustomColors.concrete_mist,
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.business_outlined,
-                      size: 13,
-                      color: CustomColors.pine_shadow,
-                    ),
-                    const SizedBox(width: 5),
-                    Expanded(
-                      child: Text(
-                        publisher.isNotEmpty ? publisher : '—',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: CustomColors.pine_shadow,
-                          height: 1.3,
-                        ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 38,
+                    child: Text(
+                      title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: CustomColors.pine_shadow,
+                        height: 1.35,
                       ),
                     ),
-                  ],
-                ),
-                if (edition.isNotEmpty || year.isNotEmpty) ...[
+                  ),
+                  const SizedBox(height: 10),
+                  const Divider(
+                    height: 1,
+                    thickness: 0.8,
+                    color: CustomColors.concrete_mist,
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.business_outlined,
+                        size: 13,
+                        color: CustomColors.pine_shadow,
+                      ),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text(
+                          publisher.isNotEmpty ? publisher : '—',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: CustomColors.pine_shadow,
+                            height: 1.3,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 5),
                   Row(
                     children: [
@@ -118,15 +117,14 @@ class BookTileDesktopVersion extends StatelessWidget {
                         color: CustomColors.pine_shadow,
                       ),
                       const SizedBox(width: 5),
-                      if (year.isNotEmpty)
-                        Text(
-                          year,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: CustomColors.pine_shadow,
-                            height: 1.3,
-                          ),
+                      Text(
+                        year.isNotEmpty ? year : '—',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: CustomColors.pine_shadow,
+                          height: 1.3,
                         ),
+                      ),
                       if (edition.isNotEmpty) ...[
                         const SizedBox(width: 6),
                         Expanded(
@@ -144,37 +142,37 @@ class BookTileDesktopVersion extends StatelessWidget {
                       ],
                     ],
                   ),
-                ],
-                const SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton(
-                    onPressed: onTap,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: CustomColors.copper_spice,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 7,
+                  const Spacer(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton(
+                      onPressed: onTap,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: CustomColors.copper_spice,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 7,
+                        ),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        elevation: 0,
                       ),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: const Text(
-                      'SAIBA MAIS',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.5,
+                      child: const Text(
+                        'SAIBA MAIS',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

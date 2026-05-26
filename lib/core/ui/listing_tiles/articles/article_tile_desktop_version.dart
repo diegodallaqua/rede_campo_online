@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../features/articles/models/articles.dart';
 import '../../theme/custom_colors.dart';
+import '../../widgets/custom_chip.dart';
 
 class ArticleTileDesktopVersion extends StatelessWidget {
   final Articles article;
@@ -14,93 +15,166 @@ class ArticleTileDesktopVersion extends StatelessWidget {
     this.margin,
   });
 
+  static const double _borderRadius = 12.0;
+  static const double _accentHeight = 3.0;
+
   @override
   Widget build(BuildContext context) {
-    const double cardHeight = 180.0;
-    const double cardWidth = 300.0;
-    const double horizontalPadding = 16;
-    const double verticalPadding = 16;
-    const double titleFontSize = 20;
-    const double textFontSize = 16;
-    const double borderRadius = 12;
+    final pub = article.publication;
+    final title = pub?.title ?? '—';
+    final journal = article.journal_name ?? '';
+    final volume = article.volume ?? '';
+    final issue = article.issue ?? '';
+    final pages = article.pages ?? '';
+    final year = pub?.publication_date?.year.toString() ?? '';
+    final areas = pub?.research_areas
+            ?.map((e) => e.name ?? '')
+            .where((n) => n.isNotEmpty)
+            .take(2)
+            .toList() ??
+        [];
+
+    final volumeLabel = [
+      if (volume.isNotEmpty) 'vol. $volume',
+      if (issue.isNotEmpty) 'n. $issue',
+    ].join('  ');
+
+    final pagesLabel = pages.isNotEmpty ? 'pp. $pages' : '';
 
     final content = Container(
-      width: cardWidth,
-      height: cardHeight,
-      padding: const EdgeInsets.symmetric(
-        horizontal: horizontalPadding,
-        vertical: verticalPadding,
-      ),
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: CustomColors.vanilla_haze,
-        borderRadius: BorderRadius.circular(borderRadius),
+        borderRadius: BorderRadius.circular(_borderRadius),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            article.publication!.title!,
-            textAlign: TextAlign.center,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: titleFontSize,
-              fontWeight: FontWeight.w700,
-              color: CustomColors.pine_shadow,
-              height: 1.2,
-            ),
+          Container(
+            height: _accentHeight,
+            color: CustomColors.fresh_sprout,
           ),
-          const SizedBox(height: 10),
-          /*RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              style: const TextStyle(
-                fontSize: textFontSize,
-                color: CustomColors.pine_shadow,
-                height: 1.35,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(14, 10, 14, 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.article_outlined,
+                        size: 12,
+                        color: CustomColors.fresh_sprout,
+                      ),
+                      const SizedBox(width: 5),
+                      const Text(
+                        'ARTIGO',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: CustomColors.fresh_sprout,
+                          letterSpacing: 0.6,
+                        ),
+                      ),
+                      if (year.isNotEmpty) ...[
+                        const Spacer(),
+                        CustomChip(
+                          label: year,
+                          color: CustomColors.pine_shadow,
+                        ),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: CustomColors.pine_shadow,
+                      height: 1.35,
+                    ),
+                  ),
+                  if (areas.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    Row(
+                      children: areas
+                          .map(
+                            (area) => Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: CustomChip(
+                                label: area,
+                                color: CustomColors.fresh_sprout,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ],
+                  const Spacer(),
+                  const Divider(
+                    height: 1,
+                    thickness: 0.8,
+                    color: CustomColors.concrete_mist,
+                  ),
+                  const SizedBox(height: 7),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.menu_book_outlined,
+                        size: 12,
+                        color: CustomColors.pine_shadow,
+                      ),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text(
+                          journal.isNotEmpty ? journal : '—',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: CustomColors.pine_shadow,
+                            height: 1.3,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (volumeLabel.isNotEmpty || pagesLabel.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        if (volumeLabel.isNotEmpty)
+                          CustomChip(
+                            label: volumeLabel,
+                            color: CustomColors.pine_shadow,
+                          ),
+                        if (volumeLabel.isNotEmpty && pagesLabel.isNotEmpty)
+                          const SizedBox(width: 6),
+                        if (pagesLabel.isNotEmpty)
+                          Text(
+                            pagesLabel,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: CustomColors.pine_shadow.withOpacity(0.6),
+                              height: 1.3,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ],
               ),
-              children: [
-                const TextSpan(
-                  text: 'Autores: ',
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
-                TextSpan(
-                  text: () {
-                    final areas = article.publication!.research_areas!
-                        .map((e) => e.name ?? '')
-                        .where((name) => name.isNotEmpty)
-                        .toList();
-
-                    if (areas.length > 2) {
-                      return '${areas.take(2).join(', ')}...';
-                    }
-                    return areas.join(', ');
-                  }(),
-                  style: const TextStyle(fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 6),*/
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              style: const TextStyle(
-                fontSize: textFontSize,
-                color: CustomColors.pine_shadow,
-                height: 1.35,
-              ),
-              children: [
-                const TextSpan(
-                  text: 'Local de Publicação: ',
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
-                TextSpan(
-                  text: article.journal_name,
-                  style: const TextStyle(fontWeight: FontWeight.w400),
-                ),
-              ],
             ),
           ),
         ],
@@ -112,13 +186,13 @@ class ArticleTileDesktopVersion extends StatelessWidget {
       child: onTap == null
           ? content
           : Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(borderRadius),
-          onTap: onTap,
-          child: content,
-        ),
-      ),
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(_borderRadius),
+                onTap: onTap,
+                child: content,
+              ),
+            ),
     );
   }
 }

@@ -10,10 +10,15 @@ import 'package:responsive_framework/responsive_framework.dart';
 import '../../../core/ui/layout/app_scaffold.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 import 'widgets/sections/header_section/publications_header_section_mobile_version.dart';
+import 'widgets/sections/header_section/publications_header_section_desktop_version.dart';
 import 'widgets/sections/articles_section/publications_articles_section_mobile_version.dart';
+import 'widgets/sections/articles_section/publications_articles_section_desktop_version.dart';
 import 'widgets/sections/technical_reports_section/publications_technical_reports_section_mobile_version.dart';
+import 'widgets/sections/technical_reports_section/publications_technical_reports_section_desktop_version.dart';
 import 'widgets/sections/books_section/publications_books_section_mobile_version.dart';
+import 'widgets/sections/books_section/publications_books_section_desktop_version.dart';
 import 'widgets/sections/book_chapters_section/publications_book_chapters_section_mobile_version.dart';
+import 'widgets/sections/book_chapters_section/publications_book_chapters_section_desktop_version.dart';
 
 class PublicationsScreen extends StatefulWidget {
   const PublicationsScreen({super.key});
@@ -23,6 +28,7 @@ class PublicationsScreen extends StatefulWidget {
 }
 
 class _PublicationsScreenState extends State<PublicationsScreen> {
+  // Mobile stores
   final ArticlesStore _articlesStore = ArticlesStore(pageSize: 4);
   final TechnicalReportsStore _technicalReportsStore =
       TechnicalReportsStore(pageSize: 4);
@@ -30,9 +36,20 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
   final BookChaptersStore _bookChaptersStore = BookChaptersStore(pageSize: 3);
   final TextEditingController _searchController = TextEditingController();
 
+  // Desktop stores
+  final ArticlesStore _articlesStoreDesktop = ArticlesStore(pageSize: 8);
+  final TechnicalReportsStore _technicalReportsStoreDesktop =
+      TechnicalReportsStore(pageSize: 8);
+  final BooksStore _booksStoreDesktop = BooksStore(pageSize: 10);
+  final BookChaptersStore _bookChaptersStoreDesktop =
+      BookChaptersStore(pageSize: 8);
+  final TextEditingController _searchControllerDesktop =
+      TextEditingController();
+
   @override
   void dispose() {
     _searchController.dispose();
+    _searchControllerDesktop.dispose();
     super.dispose();
   }
 
@@ -42,6 +59,14 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
     _technicalReportsStore.setFilter(filter);
     _booksStore.setFilter(filter);
     _bookChaptersStore.setFilter(filter);
+  }
+
+  void _onSearchDesktop(String value) {
+    final filter = FilterSearchStore()..setSearch(value);
+    _articlesStoreDesktop.setFilter(filter);
+    _technicalReportsStoreDesktop.setFilter(filter);
+    _booksStoreDesktop.setFilter(filter);
+    _bookChaptersStoreDesktop.setFilter(filter);
   }
 
   @override
@@ -88,12 +113,35 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
             ],
           ),
         ),
-        child: const SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Desktop version — a implementar
+              const PublicationsHeaderSectionDesktopVersion(),
+              ColoredBox(
+                color: CustomColors.midnight_slate,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    PublicationsArticlesSectionDesktopVersion(
+                      articlesStore: _articlesStoreDesktop,
+                      searchController: _searchControllerDesktop,
+                      onSearch: _onSearchDesktop,
+                    ),
+                    PublicationsTechnicalReportsSectionDesktopVersion(
+                      technicalReportsStore: _technicalReportsStoreDesktop,
+                    ),
+                  ],
+                ),
+              ),
+              PublicationsBooksSectionDesktopVersion(
+                booksStore: _booksStoreDesktop,
+              ),
+              PublicationsBookChaptersSectionDesktopVersion(
+                bookChaptersStore: _bookChaptersStoreDesktop,
+              ),
+              const Footer(),
             ],
           ),
         ),
