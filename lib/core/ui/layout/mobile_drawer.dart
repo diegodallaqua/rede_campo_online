@@ -15,7 +15,7 @@ class MobileDrawer extends StatelessWidget {
     _MenuItem(label: 'Projetos', route: AppRoutes.projects),
     _MenuItem(label: 'Publicações', route: AppRoutes.publications),
     _MenuItem(label: 'Eventos', route: null),
-    _MenuItem(label: 'Notícias', route: null),
+    _MenuItem(label: 'Notícias', route: AppRoutes.news),
   ];
 
   @override

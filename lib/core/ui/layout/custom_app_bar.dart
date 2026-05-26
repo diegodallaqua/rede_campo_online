@@ -62,7 +62,7 @@ class _DesktopNavLinks extends StatelessWidget {
     _NavItem(label: 'Projetos', route: AppRoutes.projects),
     _NavItem(label: 'Publicações', route: AppRoutes.publications),
     _NavItem(label: 'Eventos'),
-    _NavItem(label: 'Notícias'),
+    _NavItem(label: 'Notícias', route: AppRoutes.news),
   ];
 
   @override

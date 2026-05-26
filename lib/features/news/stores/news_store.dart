@@ -14,9 +14,11 @@ class NewsStore = NewsStoreBase with _$NewsStore;
 abstract class NewsStoreBase extends BaseStore<News> with Store {
  final NewsRepository _repository = NewsRepository();
 
- NewsStoreBase() {
+ NewsStoreBase({this.pageSize = 15}) {
   loadData();
  }
+
+ final int pageSize;
 
  @observable
  FilterSearchStore filterStore = FilterSearchStore();
@@ -71,6 +73,14 @@ abstract class NewsStoreBase extends BaseStore<News> with Store {
   }
  }
 
+ void goToPage(int targetPage) {
+  if (loading || targetPage == _page) return;
+  setPage(targetPage);
+  setLastPage(false);
+  setData([]);
+  loadData();
+ }
+
  @action
  Future<void> refreshData() async {
   await Future.delayed(const Duration(milliseconds: 100));
@@ -86,7 +96,7 @@ abstract class NewsStoreBase extends BaseStore<News> with Store {
 
  @action
  void _addNewItems(List<News> newItems) {
-  if (newItems.length < 15) _lastPage = true;
+  if (newItems.length < pageSize) _lastPage = true;
   list.addAll(newItems);
  }
 
@@ -97,9 +107,10 @@ abstract class NewsStoreBase extends BaseStore<News> with Store {
         () => _repository.findAllNews(
      page: _page,
      filterSearchStore: filterStore,
+     take: pageSize,
     ),
    );
-   if (list.length < 15) _lastPage = true;
+   if (list.length < pageSize) _lastPage = true;
   } else {
    // Páginas subsequentes, sem cache para não conflitar.
    setLoading(true);
@@ -107,6 +118,7 @@ abstract class NewsStoreBase extends BaseStore<News> with Store {
     final result = await _repository.findAllNews(
      page: _page,
      filterSearchStore: filterStore,
+     take: pageSize,
     );
     _addNewItems(result);
    } catch (e, s) {

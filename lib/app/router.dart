@@ -10,6 +10,7 @@ import 'package:rede_campo_online/features/home/screens/home_screen.dart';
 import 'package:rede_campo_online/features/technical_reports/models/technical_reports.dart';
 import 'package:rede_campo_online/features/technical_reports/screens/technical_report_details_screen.dart';
 
+import '../features/news/screens/news_screen.dart';
 import '../features/projects/models/projects.dart';
 import '../features/projects/screens/project_details_screen.dart';
 import '../features/projects/screens/projects_screen.dart';
@@ -20,6 +21,7 @@ abstract class AppRoutes {
   static const aboutUs = '/sobre-nos';
   static const projects = '/projects';
   static const projectDetail = '/projects/:id';
+  static const news = '/news';
   static const publications = '/publications';
   static const articleDetail = '/publications/articles/:id';
   static const technicalReportDetail = '/publications/technical-reports/:id';
@@ -49,6 +51,10 @@ final appRouter = GoRouter(
         if (extra is! Projects) return const ProjectsScreen();
         return ProjectDetailsScreen(project: extra);
       },
+    ),
+    GoRoute(
+      path: AppRoutes.news,
+      builder: (context, state) => const NewsScreen(),
     ),
     GoRoute(
       path: AppRoutes.publications,

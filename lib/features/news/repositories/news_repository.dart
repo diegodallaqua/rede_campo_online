@@ -45,11 +45,12 @@ class NewsRepository {
   }
 
   Future<List<News>> findAllNews(
-      {int? page = 1, FilterSearchStore? filterSearchStore}) async {
+      {int? page = 1, FilterSearchStore? filterSearchStore, int take = 15}) async {
     final token = await TokenRepository().getToken();
 
     final url = Uri.parse('$baseURL$newsURL').replace(queryParameters: {
       'page': '$page',
+      'take': '$take',
       if (filterSearchStore != null && filterSearchStore.search.isNotEmpty)
         'search': filterSearchStore.search,
     });

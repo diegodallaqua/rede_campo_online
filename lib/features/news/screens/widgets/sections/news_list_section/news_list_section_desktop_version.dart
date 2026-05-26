@@ -1,15 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../../../app/router.dart';
-import '../../../../../../core/ui/theme/custom_colors.dart';
-import '../../../../../news/stores/news_store.dart';
-import '../../listing/recent_news_list_widget_desktop_version.dart';
+import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
+import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
+import 'package:rede_campo_online/features/news/stores/news_store.dart';
+import '../../listing/news_list_widget_desktop_version.dart';
 
-class HomeRecentNewsSectionDesktopVersion extends StatelessWidget {
+class NewsListSectionDesktopVersion extends StatefulWidget {
   final NewsStore newsStore;
 
-  const HomeRecentNewsSectionDesktopVersion(
-      {super.key, required this.newsStore});
+  const NewsListSectionDesktopVersion({super.key, required this.newsStore});
+
+  @override
+  State<NewsListSectionDesktopVersion> createState() =>
+      _NewsListSectionDesktopVersionState();
+}
+
+class _NewsListSectionDesktopVersionState
+    extends State<NewsListSectionDesktopVersion> {
+  final TextEditingController _searchController = TextEditingController();
+  int _maxDiscoveredPage = 1;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearch(String value) {
+    widget.newsStore.filterStore.setSearch(value);
+    widget.newsStore.refreshData();
+    setState(() => _maxDiscoveredPage = 1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +50,7 @@ class HomeRecentNewsSectionDesktopVersion extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Notícias Recentes',
+                          'Notícias',
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.w700,
@@ -49,29 +69,26 @@ class HomeRecentNewsSectionDesktopVersion extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Spacer(),
-                    TextButton.icon(
-                      onPressed: () => context.go(AppRoutes.news),
-                      icon: const Text(
-                        'Ver todas',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: CustomColors.concrete_mist,
-                        ),
-                      ),
-                      label: const Icon(
-                        Icons.arrow_forward_rounded,
-                        size: 16,
-                        color: CustomColors.concrete_mist,
+                    const SizedBox(width: 32),
+                    Expanded(
+                      child: CustomSearchBar(
+                        controller: _searchController,
+                        onSubmitted: _onSearch,
                       ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
-              RecentNewsListWidgetDesktopVersion(
-                  newsStore: newsStore, totalCount: 10),
+              NewsListWidgetDesktopVersion(
+                newsStore: widget.newsStore,
+                maxDiscoveredPage: _maxDiscoveredPage,
+                onPageDiscovered: (newMax) {
+                  if (newMax != _maxDiscoveredPage) {
+                    setState(() => _maxDiscoveredPage = newMax);
+                  }
+                },
+              ),
             ],
           ),
         ),
