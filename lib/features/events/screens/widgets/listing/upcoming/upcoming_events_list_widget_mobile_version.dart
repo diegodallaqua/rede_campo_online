@@ -1,40 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:go_router/go_router.dart';
-import 'package:rede_campo_online/app/router.dart';
-import 'package:rede_campo_online/core/ui/listing_tiles/news/news_tile_mobile_version.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_empty_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_error_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_loading_state.dart';
-import 'package:rede_campo_online/features/news/models/news.dart';
-import 'package:rede_campo_online/features/news/stores/news_store.dart';
+import 'package:rede_campo_online/core/ui/listing_tiles/events/event_tile_mobile_version.dart';
+import 'package:rede_campo_online/features/events/models/events.dart';
+import 'package:rede_campo_online/features/events/models/events_media.dart';
+import 'package:rede_campo_online/features/events/stores/events_store.dart';
 
-class NewsListWidgetMobileVersion extends StatefulWidget {
-  final NewsStore newsStore;
+class UpcomingEventsListWidgetMobileVersion extends StatefulWidget {
+  final EventsStore eventsStore;
   final int maxDiscoveredPage;
   final ValueChanged<int> onPageDiscovered;
 
-  const NewsListWidgetMobileVersion({
+  const UpcomingEventsListWidgetMobileVersion({
     super.key,
-    required this.newsStore,
+    required this.eventsStore,
     required this.maxDiscoveredPage,
     required this.onPageDiscovered,
   });
 
   @override
-  State<NewsListWidgetMobileVersion> createState() =>
-      _NewsListWidgetMobileVersionState();
+  State<UpcomingEventsListWidgetMobileVersion> createState() =>
+      _UpcomingEventsListWidgetMobileVersionState();
 }
 
-class _NewsListWidgetMobileVersionState
-    extends State<NewsListWidgetMobileVersion> {
+class _UpcomingEventsListWidgetMobileVersionState
+    extends State<UpcomingEventsListWidgetMobileVersion> {
   void _notifyPageDiscovered(int discovered) {
     final shouldGrow = discovered > widget.maxDiscoveredPage;
     final shouldShrink =
-        widget.newsStore.lastPage && discovered < widget.maxDiscoveredPage;
+        widget.eventsStore.lastPage && discovered < widget.maxDiscoveredPage;
     if (shouldGrow || shouldShrink) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         widget.onPageDiscovered(discovered);
@@ -46,84 +45,93 @@ class _NewsListWidgetMobileVersionState
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        if (!widget.newsStore.loading && widget.newsStore.list.isNotEmpty) {
+        if (!widget.eventsStore.loading && widget.eventsStore.list.isNotEmpty) {
           final discovered =
-              widget.newsStore.page + (widget.newsStore.lastPage ? 0 : 1);
+              widget.eventsStore.page + (widget.eventsStore.lastPage ? 0 : 1);
           _notifyPageDiscovered(discovered);
         }
 
-        final showPagination = widget.newsStore.list.isNotEmpty &&
-            (!widget.newsStore.lastPage ||
-                widget.newsStore.page > 1 ||
-                widget.maxDiscoveredPage > 1);
+        if (widget.eventsStore.showProgress) {
+          return const ListLoadingState(height: 200);
+        }
 
-        final mediaMap = widget.newsStore.mediaMap;
+        if (widget.eventsStore.error != null &&
+            widget.eventsStore.list.isEmpty) {
+          return ListErrorState(
+            message: 'Não foi possível carregar os próximos eventos.',
+            onRetry: widget.eventsStore.loadUpcoming,
+            iconColor: CustomColors.copper_spice,
+            messageColor: CustomColors.vanilla_haze,
+            height: 200,
+          );
+        }
+
+        if (widget.eventsStore.list.isEmpty) {
+          return const ListEmptyState(
+            message: 'Nenhum próximo evento encontrado.',
+            messageColor: CustomColors.vanilla_haze,
+            iconColor: CustomColors.concrete_mist,
+            height: 200,
+          );
+        }
+
+        final currentPage = widget.eventsStore.page;
+        final isLastPage = widget.eventsStore.lastPage;
+        final isLoading = widget.eventsStore.loading;
+        final events = widget.eventsStore.list;
+        final mediaMap = widget.eventsStore.mediaMap;
+
+        final knownFromStore = isLastPage ? currentPage : currentPage + 1;
+        final effectiveMaxPage = widget.maxDiscoveredPage > knownFromStore
+            ? widget.maxDiscoveredPage
+            : knownFromStore;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (widget.newsStore.showProgress)
-              const ListLoadingState()
-            else if (widget.newsStore.error != null &&
-                widget.newsStore.list.isEmpty)
-              ListErrorState(
-                message: 'Não foi possível carregar as notícias.',
-                onRetry: widget.newsStore.refreshData,
-                iconColor: CustomColors.copper_spice,
-                messageColor: CustomColors.vanilla_haze,
-              )
-            else if (widget.newsStore.list.isEmpty)
-              const ListEmptyState(
-                message: 'Nenhuma notícia encontrada.',
-              )
-            else
-              _buildList(mediaMap),
-            if (showPagination) ...[
-              const SizedBox(height: 24),
-              _buildPageCarousel(),
-            ],
+            _buildGrid(events, mediaMap),
+            const SizedBox(height: 16),
+            _buildPageCarousel(
+              currentPage: currentPage,
+              effectiveMaxPage: effectiveMaxPage,
+              isLastPage: isLastPage,
+              isLoading: isLoading,
+            ),
           ],
         );
       },
     );
   }
 
-  Widget _buildList(Map<int, dynamic> mediaMap) {
-    final newsList = widget.newsStore.list;
-    return ListView.separated(
+  Widget _buildGrid(List<Events> events, Map<int, EventMedia> mediaMap) {
+    return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
-      itemCount: newsList.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 0.72,
+      ),
+      itemCount: events.length,
       itemBuilder: (context, index) {
-        final news = newsList[index];
-        return NewsTileMobileVersion(
-          news: news,
-          newsMedia: news.id != null ? mediaMap[news.id] : null,
-          onTap: () => _onNewsTap(news),
+        final event = events[index];
+        return EventTileMobileVersion(
+          event: event,
+          eventMedia: event.id != null ? mediaMap[event.id] : null,
+          pinInfoToBottom: true,
         );
       },
     );
   }
 
-  void _onNewsTap(News news) {
-    context.go(
-      AppRoutes.newsDetail.replaceFirst(':id', '${news.id}'),
-      extra: news,
-    );
-  }
-
-  Widget _buildPageCarousel() {
-    final currentPage = widget.newsStore.page;
-    final isLastPage = widget.newsStore.lastPage;
-    final isLoading = widget.newsStore.loading;
-
-    final knownFromStore = isLastPage ? currentPage : currentPage + 1;
-    final effectiveMaxPage = widget.maxDiscoveredPage > knownFromStore
-        ? widget.maxDiscoveredPage
-        : knownFromStore;
-
+  Widget _buildPageCarousel({
+    required int currentPage,
+    required int effectiveMaxPage,
+    required bool isLastPage,
+    required bool isLoading,
+  }) {
     return Center(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -133,7 +141,7 @@ class _NewsListWidgetMobileVersionState
             ArrowButton(
               icon: Icons.chevron_left_rounded,
               enabled: !isLoading && currentPage > 1,
-              onTap: () => widget.newsStore.goToPage(currentPage - 1),
+              onTap: () => widget.eventsStore.goToPage(currentPage - 1),
               iconColor: CustomColors.midnight_slate,
               disabledIconColor: CustomColors.concrete_mist,
               backgroundColor: Colors.white,
@@ -150,14 +158,14 @@ class _NewsListWidgetMobileVersionState
                 page: page,
                 isActive: page == currentPage,
                 enabled: !isLoading,
-                onTap: () => widget.newsStore.goToPage(page),
+                onTap: () => widget.eventsStore.goToPage(page),
               );
             }),
             if (!isLastPage)
               ArrowButton(
                 icon: Icons.chevron_right_rounded,
                 enabled: !isLoading,
-                onTap: () => widget.newsStore.goToPage(currentPage + 1),
+                onTap: () => widget.eventsStore.goToPage(currentPage + 1),
                 iconColor: CustomColors.midnight_slate,
                 disabledIconColor: CustomColors.concrete_mist,
                 backgroundColor: Colors.white,

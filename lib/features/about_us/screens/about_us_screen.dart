@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rede_campo_online/core/ui/layout/footer.dart';
+import 'package:rede_campo_online/core/ui/widgets/layout/footer.dart';
 import 'package:rede_campo_online/features/about_us/screens/widgets/sections/content_section/about_us_content_section_desktop_version.dart';
 import 'package:rede_campo_online/features/about_us/screens/widgets/sections/content_section/about_us_content_section_mobile_version.dart';
 import 'package:rede_campo_online/features/about_us/screens/widgets/sections/header_section/about_us_header_section_desktop_version.dart';
@@ -12,7 +12,7 @@ import 'package:rede_campo_online/features/about_us/screens/widgets/sections/par
 import 'package:rede_campo_online/features/about_us/screens/widgets/sections/partners_section/about_us_partners_section_mobile_version.dart';
 import 'package:rede_campo_online/features/members/stores/members_store.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import '../../../core/ui/layout/app_scaffold.dart';
+import '../../../core/ui/widgets/layout/app_scaffold.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 
 class AboutUsScreen extends StatelessWidget {

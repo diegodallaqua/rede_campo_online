@@ -50,10 +50,10 @@ abstract class ProjectDetailStoreBase with Store {
   @readonly
   String? _eventsError;
 
-  Future<void> loadData() => Future.wait([_loadMedia(), _loadEvents()]);
+  Future<void> loadData() => Future.wait([loadMedia(), loadEvents()]);
 
   @action
-  Future<void> _loadMedia() async {
+  Future<void> loadMedia() async {
     _mediaLoading = true;
     _mediaError = null;
     try {
@@ -74,7 +74,7 @@ abstract class ProjectDetailStoreBase with Store {
   }
 
   @action
-  Future<void> _loadEvents() async {
+  Future<void> loadEvents() async {
     _eventsLoading = true;
     _eventsError = null;
     try {
@@ -108,7 +108,7 @@ abstract class ProjectDetailStoreBase with Store {
     }
   }
 
-  Future<void> refreshMedia() => _loadMedia();
+  Future<void> refreshMedia() => loadMedia();
 
-  Future<void> refreshEvents() => _loadEvents();
+  Future<void> refreshEvents() => loadEvents();
 }

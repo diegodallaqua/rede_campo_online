@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
+import 'package:rede_campo_online/core/ui/widgets/custom_row.dart';
 
 import '../../../../features/events/models/events.dart';
 import '../../../../features/events/models/events_media.dart';
@@ -11,11 +12,14 @@ class EventTileMobileVersion extends StatelessWidget {
   final EventMedia? eventMedia;
   final VoidCallback? onTap;
 
+  final bool pinInfoToBottom;
+
   const EventTileMobileVersion({
     super.key,
     required this.event,
     this.eventMedia,
     this.onTap,
+    this.pinInfoToBottom = false,
   });
 
   @override
@@ -24,6 +28,87 @@ class EventTileMobileVersion extends StatelessWidget {
     const double borderRadius = 12.0;
 
     final hasImage = eventMedia?.media != null && eventMedia!.media!.isNotEmpty;
+
+    final description = event.description?.trim();
+    final hasDescription = description != null && description.isNotEmpty;
+
+    final titleAndDescription = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          event.name ?? '—',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            color: CustomColors.pine_shadow,
+            height: 1.3,
+          ),
+        ),
+        if (hasDescription) ...[
+          const SizedBox(height: 3),
+          Text(
+            description,
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 10.5,
+              fontWeight: FontWeight.w400,
+              color: CustomColors.midnight_slate,
+              height: 1.25,
+            ),
+          ),
+        ],
+      ],
+    );
+
+    final infoRows = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        CustomRow(
+          icon: Icons.calendar_today_outlined,
+          text: event.date!.formattedDate(),
+          iconSize: 11,
+          fontSize: 11,
+        ),
+        const SizedBox(height: 2),
+        CustomRow(
+          icon: Icons.location_on_outlined,
+          text: formattedLocation(event.address),
+          iconSize: 11,
+          fontSize: 11,
+        ),
+      ],
+    );
+
+    final textBody = pinInfoToBottom
+        ? Expanded(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  titleAndDescription,
+                  infoRows,
+                ],
+              ),
+            ),
+          )
+        : Padding(
+            padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                titleAndDescription,
+                const SizedBox(height: 4),
+                infoRows,
+              ],
+            ),
+          );
 
     final content = Container(
       decoration: BoxDecoration(
@@ -49,35 +134,7 @@ class EventTileMobileVersion extends StatelessWidget {
                   : const ImagePlaceholder(),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  event.name ?? '—',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: CustomColors.pine_shadow,
-                    height: 1.3,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                _InfoRow(
-                  icon: Icons.calendar_today_outlined,
-                  label: event.date!.formattedDate(),
-                ),
-                const SizedBox(height: 2),
-                _InfoRow(
-                  icon: Icons.location_on_outlined,
-                  label: formattedLocation(event.address),
-                ),
-              ],
-            ),
-          ),
+          textBody,
         ],
       ),
     );
@@ -91,36 +148,6 @@ class EventTileMobileVersion extends StatelessWidget {
         onTap: onTap,
         child: content,
       ),
-    );
-  }
-}
-
-class _InfoRow extends StatelessWidget {
-  final IconData icon;
-  final String label;
-
-  const _InfoRow({required this.icon, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 11, color: CustomColors.copper_spice),
-        const SizedBox(width: 4),
-        Expanded(
-          child: Text(
-            label,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 11,
-              color: CustomColors.pine_shadow,
-              height: 1.4,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

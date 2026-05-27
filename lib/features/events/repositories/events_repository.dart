@@ -27,9 +27,12 @@ class EventsRepository {
 
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
-        final List<dynamic> data =
-            decoded is List ? decoded : (decoded['data'] as List<dynamic>? ?? []);
-        return data.map((e) => Events.fromMap(e as Map<String, dynamic>)).toList();
+        final List<dynamic> data = decoded is List
+            ? decoded
+            : (decoded['data'] as List<dynamic>? ?? []);
+        return data
+            .map((e) => Events.fromMap(e as Map<String, dynamic>))
+            .toList();
       } else {
         return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
       }
@@ -40,6 +43,87 @@ class EventsRepository {
         stackTrace: s,
       );
       return Future.error('Erro ao buscar eventos do projeto');
+    }
+  }
+
+  Future<List<Events>> findUpcomingEvents({int page = 1, int take = 4}) async {
+    final token = await TokenRepository().getToken();
+    final today = DateTime.now().toIso8601String().substring(0, 10);
+
+    final url = Uri.parse('$baseURL$eventsURL').replace(queryParameters: {
+      'page': '$page',
+      'take': '$take',
+      'date_from': today,
+    });
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        final List<dynamic> data = decoded is List
+            ? decoded
+            : (decoded['data'] as List<dynamic>? ?? []);
+        return data
+            .map((e) => Events.fromMap(e as Map<String, dynamic>))
+            .toList();
+      } else {
+        return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
+      }
+    } catch (e, s) {
+      log(
+        'EventsRepository: Erro ao buscar próximos eventos',
+        error: e.toString(),
+        stackTrace: s,
+      );
+      return Future.error('Erro ao buscar próximos eventos');
+    }
+  }
+
+  Future<List<Events>> findRecentEvents({int take = 4}) async {
+    final token = await TokenRepository().getToken();
+    final today = DateTime.now().toIso8601String().substring(0, 10);
+
+    final url = Uri.parse('$baseURL$eventsURL').replace(queryParameters: {
+      'take': '$take',
+      'date_to': today,
+    });
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        final List<dynamic> data = decoded is List
+            ? decoded
+            : (decoded['data'] as List<dynamic>? ?? []);
+        return data
+            .map((e) => Events.fromMap(e as Map<String, dynamic>))
+            .toList();
+      } else {
+        return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
+      }
+    } catch (e, s) {
+      log(
+        'EventsRepository: Erro ao buscar eventos recentes',
+        error: e.toString(),
+        stackTrace: s,
+      );
+      return Future.error('Erro ao buscar eventos recentes');
     }
   }
 }

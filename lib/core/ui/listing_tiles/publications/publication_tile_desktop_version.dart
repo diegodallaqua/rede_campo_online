@@ -6,13 +6,11 @@ import '../../widgets/custom_row.dart';
 
 class PublicationTileDesktopVersion extends StatelessWidget {
   final Publications publication;
-  final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
 
   const PublicationTileDesktopVersion({
     super.key,
     required this.publication,
-    this.onTap,
     this.margin,
   });
 
@@ -112,35 +110,6 @@ class PublicationTileDesktopVersion extends StatelessWidget {
                         return areas.join(', ');
                       }(),
                     ),
-                  const SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: ElevatedButton(
-                      onPressed: onTap,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: CustomColors.copper_spice,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 7,
-                        ),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: const Text(
-                        'SAIBA MAIS',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -149,19 +118,6 @@ class PublicationTileDesktopVersion extends StatelessWidget {
       ),
     );
 
-    return Container(
-      margin: margin,
-      child: onTap == null
-          ? content
-          : Material(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(borderRadius),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(borderRadius),
-                onTap: onTap,
-                child: content,
-              ),
-            ),
-    );
+    return Container(margin: margin, child: content);
   }
 }

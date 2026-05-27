@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rede_campo_online/core/ui/layout/footer.dart';
+import 'package:rede_campo_online/core/ui/widgets/layout/footer.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import '../../../../features/news/stores/news_store.dart';
-import '../../../core/ui/layout/app_scaffold.dart';
+import '../../../core/ui/widgets/layout/app_scaffold.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 import '../../publications/stores/publications_store.dart';
 import 'widgets/sections/about_us_section/home_about_us_section_desktop_version.dart';

@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../theme/custom_colors.dart';
+import '../../theme/custom_colors.dart';
 
 const String _instagramUrl =
     'https://www.instagram.com/rede.campo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==';

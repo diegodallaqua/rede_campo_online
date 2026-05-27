@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/custom_colors.dart';
+import '../../theme/custom_colors.dart';
 
 class BodyContainer extends StatelessWidget {
   const BodyContainer({Key? key, required this.child}) : super(key: key);

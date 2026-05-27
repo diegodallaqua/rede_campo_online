@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:mobx/mobx.dart';
 
 import '../../../core/utils/stores/filter_search_store.dart';
+import '../models/project_media.dart';
 import '../models/projects.dart';
 import '../../../core/utils/stores/base_store.dart';
+import '../repositories/project_media_repository.dart';
 import '../repositories/projects_repository.dart';
 
 part 'projects_store.g.dart';
@@ -13,9 +15,11 @@ class ProjectsStore = ProjectsStoreBase with _$ProjectsStore;
 
 abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
   final ProjectsRepository _repository = ProjectsRepository();
+  final ProjectMediaRepository _mediaRepository = ProjectMediaRepository();
 
   ProjectsStoreBase({this.pageSize = 3}) {
     loadData();
+    loadMedia();
   }
 
   final int pageSize;
@@ -135,5 +139,53 @@ abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
       );
       if (peek.isEmpty && _page == forPage) setLastPage(true);
     } catch (_) {}
+  }
+
+  // Mídias dos projetos
+  @observable
+  ObservableMap<int, ProjectMedia> mediaMap =
+      ObservableMap<int, ProjectMedia>();
+
+  @observable
+  bool loadingMedia = false;
+
+  @observable
+  String? errorMedia;
+
+  @action
+  void _setLoadingMedia(bool value) => loadingMedia = value;
+
+  @action
+  void _setErrorMedia(String? value) => errorMedia = value;
+
+  @action
+  void _setMediaData(Map<int, ProjectMedia> data) {
+    mediaMap.clear();
+    mediaMap.addAll(data);
+  }
+
+  Future<void> loadMedia() async {
+    _setLoadingMedia(true);
+    _setErrorMedia(null);
+    try {
+      final mediaList = await _mediaRepository.findAll();
+      final map = <int, ProjectMedia>{};
+      for (final m in mediaList) {
+        final projectId = m.project?.id;
+        if (projectId != null && !map.containsKey(projectId)) {
+          map[projectId] = m;
+        }
+      }
+      _setMediaData(map);
+    } catch (e, s) {
+      log(
+        'ProjectsStore: Erro ao carregar mídias dos projetos',
+        error: e.toString(),
+        stackTrace: s,
+      );
+      _setErrorMedia(e.toString());
+    } finally {
+      _setLoadingMedia(false);
+    }
   }
 }

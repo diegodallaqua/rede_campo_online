@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../../core/ui/layout/app_scaffold.dart';
-import '../../../core/ui/layout/footer.dart';
+import '../../../core/ui/widgets/layout/app_scaffold.dart';
+import '../../../core/ui/widgets/layout/footer.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 import '../models/articles.dart';
 import '../stores/article_details_store.dart';

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,9 +8,7 @@ import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_empty_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_error_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_loading_state.dart';
-import 'package:rede_campo_online/features/projects/models/project_media.dart';
 import 'package:rede_campo_online/features/projects/models/projects.dart';
-import 'package:rede_campo_online/features/projects/repositories/project_media_repository.dart';
 import 'package:rede_campo_online/features/projects/stores/projects_store.dart';
 
 class ProjectsListWidgetMobileVersion extends StatefulWidget {
@@ -34,31 +30,6 @@ class ProjectsListWidgetMobileVersion extends StatefulWidget {
 
 class _ProjectsListWidgetMobileVersionState
     extends State<ProjectsListWidgetMobileVersion> {
-  late final Future<Map<int, ProjectMedia>> _mediaFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _mediaFuture = _loadMedia();
-  }
-
-  Future<Map<int, ProjectMedia>> _loadMedia() async {
-    try {
-      final mediaList = await ProjectMediaRepository().findAll();
-      final map = <int, ProjectMedia>{};
-      for (final m in mediaList) {
-        final projectId = m.project?.id;
-        if (projectId != null && !map.containsKey(projectId)) {
-          map[projectId] = m;
-        }
-      }
-      return map;
-    } catch (e, s) {
-      log('ProjectsListWidgetMobile: erro ao carregar media', error: e, stackTrace: s);
-      return {};
-    }
-  }
-
   void _notifyPageDiscovered(int discovered) {
     final shouldGrow = discovered > widget.maxDiscoveredPage;
     final shouldShrink = widget.projectsStore.lastPage &&
@@ -86,6 +57,8 @@ class _ProjectsListWidgetMobileVersionState
                 widget.projectsStore.page > 1 ||
                 widget.maxDiscoveredPage > 1);
 
+        final mediaMap = widget.projectsStore.mediaMap;
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -104,7 +77,7 @@ class _ProjectsListWidgetMobileVersionState
                 message: 'Nenhum projeto encontrado.',
               )
             else
-              _buildList(),
+              _buildList(mediaMap),
             if (showPagination) ...[
               const SizedBox(height: 24),
               _buildPageCarousel(),
@@ -115,26 +88,20 @@ class _ProjectsListWidgetMobileVersionState
     );
   }
 
-  Widget _buildList() {
+  Widget _buildList(Map<int, dynamic> mediaMap) {
     final projects = widget.projectsStore.list;
-    return FutureBuilder<Map<int, ProjectMedia>>(
-      future: _mediaFuture,
-      builder: (context, snapshot) {
-        final mediaMap = snapshot.data ?? {};
-        return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          itemCount: projects.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 16),
-          itemBuilder: (context, index) {
-            final project = projects[index];
-            return ProjectTileMobileVersion(
-              project: project,
-              projectMedia: project.id != null ? mediaMap[project.id] : null,
-              onTap: () => _onProjectTap(project),
-            );
-          },
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.zero,
+      itemCount: projects.length,
+      separatorBuilder: (_, __) => const SizedBox(height: 16),
+      itemBuilder: (context, index) {
+        final project = projects[index];
+        return ProjectTileMobileVersion(
+          project: project,
+          projectMedia: project.id != null ? mediaMap[project.id] : null,
+          onTap: () => _onProjectTap(project),
         );
       },
     );

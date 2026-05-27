@@ -14,7 +14,7 @@ abstract class NewsDetailStoreBase with Store {
   final int newsId;
 
   NewsDetailStoreBase({required this.newsId}) {
-    _loadMedia();
+    loadMedia();
   }
 
   @readonly
@@ -27,7 +27,7 @@ abstract class NewsDetailStoreBase with Store {
   String? _mediaError;
 
   @action
-  Future<void> _loadMedia() async {
+  Future<void> loadMedia() async {
     _mediaLoading = true;
     _mediaError = null;
     try {
@@ -47,5 +47,5 @@ abstract class NewsDetailStoreBase with Store {
     }
   }
 
-  Future<void> refreshMedia() => _loadMedia();
+  Future<void> refreshMedia() => loadMedia();
 }

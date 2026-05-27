@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../../core/ui/layout/app_scaffold.dart';
-import '../../../core/ui/layout/footer.dart';
+import '../../../core/ui/widgets/layout/app_scaffold.dart';
+import '../../../core/ui/widgets/layout/footer.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 import '../models/technical_reports.dart';
 import '../stores/technical_report_details_store.dart';
@@ -16,7 +16,8 @@ import 'widgets/sections/header_section/technical_report_header_section_mobile_v
 class TechnicalReportDetailsScreen extends StatefulWidget {
   final TechnicalReports technicalReport;
 
-  const TechnicalReportDetailsScreen({super.key, required this.technicalReport});
+  const TechnicalReportDetailsScreen(
+      {super.key, required this.technicalReport});
 
   @override
   State<TechnicalReportDetailsScreen> createState() =>

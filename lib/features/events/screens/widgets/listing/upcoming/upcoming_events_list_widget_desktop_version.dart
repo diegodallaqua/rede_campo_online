@@ -1,40 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:go_router/go_router.dart';
+import 'package:rede_campo_online/core/ui/listing_tiles/events/event_tile_desktop_version.dart';
+import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
+import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
+import 'package:rede_campo_online/core/ui/widgets/list_empty_state.dart';
+import 'package:rede_campo_online/core/ui/widgets/list_error_state.dart';
+import 'package:rede_campo_online/core/ui/widgets/list_loading_state.dart';
+import 'package:rede_campo_online/features/events/models/events.dart';
+import 'package:rede_campo_online/features/events/models/events_media.dart';
+import 'package:rede_campo_online/features/events/stores/events_store.dart';
 
-import '../../../../../../core/ui/listing_tiles/projects/project_tile_desktop_version.dart';
-import '../../../../../../core/ui/theme/custom_colors.dart';
-import '../../../../../../core/ui/widgets/arrow_button.dart';
-import '../../../../../../core/ui/widgets/list_empty_state.dart';
-import '../../../../../../core/ui/widgets/list_error_state.dart';
-import '../../../../../../core/ui/widgets/list_loading_state.dart';
-import '../../../../models/projects.dart';
-import '../../../../stores/projects_store.dart';
-
-class ProjectsListWidgetDesktopVersion extends StatefulWidget {
-  final ProjectsStore projectsStore;
+class UpcomingEventsListWidgetDesktopVersion extends StatefulWidget {
+  final EventsStore eventsStore;
   final int maxDiscoveredPage;
   final ValueChanged<int> onPageDiscovered;
 
-  const ProjectsListWidgetDesktopVersion({
+  const UpcomingEventsListWidgetDesktopVersion({
     super.key,
-    required this.projectsStore,
+    required this.eventsStore,
     required this.maxDiscoveredPage,
     required this.onPageDiscovered,
   });
 
   @override
-  State<ProjectsListWidgetDesktopVersion> createState() =>
-      _ProjectsListWidgetDesktopVersionState();
+  State<UpcomingEventsListWidgetDesktopVersion> createState() =>
+      _UpcomingEventsListWidgetDesktopVersionState();
 }
 
-class _ProjectsListWidgetDesktopVersionState
-    extends State<ProjectsListWidgetDesktopVersion> {
+class _UpcomingEventsListWidgetDesktopVersionState
+    extends State<UpcomingEventsListWidgetDesktopVersion> {
   void _notifyPageDiscovered(int discovered) {
     final shouldGrow = discovered > widget.maxDiscoveredPage;
     final shouldShrink =
-        widget.projectsStore.lastPage && discovered < widget.maxDiscoveredPage;
+        widget.eventsStore.lastPage && discovered < widget.maxDiscoveredPage;
     if (shouldGrow || shouldShrink) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         widget.onPageDiscovered(discovered);
@@ -46,53 +45,69 @@ class _ProjectsListWidgetDesktopVersionState
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        if (!widget.projectsStore.loading &&
-            widget.projectsStore.list.isNotEmpty) {
-          final discovered = widget.projectsStore.page +
-              (widget.projectsStore.lastPage ? 0 : 1);
+        if (!widget.eventsStore.loading && widget.eventsStore.list.isNotEmpty) {
+          final discovered =
+              widget.eventsStore.page + (widget.eventsStore.lastPage ? 0 : 1);
           _notifyPageDiscovered(discovered);
         }
 
-        final showPagination = widget.projectsStore.list.isNotEmpty &&
-            (!widget.projectsStore.lastPage ||
-                widget.projectsStore.page > 1 ||
-                widget.maxDiscoveredPage > 1);
-
-        final mediaMap = widget.projectsStore.mediaMap;
-
-        if (widget.projectsStore.showProgress) {
+        if (widget.eventsStore.showProgress) {
           return const Padding(
             padding: EdgeInsets.symmetric(horizontal: 48),
             child: ListLoadingState(color: CustomColors.fresh_sprout),
           );
-        } else if (widget.projectsStore.error != null &&
-            widget.projectsStore.list.isEmpty) {
+        }
+
+        if (widget.eventsStore.error != null &&
+            widget.eventsStore.list.isEmpty) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
             child: ListErrorState(
-              message: 'Não foi possível carregar os projetos.',
-              onRetry: () => widget.projectsStore.refreshData(),
+              message: 'Não foi possível carregar os próximos eventos.',
+              onRetry: widget.eventsStore.loadUpcoming,
               iconColor: CustomColors.copper_spice,
-              messageColor: CustomColors.vanilla_haze,
-            ),
-          );
-        } else if (widget.projectsStore.list.isEmpty) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 48),
-            child: ListEmptyState(
-              message: 'Nenhum projeto encontrado.',
               messageColor: CustomColors.vanilla_haze,
             ),
           );
         }
 
+        if (widget.eventsStore.list.isEmpty) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 48),
+            child: ListEmptyState(
+              message: 'Nenhum próximo evento encontrado.',
+              messageColor: CustomColors.vanilla_haze,
+              iconColor: CustomColors.concrete_mist,
+            ),
+          );
+        }
+
+        final currentPage = widget.eventsStore.page;
+        final isLastPage = widget.eventsStore.lastPage;
+        final isLoading = widget.eventsStore.loading;
+        final events = widget.eventsStore.list;
+        final mediaMap = widget.eventsStore.mediaMap;
+
+        final showPagination =
+            !isLastPage || currentPage > 1 || widget.maxDiscoveredPage > 1;
+
+        final knownFromStore = isLastPage ? currentPage : currentPage + 1;
+        final effectiveMaxPage = widget.maxDiscoveredPage > knownFromStore
+            ? widget.maxDiscoveredPage
+            : knownFromStore;
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildGrid(mediaMap),
+            _buildGrid(events, mediaMap),
             if (showPagination) ...[
               const SizedBox(height: 24),
-              _buildPagination(),
+              _buildPagination(
+                currentPage: currentPage,
+                effectiveMaxPage: effectiveMaxPage,
+                isLastPage: isLastPage,
+                isLoading: isLoading,
+              ),
             ],
           ],
         );
@@ -100,8 +115,7 @@ class _ProjectsListWidgetDesktopVersionState
     );
   }
 
-  Widget _buildGrid(Map<int, dynamic> mediaMap) {
-    final projects = widget.projectsStore.list;
+  Widget _buildGrid(List<Events> events, Map<int, EventMedia> mediaMap) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 48),
       child: GridView.builder(
@@ -111,31 +125,26 @@ class _ProjectsListWidgetDesktopVersionState
           crossAxisCount: 4,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          mainAxisExtent: 310,
+          mainAxisExtent: 330,
         ),
-        itemCount: projects.length,
+        itemCount: events.length,
         itemBuilder: (context, index) {
-          final item = projects[index];
-          return ProjectTileDesktopVersion(
-            project: item,
-            projectMedia: item.id != null ? mediaMap[item.id] : null,
-            onTap: () => _onProjectTap(item),
+          final event = events[index];
+          return EventTileDesktopVersion(
+            event: event,
+            eventMedia: event.id != null ? mediaMap[event.id] : null,
           );
         },
       ),
     );
   }
 
-  Widget _buildPagination() {
-    final currentPage = widget.projectsStore.page;
-    final isLastPage = widget.projectsStore.lastPage;
-    final isLoading = widget.projectsStore.loading;
-
-    final knownFromStore = isLastPage ? currentPage : currentPage + 1;
-    final effectiveMaxPage = widget.maxDiscoveredPage > knownFromStore
-        ? widget.maxDiscoveredPage
-        : knownFromStore;
-
+  Widget _buildPagination({
+    required int currentPage,
+    required int effectiveMaxPage,
+    required bool isLastPage,
+    required bool isLoading,
+  }) {
     return Center(
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -143,7 +152,7 @@ class _ProjectsListWidgetDesktopVersionState
           ArrowButton(
             icon: Icons.chevron_left_rounded,
             enabled: !isLoading && currentPage > 1,
-            onTap: () => widget.projectsStore.goToPage(currentPage - 1),
+            onTap: () => widget.eventsStore.goToPage(currentPage - 1),
             iconColor: CustomColors.vanilla_haze,
             disabledIconColor: CustomColors.concrete_mist,
             backgroundColor: Colors.white.withOpacity(0.1),
@@ -159,14 +168,14 @@ class _ProjectsListWidgetDesktopVersionState
               page: page,
               isActive: page == currentPage,
               enabled: !isLoading,
-              onTap: () => widget.projectsStore.goToPage(page),
+              onTap: () => widget.eventsStore.goToPage(page),
             );
           }),
           if (!isLastPage)
             ArrowButton(
               icon: Icons.chevron_right_rounded,
               enabled: !isLoading,
-              onTap: () => widget.projectsStore.goToPage(currentPage + 1),
+              onTap: () => widget.eventsStore.goToPage(currentPage + 1),
               iconColor: CustomColors.vanilla_haze,
               disabledIconColor: CustomColors.concrete_mist,
               backgroundColor: Colors.white.withOpacity(0.1),
@@ -179,10 +188,6 @@ class _ProjectsListWidgetDesktopVersionState
         ],
       ),
     );
-  }
-
-  void _onProjectTap(Projects project) {
-    context.push('/projects/${project.id}', extra: project);
   }
 }
 

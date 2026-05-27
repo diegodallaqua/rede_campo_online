@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -12,8 +10,6 @@ import '../../../../../../core/ui/widgets/list_empty_state.dart';
 import '../../../../../../core/ui/widgets/list_error_state.dart';
 import '../../../../../../core/ui/widgets/list_loading_state.dart';
 import '../../../../../news/models/news.dart';
-import '../../../../../news/models/news_media.dart';
-import '../../../../../news/repositories/news_media_repository.dart';
 import '../../../../../news/stores/news_store.dart';
 
 class RecentNewsListWidgetDesktopVersion extends StatefulWidget {
@@ -36,7 +32,6 @@ class _RecentNewsListWidgetDesktopVersionState
   static const double _listHeight = 315.0;
   final ScrollController _scrollController = ScrollController();
 
-  late final Future<Map<int, NewsMedia>> _mediaFuture;
   double _tileWidth = 350.0;
   bool _canScrollLeft = false;
   bool _canScrollRight = true;
@@ -46,7 +41,6 @@ class _RecentNewsListWidgetDesktopVersionState
     super.initState();
     widget.newsStore.loadRecentNews(limit: widget.totalCount);
     _scrollController.addListener(_updateArrowState);
-    _mediaFuture = _loadMedia();
   }
 
   @override
@@ -54,24 +48,6 @@ class _RecentNewsListWidgetDesktopVersionState
     _scrollController.removeListener(_updateArrowState);
     _scrollController.dispose();
     super.dispose();
-  }
-
-  Future<Map<int, NewsMedia>> _loadMedia() async {
-    try {
-      final mediaList = await NewsMediaRepository().findAll();
-      final map = <int, NewsMedia>{};
-      for (final m in mediaList) {
-        final newsId = m.news?.id;
-        if (newsId != null && !map.containsKey(newsId)) {
-          map[newsId] = m;
-        }
-      }
-      return map;
-    } catch (e, s) {
-      log('RecentNewsListWidgetDesktop: erro ao carregar media',
-          error: e, stackTrace: s);
-      return {};
-    }
   }
 
   void _updateArrowState() {
@@ -125,6 +101,7 @@ class _RecentNewsListWidgetDesktopVersionState
 
   Widget _buildList() {
     final news = widget.newsStore.recentNews;
+    final mediaMap = widget.newsStore.mediaMap;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 48),
       child: Row(
@@ -145,28 +122,21 @@ class _RecentNewsListWidgetDesktopVersionState
                     ((constraints.maxWidth - 3 * 16) / 4).clamp(200.0, 350.0);
                 return SizedBox(
                   height: _listHeight,
-                  child: FutureBuilder<Map<int, NewsMedia>>(
-                    future: _mediaFuture,
-                    builder: (context, snapshot) {
-                      final mediaMap = snapshot.data ?? {};
-                      return ListView.separated(
-                        controller: _scrollController,
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        itemCount: news.length,
-                        separatorBuilder: (_, __) => const SizedBox(width: 16),
-                        itemBuilder: (context, index) {
-                          final item = news[index];
-                          return SizedBox(
-                            width: _tileWidth,
-                            child: NewsTileDesktopVersion(
-                              news: item,
-                              newsMedia:
-                                  item.id != null ? mediaMap[item.id] : null,
-                              onTap: () => _onNewsTap(item),
-                            ),
-                          );
-                        },
+                  child: ListView.separated(
+                    controller: _scrollController,
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    itemCount: news.length,
+                    separatorBuilder: (_, __) => const SizedBox(width: 16),
+                    itemBuilder: (context, index) {
+                      final item = news[index];
+                      return SizedBox(
+                        width: _tileWidth,
+                        child: NewsTileDesktopVersion(
+                          news: item,
+                          newsMedia: item.id != null ? mediaMap[item.id] : null,
+                          onTap: () => _onNewsTap(item),
+                        ),
                       );
                     },
                   ),

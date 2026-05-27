@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -11,8 +9,6 @@ import '../../../../../../core/ui/widgets/list_empty_state.dart';
 import '../../../../../../core/ui/widgets/list_error_state.dart';
 import '../../../../../../core/ui/widgets/list_loading_state.dart';
 import '../../../../../news/models/news.dart';
-import '../../../../../news/models/news_media.dart';
-import '../../../../../news/repositories/news_media_repository.dart';
 import '../../../../../news/stores/news_store.dart';
 
 class RecentNewsListWidgetMobileVersion extends StatefulWidget {
@@ -38,37 +34,17 @@ class RecentNewsListWidgetMobileVersion extends StatefulWidget {
 class _RecentNewsListWidgetMobileVersionState
     extends State<RecentNewsListWidgetMobileVersion> {
   final ScrollController _scrollController = ScrollController();
-  late final Future<Map<int, NewsMedia>> _mediaFuture;
 
   @override
   void initState() {
     super.initState();
     widget.newsStore.loadRecentNews(limit: widget.totalCount);
-    _mediaFuture = _loadMedia();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  Future<Map<int, NewsMedia>> _loadMedia() async {
-    try {
-      final mediaList = await NewsMediaRepository().findAll();
-      final map = <int, NewsMedia>{};
-      for (final m in mediaList) {
-        final newsId = m.news?.id;
-        if (newsId != null && !map.containsKey(newsId)) {
-          map[newsId] = m;
-        }
-      }
-      return map;
-    } catch (e, s) {
-      log('RecentNewsListWidgetMobile: erro ao carregar media',
-          error: e, stackTrace: s);
-      return {};
-    }
   }
 
   double _heightForItems(int n) {
@@ -105,39 +81,34 @@ class _RecentNewsListWidgetMobileVersionState
 
   Widget _buildList() {
     final news = widget.newsStore.recentNews;
+    final mediaMap = widget.newsStore.mediaMap;
     final double maxHeight = _heightForItems(widget.visibleCount);
 
-    return FutureBuilder<Map<int, NewsMedia>>(
-      future: _mediaFuture,
-      builder: (context, snapshot) {
-        final mediaMap = snapshot.data ?? {};
-        return ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: maxHeight),
-          child: Scrollbar(
-            thumbVisibility: true,
-            controller: _scrollController,
-            child: ListView.separated(
-              controller: _scrollController,
-              physics: const ClampingScrollPhysics(),
-              shrinkWrap: false,
-              padding: EdgeInsets.zero,
-              itemCount: news.length,
-              separatorBuilder: (_, __) => const SizedBox(
-                height: RecentNewsListWidgetMobileVersion._separatorHeight,
-              ),
-              itemBuilder: (context, index) {
-                final item = news[index];
-                return NewsTileMobileVersion(
-                  news: item,
-                  newsMedia: item.id != null ? mediaMap[item.id] : null,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  onTap: () => _onNewsTap(item),
-                );
-              },
-            ),
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: maxHeight),
+      child: Scrollbar(
+        thumbVisibility: true,
+        controller: _scrollController,
+        child: ListView.separated(
+          controller: _scrollController,
+          physics: const ClampingScrollPhysics(),
+          shrinkWrap: false,
+          padding: EdgeInsets.zero,
+          itemCount: news.length,
+          separatorBuilder: (_, __) => const SizedBox(
+            height: RecentNewsListWidgetMobileVersion._separatorHeight,
           ),
-        );
-      },
+          itemBuilder: (context, index) {
+            final item = news[index];
+            return NewsTileMobileVersion(
+              news: item,
+              newsMedia: item.id != null ? mediaMap[item.id] : null,
+              margin: const EdgeInsets.symmetric(horizontal: 2),
+              onTap: () => _onNewsTap(item),
+            );
+          },
+        ),
+      ),
     );
   }
 

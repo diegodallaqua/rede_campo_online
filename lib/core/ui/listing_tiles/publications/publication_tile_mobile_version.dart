@@ -6,13 +6,11 @@ import '../../widgets/custom_chip.dart';
 
 class PublicationTileMobileVersion extends StatelessWidget {
   final Publications publication;
-  final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
 
   const PublicationTileMobileVersion({
     super.key,
     required this.publication,
-    this.onTap,
     this.margin,
   });
 
@@ -71,7 +69,7 @@ class PublicationTileMobileVersion extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 14,
@@ -158,18 +156,6 @@ class PublicationTileMobileVersion extends StatelessWidget {
       ),
     );
 
-    return Container(
-      margin: margin,
-      child: onTap == null
-          ? card
-          : Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(_borderRadius),
-                onTap: onTap,
-                child: card,
-              ),
-            ),
-    );
+    return Container(margin: margin, child: card);
   }
 }

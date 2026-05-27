@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/custom_colors.dart';
+import '../../theme/custom_colors.dart';
 import 'custom_app_bar.dart';
 import 'mobile_drawer.dart';
 
@@ -24,7 +24,8 @@ class _AppScaffoldState extends State<AppScaffold> {
 
     return Scaffold(
       backgroundColor: CustomColors.vanilla_haze,
-      appBar: CustomAppBar(onMenuTap: () => setState(() => _drawerOpen = !_drawerOpen)),
+      appBar: CustomAppBar(
+          onMenuTap: () => setState(() => _drawerOpen = !_drawerOpen)),
       body: Stack(
         children: [
           widget.body,

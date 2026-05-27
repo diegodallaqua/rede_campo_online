@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -12,8 +10,6 @@ import 'package:rede_campo_online/core/ui/widgets/list_empty_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_error_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_loading_state.dart';
 import 'package:rede_campo_online/features/news/models/news.dart';
-import 'package:rede_campo_online/features/news/models/news_media.dart';
-import 'package:rede_campo_online/features/news/repositories/news_media_repository.dart';
 import 'package:rede_campo_online/features/news/stores/news_store.dart';
 
 class NewsListWidgetDesktopVersion extends StatefulWidget {
@@ -35,32 +31,6 @@ class NewsListWidgetDesktopVersion extends StatefulWidget {
 
 class _NewsListWidgetDesktopVersionState
     extends State<NewsListWidgetDesktopVersion> {
-  late final Future<Map<int, NewsMedia>> _mediaFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _mediaFuture = _loadMedia();
-  }
-
-  Future<Map<int, NewsMedia>> _loadMedia() async {
-    try {
-      final mediaList = await NewsMediaRepository().findAll();
-      final map = <int, NewsMedia>{};
-      for (final m in mediaList) {
-        final newsId = m.news?.id;
-        if (newsId != null && !map.containsKey(newsId)) {
-          map[newsId] = m;
-        }
-      }
-      return map;
-    } catch (e, s) {
-      log('NewsListWidgetDesktop: erro ao carregar media',
-          error: e, stackTrace: s);
-      return {};
-    }
-  }
-
   void _notifyPageDiscovered(int discovered) {
     final shouldGrow = discovered > widget.maxDiscoveredPage;
     final shouldShrink =
@@ -86,6 +56,8 @@ class _NewsListWidgetDesktopVersionState
             (!widget.newsStore.lastPage ||
                 widget.newsStore.page > 1 ||
                 widget.maxDiscoveredPage > 1);
+
+        final mediaMap = widget.newsStore.mediaMap;
 
         if (widget.newsStore.showProgress) {
           return const Padding(
@@ -116,7 +88,7 @@ class _NewsListWidgetDesktopVersionState
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildGrid(),
+            _buildGrid(mediaMap),
             if (showPagination) ...[
               const SizedBox(height: 24),
               _buildPagination(),
@@ -127,35 +99,29 @@ class _NewsListWidgetDesktopVersionState
     );
   }
 
-  Widget _buildGrid() {
+  Widget _buildGrid(Map<int, dynamic> mediaMap) {
     final newsList = widget.newsStore.list;
-    return FutureBuilder<Map<int, NewsMedia>>(
-      future: _mediaFuture,
-      builder: (context, snapshot) {
-        final mediaMap = snapshot.data ?? {};
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 48),
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              mainAxisExtent: 310,
-            ),
-            itemCount: newsList.length,
-            itemBuilder: (context, index) {
-              final item = newsList[index];
-              return NewsTileDesktopVersion(
-                news: item,
-                newsMedia: item.id != null ? mediaMap[item.id] : null,
-                onTap: () => _onNewsTap(item),
-              );
-            },
-          ),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 48),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          mainAxisExtent: 310,
+        ),
+        itemCount: newsList.length,
+        itemBuilder: (context, index) {
+          final item = newsList[index];
+          return NewsTileDesktopVersion(
+            news: item,
+            newsMedia: item.id != null ? mediaMap[item.id] : null,
+            onTap: () => _onNewsTap(item),
+          );
+        },
+      ),
     );
   }
 

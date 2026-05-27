@@ -138,7 +138,6 @@ class _PublicationsListWidgetDesktopVersionState
                         width: _tileWidth,
                         child: PublicationTileDesktopVersion(
                           publication: item,
-                          onTap: () => _onPublicationTap(item),
                         ),
                       );
                     },

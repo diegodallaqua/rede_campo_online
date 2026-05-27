@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../../app/router.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../publications/stores/publications_store.dart';
 import '../../listing/recent_publications/recent_publications_list_widget_desktop_version.dart';
@@ -49,9 +52,7 @@ class HomeRecentPublicationsSectionDesktopVersion extends StatelessWidget {
                     ),
                     const Spacer(),
                     TextButton.icon(
-                      onPressed: () {
-                        // TODO: navegar para a tela de publicações
-                      },
+                      onPressed: () => context.go(AppRoutes.publications),
                       icon: const Text(
                         'Ver todas',
                         style: TextStyle(

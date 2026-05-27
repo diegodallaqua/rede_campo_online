@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/widgets/layout/footer.dart';
-import 'package:rede_campo_online/core/ui/widgets/layout/app_scaffold.dart';
-import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
-import 'package:rede_campo_online/features/news/screens/widgets/sections/header_section/news_header_section_desktop_version.dart';
-import 'package:rede_campo_online/features/news/screens/widgets/sections/header_section/news_header_section_mobile_version.dart';
-import 'package:rede_campo_online/features/news/screens/widgets/sections/news_section/news_list_section_desktop_version.dart';
-import 'package:rede_campo_online/features/news/screens/widgets/sections/news_section/news_list_section_mobile_version.dart';
-import 'package:rede_campo_online/features/news/stores/news_store.dart';
+import 'package:rede_campo_online/features/events/screens/widgets/sections/events_header_section/events_header_section_desktop_version.dart';
+import 'package:rede_campo_online/features/events/screens/widgets/sections/events_header_section/events_header_section_mobile_version.dart';
+import 'package:rede_campo_online/features/events/screens/widgets/sections/events_list_section/events_list_section_desktop_version.dart';
+import 'package:rede_campo_online/features/events/screens/widgets/sections/events_list_section/events_list_section_mobile_version.dart';
+import 'package:rede_campo_online/features/events/stores/events_store.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import '../../../core/ui/widgets/layout/app_scaffold.dart';
+import '../../../core/ui/theme/custom_colors.dart';
 
-class NewsScreen extends StatelessWidget {
-  const NewsScreen({super.key});
+class EventsScreen extends StatelessWidget {
+  const EventsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final NewsStore newsStoreMobile = NewsStore(pageSize: 4);
-    final NewsStore newsStoreDesktop = NewsStore(pageSize: 4);
+    final EventsStore eventsStoreMobile = EventsStore(pageSize: 4);
+    final EventsStore eventsStoreDesktop = EventsStore(pageSize: 4);
 
     return AppScaffold(
       body: ResponsiveVisibility(
@@ -26,14 +26,15 @@ class NewsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const NewsHeaderSectionMobileVersion(),
+              const EventsHeaderSectionMobileVersion(),
               ColoredBox(
                 color: CustomColors.midnight_slate,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const SizedBox(height: 16),
-                    NewsListSectionMobileVersion(newsStore: newsStoreMobile),
+                    EventsListSectionMobileVersion(
+                        eventsStore: eventsStoreMobile),
                   ],
                 ),
               ),
@@ -47,14 +48,15 @@ class NewsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const NewsHeaderSectionDesktopVersion(),
+              const EventsHeaderSectionDesktopVersion(),
               ColoredBox(
                 color: CustomColors.midnight_slate,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const SizedBox(height: 16),
-                    NewsListSectionDesktopVersion(newsStore: newsStoreDesktop),
+                    EventsListSectionDesktopVersion(
+                        eventsStore: eventsStoreDesktop),
                   ],
                 ),
               ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rede_campo_online/app/router.dart';
 
-import '../theme/custom_colors.dart';
+import '../../theme/custom_colors.dart';
 
 class MobileDrawer extends StatelessWidget {
   const MobileDrawer({super.key, this.onClose});
@@ -14,7 +14,7 @@ class MobileDrawer extends StatelessWidget {
     _MenuItem(label: 'A Rede Campo', route: AppRoutes.aboutUs),
     _MenuItem(label: 'Projetos', route: AppRoutes.projects),
     _MenuItem(label: 'Publicações', route: AppRoutes.publications),
-    _MenuItem(label: 'Eventos', route: null),
+    _MenuItem(label: 'Eventos', route: AppRoutes.events),
     _MenuItem(label: 'Notícias', route: AppRoutes.news),
   ];
 

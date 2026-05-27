@@ -5,6 +5,8 @@ import 'package:mobx/mobx.dart';
 import '../../../core/utils/stores/base_store.dart';
 import '../../../core/utils/stores/filter_search_store.dart';
 import '../models/news.dart';
+import '../models/news_media.dart';
+import '../repositories/news_media_repository.dart';
 import '../repositories/news_repository.dart';
 
 part 'news_store.g.dart';
@@ -13,9 +15,11 @@ class NewsStore = NewsStoreBase with _$NewsStore;
 
 abstract class NewsStoreBase extends BaseStore<News> with Store {
  final NewsRepository _repository = NewsRepository();
+ final NewsMediaRepository _mediaRepository = NewsMediaRepository();
 
  NewsStoreBase({this.pageSize = 15}) {
   loadData();
+  loadMedia();
  }
 
  final int pageSize;
@@ -164,5 +168,52 @@ abstract class NewsStoreBase extends BaseStore<News> with Store {
  Future<void> refreshRecentNews({int limit = 5}) async {
   recentNews.clear();
   await loadRecentNews(limit: limit);
+ }
+
+ // Mídias das notícias
+ @observable
+ ObservableMap<int, NewsMedia> mediaMap = ObservableMap<int, NewsMedia>();
+
+ @observable
+ bool loadingMedia = false;
+
+ @observable
+ String? errorMedia;
+
+ @action
+ void _setLoadingMedia(bool value) => loadingMedia = value;
+
+ @action
+ void _setErrorMedia(String? value) => errorMedia = value;
+
+ @action
+ void _setMediaData(Map<int, NewsMedia> data) {
+  mediaMap.clear();
+  mediaMap.addAll(data);
+ }
+
+ Future<void> loadMedia() async {
+  _setLoadingMedia(true);
+  _setErrorMedia(null);
+  try {
+   final mediaList = await _mediaRepository.findAll();
+   final map = <int, NewsMedia>{};
+   for (final m in mediaList) {
+    final newsId = m.news?.id;
+    if (newsId != null && !map.containsKey(newsId)) {
+     map[newsId] = m;
+    }
+   }
+   _setMediaData(map);
+  } catch (e, s) {
+   log(
+    'NewsStore: Erro ao carregar mídias das notícias',
+    error: e.toString(),
+    stackTrace: s,
+   );
+   _setErrorMedia(e.toString());
+  } finally {
+   _setLoadingMedia(false);
+  }
  }
 }

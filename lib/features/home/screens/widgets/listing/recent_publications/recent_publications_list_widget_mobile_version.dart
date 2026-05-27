@@ -6,7 +6,6 @@ import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../../core/ui/widgets/list_empty_state.dart';
 import '../../../../../../core/ui/widgets/list_error_state.dart';
 import '../../../../../../core/ui/widgets/list_loading_state.dart';
-import '../../../../../publications/models/publications.dart';
 import '../../../../../publications/stores/publications_store.dart';
 
 class PublicationsListWidgetMobileVersion extends StatefulWidget {
@@ -107,15 +106,10 @@ class _HomePublicationsListWidgetState
             return PublicationTileMobileVersion(
               publication: item,
               margin: const EdgeInsets.symmetric(horizontal: 2),
-              onTap: () => _onPublicationTap(item),
             );
           },
         ),
       ),
     );
-  }
-
-  void _onPublicationTap(Publications publication) {
-    // TODO: navegar para a tela de detalhe da publicação.
   }
 }

@@ -129,6 +129,54 @@ mixin _$NewsStore on NewsStoreBase, Store {
     });
   }
 
+  late final _$mediaMapAtom =
+      Atom(name: 'NewsStoreBase.mediaMap', context: context);
+
+  @override
+  ObservableMap<int, NewsMedia> get mediaMap {
+    _$mediaMapAtom.reportRead();
+    return super.mediaMap;
+  }
+
+  @override
+  set mediaMap(ObservableMap<int, NewsMedia> value) {
+    _$mediaMapAtom.reportWrite(value, super.mediaMap, () {
+      super.mediaMap = value;
+    });
+  }
+
+  late final _$loadingMediaAtom =
+      Atom(name: 'NewsStoreBase.loadingMedia', context: context);
+
+  @override
+  bool get loadingMedia {
+    _$loadingMediaAtom.reportRead();
+    return super.loadingMedia;
+  }
+
+  @override
+  set loadingMedia(bool value) {
+    _$loadingMediaAtom.reportWrite(value, super.loadingMedia, () {
+      super.loadingMedia = value;
+    });
+  }
+
+  late final _$errorMediaAtom =
+      Atom(name: 'NewsStoreBase.errorMedia', context: context);
+
+  @override
+  String? get errorMedia {
+    _$errorMediaAtom.reportRead();
+    return super.errorMedia;
+  }
+
+  @override
+  set errorMedia(String? value) {
+    _$errorMediaAtom.reportWrite(value, super.errorMedia, () {
+      super.errorMedia = value;
+    });
+  }
+
   late final _$refreshDataAsyncAction =
       AsyncAction('NewsStoreBase.refreshData', context: context);
 
@@ -214,12 +262,48 @@ mixin _$NewsStore on NewsStoreBase, Store {
   }
 
   @override
+  void _setLoadingMedia(bool value) {
+    final _$actionInfo = _$NewsStoreBaseActionController.startAction(
+        name: 'NewsStoreBase._setLoadingMedia');
+    try {
+      return super._setLoadingMedia(value);
+    } finally {
+      _$NewsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void _setErrorMedia(String? value) {
+    final _$actionInfo = _$NewsStoreBaseActionController.startAction(
+        name: 'NewsStoreBase._setErrorMedia');
+    try {
+      return super._setErrorMedia(value);
+    } finally {
+      _$NewsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void _setMediaData(Map<int, NewsMedia> data) {
+    final _$actionInfo = _$NewsStoreBaseActionController.startAction(
+        name: 'NewsStoreBase._setMediaData');
+    try {
+      return super._setMediaData(data);
+    } finally {
+      _$NewsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 filterStore: ${filterStore},
 recentNews: ${recentNews},
 isLoadingRecent: ${isLoadingRecent},
 recentNewsError: ${recentNewsError},
+mediaMap: ${mediaMap},
+loadingMedia: ${loadingMedia},
+errorMedia: ${errorMedia},
 itemCount: ${itemCount},
 showProgress: ${showProgress},
 showRecentProgress: ${showRecentProgress}

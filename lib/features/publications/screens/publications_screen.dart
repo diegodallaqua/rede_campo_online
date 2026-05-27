@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rede_campo_online/core/ui/layout/footer.dart';
+import 'package:rede_campo_online/core/ui/widgets/layout/footer.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/core/utils/stores/filter_search_store.dart';
 import 'package:rede_campo_online/features/articles/stores/articles_store.dart';
@@ -7,7 +7,7 @@ import 'package:rede_campo_online/features/book_chapters/stores/book_chapters_st
 import 'package:rede_campo_online/features/books/stores/books_store.dart';
 import 'package:rede_campo_online/features/technical_reports/stores/technical_reports_store.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import '../../../core/ui/layout/app_scaffold.dart';
+import '../../../core/ui/widgets/layout/app_scaffold.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 import 'widgets/sections/header_section/publications_header_section_mobile_version.dart';
 import 'widgets/sections/header_section/publications_header_section_desktop_version.dart';

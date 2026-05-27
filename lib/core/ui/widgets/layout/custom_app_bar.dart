@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rede_campo_online/app/router.dart';
 
-import '../theme/custom_colors.dart';
+import '../../theme/custom_colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key, this.onMenuTap});
@@ -61,7 +61,7 @@ class _DesktopNavLinks extends StatelessWidget {
     _NavItem(label: 'A Rede Campo', route: AppRoutes.aboutUs),
     _NavItem(label: 'Projetos', route: AppRoutes.projects),
     _NavItem(label: 'Publicações', route: AppRoutes.publications),
-    _NavItem(label: 'Eventos'),
+    _NavItem(label: 'Eventos', route: AppRoutes.events),
     _NavItem(label: 'Notícias', route: AppRoutes.news),
   ];
 
