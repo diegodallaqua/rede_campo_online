@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../../core/ui/listing_tiles/events/event_tile_desktop_version.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
@@ -127,9 +128,9 @@ class _ProjectEventsListWidgetDesktopVersionState
               icon: Icons.chevron_left_rounded,
               enabled: !allFit && _canScrollLeft,
               onTap: _scrollLeft,
-              iconColor: CustomColors.midnight_slate,
+              iconColor: CustomColors.concrete_mist,
               disabledIconColor: CustomColors.concrete_mist,
-              backgroundColor: CustomColors.midnight_slate.withOpacity(0.08),
+              backgroundColor: CustomColors.concrete_mist.withOpacity(0.08),
               iconSize: 20,
               borderRadius: 12,
               fixedSize: 40,
@@ -156,6 +157,10 @@ class _ProjectEventsListWidgetDesktopVersionState
                         event: event,
                         eventMedia:
                             event.id != null ? mediaMap[event.id] : null,
+                        onTap: () => context.push(
+                          '/events/${event.id}',
+                          extra: event,
+                        ),
                       ),
                     );
                   },
@@ -167,9 +172,9 @@ class _ProjectEventsListWidgetDesktopVersionState
               icon: Icons.chevron_right_rounded,
               enabled: !allFit && _canScrollRight,
               onTap: _scrollRight,
-              iconColor: CustomColors.midnight_slate,
+              iconColor: CustomColors.concrete_mist,
               disabledIconColor: CustomColors.concrete_mist,
-              backgroundColor: CustomColors.midnight_slate.withOpacity(0.08),
+              backgroundColor: CustomColors.concrete_mist.withOpacity(0.08),
               iconSize: 20,
               borderRadius: 12,
               fixedSize: 40,

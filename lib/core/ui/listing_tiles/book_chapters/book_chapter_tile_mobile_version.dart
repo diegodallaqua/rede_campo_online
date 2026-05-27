@@ -73,10 +73,10 @@ class BookChapterTileMobileVersion extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    const Divider(
+                    Divider(
                       height: 1,
                       thickness: 0.8,
-                      color: CustomColors.concrete_mist,
+                      color: CustomColors.copper_spice.withOpacity(0.3),
                     ),
                     const SizedBox(height: 7),
                     Row(

@@ -10,6 +10,8 @@ import 'package:rede_campo_online/features/home/screens/home_screen.dart';
 import 'package:rede_campo_online/features/technical_reports/models/technical_reports.dart';
 import 'package:rede_campo_online/features/technical_reports/screens/technical_report_details_screen.dart';
 
+import '../features/events/models/events.dart';
+import '../features/events/screens/event_details_screen.dart';
 import '../features/events/screens/events_screen.dart';
 import '../features/news/models/news.dart';
 import '../features/news/screens/news_details_screen.dart';
@@ -32,6 +34,7 @@ abstract class AppRoutes {
   static const bookDetail = '/publications/books/:id';
   static const bookChapterDetail = '/publications/book-chapters/:id';
   static const events = '/events';
+  static const eventDetail = '/events/:id';
 }
 
 final appRouter = GoRouter(
@@ -108,6 +111,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.events,
       builder: (context, state) => const EventsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.eventDetail,
+      builder: (context, state) {
+        final extra = state.extra;
+        if (extra is! Events) return const EventsScreen();
+        return EventDetailsScreen(event: extra);
+      },
     ),
   ],
 );

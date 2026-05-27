@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rede_campo_online/core/ui/listing_tiles/events/event_tile_mobile_version.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_empty_state.dart';
@@ -101,6 +102,10 @@ class _RecentEventsListWidgetMobileVersionState
                     event: event,
                     eventMedia: event.id != null ? mediaMap[event.id] : null,
                     pinInfoToBottom: true,
+                    onTap: () => context.push(
+                      '/events/${event.id}',
+                      extra: event,
+                    ),
                   ),
                 );
               },

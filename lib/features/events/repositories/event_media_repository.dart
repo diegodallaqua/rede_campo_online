@@ -11,7 +11,8 @@ import '../models/events_media.dart';
 class EventMediaRepository {
   Future<List<EventMedia>> findAll() async {
     final token = await TokenRepository().getToken();
-    final url = Uri.parse('$baseURL$eventMediaURL');
+    final url = Uri.parse('$baseURL$eventMediaURL')
+        .replace(queryParameters: {'take': '100'});
 
     try {
       final response = await http.get(
@@ -25,8 +26,9 @@ class EventMediaRepository {
 
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
-        final List<dynamic> data =
-            decoded is List ? decoded : (decoded['data'] as List<dynamic>? ?? []);
+        final List<dynamic> data = decoded is List
+            ? decoded
+            : (decoded['data'] as List<dynamic>? ?? []);
         return data
             .map((m) => EventMedia.fromMap(m as Map<String, dynamic>))
             .toList();

@@ -14,8 +14,10 @@ class EventsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final EventsStore eventsStoreMobile = EventsStore(pageSize: 4);
-    final EventsStore eventsStoreDesktop = EventsStore(pageSize: 4);
+    final largerThanTablet = ResponsiveWrapper.of(context).isLargerThan(TABLET);
+
+    final EventsStore eventsStore =
+        EventsStore(pageSize: largerThanTablet ? 4 : 2);
 
     return AppScaffold(
       body: ResponsiveVisibility(
@@ -33,8 +35,7 @@ class EventsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const SizedBox(height: 16),
-                    EventsListSectionMobileVersion(
-                        eventsStore: eventsStoreMobile),
+                    EventsListSectionMobileVersion(eventsStore: eventsStore),
                   ],
                 ),
               ),
@@ -55,8 +56,7 @@ class EventsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const SizedBox(height: 16),
-                    EventsListSectionDesktopVersion(
-                        eventsStore: eventsStoreDesktop),
+                    EventsListSectionDesktopVersion(eventsStore: eventsStore),
                   ],
                 ),
               ),

@@ -4,15 +4,18 @@ import 'models/addresses.dart';
 
 extension StringExtension on String {
   bool isEmailValid() {
-    final RegExp regex = RegExp(r"^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$");
+    final RegExp regex = RegExp(
+        r"^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$");
     return regex.hasMatch(this);
   }
 }
 
 extension DateTimeExtension on DateTime {
-  String formattedDate() {
-    return DateFormat('dd/MM/yyyy', 'pt-BR').format(this);
-  }
+  String formattedDate() => DateFormat('dd/MM/yyyy', 'pt-BR').format(this);
+
+  String formattedTime() => DateFormat('HH:mm', 'pt-BR').format(this);
+
+  bool get hasTime => hour != 0 || minute != 0;
 }
 
 String formattedLocation(Addresses? address) {

@@ -80,10 +80,10 @@ class BookTileDesktopVersion extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Divider(
+                  Divider(
                     height: 1,
                     thickness: 0.8,
-                    color: CustomColors.concrete_mist,
+                    color: CustomColors.copper_spice.withOpacity(0.3),
                   ),
                   const SizedBox(height: 8),
                   Row(

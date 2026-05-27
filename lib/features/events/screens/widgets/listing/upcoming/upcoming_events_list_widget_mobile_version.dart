@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_empty_state.dart';
@@ -121,6 +122,10 @@ class _UpcomingEventsListWidgetMobileVersionState
           event: event,
           eventMedia: event.id != null ? mediaMap[event.id] : null,
           pinInfoToBottom: true,
+          onTap: () => context.push(
+            '/events/${event.id}',
+            extra: event,
+          ),
         );
       },
     );

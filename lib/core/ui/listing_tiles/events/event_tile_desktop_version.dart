@@ -79,7 +79,7 @@ class EventTileDesktopVersion extends StatelessWidget {
                         const SizedBox(height: 6),
                         Text(
                           description,
-                          maxLines: 3,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 12,

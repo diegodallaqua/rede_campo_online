@@ -11,7 +11,7 @@ import '../models/project_media.dart';
 class ProjectMediaRepository {
   Future<List<ProjectMedia>> findAll() async {
     final token = await TokenRepository().getToken();
-    final url = Uri.parse('$baseURL$projectMediaURL');
+    final url = Uri.parse('$baseURL$projectMediaURL?take=100');
 
     try {
       final response = await http.get(
@@ -35,12 +35,15 @@ class ProjectMediaRepository {
           return [];
         }
 
-        return data.map((m) => ProjectMedia.fromMap(m as Map<String, dynamic>)).toList();
+        return data
+            .map((m) => ProjectMedia.fromMap(m as Map<String, dynamic>))
+            .toList();
       } else {
         return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
       }
     } catch (e, s) {
-      log('ProjectMediaRepository: Erro ao buscar ProjectMedia:', error: e.toString(), stackTrace: s);
+      log('ProjectMediaRepository: Erro ao buscar ProjectMedia:',
+          error: e.toString(), stackTrace: s);
       return Future.error('Erro ao buscar imagens dos projetos');
     }
   }
