@@ -48,8 +48,9 @@ class Publications {
   Map<String, dynamic> toMap() => {
         'title': title!,
         'abstract': abstract!,
-        'publication_date': publication_date!,
-        'doi': doi,
-        'research_area_ids': research_areas!.map((city) => city.id).toList(),
+        'publication_date': publication_date?.toIso8601String(),
+        if (doi != null && doi!.isNotEmpty) 'doi': doi,
+        'research_area_ids':
+            research_areas?.map((ra) => ra.id).toList() ?? [],
       };
 }

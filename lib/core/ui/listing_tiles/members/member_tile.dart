@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../features/members/models/members.dart';
+import '../../../global/constants/api_constants.dart';
 import '../../../utils/placeholders.dart';
 import '../../theme/custom_colors.dart';
 
@@ -25,6 +26,12 @@ class MemberTile extends StatelessWidget {
 
   bool get _hasValidPicture =>
       member.profilePicture != null && member.profilePicture!.isNotEmpty;
+
+  String get _pictureUrl {
+    final url = member.profilePicture!;
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    return '$baseURL/${url.startsWith('/') ? url.substring(1) : url}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +62,14 @@ class MemberTile extends StatelessWidget {
                   ringColor: accentColor,
                   child: _hasValidPicture
                       ? Image.network(
-                          member.profilePicture!,
+                          _pictureUrl,
                           fit: BoxFit.cover,
+                          loadingBuilder: (_, child, progress) =>
+                              progress == null
+                                  ? child
+                                  : AvatarPlaceholder(
+                                      name: member.name,
+                                      backgroundColor: accentColor),
                           errorBuilder: (_, __, ___) => AvatarPlaceholder(
                               name: member.name, backgroundColor: accentColor),
                         )
@@ -73,7 +86,7 @@ class MemberTile extends StatelessWidget {
                 children: [
                   Text(
                     member.name ?? '—',
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: const TextStyle(

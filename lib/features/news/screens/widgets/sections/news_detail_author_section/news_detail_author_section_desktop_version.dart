@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../core/global/constants/api_constants.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../../core/utils/placeholders.dart';
 import '../../../../models/news.dart';
@@ -20,6 +21,12 @@ class NewsDetailAuthorSectionDesktopVersion extends StatelessWidget {
     final hasAvatar = member.profilePicture?.isNotEmpty == true;
     final roleName = member.memberRole?.name ?? '';
     final orgName = member.organization?.name ?? '';
+
+    String pictureUrl() {
+      final url = member.profilePicture!;
+      if (url.startsWith('http://') || url.startsWith('https://')) return url;
+      return '$baseURL/${url.startsWith('/') ? url.substring(1) : url}';
+    }
 
     return Center(
       child: ConstrainedBox(

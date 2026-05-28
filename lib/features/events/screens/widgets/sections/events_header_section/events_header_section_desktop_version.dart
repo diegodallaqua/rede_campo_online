@@ -25,7 +25,7 @@ class EventsHeaderSectionDesktopVersion extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Saiba mais sobre os nossos',
+                        'Acompanhe nossa programação de',
                         style: TextStyle(
                           fontSize: 16,
                           color: CustomColors.pine_shadow,

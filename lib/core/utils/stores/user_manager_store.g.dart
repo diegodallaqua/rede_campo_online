@@ -30,6 +30,12 @@ mixin _$UserManagerStore on UserManagerStoreBase, Store {
       (_$userEmailComputed ??= Computed<String>(() => super.userEmail,
               name: 'UserManagerStoreBase.userEmail'))
           .value;
+  Computed<int?>? _$userIdComputed;
+
+  @override
+  int? get userId => (_$userIdComputed ??= Computed<int?>(() => super.userId,
+          name: 'UserManagerStoreBase.userId'))
+      .value;
   Computed<String>? _$roleNameComputed;
 
   @override
@@ -165,6 +171,7 @@ mixin _$UserManagerStore on UserManagerStoreBase, Store {
 isLoggedIn: ${isLoggedIn},
 userName: ${userName},
 userEmail: ${userEmail},
+userId: ${userId},
 roleName: ${roleName},
 organizationName: ${organizationName}
     ''';

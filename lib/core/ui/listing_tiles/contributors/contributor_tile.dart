@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/models/contributor.dart';
+import '../../../global/constants/api_constants.dart';
 import '../../../utils/placeholders.dart';
 import '../../theme/custom_colors.dart';
 
@@ -29,6 +30,12 @@ class ContributorTile extends StatelessWidget {
   bool get _hasValidPicture =>
       contributor.member?.profilePicture != null &&
       contributor.member!.profilePicture!.isNotEmpty;
+
+  String get _pictureUrl {
+    final url = contributor.member!.profilePicture!;
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    return '$baseURL/${url.startsWith('/') ? url.substring(1) : url}';
+  }
 
   String? get _subInfo {
     final org = contributor.member?.organization?.name;
@@ -67,8 +74,14 @@ class ContributorTile extends StatelessWidget {
                   ringColor: _accentColor,
                   child: _hasValidPicture
                       ? Image.network(
-                          contributor.member!.profilePicture!,
+                          _pictureUrl,
                           fit: BoxFit.cover,
+                          loadingBuilder: (_, child, progress) =>
+                              progress == null
+                                  ? child
+                                  : AvatarPlaceholder(
+                                      name: _name,
+                                      backgroundColor: _accentColor),
                           errorBuilder: (_, __, ___) => AvatarPlaceholder(
                               name: _name, backgroundColor: _accentColor),
                         )

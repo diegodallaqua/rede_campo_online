@@ -153,9 +153,7 @@ class _LoginButton extends StatelessWidget {
           color: CustomColors.midnight_slate,
           size: 26,
         ),
-        onPressed: () {
-          // TODO: navegar para a tela de login
-        },
+        onPressed: () => context.go(AppRoutes.login),
       ),
     );
   }

@@ -31,6 +31,9 @@ abstract class UserManagerStoreBase with Store {
   String get userEmail => _authData?.user?.email ?? '';
 
   @computed
+  int? get userId => _authData?.user?.id;
+
+  @computed
   String get roleName => _authData?.user?.memberRole?.name ?? '';
 
   @computed

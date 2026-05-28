@@ -51,12 +51,13 @@ class News {
   }
 
   Map<String, dynamic> toMap() => {
-        'project_id': project!.id,
+        if (project?.id != null) 'project_id': project!.id,
         'member_id': member!.id!,
         'title': title,
         'description': description,
         'content': content,
-        'publication_date': publication_date,
-        'research_area_ids': research_areas!.map((city) => city.id).toList(),
+        'publication_date': publication_date?.toIso8601String(),
+        'research_area_ids':
+            research_areas?.map((ra) => ra.id).toList() ?? [],
       };
 }

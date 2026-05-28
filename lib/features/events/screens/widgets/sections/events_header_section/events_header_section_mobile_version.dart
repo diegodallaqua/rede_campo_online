@@ -15,7 +15,7 @@ class EventsHeaderSectionMobileVersion extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'Saiba mais sobre os nossos',
+            'Acompanhe nossa programação de',
             style: TextStyle(
               fontSize: 14,
               color: CustomColors.pine_shadow,

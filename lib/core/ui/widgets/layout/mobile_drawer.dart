@@ -72,50 +72,57 @@ class MobileDrawer extends StatelessWidget {
             ),
             const Divider(
                 color: CustomColors.copper_spice, height: 1, thickness: 1),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Column(
-                children: [
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: const TextSpan(
-                      style: TextStyle(
-                        color: CustomColors.midnight_slate,
-                        fontSize: 14,
-                      ),
-                      children: [
-                        TextSpan(text: 'É um pesquisador da\nRede '),
-                        TextSpan(
-                          text: 'Campo',
-                          style: TextStyle(color: CustomColors.copper_spice),
+            GestureDetector(
+              onTap: () {
+                onClose?.call();
+                context.go(AppRoutes.login);
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Column(
+                  children: [
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(
+                          color: CustomColors.midnight_slate,
+                          fontSize: 14,
                         ),
-                        TextSpan(text: '?'),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: const TextSpan(
-                      style: TextStyle(
-                        color: CustomColors.midnight_slate,
-                        fontSize: 14,
-                      ),
-                      children: [
-                        TextSpan(text: 'Clique '),
-                        TextSpan(
-                          text: 'aqui',
-                          style: TextStyle(
-                            color: CustomColors.copper_spice,
-                            decoration: TextDecoration.underline,
-                            decorationColor: CustomColors.copper_spice,
+                        children: [
+                          TextSpan(text: 'É um pesquisador da\nRede '),
+                          TextSpan(
+                            text: 'Campo',
+                            style: TextStyle(color: CustomColors.copper_spice),
                           ),
-                        ),
-                        TextSpan(text: ' para fazer login.'),
-                      ],
+                          TextSpan(text: '?'),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 6),
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(
+                          color: CustomColors.midnight_slate,
+                          fontSize: 14,
+                        ),
+                        children: [
+                          TextSpan(text: 'Clique '),
+                          TextSpan(
+                            text: 'aqui',
+                            style: TextStyle(
+                              color: CustomColors.copper_spice,
+                              decoration: TextDecoration.underline,
+                              decorationColor: CustomColors.copper_spice,
+                            ),
+                          ),
+                          TextSpan(text: ' para fazer login.'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

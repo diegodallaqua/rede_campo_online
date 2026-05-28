@@ -114,6 +114,7 @@ class _ProjectMembersListWidgetDesktopVersionState
                     return MemberTile(
                       member: members[index],
                       onTap: () => _onMemberTap(members[index]),
+                      accentColor: CustomColors.copper_spice,
                     );
                   },
                 ),

@@ -151,6 +151,7 @@ class _ProjectEventsListWidgetMobileVersionState
                         event: event,
                         eventMedia:
                             event.id != null ? mediaMap[event.id] : null,
+                        pinInfoToBottom: true,
                         onTap: () => context.push(
                           '/events/${event.id}',
                           extra: event,

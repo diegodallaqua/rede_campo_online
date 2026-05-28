@@ -38,7 +38,7 @@ class EventTileMobileVersion extends StatelessWidget {
       children: [
         Text(
           event.name ?? '—',
-          maxLines: 2,
+          maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 12,
@@ -51,7 +51,7 @@ class EventTileMobileVersion extends StatelessWidget {
           const SizedBox(height: 3),
           Text(
             description,
-            maxLines: 4,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 10.5,

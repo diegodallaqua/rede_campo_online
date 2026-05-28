@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../core/global/constants/api_constants.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../../core/utils/placeholders.dart';
 import '../../../../models/news.dart';
@@ -21,6 +22,12 @@ class NewsDetailAuthorSectionMobileVersion extends StatelessWidget {
     final roleName = member.memberRole?.name ?? '';
     final orgName = member.organization?.name ?? '';
 
+    String pictureUrl() {
+      final url = member.profilePicture!;
+      if (url.startsWith('http://') || url.startsWith('https://')) return url;
+      return '$baseURL/${url.startsWith('/') ? url.substring(1) : url}';
+    }
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 28, 24, 28),
       child: Column(
@@ -41,8 +48,14 @@ class NewsDetailAuthorSectionMobileVersion extends StatelessWidget {
               height: 96,
               child: hasAvatar
                   ? Image.network(
-                      member.profilePicture!,
+                      pictureUrl(),
                       fit: BoxFit.cover,
+                      loadingBuilder: (_, child, progress) =>
+                          progress == null
+                              ? child
+                              : AvatarPlaceholder(
+                                  name: member.name,
+                                  backgroundColor: CustomColors.copper_spice),
                       errorBuilder: (_, __, ___) => AvatarPlaceholder(
                           name: member.name,
                           backgroundColor: CustomColors.copper_spice),

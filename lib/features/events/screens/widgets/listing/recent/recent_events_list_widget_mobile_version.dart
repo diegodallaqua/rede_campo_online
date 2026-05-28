@@ -14,7 +14,7 @@ class RecentEventsListWidgetMobileVersion extends StatefulWidget {
   final EventsStore eventsStore;
 
   static const double _separatorWidth = 12.0;
-  static const double _tileAspectRatio = 0.72;
+  static const double _tileHeight = 215.0;
 
   const RecentEventsListWidgetMobileVersion({
     super.key,
@@ -78,8 +78,8 @@ class _RecentEventsListWidgetMobileVersionState
         final double tileWidth = (constraints.maxWidth -
                 RecentEventsListWidgetMobileVersion._separatorWidth) /
             2;
-        final double tileHeight =
-            tileWidth / RecentEventsListWidgetMobileVersion._tileAspectRatio;
+        const double tileHeight =
+            RecentEventsListWidgetMobileVersion._tileHeight;
 
         return Scrollbar(
           thumbVisibility: true,

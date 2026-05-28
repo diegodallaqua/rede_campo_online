@@ -68,7 +68,7 @@ class RecentEventsListWidgetDesktopVersion extends StatelessWidget {
           crossAxisCount: 4,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          mainAxisExtent: 330,
+          mainAxisExtent: 300,
         ),
         itemCount: events.length,
         itemBuilder: (context, index) {
