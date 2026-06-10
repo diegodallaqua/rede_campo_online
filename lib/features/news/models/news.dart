@@ -56,7 +56,7 @@ class News {
         'title': title,
         'description': description,
         'content': content,
-        'publication_date': publication_date?.toIso8601String(),
+        'publication_date': publication_date?.toIso8601String().split('T').first,
         'research_area_ids':
             research_areas?.map((ra) => ra.id).toList() ?? [],
       };

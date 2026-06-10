@@ -5,16 +5,16 @@ import 'package:rede_campo_online/core/utils/stores/filter_search_store.dart';
 import 'package:rede_campo_online/features/articles/stores/articles_store.dart';
 import 'package:rede_campo_online/features/book_chapters/stores/book_chapters_store.dart';
 import 'package:rede_campo_online/features/books/stores/books_store.dart';
-import 'package:rede_campo_online/features/technical_reports/stores/technical_reports_store.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import '../../../core/ui/widgets/layout/app_scaffold.dart';
 import '../../../core/ui/theme/custom_colors.dart';
+import '../../thesis/stores/thesis_store.dart';
 import 'widgets/sections/header_section/publications_header_section_mobile_version.dart';
 import 'widgets/sections/header_section/publications_header_section_desktop_version.dart';
 import 'widgets/sections/articles_section/publications_articles_section_mobile_version.dart';
 import 'widgets/sections/articles_section/publications_articles_section_desktop_version.dart';
-import 'widgets/sections/technical_reports_section/publications_technical_reports_section_mobile_version.dart';
-import 'widgets/sections/technical_reports_section/publications_technical_reports_section_desktop_version.dart';
+import 'widgets/sections/thesis_section/publications_thesis_section_mobile_version.dart';
+import 'widgets/sections/thesis_section/publications_thesis_section_desktop_version.dart';
 import 'widgets/sections/books_section/publications_books_section_mobile_version.dart';
 import 'widgets/sections/books_section/publications_books_section_desktop_version.dart';
 import 'widgets/sections/book_chapters_section/publications_book_chapters_section_mobile_version.dart';
@@ -30,16 +30,14 @@ class PublicationsScreen extends StatefulWidget {
 class _PublicationsScreenState extends State<PublicationsScreen> {
   // Mobile stores
   final ArticlesStore _articlesStore = ArticlesStore(pageSize: 4);
-  final TechnicalReportsStore _technicalReportsStore =
-      TechnicalReportsStore(pageSize: 4);
+  final ThesisStore _thesisStore = ThesisStore(pageSize: 4);
   final BooksStore _booksStore = BooksStore(pageSize: 3);
   final BookChaptersStore _bookChaptersStore = BookChaptersStore(pageSize: 3);
   final TextEditingController _searchController = TextEditingController();
 
   // Desktop stores
   final ArticlesStore _articlesStoreDesktop = ArticlesStore(pageSize: 8);
-  final TechnicalReportsStore _technicalReportsStoreDesktop =
-      TechnicalReportsStore(pageSize: 8);
+  final ThesisStore _thesisStoreDesktop = ThesisStore(pageSize: 8);
   final BooksStore _booksStoreDesktop = BooksStore(pageSize: 10);
   final BookChaptersStore _bookChaptersStoreDesktop =
       BookChaptersStore(pageSize: 8);
@@ -56,7 +54,7 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
   void _onSearch(String value) {
     final filter = FilterSearchStore()..setSearch(value);
     _articlesStore.setFilter(filter);
-    _technicalReportsStore.setFilter(filter);
+    _thesisStore.setFilter(filter);
     _booksStore.setFilter(filter);
     _bookChaptersStore.setFilter(filter);
   }
@@ -64,7 +62,7 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
   void _onSearchDesktop(String value) {
     final filter = FilterSearchStore()..setSearch(value);
     _articlesStoreDesktop.setFilter(filter);
-    _technicalReportsStoreDesktop.setFilter(filter);
+    _thesisStoreDesktop.setFilter(filter);
     _booksStoreDesktop.setFilter(filter);
     _bookChaptersStoreDesktop.setFilter(filter);
   }
@@ -96,8 +94,8 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                     PublicationsArticlesSectionMobileVersion(
                       articlesStore: _articlesStore,
                     ),
-                    PublicationsTechnicalReportsSectionMobileVersion(
-                      technicalReportsStore: _technicalReportsStore,
+                    PublicationsThesisSectionMobileVersion(
+                      thesisStore: _thesisStore,
                     ),
                   ],
                 ),
@@ -129,8 +127,8 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                       searchController: _searchControllerDesktop,
                       onSearch: _onSearchDesktop,
                     ),
-                    PublicationsTechnicalReportsSectionDesktopVersion(
-                      technicalReportsStore: _technicalReportsStoreDesktop,
+                    PublicationsThesisSectionDesktopVersion(
+                      thesisStore: _thesisStoreDesktop,
                     ),
                   ],
                 ),

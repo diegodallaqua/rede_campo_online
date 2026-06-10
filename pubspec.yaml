@@ -61,6 +61,7 @@ dependencies:
 
   # HTTP Client
   http: ^0.13.4
+  http_parser: ^4.0.0
 
   # Decodificação do JWT para extrair o `exp` real
   dart_jsonwebtoken: ^2.8.1

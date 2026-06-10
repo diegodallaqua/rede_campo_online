@@ -229,12 +229,12 @@ class _StatusBadge extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
         decoration: BoxDecoration(
           color: isActive
-              ? CustomColors.fresh_sprout.withOpacity(0.15)
+              ? CustomColors.pine_shadow.withOpacity(0.15)
               : CustomColors.concrete_mist.withOpacity(0.3),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isActive
-                ? CustomColors.fresh_sprout
+                ? CustomColors.pine_shadow
                 : CustomColors.concrete_mist,
           ),
         ),
@@ -246,7 +246,7 @@ class _StatusBadge extends StatelessWidget {
               height: 8,
               decoration: BoxDecoration(
                 color: isActive
-                    ? CustomColors.fresh_sprout
+                    ? CustomColors.pine_shadow
                     : CustomColors.concrete_mist,
                 shape: BoxShape.circle,
               ),
@@ -258,7 +258,7 @@ class _StatusBadge extends StatelessWidget {
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: isActive
-                    ? CustomColors.fresh_sprout
+                    ? CustomColors.pine_shadow
                     : CustomColors.pine_shadow,
               ),
             ),

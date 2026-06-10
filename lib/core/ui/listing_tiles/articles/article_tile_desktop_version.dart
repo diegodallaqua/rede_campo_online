@@ -72,7 +72,7 @@ class ArticleTileDesktopVersion extends StatelessWidget {
                       const Icon(
                         Icons.article_outlined,
                         size: 12,
-                        color: CustomColors.fresh_sprout,
+                        color: CustomColors.pine_shadow,
                       ),
                       const SizedBox(width: 5),
                       const Text(
@@ -80,7 +80,7 @@ class ArticleTileDesktopVersion extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
-                          color: CustomColors.fresh_sprout,
+                          color: CustomColors.pine_shadow,
                           letterSpacing: 0.6,
                         ),
                       ),
@@ -114,7 +114,7 @@ class ArticleTileDesktopVersion extends StatelessWidget {
                               padding: const EdgeInsets.only(right: 5),
                               child: CustomChip(
                                 label: area,
-                                color: CustomColors.fresh_sprout,
+                                color: CustomColors.pine_shadow,
                               ),
                             ),
                           )

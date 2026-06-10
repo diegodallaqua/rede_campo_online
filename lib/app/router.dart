@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rede_campo_online/features/about_us/screens/about_us_screen.dart';
 import 'package:rede_campo_online/features/admin/news/screens/admin_create_news_screen.dart';
-import 'package:rede_campo_online/features/admin/publications/screens/admin_create_publication_screen.dart';
+import 'package:rede_campo_online/features/admin/news/screens/admin_news_screen.dart';
 import 'package:rede_campo_online/features/admin/screens/admin_screen.dart';
 import 'package:rede_campo_online/features/login/screens/login_screen.dart';
 import 'package:rede_campo_online/features/articles/models/articles.dart';
@@ -13,8 +13,6 @@ import 'package:rede_campo_online/features/book_chapters/screens/book_chapter_de
 import 'package:rede_campo_online/features/books/models/books.dart';
 import 'package:rede_campo_online/features/books/screens/book_details_screen.dart';
 import 'package:rede_campo_online/features/home/screens/home_screen.dart';
-import 'package:rede_campo_online/features/technical_reports/models/technical_reports.dart';
-import 'package:rede_campo_online/features/technical_reports/screens/technical_report_details_screen.dart';
 
 import '../core/global/injection.dart';
 import '../core/utils/stores/user_manager_store.dart';
@@ -28,6 +26,8 @@ import '../features/projects/models/projects.dart';
 import '../features/projects/screens/project_details_screen.dart';
 import '../features/projects/screens/projects_screen.dart';
 import '../features/publications/screens/publications_screen.dart';
+import '../features/thesis/models/thesis.dart';
+import '../features/thesis/screens/thesis_details_screen.dart';
 
 abstract class AppRoutes {
   static const home = '/';
@@ -38,15 +38,15 @@ abstract class AppRoutes {
   static const newsDetail = '/news/:id';
   static const publications = '/publications';
   static const articleDetail = '/publications/articles/:id';
-  static const technicalReportDetail = '/publications/technical-reports/:id';
+  static const thesisDetail = '/publications/thesis/:id';
   static const bookDetail = '/publications/books/:id';
   static const bookChapterDetail = '/publications/book-chapters/:id';
   static const events = '/events';
   static const eventDetail = '/events/:id';
   static const login = '/login';
   static const admin = '/admin';
-  static const adminCreateNews = '/admin/news/criar';
-  static const adminCreatePublication = '/admin/publications/criar';
+  static const adminNews = '/admin/news';
+  static const adminCreateNews = '/admin/news/create';
 }
 
 /// Notifies GoRouter whenever the auth state changes so the redirect
@@ -131,11 +131,11 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: AppRoutes.technicalReportDetail,
+      path: AppRoutes.thesisDetail,
       builder: (context, state) {
         final extra = state.extra;
-        if (extra is! TechnicalReports) return const PublicationsScreen();
-        return TechnicalReportDetailsScreen(technicalReport: extra);
+        if (extra is! Thesis) return const PublicationsScreen();
+        return ThesisDetailsScreen(thesis: extra);
       },
     ),
     GoRoute(
@@ -176,12 +176,15 @@ final appRouter = GoRouter(
       builder: (context, state) => const AdminScreen(),
     ),
     GoRoute(
-      path: AppRoutes.adminCreateNews,
-      builder: (context, state) => const AdminCreateNewsScreen(),
+      path: AppRoutes.adminNews,
+      builder: (context, state) => const AdminNewsScreen(),
     ),
     GoRoute(
-      path: AppRoutes.adminCreatePublication,
-      builder: (context, state) => const AdminCreatePublicationScreen(),
+      path: AppRoutes.adminCreateNews,
+      builder: (context, state) {
+        final extra = state.extra;
+        return AdminCreateNewsScreen(news: extra is News ? extra : null);
+      },
     ),
   ],
 );

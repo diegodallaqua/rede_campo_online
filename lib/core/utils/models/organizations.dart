@@ -25,7 +25,7 @@ class Organizations {
   }
 
   Map<String, dynamic> toMap() => {
-    'address_id': address!.id,
-    'name': name!,
+    if (address?.id != null) 'address_id': address!.id,
+    'name': name,
   };
 }

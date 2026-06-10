@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
@@ -31,13 +32,26 @@ class BookHeaderSectionMobileVersion extends StatelessWidget {
           ),
           if (book.cover_photo != null && book.cover_photo!.isNotEmpty) ...[
             const SizedBox(height: 20),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                book.cover_photo!,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+            MouseRegion(
+              cursor: (book.book_url != null && book.book_url!.isNotEmpty)
+                  ? SystemMouseCursors.click
+                  : MouseCursor.defer,
+              child: GestureDetector(
+                onTap: (book.book_url != null && book.book_url!.isNotEmpty)
+                    ? () => launchUrl(
+                          Uri.parse(book.book_url!),
+                          mode: LaunchMode.externalApplication,
+                        )
+                    : null,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    book.cover_photo!,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                  ),
+                ),
               ),
             ),
           ],
@@ -81,6 +95,53 @@ class BookHeaderSectionMobileVersion extends StatelessWidget {
                         ),
                         TextSpan(text: book.edition),
                       ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                ],
+                if (book.isbn != null && book.isbn!.isNotEmpty) ...[
+                  RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: CustomColors.pine_shadow,
+                        height: 1.5,
+                      ),
+                      children: [
+                        const TextSpan(
+                          text: 'ISBN: ',
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                        TextSpan(text: book.isbn),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                ],
+                if (book.cover_photo == null &&
+                    book.book_url != null &&
+                    book.book_url!.isNotEmpty) ...[
+                  GestureDetector(
+                    onTap: () => launchUrl(Uri.parse(book.book_url!)),
+                    child: RichText(
+                      maxLines: 2,
+                      text: TextSpan(
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: CustomColors.pine_shadow,
+                          height: 1.5,
+                        ),
+                        children: [
+                          const TextSpan(
+                            text: 'Link: ',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          TextSpan(
+                            text: book.book_url,
+                            style: const TextStyle(color: Colors.blue),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),

@@ -161,7 +161,7 @@ class _MobileLayout extends StatelessWidget {
               flex: 3,
               child: Container(
                 decoration: const BoxDecoration(
-                  color: CustomColors.vanilla_haze,
+                  color: CustomColors.salt_flower,
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(28),
                   ),

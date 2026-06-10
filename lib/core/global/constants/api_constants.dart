@@ -32,6 +32,9 @@ const projectMediaURL = '/project-media';
 // NEWS MEDIA
 const newsMediaURL = '/news-media';
 
+// IMAGES UPLOAD
+const imagesUploadURL = '/images/upload';
+
 // EVENTS
 const eventsURL = '/events';
 
@@ -47,5 +50,8 @@ const bookChaptersURL = '/book-chapters';
 // BOOK
 const booksURL = '/books';
 
-// TECHNICAL REPORTS
-const technicalReportsURL = '/technical-reports';
+// THESIS
+const thesisURL = '/thesis';
+
+// RESEARCH AREAS
+const researchAreasURL = '/research-areas';

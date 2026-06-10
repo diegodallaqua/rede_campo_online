@@ -27,10 +27,11 @@ class AuthUser {
   }
 
   Map<String, dynamic> toMap() => {
-    'name': name!,
-    'email': email!,
-    'memberRole': memberRole!.toMap(),
-    'organization': organization!.toMap(),
+    'id': id,
+    'name': name,
+    'email': email,
+    if (memberRole != null) 'memberRole': memberRole!.toMap(),
+    if (organization != null) 'organization': organization!.toMap(),
   };
 
   @override
@@ -52,7 +53,7 @@ class AuthResponse {
 
   Map<String, dynamic> toMap() => {
     'token': token,
-    'user': user!.toMap(),
+    if (user != null) 'user': user!.toMap(),
   };
 
   @override

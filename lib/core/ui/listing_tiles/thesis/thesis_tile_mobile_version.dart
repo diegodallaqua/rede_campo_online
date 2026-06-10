@@ -1,0 +1,156 @@
+import 'package:flutter/material.dart';
+import '../../../../features/thesis/models/thesis.dart';
+import '../../theme/custom_colors.dart';
+
+class ThesisTileMobileVersion extends StatelessWidget {
+  final Thesis thesis;
+  final VoidCallback? onTap;
+  final EdgeInsetsGeometry? margin;
+
+  const ThesisTileMobileVersion({
+    super.key,
+    required this.thesis,
+    this.onTap,
+    this.margin,
+  });
+
+  static const double _height = 118.0;
+  static const double _accentWidth = 5.0;
+  static const double _borderRadius = 12.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final pub = thesis.publication;
+    final title = pub?.title ?? '—';
+    final orgName = thesis.organization?.name ?? '';
+    final date = pub?.publication_date;
+    final year = date != null ? date.year.toString() : '';
+    final pages = thesis.number_of_pages;
+    final pagesLabel = (pages != null && pages > 0) ? '$pages páginas' : '';
+
+    final card = SizedBox(
+      height: _height,
+      child: Container(
+        decoration: BoxDecoration(
+          color: CustomColors.vanilla_haze,
+          borderRadius: BorderRadius.circular(_borderRadius),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              width: _accentWidth,
+              color: CustomColors.fresh_sprout,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 11, 12, 11),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: CustomColors.pine_shadow,
+                        height: 1.35,
+                      ),
+                    ),
+                    const Spacer(),
+                    const Divider(
+                      height: 1,
+                      thickness: 0.8,
+                      color: CustomColors.concrete_mist,
+                    ),
+                    const SizedBox(height: 7),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.account_balance_outlined,
+                          size: 12,
+                          color: CustomColors.pine_shadow,
+                        ),
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: Text(
+                            orgName.isNotEmpty ? orgName : '—',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: CustomColors.pine_shadow,
+                              height: 1.3,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (year.isNotEmpty || pagesLabel.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.calendar_today_outlined,
+                            size: 11,
+                            color: CustomColors.pine_shadow,
+                          ),
+                          const SizedBox(width: 5),
+                          if (year.isNotEmpty)
+                            Text(
+                              year,
+                              style: const TextStyle(
+                                fontSize: 11,
+                                color: CustomColors.pine_shadow,
+                                height: 1.3,
+                              ),
+                            ),
+                          if (pagesLabel.isNotEmpty) ...[
+                            const SizedBox(width: 6),
+                            Text(
+                              '·  $pagesLabel',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color:
+                                    CustomColors.pine_shadow.withOpacity(0.65),
+                                height: 1.3,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    return Container(
+      margin: margin,
+      child: onTap == null
+          ? card
+          : Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(_borderRadius),
+                onTap: onTap,
+                child: card,
+              ),
+            ),
+    );
+  }
+}

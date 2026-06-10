@@ -15,7 +15,7 @@ class _MetricHighlightsWidgetState extends State<MetricHighlightsWidget>
     with TickerProviderStateMixin {
   static const _metrics = [
     _Metric('+60', 'Membros espalhados por todo o Brasil'),
-    _Metric('+100', 'Artigos, livros e relatórios publicados'),
+    _Metric('+100', 'Artigos, livros e dissertações publicados'),
     _Metric('+10', 'Projetos de extensão em andamento'),
     _Metric('+5', 'Aplicações desenvolvidas'),
   ];

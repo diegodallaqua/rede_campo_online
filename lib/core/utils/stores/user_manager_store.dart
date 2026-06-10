@@ -68,7 +68,7 @@ abstract class UserManagerStoreBase with Store {
     return false;
   }
 
-  /// Verifica se há um token válido salvo (para auto-login na inicialização).
+  /// Verifica se há um token válido salvo e restaura a sessão.
   @action
   Future<bool> checkSession() async {
     setLoading(true);
@@ -77,6 +77,10 @@ abstract class UserManagerStoreBase with Store {
 
     try {
       valid = await _tokenRepository.verifyToken();
+      if (valid) {
+        _authData = await _tokenRepository.getStoredAuthData();
+        valid = _authData != null;
+      }
     } catch (e) {
       setError('Erro ao recuperar Token de Login.');
     } finally {

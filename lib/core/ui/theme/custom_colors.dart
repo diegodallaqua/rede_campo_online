@@ -8,4 +8,5 @@ abstract class CustomColors {
   static const Color copper_spice = Color(0xFFC85F1C);
   static const Color fresh_sprout = Color(0xFF83CE2F);
   static const Color pine_shadow = Color(0xFF25422B);
+  static const Color salt_flower = Color(0xFFF5F5EE);
 }

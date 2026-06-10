@@ -10,7 +10,7 @@ import '../../../core/utils/stores/filter_search_store.dart';
 import '../models/news.dart';
 
 class NewsRepository {
-  Future<void> createNews(News news) async {
+  Future<News> createNews(News news) async {
     var url = Uri.parse(baseURL + newsURL);
     final token = await TokenRepository().getToken();
 
@@ -25,18 +25,19 @@ class NewsRepository {
         body: jsonEncode(news.toMap()),
       );
 
-      if (response.statusCode != 200 &&
-          response.statusCode != 204 &&
-          response.statusCode != 201) {
-        // 200	OK
-        // 204	No Content
-        // 201  Created
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final decoded = jsonDecode(response.body);
+        final map = decoded is Map<String, dynamic>
+            ? (decoded.containsKey('data')
+                ? decoded['data'] as Map<String, dynamic>
+                : decoded)
+            : decoded as Map<String, dynamic>;
+        return News.fromMap(map);
       }
+      if (response.statusCode == 204) {
+        return News();
+      }
+      return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
     } catch (e, s) {
       log('Repository: Erro ao criar Notícia.',
           error: e.toString(), stackTrace: s);
@@ -45,7 +46,9 @@ class NewsRepository {
   }
 
   Future<List<News>> findAllNews(
-      {int? page = 1, FilterSearchStore? filterSearchStore, int take = 15}) async {
+      {int? page = 1,
+      FilterSearchStore? filterSearchStore,
+      int take = 15}) async {
     final token = await TokenRepository().getToken();
 
     final url = Uri.parse('$baseURL$newsURL').replace(queryParameters: {
@@ -86,7 +89,7 @@ class NewsRepository {
   }
 
   Future<void> editNews(News news) async {
-    var url = Uri.parse(baseURL + newsURL + news.id!.toString());
+    var url = Uri.parse('$baseURL$newsURL/${news.id}');
 
     final token = await TokenRepository().getToken();
 
@@ -121,7 +124,7 @@ class NewsRepository {
   }
 
   Future<void> deleteNews(String id) async {
-    var url = Uri.parse(baseURL + newsURL + id);
+    var url = Uri.parse('$baseURL$newsURL/$id');
 
     final token = await TokenRepository().getToken();
 

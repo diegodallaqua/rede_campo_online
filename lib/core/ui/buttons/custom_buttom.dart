@@ -33,7 +33,7 @@ class CustomButton extends StatelessWidget {
             backgroundColor: color,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             elevation: 8,
-            shadowColor: CustomColors.midnight_slate),
+            shadowColor: CustomColors.midnight_slate.withOpacity(0.25)),
         onPressed: function,
         child: Text(
           text,

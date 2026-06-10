@@ -55,7 +55,7 @@ class CustomTextField extends StatelessWidget {
         ),
         floatingLabelStyle: const TextStyle(
           color: CustomColors.copper_spice,
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: FontWeight.w600,
         ),
         prefixIcon: prefixIcon != null
@@ -63,7 +63,7 @@ class CustomTextField extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 12),
                 child: Icon(
                   prefixIcon,
-                  color: CustomColors.midnight_slate.withOpacity(0.38),
+                  color: CustomColors.midnight_slate.withOpacity(0.45),
                   size: 18,
                 ),
               )

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
@@ -153,7 +154,7 @@ class _BookMetadataCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rows = <CustomRow>[
+    final rows = <Widget>[
       if (book.publisher!.isNotEmpty)
         CustomRow(
           icon: Icons.business_outlined,
@@ -163,6 +164,20 @@ class _BookMetadataCard extends StatelessWidget {
         CustomRow(
           icon: Icons.layers_outlined,
           text: 'Edição: ${book.edition}',
+        ),
+      if (book.isbn != null && book.isbn!.isNotEmpty)
+        CustomRow(
+          icon: Icons.tag_outlined,
+          text: 'ISBN: ${book.isbn}',
+        ),
+      if (book.book_url != null && book.book_url!.isNotEmpty)
+        InkWell(
+          onTap: () => launchUrl(Uri.parse(book.book_url!)),
+          child: CustomRow(
+            icon: Icons.link_outlined,
+            text: book.book_url!,
+            textColor: Colors.blue,
+          ),
         ),
       if (book.publication?.publication_date != null)
         CustomRow(

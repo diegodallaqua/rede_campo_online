@@ -10,6 +10,7 @@ class NewsTileMobileVersion extends StatelessWidget {
   final NewsMedia? newsMedia;
   final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
+  final bool isAdmin;
 
   const NewsTileMobileVersion({
     super.key,
@@ -17,6 +18,7 @@ class NewsTileMobileVersion extends StatelessWidget {
     this.newsMedia,
     this.onTap,
     this.margin,
+    this.isAdmin = false,
   });
 
   static const double _height = 130.0;

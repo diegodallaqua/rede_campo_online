@@ -16,6 +16,7 @@ class TokenRepository {
 
   static const _keyToken = 'jwt_token';
   static const _keyTokenTimestamp = 'jwt_timestamp';
+  static const _keyAuthData = 'jwt_auth_data';
 
   /// Realiza o login na API e armazena o token de forma segura.
   Future<AuthResponse?> loginAPI(String email, String password) async {
@@ -32,11 +33,14 @@ class TokenRepository {
         final body = json.decode(response.body) as Map<String, dynamic>;
         final authData = AuthResponse.fromMap(body);
 
-        // Armazena token e timestamp para validação futura.
         await _storage.write(key: _keyToken, value: authData.token);
         await _storage.write(
           key: _keyTokenTimestamp,
           value: DateTime.now().toIso8601String(),
+        );
+        await _storage.write(
+          key: _keyAuthData,
+          value: json.encode(authData.toMap()),
         );
 
         return authData;
@@ -52,6 +56,18 @@ class TokenRepository {
   /// Recupera o token armazenado.
   Future<String> getToken() async {
     return await _storage.read(key: _keyToken) ?? '';
+  }
+
+  /// Restaura o AuthResponse persistido após login.
+  Future<AuthResponse?> getStoredAuthData() async {
+    final raw = await _storage.read(key: _keyAuthData);
+    if (raw == null || raw.isEmpty) return null;
+    try {
+      return AuthResponse.fromMap(json.decode(raw) as Map<String, dynamic>);
+    } catch (e) {
+      log('Erro ao restaurar AuthResponse: $e');
+      return null;
+    }
   }
 
   /// Verifica a expiração real decodificando o JWT localmente.

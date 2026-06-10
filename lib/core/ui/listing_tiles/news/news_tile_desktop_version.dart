@@ -11,6 +11,7 @@ class NewsTileDesktopVersion extends StatelessWidget {
   final NewsMedia? newsMedia;
   final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
+  final bool isAdmin;
 
   const NewsTileDesktopVersion({
     super.key,
@@ -18,6 +19,7 @@ class NewsTileDesktopVersion extends StatelessWidget {
     this.newsMedia,
     this.onTap,
     this.margin,
+    this.isAdmin = false,
   });
 
   @override
@@ -58,7 +60,11 @@ class NewsTileDesktopVersion extends StatelessWidget {
                   : const ImagePlaceholder(),
             ),
           ),
-          Container(height: 1, color: CustomColors.pine_shadow),
+          Container(
+              height: 1,
+              color: isAdmin
+                  ? CustomColors.copper_spice
+                  : CustomColors.pine_shadow),
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 10),
             child: Column(
@@ -98,35 +104,37 @@ class NewsTileDesktopVersion extends StatelessWidget {
                       return areas.join(', ');
                     }(),
                   ),
-                const SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton(
-                    onPressed: onTap,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: CustomColors.copper_spice,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 7,
+                if (!isAdmin) ...[
+                  const SizedBox(height: 12),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton(
+                      onPressed: onTap,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: CustomColors.copper_spice,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 7,
+                        ),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        elevation: 0,
                       ),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: const Text(
-                      'SAIBA MAIS',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.5,
+                      child: const Text(
+                        'SAIBA MAIS',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ]
               ],
             ),
           ),

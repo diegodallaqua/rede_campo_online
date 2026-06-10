@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../core/global/injection.dart';
+import '../core/utils/stores/user_manager_store.dart';
 import 'router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupDependencies();
   await initializeDateFormatting('pt_BR', null);
+  await getIt<UserManagerStore>().checkSession();
 
   runApp(const MyApp());
 }

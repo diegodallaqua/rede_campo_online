@@ -47,29 +47,27 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) => AutofillGroup(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CustomTextField(
-                label: 'E-mail',
-                controller: _emailController,
-                prefixIcon: Icons.email_outlined,
-                keyboardType: TextInputType.emailAddress,
-                autofillHints: const [AutofillHints.email],
-                textInputAction: TextInputAction.next,
-                validator: (value) {
-                  final v = value?.trim() ?? '';
-                  if (v.isEmpty) return 'Informe o e-mail';
-                  if (!v.isEmailValid()) return 'E-mail inválido';
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              CustomTextField(
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          CustomTextField(
+            label: 'E-mail',
+            controller: _emailController,
+            prefixIcon: Icons.email_outlined,
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
+              validator: (value) {
+                final v = value?.trim() ?? '';
+                if (v.isEmpty) return 'Informe o e-mail';
+                if (!v.isEmailValid()) return 'E-mail inválido';
+                return null;
+              },
+            ),
+            const SizedBox(height: 16),
+            Observer(
+              builder: (_) => CustomTextField(
                 label: 'Senha',
                 controller: _passwordController,
                 prefixIcon: Icons.lock_outline_rounded,
@@ -94,55 +92,61 @@ class _LoginFormState extends State<LoginForm> {
                   if (!loginStore.loading) _handleSubmit();
                 },
               ),
-              if (loginStore.errorMessage != null) ...[
-                const SizedBox(height: 14),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFF1F0),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0xFFFFCCC7)),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.error_outline_rounded,
-                          color: Color(0xFFCF1322), size: 16),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          loginStore.errorMessage!,
-                          style: const TextStyle(
-                            color: Color(0xFFCF1322),
-                            fontSize: 13,
-                          ),
-                        ),
+            ),
+            Observer(
+              builder: (_) => Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (loginStore.errorMessage != null) ...[
+                    const SizedBox(height: 14),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF1F0),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: const Color(0xFFFFCCC7)),
                       ),
-                    ],
-                  ),
-                ),
-              ],
-              const SizedBox(height: 28),
-              if (loginStore.loading)
-                const Center(
-                  child: CircularProgressIndicator(
-                    color: CustomColors.copper_spice,
-                    strokeWidth: 2.5,
-                  ),
-                )
-              else
-                CustomButton(
-                  width: double.infinity,
-                  color: CustomColors.copper_spice,
-                  text: 'Entrar',
-                  textColor: Colors.white,
-                  borderRadius: 10,
-                  function: _handleSubmit,
-                ),
-            ],
-          ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.error_outline_rounded,
+                              color: Color(0xFFCF1322), size: 16),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              loginStore.errorMessage!,
+                              style: const TextStyle(
+                                color: Color(0xFFCF1322),
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 28),
+                  if (loginStore.loading)
+                    const Center(
+                      child: CircularProgressIndicator(
+                        color: CustomColors.copper_spice,
+                        strokeWidth: 2.5,
+                      ),
+                    )
+                  else
+                    CustomButton(
+                      width: double.infinity,
+                      color: CustomColors.copper_spice,
+                      text: 'Entrar',
+                      textColor: Colors.white,
+                      borderRadius: 10,
+                      function: _handleSubmit,
+                    ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ),
     );
   }
 }
