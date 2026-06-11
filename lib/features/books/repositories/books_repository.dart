@@ -85,6 +85,38 @@ class BooksRepository {
     }
   }
 
+  /// Busca o livro de uma publicação específica. Retorna null se a publicação
+  /// não for um livro (ou não houver registro).
+  Future<Books?> findByPublicationId(int publicationId) async {
+    final token = await TokenRepository().getToken();
+    final url = Uri.parse('$baseURL$booksURL$publicationId');
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        final map = decoded is Map<String, dynamic>
+            ? (decoded.containsKey('data') ? decoded['data'] : decoded)
+            : decoded;
+        if (map == null) return null;
+        return Books.fromMap(map as Map<String, dynamic>);
+      }
+      return null;
+    } catch (e, s) {
+      log('Repository: Erro ao buscar Livro por publicação:',
+          error: e.toString(), stackTrace: s);
+      return null;
+    }
+  }
+
   Future<void> editBooks(Books book) async {
     var url = Uri.parse(baseURL + booksURL + book.publication!.id!.toString());
 
@@ -98,7 +130,8 @@ class BooksRepository {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: jsonEncode(book.toMap()),
+        // O id da publicação já vai na URL; a API rejeita-o no corpo do PUT.
+        body: jsonEncode(book.toMap()..remove('publication_id')),
       );
 
       if (response.statusCode != 200 &&

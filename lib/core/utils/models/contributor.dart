@@ -42,7 +42,7 @@ class Contributors {
           map.containsKey('external_author') && map['external_author'] != null
               ? ExternalAuthors.fromMap(map['external_author'] ?? {})
               : null,
-      order: map['order'],
+      order: (map['author_order'] ?? 0) as int,
     );
   }
 
@@ -51,6 +51,6 @@ class Contributors {
         'member_id': member?.id,
         'contributor_role_id': contributor_role?.id,
         'external_author_id': external_author?.id,
-        'order': order,
+        'author_order': order,
       };
 }

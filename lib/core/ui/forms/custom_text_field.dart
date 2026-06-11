@@ -16,6 +16,7 @@ class CustomTextField extends StatelessWidget {
     this.onFieldSubmitted,
     this.maxLines = 1,
     this.minLines,
+    this.autovalidateMode,
   });
 
   final String label;
@@ -30,6 +31,7 @@ class CustomTextField extends StatelessWidget {
   final void Function(String)? onFieldSubmitted;
   final int maxLines;
   final int? minLines;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class CustomTextField extends StatelessWidget {
       textInputAction: textInputAction,
       autofillHints: autofillHints,
       validator: validator,
+      autovalidateMode: autovalidateMode,
       onFieldSubmitted: onFieldSubmitted,
       maxLines: obscureText ? 1 : maxLines,
       minLines: minLines,

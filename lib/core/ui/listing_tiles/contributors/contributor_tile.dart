@@ -91,49 +91,59 @@ class ContributorTile extends StatelessWidget {
               ),
             ),
             const Divider(height: 1, thickness: 0.5, color: Color(0xFFEEEEEE)),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    _name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      color: CustomColors.pine_shadow,
-                      height: 1.3,
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.topCenter,
+                  child: SizedBox(
+                    width: _cardWidth - 20,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          _name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: CustomColors.pine_shadow,
+                            height: 1.3,
+                          ),
+                        ),
+                        if (contributor.contributor_role?.name != null) ...[
+                          const SizedBox(height: 6),
+                          _RoleBadge(
+                            label: contributor.contributor_role!.name!,
+                            color: _accentColor,
+                          ),
+                        ],
+                        if (_subInfo != null) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            _subInfo!,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: CustomColors.pine_shadow.withOpacity(0.55),
+                              height: 1.35,
+                            ),
+                          ),
+                        ],
+                        if (_isExternal) ...[
+                          const SizedBox(height: 5),
+                          _ExternalBadge(),
+                        ],
+                      ],
                     ),
                   ),
-                  if (contributor.contributor_role?.name != null) ...[
-                    const SizedBox(height: 6),
-                    _RoleBadge(
-                      label: contributor.contributor_role!.name!,
-                      color: _accentColor,
-                    ),
-                  ],
-                  if (_subInfo != null) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      _subInfo!,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: CustomColors.pine_shadow.withOpacity(0.55),
-                        height: 1.35,
-                      ),
-                    ),
-                  ],
-                  if (_isExternal) ...[
-                    const SizedBox(height: 5),
-                    _ExternalBadge(),
-                  ],
-                ],
+                ),
               ),
             ),
           ],

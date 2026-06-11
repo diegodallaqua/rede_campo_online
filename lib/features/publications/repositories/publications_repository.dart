@@ -10,7 +10,7 @@ import '../../../core/utils/stores/filter_search_store.dart';
 import '../models/publications.dart';
 
 class PublicationsRepository {
-  Future<void> createPublication(Publications publication) async {
+  Future<Publications> createPublication(Publications publication) async {
     var url = Uri.parse(baseURL + publicationsURL);
     final token = await TokenRepository().getToken();
 
@@ -25,18 +25,19 @@ class PublicationsRepository {
         body: jsonEncode(publication.toMap()),
       );
 
-      if (response.statusCode != 200 &&
-          response.statusCode != 204 &&
-          response.statusCode != 201) {
-        // 200	OK
-        // 204	No Content
-        // 201  Created
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final decoded = jsonDecode(response.body);
+        final map = decoded is Map<String, dynamic>
+            ? (decoded.containsKey('data')
+                ? decoded['data'] as Map<String, dynamic>
+                : decoded)
+            : decoded as Map<String, dynamic>;
+        return Publications.fromMap(map);
       }
+      if (response.statusCode == 204) {
+        return Publications();
+      }
+      return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
     } catch (e, s) {
       log('Repository: Erro ao criar Publicação.',
           error: e.toString(), stackTrace: s);
@@ -45,11 +46,12 @@ class PublicationsRepository {
   }
 
   Future<List<Publications>> findAllPublications(
-      {int? page = 1, FilterSearchStore? filterSearchStore}) async {
+      {int? page = 1, FilterSearchStore? filterSearchStore, int? take}) async {
     final token = await TokenRepository().getToken();
 
     final url = Uri.parse('$baseURL$publicationsURL').replace(queryParameters: {
       'page': '$page',
+      if (take != null) 'take': '$take',
       if (filterSearchStore != null && filterSearchStore.search.isNotEmpty)
         'search': filterSearchStore.search,
     });

@@ -9,7 +9,7 @@ import 'package:rede_campo_online/core/ui/widgets/confirmation_dialog.dart';
 import 'package:rede_campo_online/core/ui/widgets/gradient_header.dart';
 import 'package:rede_campo_online/core/ui/widgets/date_picker.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
-import 'package:rede_campo_online/features/admin/events/screens/widgets/entity_picker_field.dart';
+import 'package:rede_campo_online/core/ui/forms/entity_picker_field.dart';
 import 'package:rede_campo_online/features/admin/events/screens/widgets/event_media_upload_field.dart';
 import 'package:rede_campo_online/features/admin/events/stores/admin_create_event_store.dart';
 import 'package:rede_campo_online/core/utils/models/addresses.dart';

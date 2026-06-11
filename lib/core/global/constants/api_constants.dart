@@ -61,3 +61,15 @@ const thesisURL = '/thesis/';
 
 // RESEARCH AREAS
 const researchAreasURL = '/research-areas/';
+
+// CONTRIBUTORS
+const contributorsURL = '/publication-contributors/';
+
+// CONTRIBUTOR ROLES
+const contributorRolesURL = '/contributor-role/';
+
+// EXTERNAL AUTHORS
+const externalAuthorsURL = '/external-authors/';
+
+// ORGANIZATIONS
+const organizationsURL = '/organizations/';

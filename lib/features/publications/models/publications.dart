@@ -9,6 +9,8 @@ class Publications {
       this.abstract,
       this.publication_date,
       this.doi,
+      this.publication_type,
+      this.details,
       this.research_areas,
       this.contributors});
 
@@ -17,6 +19,10 @@ class Publications {
   String? abstract;
   DateTime? publication_date;
   String? doi;
+  // Tipo ('article' | 'book' | 'book_chapter' | 'thesis') e atributos
+  // específicos, retornados inline em `details` na leitura.
+  String? publication_type;
+  Map<String, dynamic>? details;
   List<ResearchAreas>? research_areas;
   List<Contributors>? contributors;
 
@@ -34,6 +40,13 @@ class Publications {
           ? DateTime.parse(map['publication_date'])
           : null,
       doi: (map['doi'] ?? '') as String,
+      // O tipo vem como `details.type`; aceita também `publication_type` no
+      // topo para compatibilidade com formatos anteriores.
+      publication_type: (map['publication_type'] ??
+          (map['details'] is Map ? map['details']['type'] : null)) as String?,
+      details: map['details'] is Map
+          ? Map<String, dynamic>.from(map['details'])
+          : null,
       research_areas: map.containsKey('research_areas')
           ? List<ResearchAreas>.from((map['research_areas'] ?? [])
               .map((x) => ResearchAreas.fromMap(x)))
@@ -48,7 +61,8 @@ class Publications {
   Map<String, dynamic> toMap() => {
         'title': title!,
         'abstract': abstract!,
-        'publication_date': publication_date?.toIso8601String(),
+        'publication_date':
+            publication_date?.toIso8601String().substring(0, 10),
         if (doi != null && doi!.isNotEmpty) 'doi': doi,
         'research_area_ids':
             research_areas?.map((ra) => ra.id).toList() ?? [],

@@ -36,7 +36,7 @@ class Books {
   }
 
   Map<String, dynamic> toMap() => {
-        'publication_id': publication!.id,
+        'publication_id': publication?.id,
         'publisher': publisher!,
         'edition': edition!,
         'cover_photo': cover_photo!,

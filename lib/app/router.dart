@@ -8,6 +8,8 @@ import 'package:rede_campo_online/features/admin/news/screens/admin_create_news_
 import 'package:rede_campo_online/features/admin/news/screens/admin_news_screen.dart';
 import 'package:rede_campo_online/features/admin/projects/screens/admin_create_project_screen.dart';
 import 'package:rede_campo_online/features/admin/projects/screens/admin_projects_screen.dart';
+import 'package:rede_campo_online/features/admin/publications/screens/admin_create_publication_screen.dart';
+import 'package:rede_campo_online/features/admin/publications/screens/admin_publications_screen.dart';
 import 'package:rede_campo_online/features/admin/screens/admin_screen.dart';
 import 'package:rede_campo_online/features/login/screens/login_screen.dart';
 import 'package:rede_campo_online/features/articles/models/articles.dart';
@@ -29,6 +31,7 @@ import '../features/news/screens/news_screen.dart';
 import '../features/projects/models/projects.dart';
 import '../features/projects/screens/project_details_screen.dart';
 import '../features/projects/screens/projects_screen.dart';
+import '../features/publications/models/publications.dart';
 import '../features/publications/screens/publications_screen.dart';
 import '../features/thesis/models/thesis.dart';
 import '../features/thesis/screens/thesis_details_screen.dart';
@@ -55,6 +58,8 @@ abstract class AppRoutes {
   static const adminCreateProject = '/admin/projects/create';
   static const adminEvents = '/admin/events';
   static const adminCreateEvent = '/admin/events/create';
+  static const adminPublications = '/admin/publications';
+  static const adminCreatePublication = '/admin/publications/create';
 }
 
 /// Notifies GoRouter whenever the auth state changes so the redirect
@@ -215,6 +220,18 @@ final appRouter = GoRouter(
       builder: (context, state) {
         final extra = state.extra;
         return AdminCreateEventScreen(event: extra is Events ? extra : null);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.adminPublications,
+      builder: (context, state) => const AdminPublicationsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.adminCreatePublication,
+      builder: (context, state) {
+        final extra = state.extra;
+        return AdminCreatePublicationScreen(
+            publication: extra is Publications ? extra : null);
       },
     ),
   ],

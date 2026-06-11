@@ -61,6 +61,16 @@ class AdminDashboardMobileVersion extends StatelessWidget {
                     onTap: () => context.push(AppRoutes.adminEvents),
                   ),
                   const SizedBox(height: 14),
+                  _AdminActionCard(
+                    icon: Icons.menu_book_outlined,
+                    iconColor: CustomColors.copper_spice,
+                    iconBackground: const Color(0xFFF5E6DD),
+                    title: 'Gerenciar Publicações',
+                    description:
+                        'Cadastre, edite ou apague publicações do site.',
+                    onTap: () => context.push(AppRoutes.adminPublications),
+                  ),
+                  const SizedBox(height: 14),
                 ],
               ),
             ),

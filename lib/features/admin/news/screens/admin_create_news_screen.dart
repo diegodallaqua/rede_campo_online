@@ -9,7 +9,7 @@ import 'package:rede_campo_online/core/ui/widgets/confirmation_dialog.dart';
 import 'package:rede_campo_online/core/ui/widgets/gradient_header.dart';
 import 'package:rede_campo_online/core/ui/widgets/date_picker.dart';
 import 'package:rede_campo_online/features/admin/news/screens/widgets/news_media_upload_field.dart';
-import 'package:rede_campo_online/features/admin/news/screens/widgets/research_areas_field.dart';
+import 'package:rede_campo_online/core/ui/forms/research_areas_field.dart';
 import 'package:rede_campo_online/features/admin/news/stores/admin_create_news_store.dart';
 import 'package:rede_campo_online/features/news/models/news.dart';
 
