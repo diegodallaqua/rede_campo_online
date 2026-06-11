@@ -28,7 +28,7 @@ class EventMedia {
   }
 
   Map<String, dynamic> toMap() => {
-    'news_id': event!.id,
+    'event_id': event!.id,
     'name': name!,
     'media': media!,
   };

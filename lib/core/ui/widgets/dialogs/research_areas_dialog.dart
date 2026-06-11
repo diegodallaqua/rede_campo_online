@@ -98,13 +98,12 @@ class _ResearchAreasDialogState extends State<ResearchAreasDialog> {
               'Nenhuma área de pesquisa disponível.',
               style: TextStyle(color: Color(0xFF6B7280), fontSize: 14, height: 1.5),
             )
-          : ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.sizeOf(context).height * 0.6,
-                maxWidth: 400,
-              ),
+          : SizedBox(
+              // Tamanho fixo para o diálogo não encolher conforme a pesquisa
+              // filtra os resultados.
+              height: MediaQuery.sizeOf(context).height * 0.6,
+              width: 400,
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   CustomSearchBar(
                     controller: _searchController,
@@ -116,7 +115,7 @@ class _ResearchAreasDialogState extends State<ResearchAreasDialog> {
                     iconColor: CustomColors.midnight_slate.withOpacity(0.45),
                   ),
                   const SizedBox(height: 12),
-                  Flexible(
+                  Expanded(
                     child: SingleChildScrollView(
                       child: _filteredAreas.isEmpty
                           ? Padding(

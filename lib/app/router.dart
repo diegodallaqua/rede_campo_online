@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rede_campo_online/features/about_us/screens/about_us_screen.dart';
+import 'package:rede_campo_online/features/admin/events/screens/admin_create_event_screen.dart';
+import 'package:rede_campo_online/features/admin/events/screens/admin_events_screen.dart';
 import 'package:rede_campo_online/features/admin/news/screens/admin_create_news_screen.dart';
 import 'package:rede_campo_online/features/admin/news/screens/admin_news_screen.dart';
 import 'package:rede_campo_online/features/admin/projects/screens/admin_create_project_screen.dart';
@@ -51,6 +53,8 @@ abstract class AppRoutes {
   static const adminCreateNews = '/admin/news/create';
   static const adminProjects = '/admin/projects';
   static const adminCreateProject = '/admin/projects/create';
+  static const adminEvents = '/admin/events';
+  static const adminCreateEvent = '/admin/events/create';
 }
 
 /// Notifies GoRouter whenever the auth state changes so the redirect
@@ -200,6 +204,17 @@ final appRouter = GoRouter(
         final extra = state.extra;
         return AdminCreateProjectScreen(
             project: extra is Projects ? extra : null);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.adminEvents,
+      builder: (context, state) => const AdminEventsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.adminCreateEvent,
+      builder: (context, state) {
+        final extra = state.extra;
+        return AdminCreateEventScreen(event: extra is Events ? extra : null);
       },
     ),
   ],

@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../../../core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
-import '../../../../../../core/ui/widgets/image_viewer_dialog.dart';
+import '../../../../../../core/ui/widgets/dialogs/image_viewer_dialog.dart';
 import '../../../../../../core/utils/placeholders.dart';
 import '../../../../models/news.dart';
 import '../../../../stores/news_detail_store.dart';

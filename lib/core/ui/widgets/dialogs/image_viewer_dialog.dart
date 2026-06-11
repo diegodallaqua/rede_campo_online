@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/utils/placeholders.dart';
-import '../theme/custom_colors.dart';
+import '../../../utils/placeholders.dart';
+import '../../theme/custom_colors.dart';
 
 class ImageViewerDialog extends StatefulWidget {
   final List<String> imageUrls;
@@ -107,7 +107,8 @@ class _ImageViewerDialogState extends State<ImageViewerDialog> {
                         child: Image.network(
                           widget.imageUrls[index],
                           fit: BoxFit.contain,
-                          errorBuilder: (_, __, ___) => const ImagePlaceholder(),
+                          errorBuilder: (_, __, ___) =>
+                              const ImagePlaceholder(),
                         ),
                       ),
                     ),
@@ -122,7 +123,8 @@ class _ImageViewerDialogState extends State<ImageViewerDialog> {
               left: 0,
               right: 0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -190,7 +192,9 @@ class _ImageViewerDialogState extends State<ImageViewerDialog> {
                           color: CustomColors.vanilla_haze,
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          shadows: [Shadow(blurRadius: 10, color: Colors.black)],
+                          shadows: [
+                            Shadow(blurRadius: 10, color: Colors.black)
+                          ],
                         ),
                       ),
                     ),
@@ -287,7 +291,8 @@ class _ArrowButton extends StatelessWidget {
   final IconData icon;
   final bool enabled;
   final VoidCallback onTap;
-  const _ArrowButton({required this.icon, required this.enabled, required this.onTap});
+  const _ArrowButton(
+      {required this.icon, required this.enabled, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

@@ -10,6 +10,7 @@ class EventTileDesktopVersion extends StatelessWidget {
   final Events event;
   final EventMedia? eventMedia;
   final VoidCallback? onTap;
+  final bool isAdmin;
 
   static const double coverHeight = 160.0;
   static const double borderRadius = 12.0;
@@ -19,6 +20,7 @@ class EventTileDesktopVersion extends StatelessWidget {
     required this.event,
     this.eventMedia,
     this.onTap,
+    this.isAdmin = false,
   });
 
   @override
@@ -43,7 +45,11 @@ class EventTileDesktopVersion extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(height: 3, color: CustomColors.fresh_sprout),
+          Container(
+              height: 3,
+              color: isAdmin
+                  ? CustomColors.copper_spice
+                  : CustomColors.fresh_sprout),
           SizedBox(
             height: coverHeight,
             child: hasImage

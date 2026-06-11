@@ -8,24 +8,24 @@ import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/gradient_header.dart';
 import 'package:rede_campo_online/features/admin/screens/widgets/admin_sidebar.dart';
 import 'package:rede_campo_online/features/admin/stores/admin_store.dart';
-import 'package:rede_campo_online/features/admin/news/screens/widgets/sections/admin_news_list_section/admin_news_list_section_desktop_version.dart';
-import 'package:rede_campo_online/features/admin/news/screens/widgets/sections/admin_news_list_section/admin_news_list_section_mobile_version.dart';
-import 'package:rede_campo_online/features/admin/news/stores/admin_news_store.dart';
-import 'package:rede_campo_online/features/news/models/news.dart';
+import 'package:rede_campo_online/features/admin/events/screens/widgets/sections/admin_events_list_section/admin_events_list_section_desktop_version.dart';
+import 'package:rede_campo_online/features/admin/events/screens/widgets/sections/admin_events_list_section/admin_events_list_section_mobile_version.dart';
+import 'package:rede_campo_online/features/admin/events/stores/admin_events_store.dart';
+import 'package:rede_campo_online/features/events/models/events.dart';
 
-class AdminNewsScreen extends StatefulWidget {
-  const AdminNewsScreen({super.key});
+class AdminEventsScreen extends StatefulWidget {
+  const AdminEventsScreen({super.key});
 
   @override
-  State<AdminNewsScreen> createState() => _AdminNewsScreenState();
+  State<AdminEventsScreen> createState() => _AdminEventsScreenState();
 }
 
-class _AdminNewsScreenState extends State<AdminNewsScreen> {
-  final _adminNewsStore = AdminNewsStore();
+class _AdminEventsScreenState extends State<AdminEventsScreen> {
+  final _adminEventsStore = AdminEventsStore();
 
-  Future<void> _navigateToEdit(News? news) async {
-    await context.push(AppRoutes.adminCreateNews, extra: news);
-    _adminNewsStore.refreshData();
+  Future<void> _navigateToEdit(Events? event) async {
+    await context.push(AppRoutes.adminCreateEvent, extra: event);
+    _adminEventsStore.refreshData();
   }
 
   @override
@@ -37,7 +37,7 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
       elevation: 4,
       icon: const Icon(Icons.add_rounded, size: 22),
       label: const Text(
-        'Nova Notícia',
+        'Novo Evento',
         style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
       ),
     );
@@ -62,9 +62,9 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
             builder: (_) => AdminSidebar(store: getIt<AdminStore>()),
           ),
           Expanded(
-            child: AdminNewsListSectionDesktopVersion(
-              adminNewsStore: _adminNewsStore,
-              onTapNews: _navigateToEdit,
+            child: AdminEventsListSectionDesktopVersion(
+              adminEventsStore: _adminEventsStore,
+              onTapEvent: _navigateToEdit,
             ),
           ),
         ],
@@ -86,8 +86,8 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
         child: Column(
           children: [
             GradientHeader(
-              title: 'Gerenciar Notícias',
-              subtitle: 'Selecione uma notícia para editar.',
+              title: 'Gerenciar Eventos',
+              subtitle: 'Selecione um evento para editar.',
               onBack: () => context.pop(),
             ),
             Expanded(
@@ -97,9 +97,9 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
                   borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                 ),
                 clipBehavior: Clip.antiAlias,
-                child: AdminNewsListSectionMobileVersion(
-                  adminNewsStore: _adminNewsStore,
-                  onTapNews: _navigateToEdit,
+                child: AdminEventsListSectionMobileVersion(
+                  adminEventsStore: _adminEventsStore,
+                  onTapEvent: _navigateToEdit,
                 ),
               ),
             ),

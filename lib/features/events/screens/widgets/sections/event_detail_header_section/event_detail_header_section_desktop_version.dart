@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../core/ui/buttons/custom_buttom.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
-import '../../../../../../core/ui/widgets/image_viewer_dialog.dart';
+import '../../../../../../core/ui/widgets/dialogs/image_viewer_dialog.dart';
 import '../../../../../../core/utils/formatters.dart';
 import '../../../../../../core/utils/placeholders.dart';
 import '../../../../models/events.dart';
@@ -133,8 +133,7 @@ class EventDetailHeaderSectionDesktopVersion extends StatelessWidget {
                       final viewable = eventDetailStore.media
                           .where((m) => m.media?.isNotEmpty == true)
                           .toList();
-                      final cover =
-                          viewable.isNotEmpty ? viewable.first : null;
+                      final cover = viewable.isNotEmpty ? viewable.first : null;
 
                       final image = AspectRatio(
                         aspectRatio: 4 / 3,

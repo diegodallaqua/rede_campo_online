@@ -184,8 +184,7 @@ class _AdminCreateProjectScreenState extends State<AdminCreateProjectScreen> {
                                       .availableProjectTypes
                                       .toList(),
                                   selectedType: _createProjectStore.projectType,
-                                  onChanged:
-                                      _createProjectStore.setProjectType,
+                                  onChanged: _createProjectStore.setProjectType,
                                   errorText:
                                       _createProjectStore.projectTypeError,
                                 ),
@@ -234,8 +233,8 @@ class _AdminCreateProjectScreenState extends State<AdminCreateProjectScreen> {
                                   existingItems: _createProjectStore
                                       .existingMedia
                                       .toList(),
-                                  items: _createProjectStore.pendingMedia
-                                      .toList(),
+                                  items:
+                                      _createProjectStore.pendingMedia.toList(),
                                   onPickImage:
                                       _createProjectStore.addPendingMedia,
                                   onRemove:

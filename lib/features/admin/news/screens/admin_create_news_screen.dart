@@ -156,75 +156,88 @@ class _AdminCreateNewsScreenState extends State<AdminCreateNewsScreen> {
                               children: [
                                 CustomTextField(
                                   label: 'Manchete',
-                      controller: _titleController,
-                      prefixIcon: Icons.title_rounded,
-                      textInputAction: TextInputAction.next,
-                      validator: (_) => _createNewsStore.titleError,
-                    ),
-                    const SizedBox(height: 16),
-                    CustomTextField(
-                      label: 'Subtítulo',
-                      controller: _descriptionController,
-                      prefixIcon: Icons.short_text_rounded,
-                      textInputAction: TextInputAction.next,
-                      maxLines: 2,
-                      minLines: 2,
-                      validator: (_) => _createNewsStore.descriptionError,
-                    ),
-                    const SizedBox(height: 16),
-                    CustomTextField(
-                      label: 'Corpo da Notícia',
-                      controller: _contentController,
-                      keyboardType: TextInputType.multiline,
-                      textInputAction: TextInputAction.newline,
-                      maxLines: 8,
-                      minLines: 5,
-                      validator: (_) => _createNewsStore.contentError,
-                    ),
-                    const SizedBox(height: 16),
-                    DatePickerField(
-                      selectedDate: _createNewsStore.publicationDate,
-                      onTap: _pickDate,
-                      errorText: _createNewsStore.publicationDateError,
-                    ),
-                    const SizedBox(height: 16),
-                    Observer(
-                      builder: (_) => NewsMediaUploadField(
-                        existingItems: _createNewsStore.existingMedia.toList(),
-                        items: _createNewsStore.pendingMedia.toList(),
-                        onPickImage: _createNewsStore.addPendingMedia,
-                        onRemove: _createNewsStore.removePendingMedia,
-                        onNameChanged: _createNewsStore.setPendingMediaName,
-                        onDeleteExisting: _createNewsStore.deleteExistingMedia,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Observer(
-                      builder: (_) => ResearchAreasField(
-                        availableAreas:
-                            _createNewsStore.availableResearchAreas.toList(),
-                        selectedAreas:
-                            _createNewsStore.selectedResearchAreas.toList(),
-                        onChanged: _createNewsStore.setResearchAreas,
-                      ),
-                    ),
-                                ],
-                              ),
+                                  controller: _titleController,
+                                  prefixIcon: Icons.title_rounded,
+                                  textInputAction: TextInputAction.next,
+                                  validator: (_) => _createNewsStore.titleError,
+                                ),
+                                const SizedBox(height: 16),
+                                CustomTextField(
+                                  label: 'Subtítulo',
+                                  controller: _descriptionController,
+                                  prefixIcon: Icons.short_text_rounded,
+                                  textInputAction: TextInputAction.next,
+                                  maxLines: 2,
+                                  minLines: 2,
+                                  validator: (_) =>
+                                      _createNewsStore.descriptionError,
+                                ),
+                                const SizedBox(height: 16),
+                                CustomTextField(
+                                  label: 'Corpo da Notícia',
+                                  controller: _contentController,
+                                  keyboardType: TextInputType.multiline,
+                                  textInputAction: TextInputAction.newline,
+                                  maxLines: 8,
+                                  minLines: 5,
+                                  validator: (_) =>
+                                      _createNewsStore.contentError,
+                                ),
+                                const SizedBox(height: 16),
+                                DatePickerField(
+                                  selectedDate:
+                                      _createNewsStore.publicationDate,
+                                  onTap: _pickDate,
+                                  errorText:
+                                      _createNewsStore.publicationDateError,
+                                ),
+                                const SizedBox(height: 16),
+                                Observer(
+                                  builder: (_) => NewsMediaUploadField(
+                                    existingItems:
+                                        _createNewsStore.existingMedia.toList(),
+                                    items:
+                                        _createNewsStore.pendingMedia.toList(),
+                                    onPickImage:
+                                        _createNewsStore.addPendingMedia,
+                                    onRemove:
+                                        _createNewsStore.removePendingMedia,
+                                    onNameChanged:
+                                        _createNewsStore.setPendingMediaName,
+                                    onDeleteExisting:
+                                        _createNewsStore.deleteExistingMedia,
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                                Observer(
+                                  builder: (_) => ResearchAreasField(
+                                    availableAreas: _createNewsStore
+                                        .availableResearchAreas
+                                        .toList(),
+                                    selectedAreas: _createNewsStore
+                                        .selectedResearchAreas
+                                        .toList(),
+                                    onChanged:
+                                        _createNewsStore.setResearchAreas,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        Observer(
-                          builder: (_) => BottomActionBar(
-                            editing: editing,
-                            loading: _createNewsStore.loading,
-                            onSave: _handleSave,
-                            onDelete: editing ? _handleDelete : null,
-                          ),
+                      ),
+                      Observer(
+                        builder: (_) => BottomActionBar(
+                          editing: editing,
+                          loading: _createNewsStore.loading,
+                          onSave: _handleSave,
+                          onDelete: editing ? _handleDelete : null,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
             ],
           ),
         ),

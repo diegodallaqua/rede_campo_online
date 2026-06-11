@@ -94,8 +94,7 @@ class _AdminProjectsScreenState extends State<AdminProjectsScreen> {
               child: Container(
                 decoration: const BoxDecoration(
                   color: CustomColors.salt_flower,
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(28)),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: AdminProjectsListSectionMobileVersion(

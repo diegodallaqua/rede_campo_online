@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
-import '../../../../../../core/ui/widgets/image_viewer_dialog.dart';
+import '../../../../../../core/ui/widgets/dialogs/image_viewer_dialog.dart';
 import '../../../../../../core/ui/widgets/list_empty_state.dart';
 import '../../../../../../core/ui/widgets/list_error_state.dart';
 import '../../../../../../core/ui/widgets/list_loading_state.dart';

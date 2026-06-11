@@ -43,6 +43,6 @@ class Events {
     'name': name,
     'description': description,
     'registration_url': registration_url,
-    'date': date,
+    'date': date?.toIso8601String().split('T').first,
   };
 }

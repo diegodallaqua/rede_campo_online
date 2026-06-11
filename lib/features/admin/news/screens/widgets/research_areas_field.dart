@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
-import 'package:rede_campo_online/core/ui/widgets/research_areas_dialog.dart';
 import 'package:rede_campo_online/core/utils/models/research_areas.dart';
+
+import '../../../../../core/ui/widgets/dialogs/research_areas_dialog.dart';
 
 class ResearchAreasField extends StatelessWidget {
   const ResearchAreasField({

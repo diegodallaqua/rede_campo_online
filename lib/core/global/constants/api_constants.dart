@@ -44,6 +44,9 @@ const eventsURL = '/events/';
 // EVENT MEDIA
 const eventMediaURL = '/event-media/';
 
+// ADDRESSES
+const addressesURL = '/addresses/';
+
 // ARTICLES
 const articlesURL = '/articles/';
 
