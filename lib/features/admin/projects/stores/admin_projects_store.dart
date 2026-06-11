@@ -3,22 +3,21 @@ import 'dart:developer';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/utils/stores/base_store.dart';
-
 import '../../../../core/utils/stores/filter_search_store.dart';
-import '../../../news/models/news.dart';
-import '../../../news/models/news_media.dart';
-import '../../../news/repositories/news_media_repository.dart';
-import '../../../news/repositories/news_repository.dart';
+import '../../../projects/models/project_media.dart';
+import '../../../projects/models/projects.dart';
+import '../../../projects/repositories/project_media_repository.dart';
+import '../../../projects/repositories/projects_repository.dart';
 
-part 'admin_news_store.g.dart';
+part 'admin_projects_store.g.dart';
 
-class AdminNewsStore = AdminNewsStoreBase with _$AdminNewsStore;
+class AdminProjectsStore = AdminProjectsStoreBase with _$AdminProjectsStore;
 
-abstract class AdminNewsStoreBase extends BaseStore<News> with Store {
-  final NewsRepository _repository = NewsRepository();
-  final NewsMediaRepository _mediaRepository = NewsMediaRepository();
+abstract class AdminProjectsStoreBase extends BaseStore<Projects> with Store {
+  final ProjectsRepository _repository = ProjectsRepository();
+  final ProjectMediaRepository _mediaRepository = ProjectMediaRepository();
 
-  AdminNewsStoreBase({this.pageSize = 12}) {
+  AdminProjectsStoreBase({this.pageSize = 12}) {
     loadData();
     loadMedia();
   }
@@ -56,25 +55,11 @@ abstract class AdminNewsStoreBase extends BaseStore<News> with Store {
   @action
   void setLastPageKnown(bool value) => _lastPageKnown = value;
 
-  // Computed's — listagem completa
   @computed
   int get itemCount => _lastPage ? list.length : list.length + 1;
 
   @computed
   bool get showProgress => loading && list.isEmpty;
-
-  // Notícias recentes — exclusivas para a Home Page
-  @observable
-  ObservableList<News> recentNews = ObservableList<News>();
-
-  @observable
-  bool isLoadingRecent = false;
-
-  @observable
-  String? recentNewsError;
-
-  @computed
-  bool get showRecentProgress => isLoadingRecent && recentNews.isEmpty;
 
   @action
   void loadNextPage() {
@@ -109,7 +94,7 @@ abstract class AdminNewsStoreBase extends BaseStore<News> with Store {
   }
 
   @action
-  void _addNewItems(List<News> newItems) {
+  void _addNewItems(List<Projects> newItems) {
     if (newItems.length < pageSize) _lastPage = true;
     list.addAll(newItems);
   }
@@ -117,8 +102,8 @@ abstract class AdminNewsStoreBase extends BaseStore<News> with Store {
   Future<void> loadData() async {
     if (_page == 1) {
       await fetchData(
-        'news:search=${filterStore.search}',
-        () => _repository.findAllNews(
+        'projects:search=${filterStore.search}',
+        () => _repository.findAllProjects(
           page: _page,
           filterSearchStore: filterStore,
           take: pageSize,
@@ -134,7 +119,7 @@ abstract class AdminNewsStoreBase extends BaseStore<News> with Store {
       // Páginas subsequentes, sem cache para não conflitar.
       setLoading(true);
       try {
-        final result = await _repository.findAllNews(
+        final result = await _repository.findAllProjects(
           page: _page,
           filterSearchStore: filterStore,
           take: pageSize,
@@ -147,7 +132,7 @@ abstract class AdminNewsStoreBase extends BaseStore<News> with Store {
         }
       } catch (e, s) {
         log(
-          'NewsStore: Erro ao carregar Notícias (página $_page)',
+          'AdminProjectsStore: Erro ao carregar Projetos (página $_page)',
           error: e.toString(),
           stackTrace: s,
         );
@@ -162,7 +147,7 @@ abstract class AdminNewsStoreBase extends BaseStore<News> with Store {
   // paginação pisque ao exibir e remover uma página vazia.
   Future<void> _peekNextPage(int forPage) async {
     try {
-      final peek = await _repository.findAllNews(
+      final peek = await _repository.findAllProjects(
         page: forPage + 1,
         filterSearchStore: filterStore,
         take: pageSize,
@@ -176,42 +161,10 @@ abstract class AdminNewsStoreBase extends BaseStore<News> with Store {
     }
   }
 
-  // Ações — Home Page (Listagem das notícias Recentes)
-  @action
-  Future<void> loadRecentNews({int limit = 10}) async {
-    // Evita fetch duplicado se já estiver carregando.
-    if (isLoadingRecent) return;
-
-    isLoadingRecent = true;
-    recentNewsError = null;
-
-    try {
-      final result = await _repository.findAllNews(
-        page: 1,
-        //limit: limit,
-      );
-      recentNews
-        ..clear()
-        ..addAll(result);
-    } catch (e, s) {
-      log('NewsStore: Erro ao carregar Notícias recentes',
-          error: e.toString(), stackTrace: s);
-      recentNewsError = e.toString();
-    } finally {
-      isLoadingRecent = false;
-    }
-  }
-
-  /// Recarrega as notícias recentes da Home sem afetar a listagem completa.
-  @action
-  Future<void> refreshRecentNews({int limit = 5}) async {
-    recentNews.clear();
-    await loadRecentNews(limit: limit);
-  }
-
-  // Mídias das notícias
+  // Mídias dos projetos
   @observable
-  ObservableMap<int, NewsMedia> mediaMap = ObservableMap<int, NewsMedia>();
+  ObservableMap<int, ProjectMedia> mediaMap =
+      ObservableMap<int, ProjectMedia>();
 
   @observable
   bool loadingMedia = false;
@@ -226,7 +179,7 @@ abstract class AdminNewsStoreBase extends BaseStore<News> with Store {
   void _setErrorMedia(String? value) => errorMedia = value;
 
   @action
-  void _setMediaData(Map<int, NewsMedia> data) {
+  void _setMediaData(Map<int, ProjectMedia> data) {
     mediaMap.clear();
     mediaMap.addAll(data);
   }
@@ -236,17 +189,17 @@ abstract class AdminNewsStoreBase extends BaseStore<News> with Store {
     _setErrorMedia(null);
     try {
       final mediaList = await _mediaRepository.findAll();
-      final map = <int, NewsMedia>{};
+      final map = <int, ProjectMedia>{};
       for (final m in mediaList) {
-        final newsId = m.news?.id;
-        if (newsId != null && !map.containsKey(newsId)) {
-          map[newsId] = m;
+        final projectId = m.project?.id;
+        if (projectId != null && !map.containsKey(projectId)) {
+          map[projectId] = m;
         }
       }
       _setMediaData(map);
     } catch (e, s) {
       log(
-        'NewsStore: Erro ao carregar mídias das notícias',
+        'AdminProjectsStore: Erro ao carregar mídias dos projetos',
         error: e.toString(),
         stackTrace: s,
       );

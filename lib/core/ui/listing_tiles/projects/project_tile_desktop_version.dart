@@ -9,6 +9,7 @@ class ProjectTileDesktopVersion extends StatelessWidget {
   final ProjectMedia? projectMedia;
   final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
+  final bool isAdmin;
 
   const ProjectTileDesktopVersion({
     super.key,
@@ -16,6 +17,7 @@ class ProjectTileDesktopVersion extends StatelessWidget {
     this.projectMedia,
     this.onTap,
     this.margin,
+    this.isAdmin = false,
   });
 
   @override
@@ -51,7 +53,11 @@ class ProjectTileDesktopVersion extends StatelessWidget {
                   : const ImagePlaceholder(),
             ),
           ),
-          Container(height: 1, color: CustomColors.pine_shadow),
+          Container(
+              height: 1,
+              color: isAdmin
+                  ? CustomColors.copper_spice
+                  : CustomColors.pine_shadow),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
@@ -97,37 +103,39 @@ class ProjectTileDesktopVersion extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 10),
+                  if (!isAdmin) ...[
+                    const SizedBox(height: 10),
 
-                  // Botão "SAIBA MAIS"
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: ElevatedButton(
-                      onPressed: onTap,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: CustomColors.copper_spice,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 7,
+                    // Botão "SAIBA MAIS"
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: ElevatedButton(
+                        onPressed: onTap,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: CustomColors.copper_spice,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 7,
+                          ),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          elevation: 0,
                         ),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: const Text(
-                        'SAIBA MAIS',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.5,
+                        child: const Text(
+                          'SAIBA MAIS',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.5,
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),

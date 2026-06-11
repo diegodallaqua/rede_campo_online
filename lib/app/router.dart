@@ -4,6 +4,8 @@ import 'package:mobx/mobx.dart';
 import 'package:rede_campo_online/features/about_us/screens/about_us_screen.dart';
 import 'package:rede_campo_online/features/admin/news/screens/admin_create_news_screen.dart';
 import 'package:rede_campo_online/features/admin/news/screens/admin_news_screen.dart';
+import 'package:rede_campo_online/features/admin/projects/screens/admin_create_project_screen.dart';
+import 'package:rede_campo_online/features/admin/projects/screens/admin_projects_screen.dart';
 import 'package:rede_campo_online/features/admin/screens/admin_screen.dart';
 import 'package:rede_campo_online/features/login/screens/login_screen.dart';
 import 'package:rede_campo_online/features/articles/models/articles.dart';
@@ -47,6 +49,8 @@ abstract class AppRoutes {
   static const admin = '/admin';
   static const adminNews = '/admin/news';
   static const adminCreateNews = '/admin/news/create';
+  static const adminProjects = '/admin/projects';
+  static const adminCreateProject = '/admin/projects/create';
 }
 
 /// Notifies GoRouter whenever the auth state changes so the redirect
@@ -184,6 +188,18 @@ final appRouter = GoRouter(
       builder: (context, state) {
         final extra = state.extra;
         return AdminCreateNewsScreen(news: extra is News ? extra : null);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.adminProjects,
+      builder: (context, state) => const AdminProjectsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.adminCreateProject,
+      builder: (context, state) {
+        final extra = state.extra;
+        return AdminCreateProjectScreen(
+            project: extra is Projects ? extra : null);
       },
     ),
   ],

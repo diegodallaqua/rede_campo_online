@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
-import 'package:rede_campo_online/features/admin/news/screens/widgets/listing/admin_news/admin_news_list_widget_desktop_version.dart';
-import 'package:rede_campo_online/features/admin/news/stores/admin_news_store.dart';
-import 'package:rede_campo_online/features/news/models/news.dart';
+import 'package:rede_campo_online/features/admin/projects/screens/widgets/listing/admin_projects/admin_projects_list_widget_desktop_version.dart';
+import 'package:rede_campo_online/features/admin/projects/stores/admin_projects_store.dart';
+import 'package:rede_campo_online/features/projects/models/projects.dart';
 
-class AdminNewsListSectionDesktopVersion extends StatefulWidget {
-  final AdminNewsStore adminNewsStore;
-  final Future<void> Function(News? news) onTapNews;
+class AdminProjectsListSectionDesktopVersion extends StatefulWidget {
+  final AdminProjectsStore adminProjectsStore;
+  final Future<void> Function(Projects? project) onTapProject;
 
-  const AdminNewsListSectionDesktopVersion({
+  const AdminProjectsListSectionDesktopVersion({
     super.key,
-    required this.adminNewsStore,
-    required this.onTapNews,
+    required this.adminProjectsStore,
+    required this.onTapProject,
   });
 
   @override
-  State<AdminNewsListSectionDesktopVersion> createState() =>
-      _AdminNewsListSectionDesktopVersionState();
+  State<AdminProjectsListSectionDesktopVersion> createState() =>
+      _AdminProjectsListSectionDesktopVersionState();
 }
 
-class _AdminNewsListSectionDesktopVersionState
-    extends State<AdminNewsListSectionDesktopVersion> {
+class _AdminProjectsListSectionDesktopVersionState
+    extends State<AdminProjectsListSectionDesktopVersion> {
   final TextEditingController _searchController = TextEditingController();
   int _maxDiscoveredPage = 1;
 
@@ -33,8 +33,8 @@ class _AdminNewsListSectionDesktopVersionState
   }
 
   void _onSearch(String value) {
-    widget.adminNewsStore.filterStore.setSearch(value);
-    widget.adminNewsStore.refreshData();
+    widget.adminProjectsStore.filterStore.setSearch(value);
+    widget.adminProjectsStore.refreshData();
     setState(() => _maxDiscoveredPage = 1);
   }
 
@@ -66,7 +66,7 @@ class _AdminNewsListSectionDesktopVersionState
               ),
               const SizedBox(height: 14),
               const Text(
-                'Gerenciar Notícias',
+                'Gerenciar Projetos',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
@@ -76,7 +76,7 @@ class _AdminNewsListSectionDesktopVersionState
               ),
               const SizedBox(height: 8),
               Text(
-                'Selecione uma notícia para editar.',
+                'Selecione um projeto para editar.',
                 style: TextStyle(
                   fontSize: 14,
                   color: CustomColors.pine_shadow.withOpacity(0.55),
@@ -98,15 +98,15 @@ class _AdminNewsListSectionDesktopVersionState
           ),
         ),
         Expanded(
-          child: AdminNewsListWidgetDesktopVersion(
-            adminNewsStore: widget.adminNewsStore,
+          child: AdminProjectsListWidgetDesktopVersion(
+            adminProjectsStore: widget.adminProjectsStore,
             maxDiscoveredPage: _maxDiscoveredPage,
             onPageDiscovered: (newMax) {
               if (newMax != _maxDiscoveredPage) {
                 setState(() => _maxDiscoveredPage = newMax);
               }
             },
-            onTapNews: widget.onTapNews,
+            onTapProject: widget.onTapProject,
           ),
         ),
       ],

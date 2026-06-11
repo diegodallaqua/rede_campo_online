@@ -10,7 +10,7 @@ import '../../../core/utils/stores/filter_search_store.dart';
 import '../models/projects.dart';
 
 class ProjectsRepository {
-  Future<void> createProject(Projects projects) async {
+  Future<Projects> createProject(Projects projects) async {
     var url = Uri.parse(baseURL + projectsURL);
     final token = await TokenRepository().getToken();
 
@@ -25,18 +25,19 @@ class ProjectsRepository {
         body: jsonEncode(projects.toMap()),
       );
 
-      if (response.statusCode != 200 &&
-          response.statusCode != 204 &&
-          response.statusCode != 201) {
-        // 200	OK
-        // 204	No Content
-        // 201  Created
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final decoded = jsonDecode(response.body);
+        final map = decoded is Map<String, dynamic>
+            ? (decoded.containsKey('data')
+                ? decoded['data'] as Map<String, dynamic>
+                : decoded)
+            : decoded as Map<String, dynamic>;
+        return Projects.fromMap(map);
       }
+      if (response.statusCode == 204) {
+        return Projects();
+      }
+      return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
     } catch (e, s) {
       log('Repository: Erro ao criar Projeto.',
           error: e.toString(), stackTrace: s);

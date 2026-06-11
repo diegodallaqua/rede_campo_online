@@ -11,7 +11,7 @@ import '../models/research_areas.dart';
 class ResearchAreasRepository {
   Future<List<ResearchAreas>> findAll() async {
     final token = await TokenRepository().getToken();
-    final url = Uri.parse('$baseURL$researchAreasURL');
+    final url = Uri.parse('$baseURL$researchAreasURL?take=100');
 
     try {
       final response = await http.get(

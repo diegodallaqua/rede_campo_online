@@ -46,13 +46,13 @@ class Projects {
   }
 
   Map<String, dynamic> toMap() => {
-    'project_type_id': projectType!.id,
+    'project_type_id': projectType?.id,
     'name': name!,
     'description': description!,
-    'status': status!,
-    'begin_date': begin_date,
-    'end_date': end_date!,
-    'research_area_ids': research_areas!.map((city) => city.id).toList(),
-    'member_ids': members!.map((city) => city.id).toList(),
+    'status': status ?? true,
+    'begin_date': begin_date?.toIso8601String().split('T').first,
+    'end_date': end_date?.toIso8601String().split('T').first,
+    'research_area_ids': research_areas?.map((ra) => ra.id).toList() ?? [],
+    'member_ids': members?.map((m) => m.id).toList() ?? [],
   };
 }

@@ -12,46 +12,49 @@ final baseURL = BaseEnvironment.development.baseURL;
 const jwtSecret = String.fromEnvironment('JWT_SECRET');
 
 // LOGIN
-const loginURL = '/sessions';
+const loginURL = '/sessions/';
 
 // NEWS
-const newsURL = '/news';
+const newsURL = '/news/';
 
 // PUBLICATIONS
-const publicationsURL = '/publications';
+const publicationsURL = '/publications/';
 
 // MEMBERS
-const membersURL = '/members';
+const membersURL = '/members/';
 
 // PROJECTS
-const projectsURL = '/projects';
+const projectsURL = '/projects/';
+
+// PROJECT TYPES
+const projectTypesURL = '/project-types/';
 
 // PROJECT MEDIA
-const projectMediaURL = '/project-media';
+const projectMediaURL = '/project-media/';
 
 // NEWS MEDIA
-const newsMediaURL = '/news-media';
+const newsMediaURL = '/news-media/';
 
 // IMAGES UPLOAD
-const imagesUploadURL = '/images/upload';
+const imagesUploadURL = '/images/upload/';
 
 // EVENTS
-const eventsURL = '/events';
+const eventsURL = '/events/';
 
 // EVENT MEDIA
-const eventMediaURL = '/event-media';
+const eventMediaURL = '/event-media/';
 
 // ARTICLES
-const articlesURL = '/articles';
+const articlesURL = '/articles/';
 
 // BOOK CHAPTERS
-const bookChaptersURL = '/book-chapters';
+const bookChaptersURL = '/book-chapters/';
 
 // BOOK
-const booksURL = '/books';
+const booksURL = '/books/';
 
 // THESIS
-const thesisURL = '/thesis';
+const thesisURL = '/thesis/';
 
 // RESEARCH AREAS
-const researchAreasURL = '/research-areas';
+const researchAreasURL = '/research-areas/';

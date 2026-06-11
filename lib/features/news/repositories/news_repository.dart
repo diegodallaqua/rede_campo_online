@@ -89,7 +89,7 @@ class NewsRepository {
   }
 
   Future<void> editNews(News news) async {
-    var url = Uri.parse('$baseURL$newsURL/${news.id}');
+    var url = Uri.parse(baseURL + newsURL + news.id!.toString());
 
     final token = await TokenRepository().getToken();
 
@@ -124,7 +124,7 @@ class NewsRepository {
   }
 
   Future<void> deleteNews(String id) async {
-    var url = Uri.parse('$baseURL$newsURL/$id');
+    var url = Uri.parse(baseURL + newsURL + id);
 
     final token = await TokenRepository().getToken();
 

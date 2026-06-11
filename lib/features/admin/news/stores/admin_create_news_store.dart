@@ -37,8 +37,6 @@ abstract class AdminCreateNewsStoreBase with Store {
   final _researchAreasRepository = ResearchAreasRepository();
   final _userStore = getIt<UserManagerStore>();
 
-  // ── Research Areas ─────────────────────────────────────────────────────────
-
   final availableResearchAreas = ObservableList<ResearchAreas>();
   final selectedResearchAreas = ObservableList<ResearchAreas>();
 
@@ -60,8 +58,6 @@ abstract class AdminCreateNewsStoreBase with Store {
         ..addAll(areas);
     });
   }
-
-  // ── Media ──────────────────────────────────────────────────────────────────
 
   final pendingMedia = ObservableList<PendingNewsMedia>();
 
@@ -100,8 +96,6 @@ abstract class AdminCreateNewsStoreBase with Store {
       setError(e is String ? e : 'Erro ao remover imagem.');
     }
   }
-
-  // ── Form Fields ────────────────────────────────────────────────────────────
 
   @readonly
   late String _title = '';
@@ -164,8 +158,6 @@ abstract class AdminCreateNewsStoreBase with Store {
     return 'Campo obrigatório';
   }
 
-  // ── State ──────────────────────────────────────────────────────────────────
-
   @readonly
   bool _savedOrUpdatedOrDeleted = false;
 
@@ -194,8 +186,6 @@ abstract class AdminCreateNewsStoreBase with Store {
   @computed
   bool get isFormValid =>
       titleValid && descriptionValid && contentValid && publicationDateValid;
-
-  // ── CRUD ───────────────────────────────────────────────────────────────────
 
   @action
   Future<void> createNews() async {
