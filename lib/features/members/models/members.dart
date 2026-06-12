@@ -1,5 +1,5 @@
-import '../../../core/utils/models/member_roles.dart';
-import '../../../core/utils/models/organizations.dart';
+import '../../../core/models/member_roles.dart';
+import '../../../core/models/organizations.dart';
 
 class Members {
   Members({

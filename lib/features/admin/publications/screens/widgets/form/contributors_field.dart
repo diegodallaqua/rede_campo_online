@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/forms/form_field_shell.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
-import 'package:rede_campo_online/core/utils/models/contributor.dart';
-import 'package:rede_campo_online/core/utils/models/contributor_roles.dart';
+import 'package:rede_campo_online/core/models/contributor.dart';
+import 'package:rede_campo_online/core/models/contributor_roles.dart';
 import 'package:rede_campo_online/features/admin/publications/screens/widgets/form/contributor_dialog.dart';
 import 'package:rede_campo_online/features/members/models/members.dart';
 
@@ -104,9 +104,7 @@ class _ContributorChip extends StatelessWidget {
             const SizedBox(width: 6),
           ],
           Icon(
-            _isExternal
-                ? Icons.person_outline_rounded
-                : Icons.school_outlined,
+            _isExternal ? Icons.person_outline_rounded : Icons.school_outlined,
             size: 14,
             color: CustomColors.copper_spice,
           ),

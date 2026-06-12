@@ -10,9 +10,9 @@ import 'package:rede_campo_online/core/ui/widgets/gradient_header.dart';
 import 'package:rede_campo_online/core/ui/widgets/date_picker.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
 import 'package:rede_campo_online/core/ui/forms/entity_picker_field.dart';
-import 'package:rede_campo_online/features/admin/events/screens/widgets/event_media_upload_field.dart';
+import 'package:rede_campo_online/core/ui/forms/media_upload_field.dart';
 import 'package:rede_campo_online/features/admin/events/stores/admin_create_event_store.dart';
-import 'package:rede_campo_online/core/utils/models/addresses.dart';
+import 'package:rede_campo_online/core/models/addresses.dart';
 import 'package:rede_campo_online/features/events/models/events.dart';
 import 'package:rede_campo_online/features/projects/models/projects.dart';
 
@@ -68,7 +68,7 @@ class _AdminCreateEventScreenState extends State<AdminCreateEventScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(error),
-              backgroundColor: const Color(0xFFCF1322),
+              backgroundColor: CustomColors.danger_red,
             ),
           );
         }
@@ -225,7 +225,7 @@ class _AdminCreateEventScreenState extends State<AdminCreateEventScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 Observer(
-                                  builder: (_) => EventMediaUploadField(
+                                  builder: (_) => MediaUploadField(
                                     existingItems: _createEventStore
                                         .existingMedia
                                         .toList(),

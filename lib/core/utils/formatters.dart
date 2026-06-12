@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-import 'models/addresses.dart';
+import '../models/addresses.dart';
 
 extension StringExtension on String {
   bool isEmailValid() {

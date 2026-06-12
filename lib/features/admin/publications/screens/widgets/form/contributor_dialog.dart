@@ -4,9 +4,9 @@ import 'package:rede_campo_online/core/ui/forms/form_field_shell.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
-import 'package:rede_campo_online/core/utils/models/contributor.dart';
-import 'package:rede_campo_online/core/utils/models/contributor_roles.dart';
-import 'package:rede_campo_online/core/utils/models/external_author.dart';
+import 'package:rede_campo_online/core/models/contributor.dart';
+import 'package:rede_campo_online/core/models/contributor_roles.dart';
+import 'package:rede_campo_online/core/models/external_author.dart';
 import 'package:rede_campo_online/features/members/models/members.dart';
 
 /// Diálogo de criação de um contribuidor da publicação. O contribuidor pode
@@ -198,7 +198,7 @@ class _ContributorDialogState extends State<ContributorDialog> {
           onPressed: () => Navigator.of(context).pop(),
           child: const Text(
             'Cancelar',
-            style: TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: CustomColors.neutral_gray),
           ),
         ),
         ElevatedButton(
@@ -264,7 +264,7 @@ class _ContributorDialogState extends State<ContributorDialog> {
           onSubmitted: (query) =>
               setState(() => _searchQuery = query.trim().toLowerCase()),
           hintText: 'Pesquisar membro',
-          borderColor: const Color(0xFFE2E2DC),
+          borderColor: CustomColors.soft_border,
           textColor: CustomColors.midnight_slate,
           hintColor: CustomColors.midnight_slate.withOpacity(0.45),
           iconColor: CustomColors.midnight_slate.withOpacity(0.45),
@@ -280,7 +280,9 @@ class _ContributorDialogState extends State<ContributorDialog> {
                   child: Text(
                     'Nenhum membro disponível.',
                     style: TextStyle(
-                        color: Color(0xFF6B7280), fontSize: 14, height: 1.5),
+                        color: CustomColors.neutral_gray,
+                        fontSize: 14,
+                        height: 1.5),
                   ),
                 )
               : _filteredMembers.isEmpty

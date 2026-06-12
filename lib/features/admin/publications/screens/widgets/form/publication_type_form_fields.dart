@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:rede_campo_online/core/ui/forms/custom_text_field.dart';
 import 'package:rede_campo_online/core/ui/forms/entity_picker_field.dart';
-import 'package:rede_campo_online/core/utils/models/organizations.dart';
+import 'package:rede_campo_online/core/models/organizations.dart';
 import 'package:rede_campo_online/features/admin/publications/models/publication_type.dart';
 import 'package:rede_campo_online/features/admin/publications/screens/widgets/form/book_cover_upload_field.dart';
 import 'package:rede_campo_online/features/admin/publications/screens/widgets/form/publication_form_controllers.dart';

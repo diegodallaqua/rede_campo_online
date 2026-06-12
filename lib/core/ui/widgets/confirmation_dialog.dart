@@ -9,7 +9,7 @@ class ConfirmationDialog extends StatelessWidget {
     required this.message,
     this.cancelLabel = 'Cancelar',
     this.confirmLabel = 'Confirmar',
-    this.confirmColor = const Color(0xFFCF1322),
+    this.confirmColor = CustomColors.danger_red,
   });
 
   final String title;
@@ -24,7 +24,7 @@ class ConfirmationDialog extends StatelessWidget {
     required String message,
     String cancelLabel = 'Cancelar',
     String confirmLabel = 'Confirmar',
-    Color confirmColor = const Color(0xFFCF1322),
+    Color confirmColor = CustomColors.danger_red,
   }) {
     return showDialog<bool>(
       context: context,
@@ -64,16 +64,16 @@ class ConfirmationDialog extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(false),
           child: Text(
             cancelLabel,
-            style: TextStyle(
-                color: CustomColors.midnight_slate.withOpacity(0.55)),
+            style:
+                TextStyle(color: CustomColors.midnight_slate.withOpacity(0.55)),
           ),
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: confirmColor,
             foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             elevation: 0,
           ),
           onPressed: () => Navigator.of(context).pop(true),

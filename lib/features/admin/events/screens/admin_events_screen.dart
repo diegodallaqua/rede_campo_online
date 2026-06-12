@@ -8,8 +8,9 @@ import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/gradient_header.dart';
 import 'package:rede_campo_online/features/admin/screens/widgets/admin_sidebar.dart';
 import 'package:rede_campo_online/features/admin/stores/admin_store.dart';
-import 'package:rede_campo_online/features/admin/events/screens/widgets/sections/admin_events_list_section/admin_events_list_section_desktop_version.dart';
-import 'package:rede_campo_online/features/admin/events/screens/widgets/sections/admin_events_list_section/admin_events_list_section_mobile_version.dart';
+import 'package:rede_campo_online/core/ui/listing_tiles/events/event_tile_desktop_version.dart';
+import 'package:rede_campo_online/core/ui/listing_tiles/events/event_tile_mobile_version.dart';
+import 'package:rede_campo_online/core/ui/widgets/admin/admin_entity_list_section.dart';
 import 'package:rede_campo_online/features/admin/events/stores/admin_events_store.dart';
 import 'package:rede_campo_online/features/events/models/events.dart';
 
@@ -62,9 +63,18 @@ class _AdminEventsScreenState extends State<AdminEventsScreen> {
             builder: (_) => AdminSidebar(store: getIt<AdminStore>()),
           ),
           Expanded(
-            child: AdminEventsListSectionDesktopVersion(
-              adminEventsStore: _adminEventsStore,
-              onTapEvent: _navigateToEdit,
+            child: AdminEntityListSectionDesktopVersion<Events>(
+              store: _adminEventsStore,
+              title: 'Gerenciar Eventos',
+              subtitle: 'Selecione um evento para editar.',
+              errorMessage: 'Não foi possível carregar os eventos.',
+              emptyMessage: 'Nenhum evento cadastrado.',
+              itemBuilder: (context, event) => EventTileDesktopVersion(
+                event: event,
+                eventMedia: _adminEventsStore.mediaMap[event.id],
+                onTap: () => _navigateToEdit(event),
+                isAdmin: true,
+              ),
             ),
           ),
         ],
@@ -97,9 +107,22 @@ class _AdminEventsScreenState extends State<AdminEventsScreen> {
                   borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                 ),
                 clipBehavior: Clip.antiAlias,
-                child: AdminEventsListSectionMobileVersion(
-                  adminEventsStore: _adminEventsStore,
-                  onTapEvent: _navigateToEdit,
+                child: AdminEntityListSectionMobileVersion<Events>(
+                  store: _adminEventsStore,
+                  errorMessage: 'Não foi possível carregar os eventos.',
+                  emptyMessage: 'Nenhum evento cadastrado.',
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    mainAxisExtent: 215,
+                  ),
+                  itemBuilder: (context, event) => EventTileMobileVersion(
+                    event: event,
+                    eventMedia: _adminEventsStore.mediaMap[event.id],
+                    onTap: () => _navigateToEdit(event),
+                    pinInfoToBottom: true,
+                  ),
                 ),
               ),
             ),

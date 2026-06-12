@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../../app/router.dart';
-import '../../../../../../core/ui/buttons/custom_buttom.dart';
+import '../../../../../../core/ui/buttons/custom_button.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 
 class AboutUsHeaderSectionDesktopVersion extends StatelessWidget {

@@ -109,7 +109,7 @@ class _BookCoverUploadFieldState extends State<BookCoverUploadField> {
           icon: const Icon(Icons.close_rounded, size: 18),
           color: CustomColors.copper_spice,
           style: IconButton.styleFrom(
-            backgroundColor: const Color(0xFFFFF1F0),
+            backgroundColor: CustomColors.danger_surface,
             minimumSize: const Size(34, 34),
             padding: EdgeInsets.zero,
           ),
@@ -170,11 +170,11 @@ class _CoverThumbnailFallback extends StatelessWidget {
     return Container(
       width: 54,
       height: 54,
-      color: const Color(0xFFF0F0E8),
+      color: CustomColors.placeholder_surface,
       child: const Icon(
         Icons.image_outlined,
         size: 22,
-        color: Color(0xFFBBBBAA),
+        color: CustomColors.placeholder_icon,
       ),
     );
   }

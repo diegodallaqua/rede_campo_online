@@ -1,11 +1,15 @@
+import '../../../core/models/media_attachment.dart';
 import 'news.dart';
 
-class NewsMedia {
+class NewsMedia implements MediaAttachment {
   NewsMedia({this.id, this.news, this.name, this.media});
 
+  @override
   int? id;
   News? news;
+  @override
   String? name;
+  @override
   String? media;
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/widgets/layout/footer.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
-import 'package:rede_campo_online/core/utils/stores/filter_search_store.dart';
+import 'package:rede_campo_online/core/stores/filter_search_store.dart';
 import 'package:rede_campo_online/features/articles/stores/articles_store.dart';
 import 'package:rede_campo_online/features/book_chapters/stores/book_chapters_store.dart';
 import 'package:rede_campo_online/features/books/stores/books_store.dart';

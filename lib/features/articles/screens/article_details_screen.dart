@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../core/ui/sections/abstract_section.dart';
+import '../../../core/ui/sections/authors_section.dart';
 import '../../../core/ui/widgets/layout/app_scaffold.dart';
 import '../../../core/ui/widgets/layout/footer.dart';
 import '../../../core/ui/theme/custom_colors.dart';
+import '../../../core/utils/formatters.dart';
+import '../../../core/stores/translation_store.dart';
 import '../models/articles.dart';
-import '../stores/article_details_store.dart';
-import 'widgets/sections/authors_section/article_authors_section_desktop_version.dart';
-import 'widgets/sections/authors_section/article_authors_section_mobile_version.dart';
-import 'widgets/sections/content_section/article_content_section_desktop_version.dart';
-import 'widgets/sections/content_section/article_content_section_mobile_version.dart';
 import 'widgets/sections/header_section/article_header_section_desktop_version.dart';
 import 'widgets/sections/header_section/article_header_section_mobile_version.dart';
 
@@ -23,18 +22,37 @@ class ArticleDetailsScreen extends StatefulWidget {
 }
 
 class _ArticleDetailsScreenState extends State<ArticleDetailsScreen> {
-  late final ArticleDetailsStore articleDetailsStore;
+  late final TranslationStore translationStore;
+
+  static const _authorsTitle = 'Autores do Artigo';
+  static const _authorsEmptyMessage = 'Nenhum autor vinculado a este artigo.';
 
   @override
   void initState() {
     super.initState();
-    articleDetailsStore = ArticleDetailsStore();
-    articleDetailsStore
+    translationStore = TranslationStore();
+    translationStore
         .fetchTranslation(widget.article.publication?.abstract ?? '');
+  }
+
+  String get _publishedLabel {
+    final parts = <String>[];
+    final journal = widget.article.journal_name ?? '';
+    final volume = widget.article.volume ?? '';
+    final date = widget.article.publication?.publication_date;
+    if (journal.isNotEmpty) parts.add(journal);
+    if (volume.isNotEmpty) parts.add('v.$volume');
+    if (date != null && date.formattedDate().isNotEmpty) {
+      parts.add(date.formattedDate());
+    }
+    return parts.join(', ');
   }
 
   @override
   Widget build(BuildContext context) {
+    final abstractText = widget.article.publication?.abstract ?? '';
+    final contributors = widget.article.publication?.contributors ?? [];
+
     return AppScaffold(
       body: ResponsiveVisibility(
         visible: false,
@@ -45,14 +63,19 @@ class _ArticleDetailsScreenState extends State<ArticleDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ArticleHeaderSectionMobileVersion(article: widget.article),
-              ArticleContentSectionMobileVersion(
-                article: widget.article,
-                store: articleDetailsStore,
+              AbstractSectionMobileVersion(
+                abstractText: abstractText,
+                store: translationStore,
+                publishedLabel: _publishedLabel,
+                researchAreas: widget.article.publication?.research_areas ?? [],
               ),
               ColoredBox(
                 color: CustomColors.midnight_slate,
-                child:
-                    ArticleAuthorsSectionMobileVersion(article: widget.article),
+                child: AuthorsSectionMobileVersion(
+                  title: _authorsTitle,
+                  emptyMessage: _authorsEmptyMessage,
+                  contributors: contributors,
+                ),
               ),
               const SizedBox(height: 16),
               const Footer(),
@@ -70,12 +93,15 @@ class _ArticleDetailsScreenState extends State<ArticleDetailsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    ArticleContentSectionDesktopVersion(
-                      article: widget.article,
-                      store: articleDetailsStore,
+                    AbstractSectionDesktopVersion(
+                      abstractText: abstractText,
+                      store: translationStore,
                     ),
-                    ArticleAuthorsSectionDesktopVersion(
-                        article: widget.article),
+                    AuthorsSectionDesktopVersion(
+                      title: _authorsTitle,
+                      emptyMessage: _authorsEmptyMessage,
+                      contributors: contributors,
+                    ),
                   ],
                 ),
               ),

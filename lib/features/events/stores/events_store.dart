@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:mobx/mobx.dart';
 
-import '../../../core/utils/stores/base_store.dart';
+import '../../../core/stores/base_store.dart';
 import '../models/events.dart';
 import '../models/events_media.dart';
 import '../repositories/event_media_repository.dart';

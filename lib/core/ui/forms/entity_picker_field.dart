@@ -73,8 +73,8 @@ class EntityPickerField<T> extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   borderColor: hasError
-                      ? const Color(0xFFCF1322)
-                      : const Color(0xFFE2E2DC),
+                      ? CustomColors.danger_red
+                      : CustomColors.soft_border,
                   child: Row(
                     children: [
                       Icon(

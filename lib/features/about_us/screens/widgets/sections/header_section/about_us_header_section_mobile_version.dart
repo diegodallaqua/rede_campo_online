@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rede_campo_online/core/ui/buttons/custom_buttom.dart';
+import 'package:rede_campo_online/core/ui/buttons/custom_button.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 
 import '../../../../../../app/router.dart';

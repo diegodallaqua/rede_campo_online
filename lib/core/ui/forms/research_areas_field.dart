@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/forms/form_field_shell.dart';
 import 'package:rede_campo_online/core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import 'package:rede_campo_online/core/ui/widgets/dialogs/research_areas_dialog.dart';
-import 'package:rede_campo_online/core/utils/models/research_areas.dart';
+import 'package:rede_campo_online/core/models/research_areas.dart';
 
 /// Campo de seleção múltipla de áreas de pesquisa, compartilhado pelos
 /// formulários administrativos (notícias, projetos e publicações).

@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:mobx/mobx.dart';
 
-import '../../../core/utils/stores/filter_search_store.dart';
+import '../../../core/stores/filter_search_store.dart';
 import '../models/project_media.dart';
 import '../models/projects.dart';
-import '../../../core/utils/stores/base_store.dart';
+import '../../../core/stores/base_store.dart';
 import '../repositories/project_media_repository.dart';
 import '../repositories/projects_repository.dart';
 
@@ -94,7 +94,6 @@ abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
   Future<void> loadData() async {
     if (_page == 1) {
       await fetchData(
-        'projects:search=${filterStore.search}',
         () => _repository.findAllProjects(
           page: _page,
           filterSearchStore: filterStore,

@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:mobx/mobx.dart';
 
-import '../../../core/utils/stores/base_store.dart';
-import '../../../core/utils/stores/filter_search_store.dart';
+import '../../../core/stores/base_store.dart';
+import '../../../core/stores/filter_search_store.dart';
 import '../models/publications.dart';
 import '../repositories/publications_repository.dart';
 
@@ -95,7 +95,6 @@ abstract class PublicationsStoreBase extends BaseStore<Publications>
   Future<void> loadData() async {
     if (_page == 1) {
       await fetchData(
-        'publications:search=${filterStore.search}',
         () => _repository.findAllPublications(
           page: _page,
           filterSearchStore: filterStore,

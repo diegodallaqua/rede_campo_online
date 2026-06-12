@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
-import 'package:rede_campo_online/core/utils/models/project_types.dart';
+import 'package:rede_campo_online/core/models/project_types.dart';
 
 class ProjectTypeField extends StatelessWidget {
   const ProjectTypeField({
@@ -46,9 +46,7 @@ class ProjectTypeField extends StatelessWidget {
             fontSize: 14,
           ),
           hint: Text(
-            availableTypes.isEmpty
-                ? 'Carregando tipos...'
-                : 'Tipo de projeto',
+            availableTypes.isEmpty ? 'Carregando tipos...' : 'Tipo de projeto',
             style: TextStyle(
               color: CustomColors.midnight_slate.withOpacity(0.45),
               fontSize: 14,
@@ -88,12 +86,14 @@ class ProjectTypeField extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Color(0xFFE2E2DC)),
+              borderSide: const BorderSide(color: CustomColors.soft_border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: hasError ? const Color(0xFFCF1322) : const Color(0xFFE2E2DC),
+                color: hasError
+                    ? CustomColors.danger_red
+                    : CustomColors.soft_border,
                 width: hasError ? 1.5 : 1.0,
               ),
             ),
@@ -110,7 +110,8 @@ class ProjectTypeField extends StatelessWidget {
             padding: const EdgeInsets.only(left: 12),
             child: Text(
               errorText!,
-              style: const TextStyle(color: Color(0xFFCF1322), fontSize: 12),
+              style:
+                  const TextStyle(color: CustomColors.danger_red, fontSize: 12),
             ),
           ),
         ],
@@ -136,7 +137,7 @@ class ProjectStatusField extends StatelessWidget {
       decoration: BoxDecoration(
         color: CustomColors.vanilla_haze.withOpacity(0.05),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFE2E2DC)),
+        border: Border.all(color: CustomColors.soft_border),
       ),
       child: Row(
         children: [

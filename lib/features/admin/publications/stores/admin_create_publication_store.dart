@@ -1,18 +1,18 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rede_campo_online/core/global/injection.dart';
-import 'package:rede_campo_online/core/utils/models/contributor.dart';
-import 'package:rede_campo_online/core/utils/models/contributor_roles.dart';
-import 'package:rede_campo_online/core/utils/models/organizations.dart';
-import 'package:rede_campo_online/core/utils/models/research_areas.dart';
-import 'package:rede_campo_online/core/utils/repositories/contributor_roles_repository.dart';
-import 'package:rede_campo_online/core/utils/repositories/contributors_repository.dart';
-import 'package:rede_campo_online/core/utils/repositories/external_authors_repository.dart';
-import 'package:rede_campo_online/core/utils/repositories/image_upload_repository.dart';
-import 'package:rede_campo_online/core/utils/repositories/organizations_repository.dart';
-import 'package:rede_campo_online/core/utils/repositories/research_areas_repository.dart';
-import 'package:rede_campo_online/core/utils/stores/filter_search_store.dart';
-import 'package:rede_campo_online/core/utils/stores/user_manager_store.dart';
+import 'package:rede_campo_online/core/models/contributor.dart';
+import 'package:rede_campo_online/core/models/contributor_roles.dart';
+import 'package:rede_campo_online/core/models/organizations.dart';
+import 'package:rede_campo_online/core/models/research_areas.dart';
+import 'package:rede_campo_online/core/repositories/contributor_roles_repository.dart';
+import 'package:rede_campo_online/core/repositories/contributors_repository.dart';
+import 'package:rede_campo_online/core/repositories/external_authors_repository.dart';
+import 'package:rede_campo_online/core/repositories/image_upload_repository.dart';
+import 'package:rede_campo_online/core/repositories/organizations_repository.dart';
+import 'package:rede_campo_online/core/repositories/research_areas_repository.dart';
+import 'package:rede_campo_online/core/stores/filter_search_store.dart';
+import 'package:rede_campo_online/core/stores/user_manager_store.dart';
 import 'package:rede_campo_online/features/admin/publications/models/publication_type.dart';
 import 'package:rede_campo_online/features/articles/models/articles.dart';
 import 'package:rede_campo_online/features/articles/repositories/articles_repository.dart';
@@ -751,8 +751,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
   }
 
   Future<void> _deleteRemovedContributors() async {
-    final currentIds =
-        contributors.map((c) => c.id).whereType<int>().toSet();
+    final currentIds = contributors.map((c) => c.id).whereType<int>().toSet();
     for (final original in _originalContributors) {
       final id = original.id;
       if (id != null && !currentIds.contains(id)) {

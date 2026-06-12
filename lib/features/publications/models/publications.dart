@@ -1,6 +1,6 @@
-import 'package:rede_campo_online/core/utils/models/research_areas.dart';
+import 'package:rede_campo_online/core/models/research_areas.dart';
 
-import '../../../core/utils/models/contributor.dart';
+import '../../../core/models/contributor.dart';
 
 class Publications {
   Publications(
@@ -64,7 +64,6 @@ class Publications {
         'publication_date':
             publication_date?.toIso8601String().substring(0, 10),
         if (doi != null && doi!.isNotEmpty) 'doi': doi,
-        'research_area_ids':
-            research_areas?.map((ra) => ra.id).toList() ?? [],
+        'research_area_ids': research_areas?.map((ra) => ra.id).toList() ?? [],
       };
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
-import 'package:rede_campo_online/core/utils/models/research_areas.dart';
+import 'package:rede_campo_online/core/models/research_areas.dart';
 
 class ResearchAreasDialog extends StatefulWidget {
   const ResearchAreasDialog({
@@ -60,8 +60,7 @@ class _ResearchAreasDialogState extends State<ResearchAreasDialog> {
   List<ResearchAreas> get _filteredAreas {
     if (_searchQuery.isEmpty) return widget.availableAreas;
     return widget.availableAreas
-        .where((area) =>
-            (area.name ?? '').toLowerCase().contains(_searchQuery))
+        .where((area) => (area.name ?? '').toLowerCase().contains(_searchQuery))
         .toList();
   }
 
@@ -96,7 +95,8 @@ class _ResearchAreasDialogState extends State<ResearchAreasDialog> {
       content: widget.availableAreas.isEmpty
           ? const Text(
               'Nenhuma área de pesquisa disponível.',
-              style: TextStyle(color: Color(0xFF6B7280), fontSize: 14, height: 1.5),
+              style: TextStyle(
+                  color: CustomColors.neutral_gray, fontSize: 14, height: 1.5),
             )
           : SizedBox(
               // Tamanho fixo para o diálogo não encolher conforme a pesquisa
@@ -109,7 +109,7 @@ class _ResearchAreasDialogState extends State<ResearchAreasDialog> {
                     controller: _searchController,
                     onSubmitted: _onSearch,
                     hintText: 'Pesquisar áreas',
-                    borderColor: const Color(0xFFE2E2DC),
+                    borderColor: CustomColors.soft_border,
                     textColor: CustomColors.midnight_slate,
                     hintColor: CustomColors.midnight_slate.withOpacity(0.45),
                     iconColor: CustomColors.midnight_slate.withOpacity(0.45),
@@ -152,7 +152,7 @@ class _ResearchAreasDialogState extends State<ResearchAreasDialog> {
           onPressed: () => Navigator.of(context).pop(),
           child: const Text(
             'Cancelar',
-            style: TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: CustomColors.neutral_gray),
           ),
         ),
         ElevatedButton(

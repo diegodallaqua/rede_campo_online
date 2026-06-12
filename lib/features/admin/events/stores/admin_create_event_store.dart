@@ -1,11 +1,11 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rede_campo_online/core/global/injection.dart';
-import 'package:rede_campo_online/core/utils/models/addresses.dart';
-import 'package:rede_campo_online/core/utils/repositories/addresses_repository.dart';
-import 'package:rede_campo_online/core/utils/repositories/image_upload_repository.dart';
-import 'package:rede_campo_online/core/utils/stores/user_manager_store.dart';
-import 'package:rede_campo_online/features/admin/events/screens/widgets/event_media_upload_field.dart';
+import 'package:rede_campo_online/core/models/addresses.dart';
+import 'package:rede_campo_online/core/repositories/addresses_repository.dart';
+import 'package:rede_campo_online/core/repositories/image_upload_repository.dart';
+import 'package:rede_campo_online/core/stores/user_manager_store.dart';
+import 'package:rede_campo_online/core/models/pending_media.dart';
 import 'package:rede_campo_online/features/events/models/events.dart';
 import 'package:rede_campo_online/features/events/models/events_media.dart';
 import 'package:rede_campo_online/features/events/repositories/event_media_repository.dart';
@@ -64,11 +64,11 @@ abstract class AdminCreateEventStoreBase with Store {
     } catch (_) {}
   }
 
-  final pendingMedia = ObservableList<PendingEventMedia>();
+  final pendingMedia = ObservableList<PendingMedia>();
 
   @action
   void addPendingMedia(XFile file) =>
-      pendingMedia.add(PendingEventMedia(file: file));
+      pendingMedia.add(PendingMedia(file: file));
 
   @action
   void removePendingMedia(int index) => pendingMedia.removeAt(index);

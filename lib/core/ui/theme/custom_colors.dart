@@ -9,4 +9,13 @@ abstract class CustomColors {
   static const Color fresh_sprout = Color(0xFF83CE2F);
   static const Color pine_shadow = Color(0xFF25422B);
   static const Color salt_flower = Color(0xFFF5F5EE);
+
+  // Cores de apoio usadas em bordas, estados de erro e placeholders.
+  static const Color soft_border = Color(0xFFE2E2DC);
+  static const Color danger_red = Color(0xFFCF1322);
+  static const Color danger_surface = Color(0xFFFFF1F0);
+  static const Color peach_cream = Color(0xFFF5E6DD);
+  static const Color neutral_gray = Color(0xFF6B7280);
+  static const Color placeholder_surface = Color(0xFFF0F0E8);
+  static const Color placeholder_icon = Color(0xFFBBBBAA);
 }

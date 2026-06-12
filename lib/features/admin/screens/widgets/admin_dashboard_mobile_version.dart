@@ -37,7 +37,7 @@ class AdminDashboardMobileVersion extends StatelessWidget {
                   _AdminActionCard(
                     icon: Icons.article_outlined,
                     iconColor: CustomColors.copper_spice,
-                    iconBackground: const Color(0xFFF5E6DD),
+                    iconBackground: CustomColors.peach_cream,
                     title: 'Gerenciar Notícias',
                     description: 'Edite, apague ou publique notícias no site.',
                     onTap: () => context.push(AppRoutes.adminNews),
@@ -46,7 +46,7 @@ class AdminDashboardMobileVersion extends StatelessWidget {
                   _AdminActionCard(
                     icon: Icons.science_outlined,
                     iconColor: CustomColors.copper_spice,
-                    iconBackground: const Color(0xFFF5E6DD),
+                    iconBackground: CustomColors.peach_cream,
                     title: 'Gerenciar Projetos',
                     description: 'Cadastre, edite ou apague projetos do site.',
                     onTap: () => context.push(AppRoutes.adminProjects),
@@ -55,7 +55,7 @@ class AdminDashboardMobileVersion extends StatelessWidget {
                   _AdminActionCard(
                     icon: Icons.event_outlined,
                     iconColor: CustomColors.copper_spice,
-                    iconBackground: const Color(0xFFF5E6DD),
+                    iconBackground: CustomColors.peach_cream,
                     title: 'Gerenciar Eventos',
                     description: 'Cadastre, edite ou apague eventos do site.',
                     onTap: () => context.push(AppRoutes.adminEvents),
@@ -64,7 +64,7 @@ class AdminDashboardMobileVersion extends StatelessWidget {
                   _AdminActionCard(
                     icon: Icons.menu_book_outlined,
                     iconColor: CustomColors.copper_spice,
-                    iconBackground: const Color(0xFFF5E6DD),
+                    iconBackground: CustomColors.peach_cream,
                     title: 'Gerenciar Publicações',
                     description:
                         'Cadastre, edite ou apague publicações do site.',

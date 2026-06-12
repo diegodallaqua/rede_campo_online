@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 
-const _errorColor = Color(0xFFCF1322);
-const _borderColor = Color(0xFFE2E2DC);
+const _errorColor = CustomColors.danger_red;
+const _borderColor = CustomColors.soft_border;
 
 OutlineInputBorder _border(Color color, [double width = 1.0]) {
   return OutlineInputBorder(

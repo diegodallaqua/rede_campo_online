@@ -21,7 +21,7 @@ import 'package:rede_campo_online/features/books/screens/book_details_screen.dar
 import 'package:rede_campo_online/features/home/screens/home_screen.dart';
 
 import '../core/global/injection.dart';
-import '../core/utils/stores/user_manager_store.dart';
+import '../core/stores/user_manager_store.dart';
 import '../features/events/models/events.dart';
 import '../features/events/screens/event_details_screen.dart';
 import '../features/events/screens/events_screen.dart';

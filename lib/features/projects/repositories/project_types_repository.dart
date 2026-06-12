@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 
 import '../../../core/global/constants/api_constants.dart';
 import '../../../core/utils/error_message_api.dart';
-import '../../../core/utils/models/project_types.dart';
-import '../../../core/utils/repositories/token_repository.dart';
+import '../../../core/models/project_types.dart';
+import '../../../core/repositories/token_repository.dart';
 
 class ProjectTypesRepository {
   Future<List<ProjectTypes>> findAll() async {

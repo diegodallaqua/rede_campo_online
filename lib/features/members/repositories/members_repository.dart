@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../core/global/constants/api_constants.dart';
 import '../../../core/utils/error_message_api.dart';
-import '../../../core/utils/repositories/token_repository.dart';
+import '../../../core/repositories/token_repository.dart';
 import '../models/members.dart';
 
 class MembersRepository {
@@ -34,7 +34,8 @@ class MembersRepository {
         return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
       }
     } catch (e, s) {
-      log('MembersRepository: Erro ao buscar Membros:', error: e.toString(), stackTrace: s);
+      log('MembersRepository: Erro ao buscar Membros:',
+          error: e.toString(), stackTrace: s);
       return Future.error('Erro ao buscar Membros');
     }
   }

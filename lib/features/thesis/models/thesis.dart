@@ -1,4 +1,4 @@
-import '../../../core/utils/models/organizations.dart';
+import '../../../core/models/organizations.dart';
 import '../../publications/models/publications.dart';
 
 class Thesis {

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:mobx/mobx.dart';
 
-import '../../../core/utils/stores/base_store.dart';
+import '../../../core/stores/base_store.dart';
 import '../models/members.dart';
 import '../repositories/members_repository.dart';
 
@@ -36,7 +36,8 @@ abstract class MembersStoreBase extends BaseStore<Members> with Store {
       final result = await _repository.findAllMembers(page: 1);
       setData(result);
     } catch (e, s) {
-      log('MembersStore: Erro ao carregar Membros', error: e.toString(), stackTrace: s);
+      log('MembersStore: Erro ao carregar Membros',
+          error: e.toString(), stackTrace: s);
       membersError = e.toString();
     } finally {
       isLoading = false;

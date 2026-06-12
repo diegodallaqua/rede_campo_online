@@ -1,6 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:rede_campo_online/core/global/injection.dart';
-import 'package:rede_campo_online/core/utils/stores/user_manager_store.dart';
+import 'package:rede_campo_online/core/stores/user_manager_store.dart';
 
 part 'admin_store.g.dart';
 

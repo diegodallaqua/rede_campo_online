@@ -8,8 +8,9 @@ import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/gradient_header.dart';
 import 'package:rede_campo_online/features/admin/screens/widgets/admin_sidebar.dart';
 import 'package:rede_campo_online/features/admin/stores/admin_store.dart';
-import 'package:rede_campo_online/features/admin/projects/screens/widgets/sections/admin_projects_list_section/admin_projects_list_section_desktop_version.dart';
-import 'package:rede_campo_online/features/admin/projects/screens/widgets/sections/admin_projects_list_section/admin_projects_list_section_mobile_version.dart';
+import 'package:rede_campo_online/core/ui/listing_tiles/projects/project_tile_desktop_version.dart';
+import 'package:rede_campo_online/core/ui/listing_tiles/projects/project_tile_mobile_version.dart';
+import 'package:rede_campo_online/core/ui/widgets/admin/admin_entity_list_section.dart';
 import 'package:rede_campo_online/features/admin/projects/stores/admin_projects_store.dart';
 import 'package:rede_campo_online/features/projects/models/projects.dart';
 
@@ -62,9 +63,18 @@ class _AdminProjectsScreenState extends State<AdminProjectsScreen> {
             builder: (_) => AdminSidebar(store: getIt<AdminStore>()),
           ),
           Expanded(
-            child: AdminProjectsListSectionDesktopVersion(
-              adminProjectsStore: _adminProjectsStore,
-              onTapProject: _navigateToEdit,
+            child: AdminEntityListSectionDesktopVersion<Projects>(
+              store: _adminProjectsStore,
+              title: 'Gerenciar Projetos',
+              subtitle: 'Selecione um projeto para editar.',
+              errorMessage: 'Não foi possível carregar os projetos.',
+              emptyMessage: 'Nenhum projeto cadastrado.',
+              itemBuilder: (context, project) => ProjectTileDesktopVersion(
+                project: project,
+                projectMedia: _adminProjectsStore.mediaMap[project.id],
+                onTap: () => _navigateToEdit(project),
+                isAdmin: true,
+              ),
             ),
           ),
         ],
@@ -97,9 +107,18 @@ class _AdminProjectsScreenState extends State<AdminProjectsScreen> {
                   borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                 ),
                 clipBehavior: Clip.antiAlias,
-                child: AdminProjectsListSectionMobileVersion(
-                  adminProjectsStore: _adminProjectsStore,
-                  onTapProject: _navigateToEdit,
+                child: AdminEntityListSectionMobileVersion<Projects>(
+                  store: _adminProjectsStore,
+                  errorMessage: 'Não foi possível carregar os projetos.',
+                  emptyMessage: 'Nenhum projeto cadastrado.',
+                  itemBuilder: (context, project) => Center(
+                    child: ProjectTileMobileVersion(
+                      project: project,
+                      projectMedia: _adminProjectsStore.mediaMap[project.id],
+                      onTap: () => _navigateToEdit(project),
+                      isAdmin: true,
+                    ),
+                  ),
                 ),
               ),
             ),

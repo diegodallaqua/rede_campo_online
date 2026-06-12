@@ -61,7 +61,7 @@ class _AdminCreatePublicationScreenState
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(error),
-              backgroundColor: const Color(0xFFCF1322),
+              backgroundColor: CustomColors.danger_red,
             ),
           );
         }

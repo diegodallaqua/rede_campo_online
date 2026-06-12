@@ -78,11 +78,11 @@ class CustomTextField extends StatelessWidget {
             const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Color(0xFFE2E2DC)),
+          borderSide: const BorderSide(color: CustomColors.soft_border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Color(0xFFE2E2DC)),
+          borderSide: const BorderSide(color: CustomColors.soft_border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -91,11 +91,12 @@ class CustomTextField extends StatelessWidget {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Color(0xFFCF1322)),
+          borderSide: const BorderSide(color: CustomColors.danger_red),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Color(0xFFCF1322), width: 1.5),
+          borderSide:
+              const BorderSide(color: CustomColors.danger_red, width: 1.5),
         ),
       ),
     );

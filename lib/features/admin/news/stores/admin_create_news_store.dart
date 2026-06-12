@@ -1,11 +1,11 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rede_campo_online/core/global/injection.dart';
-import 'package:rede_campo_online/features/admin/news/screens/widgets/news_media_upload_field.dart';
-import 'package:rede_campo_online/core/utils/models/research_areas.dart';
-import 'package:rede_campo_online/core/utils/repositories/image_upload_repository.dart';
-import 'package:rede_campo_online/core/utils/repositories/research_areas_repository.dart';
-import 'package:rede_campo_online/core/utils/stores/user_manager_store.dart';
+import 'package:rede_campo_online/core/models/pending_media.dart';
+import 'package:rede_campo_online/core/models/research_areas.dart';
+import 'package:rede_campo_online/core/repositories/image_upload_repository.dart';
+import 'package:rede_campo_online/core/repositories/research_areas_repository.dart';
+import 'package:rede_campo_online/core/stores/user_manager_store.dart';
 import 'package:rede_campo_online/features/members/models/members.dart';
 import 'package:rede_campo_online/features/news/models/news.dart';
 import 'package:rede_campo_online/features/news/models/news_media.dart';
@@ -59,11 +59,11 @@ abstract class AdminCreateNewsStoreBase with Store {
     });
   }
 
-  final pendingMedia = ObservableList<PendingNewsMedia>();
+  final pendingMedia = ObservableList<PendingMedia>();
 
   @action
   void addPendingMedia(XFile file) =>
-      pendingMedia.add(PendingNewsMedia(file: file));
+      pendingMedia.add(PendingMedia(file: file));
 
   @action
   void removePendingMedia(int index) => pendingMedia.removeAt(index);

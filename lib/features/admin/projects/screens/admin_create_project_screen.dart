@@ -10,7 +10,7 @@ import 'package:rede_campo_online/core/ui/widgets/date_picker.dart';
 import 'package:rede_campo_online/core/ui/widgets/gradient_header.dart';
 import 'package:rede_campo_online/core/ui/forms/research_areas_field.dart';
 import 'package:rede_campo_online/features/admin/projects/screens/widgets/members_field.dart';
-import 'package:rede_campo_online/features/admin/projects/screens/widgets/project_media_upload_field.dart';
+import 'package:rede_campo_online/core/ui/forms/media_upload_field.dart';
 import 'package:rede_campo_online/features/admin/projects/screens/widgets/project_type_field.dart';
 import 'package:rede_campo_online/features/admin/projects/stores/admin_create_project_store.dart';
 import 'package:rede_campo_online/features/projects/models/projects.dart';
@@ -63,7 +63,7 @@ class _AdminCreateProjectScreenState extends State<AdminCreateProjectScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(error),
-              backgroundColor: const Color(0xFFCF1322),
+              backgroundColor: CustomColors.danger_red,
             ),
           );
         }
@@ -229,7 +229,7 @@ class _AdminCreateProjectScreenState extends State<AdminCreateProjectScreen> {
                                       _createProjectStore.setResearchAreas,
                                 ),
                                 const SizedBox(height: 16),
-                                ProjectMediaUploadField(
+                                MediaUploadField(
                                   existingItems: _createProjectStore
                                       .existingMedia
                                       .toList(),

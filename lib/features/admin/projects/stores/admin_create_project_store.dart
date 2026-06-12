@@ -1,10 +1,10 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
-import 'package:rede_campo_online/core/utils/models/project_types.dart';
-import 'package:rede_campo_online/core/utils/models/research_areas.dart';
-import 'package:rede_campo_online/core/utils/repositories/image_upload_repository.dart';
-import 'package:rede_campo_online/core/utils/repositories/research_areas_repository.dart';
-import 'package:rede_campo_online/features/admin/projects/screens/widgets/project_media_upload_field.dart';
+import 'package:rede_campo_online/core/models/project_types.dart';
+import 'package:rede_campo_online/core/models/research_areas.dart';
+import 'package:rede_campo_online/core/repositories/image_upload_repository.dart';
+import 'package:rede_campo_online/core/repositories/research_areas_repository.dart';
+import 'package:rede_campo_online/core/models/pending_media.dart';
 import 'package:rede_campo_online/features/members/models/members.dart';
 import 'package:rede_campo_online/features/members/repositories/members_repository.dart';
 import 'package:rede_campo_online/features/projects/models/project_media.dart';
@@ -123,11 +123,11 @@ abstract class AdminCreateProjectStoreBase with Store {
   }
 
   // Mídias (imagens)
-  final pendingMedia = ObservableList<PendingProjectMedia>();
+  final pendingMedia = ObservableList<PendingMedia>();
 
   @action
   void addPendingMedia(XFile file) =>
-      pendingMedia.add(PendingProjectMedia(file: file));
+      pendingMedia.add(PendingMedia(file: file));
 
   @action
   void removePendingMedia(int index) => pendingMedia.removeAt(index);

@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 
 import '../../../core/global/constants/api_constants.dart';
 import '../../../core/utils/error_message_api.dart';
-import '../../../core/utils/repositories/token_repository.dart';
-import '../../../core/utils/stores/filter_search_store.dart';
+import '../../../core/repositories/token_repository.dart';
+import '../../../core/stores/filter_search_store.dart';
 import '../models/projects.dart';
 
 class ProjectsRepository {

@@ -8,7 +8,7 @@ import 'package:rede_campo_online/core/ui/widgets/bottom_action_bar.dart';
 import 'package:rede_campo_online/core/ui/widgets/confirmation_dialog.dart';
 import 'package:rede_campo_online/core/ui/widgets/gradient_header.dart';
 import 'package:rede_campo_online/core/ui/widgets/date_picker.dart';
-import 'package:rede_campo_online/features/admin/news/screens/widgets/news_media_upload_field.dart';
+import 'package:rede_campo_online/core/ui/forms/media_upload_field.dart';
 import 'package:rede_campo_online/core/ui/forms/research_areas_field.dart';
 import 'package:rede_campo_online/features/admin/news/stores/admin_create_news_store.dart';
 import 'package:rede_campo_online/features/news/models/news.dart';
@@ -65,7 +65,7 @@ class _AdminCreateNewsScreenState extends State<AdminCreateNewsScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(error),
-              backgroundColor: const Color(0xFFCF1322),
+              backgroundColor: CustomColors.danger_red,
             ),
           );
         }
@@ -193,7 +193,7 @@ class _AdminCreateNewsScreenState extends State<AdminCreateNewsScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 Observer(
-                                  builder: (_) => NewsMediaUploadField(
+                                  builder: (_) => MediaUploadField(
                                     existingItems:
                                         _createNewsStore.existingMedia.toList(),
                                     items:

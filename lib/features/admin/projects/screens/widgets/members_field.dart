@@ -64,7 +64,7 @@ class MembersField extends StatelessWidget {
             decoration: BoxDecoration(
               color: CustomColors.vanilla_haze.withOpacity(0.05),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFFE2E2DC)),
+              border: Border.all(color: CustomColors.soft_border),
             ),
             child: Column(
               children: [
@@ -91,7 +91,7 @@ class MembersField extends StatelessWidget {
             decoration: BoxDecoration(
               color: CustomColors.vanilla_haze.withOpacity(0.05),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFFE2E2DC)),
+              border: Border.all(color: CustomColors.soft_border),
             ),
             child: Wrap(
               spacing: 8,

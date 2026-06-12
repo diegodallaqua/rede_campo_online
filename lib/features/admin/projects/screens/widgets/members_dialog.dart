@@ -75,7 +75,7 @@ class _MembersDialogState extends State<MembersDialog> {
           ? const Text(
               'Nenhum membro disponível.',
               style: TextStyle(
-                  color: Color(0xFF6B7280), fontSize: 14, height: 1.5),
+                  color: CustomColors.neutral_gray, fontSize: 14, height: 1.5),
             )
           : ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 360, maxWidth: 400),
@@ -99,16 +99,17 @@ class _MembersDialogState extends State<MembersDialog> {
                           color: CustomColors.midnight_slate,
                         ),
                       ),
-                      subtitle: (member.email != null && member.email!.isNotEmpty)
-                          ? Text(
-                              member.email!,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color:
-                                    CustomColors.midnight_slate.withOpacity(0.5),
-                              ),
-                            )
-                          : null,
+                      subtitle:
+                          (member.email != null && member.email!.isNotEmpty)
+                              ? Text(
+                                  member.email!,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: CustomColors.midnight_slate
+                                        .withOpacity(0.5),
+                                  ),
+                                )
+                              : null,
                     );
                   }).toList(),
                 ),
@@ -119,7 +120,7 @@ class _MembersDialogState extends State<MembersDialog> {
           onPressed: () => Navigator.of(context).pop(),
           child: const Text(
             'Cancelar',
-            style: TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: CustomColors.neutral_gray),
           ),
         ),
         ElevatedButton(

@@ -8,8 +8,9 @@ import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/gradient_header.dart';
 import 'package:rede_campo_online/features/admin/screens/widgets/admin_sidebar.dart';
 import 'package:rede_campo_online/features/admin/stores/admin_store.dart';
-import 'package:rede_campo_online/features/admin/news/screens/widgets/sections/admin_news_list_section/admin_news_list_section_desktop_version.dart';
-import 'package:rede_campo_online/features/admin/news/screens/widgets/sections/admin_news_list_section/admin_news_list_section_mobile_version.dart';
+import 'package:rede_campo_online/core/ui/listing_tiles/news/news_tile_desktop_version.dart';
+import 'package:rede_campo_online/core/ui/listing_tiles/news/news_tile_mobile_version.dart';
+import 'package:rede_campo_online/core/ui/widgets/admin/admin_entity_list_section.dart';
 import 'package:rede_campo_online/features/admin/news/stores/admin_news_store.dart';
 import 'package:rede_campo_online/features/news/models/news.dart';
 
@@ -62,9 +63,18 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
             builder: (_) => AdminSidebar(store: getIt<AdminStore>()),
           ),
           Expanded(
-            child: AdminNewsListSectionDesktopVersion(
-              adminNewsStore: _adminNewsStore,
-              onTapNews: _navigateToEdit,
+            child: AdminEntityListSectionDesktopVersion<News>(
+              store: _adminNewsStore,
+              title: 'Gerenciar Notícias',
+              subtitle: 'Selecione uma notícia para editar.',
+              errorMessage: 'Não foi possível carregar as notícias.',
+              emptyMessage: 'Nenhuma notícia cadastrada.',
+              itemBuilder: (context, news) => NewsTileDesktopVersion(
+                news: news,
+                newsMedia: _adminNewsStore.mediaMap[news.id],
+                onTap: () => _navigateToEdit(news),
+                isAdmin: true,
+              ),
             ),
           ),
         ],
@@ -97,9 +107,16 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
                   borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                 ),
                 clipBehavior: Clip.antiAlias,
-                child: AdminNewsListSectionMobileVersion(
-                  adminNewsStore: _adminNewsStore,
-                  onTapNews: _navigateToEdit,
+                child: AdminEntityListSectionMobileVersion<News>(
+                  store: _adminNewsStore,
+                  errorMessage: 'Não foi possível carregar as notícias.',
+                  emptyMessage: 'Nenhuma notícia cadastrada.',
+                  itemBuilder: (context, news) => NewsTileMobileVersion(
+                    news: news,
+                    newsMedia: _adminNewsStore.mediaMap[news.id],
+                    onTap: () => _navigateToEdit(news),
+                    isAdmin: true,
+                  ),
                 ),
               ),
             ),

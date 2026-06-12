@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../utils/models/research_areas.dart';
+import '../../../models/research_areas.dart';
 import '../../theme/custom_colors.dart';
 
 class ResearchAreaTile extends StatelessWidget {

@@ -47,7 +47,7 @@ class AdminDashboardDesktopVersion extends StatelessWidget {
                       _DesktopActionCard(
                         icon: Icons.article_outlined,
                         iconColor: CustomColors.copper_spice,
-                        iconBackground: const Color(0xFFF5E6DD),
+                        iconBackground: CustomColors.peach_cream,
                         title: 'Gerenciar Notícias',
                         description: 'Edite, apague ou publique notícias.',
                         onTap: () => context.push(AppRoutes.adminNews),
@@ -56,7 +56,7 @@ class AdminDashboardDesktopVersion extends StatelessWidget {
                       _DesktopActionCard(
                         icon: Icons.science_outlined,
                         iconColor: CustomColors.copper_spice,
-                        iconBackground: const Color(0xFFF5E6DD),
+                        iconBackground: CustomColors.peach_cream,
                         title: 'Gerenciar Projetos',
                         description: 'Cadastre, edite ou apague projetos.',
                         onTap: () => context.push(AppRoutes.adminProjects),
@@ -65,7 +65,7 @@ class AdminDashboardDesktopVersion extends StatelessWidget {
                       _DesktopActionCard(
                         icon: Icons.event_outlined,
                         iconColor: CustomColors.copper_spice,
-                        iconBackground: const Color(0xFFF5E6DD),
+                        iconBackground: CustomColors.peach_cream,
                         title: 'Gerenciar Eventos',
                         description: 'Cadastre, edite ou apague eventos.',
                         onTap: () => context.push(AppRoutes.adminEvents),
@@ -74,7 +74,7 @@ class AdminDashboardDesktopVersion extends StatelessWidget {
                       _DesktopActionCard(
                         icon: Icons.menu_book_outlined,
                         iconColor: CustomColors.copper_spice,
-                        iconBackground: const Color(0xFFF5E6DD),
+                        iconBackground: CustomColors.peach_cream,
                         title: 'Gerenciar Publicações',
                         description: 'Cadastre, edite ou apague publicações.',
                         onTap: () => context.push(AppRoutes.adminPublications),

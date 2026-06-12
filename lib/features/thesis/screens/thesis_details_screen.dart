@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../core/ui/sections/abstract_section.dart';
+import '../../../core/ui/sections/authors_section.dart';
 import '../../../core/ui/widgets/layout/app_scaffold.dart';
 import '../../../core/ui/widgets/layout/footer.dart';
 import '../../../core/ui/theme/custom_colors.dart';
+import '../../../core/utils/formatters.dart';
+import '../../../core/stores/translation_store.dart';
 import '../models/thesis.dart';
-import '../stores/thesis_details_store.dart';
-import 'widgets/sections/authors_section/thesis_authors_section_desktop_version.dart';
-import 'widgets/sections/authors_section/thesis_authors_section_mobile_version.dart';
-import 'widgets/sections/content_section/thesis_content_section_desktop_version.dart';
-import 'widgets/sections/content_section/thesis_content_section_mobile_version.dart';
 import 'widgets/sections/header_section/thesis_header_section_desktop_version.dart';
 import 'widgets/sections/header_section/thesis_header_section_mobile_version.dart';
 
@@ -23,19 +22,38 @@ class ThesisDetailsScreen extends StatefulWidget {
 }
 
 class _ThesisDetailsScreenState extends State<ThesisDetailsScreen> {
-  late final ThesisDetailsStore thesisDetailsStore;
+  late final TranslationStore translationStore;
+
+  static const _authorsTitle = 'Autores da Dissertação';
+  static const _authorsEmptyMessage =
+      'Nenhum autor vinculado a esta dissertação.';
 
   @override
   void initState() {
     super.initState();
-    thesisDetailsStore = ThesisDetailsStore();
-    thesisDetailsStore.fetchTranslation(
+    translationStore = TranslationStore();
+    translationStore.fetchTranslation(
       widget.thesis.publication?.abstract ?? '',
     );
   }
 
+  String get _publishedLabel {
+    final parts = <String>[];
+    final org = widget.thesis.organization?.name ?? '';
+    final date = widget.thesis.publication?.publication_date;
+    if (org.isNotEmpty) parts.add(org);
+    if (date != null) {
+      final dateStr = date.formattedDate();
+      if (dateStr.isNotEmpty) parts.add(dateStr);
+    }
+    return parts.join(', ');
+  }
+
   @override
   Widget build(BuildContext context) {
+    final abstractText = widget.thesis.publication?.abstract ?? '';
+    final contributors = widget.thesis.publication?.contributors ?? [];
+
     return AppScaffold(
       body: ResponsiveVisibility(
         visible: false,
@@ -46,13 +64,19 @@ class _ThesisDetailsScreenState extends State<ThesisDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ThesisHeaderSectionMobileVersion(thesis: widget.thesis),
-              ThesisContentSectionMobileVersion(
-                thesis: widget.thesis,
-                store: thesisDetailsStore,
+              AbstractSectionMobileVersion(
+                abstractText: abstractText,
+                store: translationStore,
+                publishedLabel: _publishedLabel,
+                researchAreas: widget.thesis.publication?.research_areas ?? [],
               ),
               ColoredBox(
                 color: CustomColors.midnight_slate,
-                child: ThesisAuthorsSectionMobileVersion(thesis: widget.thesis),
+                child: AuthorsSectionMobileVersion(
+                  title: _authorsTitle,
+                  emptyMessage: _authorsEmptyMessage,
+                  contributors: contributors,
+                ),
               ),
               const SizedBox(height: 16),
               const Footer(),
@@ -70,11 +94,15 @@ class _ThesisDetailsScreenState extends State<ThesisDetailsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    ThesisContentSectionDesktopVersion(
-                      thesis: widget.thesis,
-                      store: thesisDetailsStore,
+                    AbstractSectionDesktopVersion(
+                      abstractText: abstractText,
+                      store: translationStore,
                     ),
-                    ThesisAuthorsSectionDesktopVersion(thesis: widget.thesis),
+                    AuthorsSectionDesktopVersion(
+                      title: _authorsTitle,
+                      emptyMessage: _authorsEmptyMessage,
+                      contributors: contributors,
+                    ),
                   ],
                 ),
               ),

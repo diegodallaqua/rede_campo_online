@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../core/global/constants/api_constants.dart';
 import '../../../core/utils/error_message_api.dart';
-import '../../../core/utils/repositories/token_repository.dart';
+import '../../../core/repositories/token_repository.dart';
 import '../models/events_media.dart';
 
 class EventMediaRepository {
@@ -74,8 +74,7 @@ class EventMediaRepository {
     } catch (e, s) {
       log('EventMediaRepository: erro ao deletar EventMedia',
           error: e.toString(), stackTrace: s);
-      return Future.error(
-          e is String ? e : 'Erro ao remover imagem do evento');
+      return Future.error(e is String ? e : 'Erro ao remover imagem do evento');
     }
   }
 

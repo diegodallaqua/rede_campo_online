@@ -1,4 +1,4 @@
-import 'package:rede_campo_online/core/utils/models/research_areas.dart';
+import 'package:rede_campo_online/core/models/research_areas.dart';
 
 import '../../members/models/members.dart';
 import '../../projects/models/projects.dart';
@@ -56,8 +56,8 @@ class News {
         'title': title,
         'description': description,
         'content': content,
-        'publication_date': publication_date?.toIso8601String().split('T').first,
-        'research_area_ids':
-            research_areas?.map((ra) => ra.id).toList() ?? [],
+        'publication_date':
+            publication_date?.toIso8601String().split('T').first,
+        'research_area_ids': research_areas?.map((ra) => ra.id).toList() ?? [],
       };
 }

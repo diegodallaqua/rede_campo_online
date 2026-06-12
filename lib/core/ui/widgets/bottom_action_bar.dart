@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../buttons/custom_buttom.dart';
+import '../buttons/custom_button.dart';
 import '../theme/custom_colors.dart';
 
 class BottomActionBar extends StatelessWidget {

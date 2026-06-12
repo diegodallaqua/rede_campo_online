@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:mobx/mobx.dart';
 
-import '../../../core/utils/stores/base_store.dart';
-import '../../../core/utils/stores/filter_search_store.dart';
+import '../../../core/stores/base_store.dart';
+import '../../../core/stores/filter_search_store.dart';
 import '../models/thesis.dart';
 import '../repositories/thesis_repository.dart';
 

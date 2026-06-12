@@ -35,8 +35,8 @@ class DatePickerField extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: hasError
-                    ? const Color(0xFFCF1322)
-                    : const Color(0xFFE2E2DC),
+                    ? CustomColors.danger_red
+                    : CustomColors.soft_border,
                 width: hasError ? 1.5 : 1.0,
               ),
             ),
@@ -46,7 +46,7 @@ class DatePickerField extends StatelessWidget {
                   Icons.calendar_today_outlined,
                   size: 18,
                   color: hasError
-                      ? const Color(0xFFCF1322)
+                      ? CustomColors.danger_red
                       : CustomColors.midnight_slate.withOpacity(0.38),
                 ),
                 const SizedBox(width: 12),
@@ -70,7 +70,7 @@ class DatePickerField extends StatelessWidget {
             child: Text(
               errorText!,
               style: const TextStyle(
-                color: Color(0xFFCF1322),
+                color: CustomColors.danger_red,
                 fontSize: 12,
               ),
             ),

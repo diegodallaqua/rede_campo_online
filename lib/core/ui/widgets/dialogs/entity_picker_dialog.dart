@@ -112,7 +112,7 @@ class _EntityPickerDialogState<T> extends State<EntityPickerDialog<T>> {
           ? Text(
               widget.emptyMessage,
               style: const TextStyle(
-                  color: Color(0xFF6B7280), fontSize: 14, height: 1.5),
+                  color: CustomColors.neutral_gray, fontSize: 14, height: 1.5),
             )
           : SizedBox(
               // Tamanho fixo para o diálogo não encolher conforme a pesquisa
@@ -125,7 +125,7 @@ class _EntityPickerDialogState<T> extends State<EntityPickerDialog<T>> {
                     controller: _searchController,
                     onSubmitted: _onSearch,
                     hintText: widget.searchHint,
-                    borderColor: const Color(0xFFE2E2DC),
+                    borderColor: CustomColors.soft_border,
                     textColor: CustomColors.midnight_slate,
                     hintColor: CustomColors.midnight_slate.withOpacity(0.45),
                     iconColor: CustomColors.midnight_slate.withOpacity(0.45),
@@ -189,7 +189,7 @@ class _EntityPickerDialogState<T> extends State<EntityPickerDialog<T>> {
           onPressed: () => Navigator.of(context).pop(),
           child: const Text(
             'Cancelar',
-            style: TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: CustomColors.neutral_gray),
           ),
         ),
         ElevatedButton(

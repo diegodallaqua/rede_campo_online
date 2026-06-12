@@ -1,11 +1,15 @@
+import '../../../core/models/media_attachment.dart';
 import 'projects.dart';
 
-class ProjectMedia {
+class ProjectMedia implements MediaAttachment {
   ProjectMedia({this.id, this.project, this.name, this.media});
 
+  @override
   int? id;
   Projects? project;
+  @override
   String? name;
+  @override
   String? media;
 
   @override

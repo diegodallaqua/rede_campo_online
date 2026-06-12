@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/models/contributor.dart';
+import '../../../../core/models/contributor.dart';
 import '../../../global/constants/api_constants.dart';
 import '../../../utils/placeholders.dart';
 import '../../theme/custom_colors.dart';
