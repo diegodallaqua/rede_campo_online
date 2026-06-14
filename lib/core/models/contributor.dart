@@ -5,7 +5,6 @@ import 'external_author.dart';
 
 class Contributors {
   Contributors({
-    this.id,
     this.publication,
     this.member,
     this.contributor_role,
@@ -13,7 +12,6 @@ class Contributors {
     this.order,
   });
 
-  int? id;
   Publications? publication;
   Members? member;
   ContributorRoles? contributor_role;
@@ -22,12 +20,11 @@ class Contributors {
 
   @override
   String toString() {
-    return 'Contributors{id: $id, publication: $publication, member: $member, contributor_role: $contributor_role, external_author: $external_author, order: $order}';
+    return 'Contributors{publication: $publication, member: $member, contributor_role: $contributor_role, external_author: $external_author, order: $order}';
   }
 
   factory Contributors.fromMap(Map<String, dynamic> map) {
     return Contributors(
-      id: map['id'],
       publication: map.containsKey('publication') && map['publication'] != null
           ? Publications.fromMap(map['publication'] ?? {})
           : null,

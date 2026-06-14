@@ -139,8 +139,9 @@ abstract class AdminCreatePublicationStoreBase with Store {
     });
   }
 
-  // Contribuidores — os já persistidos chegam com id; os novos são criados
-  // junto com o salvamento (autor externo antes do contribuidor).
+  // Contribuidores — não têm id próprio (são identificados no backend por
+  // publication_id + author_order). Os novos são criados junto com o
+  // salvamento (autor externo antes do contribuidor).
   final contributors = ObservableList<Contributors>();
   final _originalContributors = <Contributors>[];
 
@@ -733,8 +734,8 @@ abstract class AdminCreatePublicationStoreBase with Store {
   Future<void> _saveNewContributors(int publicationId) async {
     for (var i = 0; i < contributors.length; i++) {
       final contributor = contributors[i];
-      // Já persistidos (com id) ou carregados do servidor não são reenviados.
-      if (contributor.id != null) continue;
+      // Contribuidores não têm id próprio; os já carregados do servidor são os
+      // mesmos objetos guardados em _originalContributors e não são reenviados.
       if (_originalContributors.contains(contributor)) continue;
 
       final externalAuthor = contributor.external_author;
@@ -750,12 +751,16 @@ abstract class AdminCreatePublicationStoreBase with Store {
     }
   }
 
+  // Contribuidores não têm id próprio; são identificados por
+  // (publication_id, author_order). Um original conta como removido quando não
+  // está mais na lista atual (comparação por identidade de objeto, já que não há
+  // id para casar). A exclusão roda antes da criação dos novos, liberando a
+  // ordem para que um substituto possa reusá-la sem disparar 409.
   Future<void> _deleteRemovedContributors() async {
-    final currentIds = contributors.map((c) => c.id).whereType<int>().toSet();
     for (final original in _originalContributors) {
-      final id = original.id;
-      if (id != null && !currentIds.contains(id)) {
-        await _contributorsRepository.delete(id);
+      final order = original.order;
+      if (order != null && !contributors.contains(original)) {
+        await _contributorsRepository.delete(publication.id!, order);
       }
     }
   }

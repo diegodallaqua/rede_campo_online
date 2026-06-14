@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/ui/listing_tiles/members/member_tile.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
+import '../../../../../../core/ui/widgets/dialogs/member_details_dialog.dart';
 import '../../../../../../core/ui/widgets/arrow_button.dart';
 import '../../../../../../core/ui/widgets/list_empty_state.dart';
 import '../../../../../members/models/members.dart';
@@ -133,6 +134,10 @@ class _ProjectMembersListWidgetDesktopVersionState
   }
 
   void _onMemberTap(Members member) {
-    // TODO: navegar para a tela de detalhe do membro
+    MemberDetailsDialog.showForMember(
+      context,
+      member,
+      accentColor: CustomColors.copper_spice,
+    );
   }
 }

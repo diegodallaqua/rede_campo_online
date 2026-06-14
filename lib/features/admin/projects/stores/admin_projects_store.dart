@@ -7,11 +7,37 @@ import '../../../projects/models/projects.dart';
 import '../../../projects/repositories/project_media_repository.dart';
 import '../../../projects/repositories/projects_repository.dart';
 
-class AdminProjectsStore extends PagedStore<Projects> {
+part 'admin_projects_store.g.dart';
+
+class AdminProjectsStore = AdminProjectsStoreBase with _$AdminProjectsStore;
+
+abstract class AdminProjectsStoreBase extends PagedStore<Projects> with Store {
   final ProjectsRepository _repository = ProjectsRepository();
 
-  AdminProjectsStore({super.pageSize}) {
+  AdminProjectsStoreBase({super.pageSize}) {
     loadMedia();
+  }
+
+  // Estado de carregamento/erro da listagem, exposto como observável próprio
+  // do store (espelha o estado herdado de BaseStore via setLoading/setError).
+  @observable
+  bool isLoading = false;
+
+  @observable
+  String? errorMessage;
+
+  @override
+  @action
+  void setLoading(bool value) {
+    super.setLoading(value);
+    isLoading = value;
+  }
+
+  @override
+  @action
+  void setError(String? message) {
+    super.setError(message);
+    errorMessage = message;
   }
 
   @override

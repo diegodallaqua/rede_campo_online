@@ -4,6 +4,7 @@ import '../../models/contributor.dart';
 import '../listing_tiles/contributors/contributor_tile.dart';
 import '../theme/custom_colors.dart';
 import 'arrow_button.dart';
+import 'dialogs/member_details_dialog.dart';
 import 'list_empty_state.dart';
 
 /// Carrossel horizontal de autores/colaboradores com setas de navegação,
@@ -123,6 +124,10 @@ class _ContributorsCarouselState extends State<ContributorsCarousel> {
                   ),
                   itemBuilder: (context, index) => ContributorTile(
                     contributor: contributors[index],
+                    onTap: () => MemberDetailsDialog.showForContributor(
+                      context,
+                      contributors[index],
+                    ),
                   ),
                 ),
               ),

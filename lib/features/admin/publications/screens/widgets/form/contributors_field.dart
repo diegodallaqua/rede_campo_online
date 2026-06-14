@@ -26,11 +26,20 @@ class ContributorsField extends StatelessWidget {
   final void Function(int index) onRemove;
 
   Future<void> _openDialog(BuildContext context) async {
+    // Próxima ordem livre = maior ordem existente + 1. Usar o tamanho da lista
+    // colide quando um contribuidor do meio é removido (ex.: [1,3] tem tamanho
+    // 2, mas a ordem 3 já existe), gerando 409 AUTHOR_ORDER_CONFLICT no backend.
+    final nextOrder = contributors.fold<int>(
+          0,
+          (max, c) => (c.order ?? 0) > max ? c.order! : max,
+        ) +
+        1;
+
     final result = await ContributorDialog.show(
       context: context,
       availableMembers: availableMembers,
       availableRoles: availableRoles,
-      initialOrder: contributors.length + 1,
+      initialOrder: nextOrder,
     );
     if (result != null) onAdd(result);
   }

@@ -7,11 +7,37 @@ import '../../../news/models/news_media.dart';
 import '../../../news/repositories/news_media_repository.dart';
 import '../../../news/repositories/news_repository.dart';
 
-class AdminNewsStore extends PagedStore<News> {
+part 'admin_news_store.g.dart';
+
+class AdminNewsStore = AdminNewsStoreBase with _$AdminNewsStore;
+
+abstract class AdminNewsStoreBase extends PagedStore<News> with Store {
   final NewsRepository _repository = NewsRepository();
 
-  AdminNewsStore({super.pageSize}) {
+  AdminNewsStoreBase({super.pageSize}) {
     loadMedia();
+  }
+
+  // Estado de carregamento/erro da listagem, exposto como observável próprio
+  // do store (espelha o estado herdado de BaseStore via setLoading/setError).
+  @observable
+  bool isLoading = false;
+
+  @observable
+  String? errorMessage;
+
+  @override
+  @action
+  void setLoading(bool value) {
+    super.setLoading(value);
+    isLoading = value;
+  }
+
+  @override
+  @action
+  void setError(String? message) {
+    super.setError(message);
+    errorMessage = message;
   }
 
   @override

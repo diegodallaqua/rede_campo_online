@@ -1,19 +1,17 @@
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/stores/paged_store.dart';
-import '../../../publications/models/publications.dart';
-import '../../../publications/repositories/publications_repository.dart';
+import '../../../members/models/members.dart';
+import '../../../members/repositories/members_repository.dart';
 
-part 'admin_publications_store.g.dart';
+part 'admin_members_store.g.dart';
 
-class AdminPublicationsStore = AdminPublicationsStoreBase
-    with _$AdminPublicationsStore;
+class AdminMembersStore = AdminMembersStoreBase with _$AdminMembersStore;
 
-abstract class AdminPublicationsStoreBase extends PagedStore<Publications>
-    with Store {
-  final PublicationsRepository _repository = PublicationsRepository();
+abstract class AdminMembersStoreBase extends PagedStore<Members> with Store {
+  final MembersRepository _repository = MembersRepository();
 
-  AdminPublicationsStoreBase({super.pageSize});
+  AdminMembersStoreBase({super.pageSize});
 
   // Estado de carregamento/erro da listagem, exposto como observável próprio
   // do store (espelha o estado herdado de BaseStore via setLoading/setError).
@@ -38,8 +36,7 @@ abstract class AdminPublicationsStoreBase extends PagedStore<Publications>
   }
 
   @override
-  Future<List<Publications>> fetchPage(int page) =>
-      _repository.findAllPublications(
+  Future<List<Members>> fetchPage(int page) => _repository.findAllMembers(
         page: page,
         filterSearchStore: filterStore,
         take: pageSize,

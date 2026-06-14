@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/ui/listing_tiles/members/member_tile.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
+import '../../../../../../core/ui/widgets/dialogs/member_details_dialog.dart';
 import '../../../../../../core/ui/widgets/arrow_button.dart';
 import '../../../../../../core/ui/widgets/list_empty_state.dart';
 import '../../../../../members/models/members.dart';
@@ -121,7 +122,13 @@ class _ProjectMembersListWidgetMobileVersionState
                     width: ProjectMembersListWidgetMobileVersion._gap,
                   ),
                   itemBuilder: (context, index) {
-                    return MemberTile(member: members[index]);
+                    return MemberTile(
+                      member: members[index],
+                      onTap: () => MemberDetailsDialog.showForMember(
+                        context,
+                        members[index],
+                      ),
+                    );
                   },
                 ),
               ),

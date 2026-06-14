@@ -12,6 +12,7 @@ class Members {
     this.lattesUrl,
     this.linkedInUrl,
     this.profilePicture,
+    this.password,
   });
 
   int? id;
@@ -23,6 +24,9 @@ class Members {
   String? lattesUrl;
   String? linkedInUrl;
   String? profilePicture;
+  // Credencial de acesso; nunca chega do servidor (apenas enviada em
+  // criação/troca de senha) e por isso fica fora de [fromMap]/[toString].
+  String? password;
 
   @override
   String toString() {
@@ -67,5 +71,8 @@ class Members {
         'lattes_url': lattesUrl,
         'linked_in_url': linkedInUrl,
         'profile_picture': profilePicture,
+        // Apenas envia a senha quando definida (criação ou troca explícita),
+        // preservando a senha atual em edições que a deixam em branco.
+        if (password != null && password!.isNotEmpty) 'password': password,
       };
 }

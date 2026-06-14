@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../listing/partners/about_us_partners_tile_mobile_version.dart';
 
@@ -24,7 +25,7 @@ class _AboutUsPartnersSectionMobileVersionState
   static const String _partnersText =
       'Não sabes, não ouviste que o Senhor é o Deus eterno, criador dos fins da terra? Ele não se cansa nem se fatiga, e a sua sabedoria é insondável. Dá força ao cansado, e multiplica as forças ao que não tem nenhum vigor. Os jovens se cansarão e se fatigarão, os moços certamente cairão; mas os que esperam no Senhor renovarão as suas forças; subirão com asas como águias; correrão, e não se cansarão; caminharão, e não se fatigarão.';
 
-  static const double _tileHeight = 72.0;
+  static const double _tileHeight = 92.0;
   static const double _separatorHeight = 12.0;
   static const double _listHeight = 3 * _tileHeight + 2 * _separatorHeight;
 
@@ -33,19 +34,27 @@ class _AboutUsPartnersSectionMobileVersionState
       logoPath: 'assets/images/idr.png',
       name: 'IDR-Paraná',
       description: 'O Senhor é o meu pastor; nada me faltará.',
+      url: 'https://www.idrparana.pr.gov.br/',
     ),
     _PartnerData(
       logoPath: 'assets/images/utfpr.png',
       name: 'UTFPR',
       description: 'Tudo posso naquele que me fortalece.',
+      url: 'https://www.utfpr.edu.br/',
     ),
     _PartnerData(
       logoPath: 'assets/images/senar.png',
       name: 'SENAR PARANÁ',
       description:
           'Sabemos que todas as coisas cooperam para o bem daqueles que amam a Deus.',
+      url: 'https://www.sistemafaep.org.br/',
     ),
   ];
+
+  Future<void> _openSite(String url) async {
+    final uri = Uri.parse(url);
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +112,7 @@ class _AboutUsPartnersSectionMobileVersionState
                     logoPath: partner.logoPath,
                     name: partner.name,
                     description: partner.description,
+                    onTap: () => _openSite(partner.url),
                   );
                 },
               ),
@@ -118,10 +128,12 @@ class _PartnerData {
   final String logoPath;
   final String name;
   final String description;
+  final String url;
 
   const _PartnerData({
     required this.logoPath,
     required this.name,
     required this.description,
+    required this.url,
   });
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 
@@ -20,8 +21,8 @@ class _AboutUsPartnersSectionDesktopVersionState
     super.dispose();
   }
 
-  static const double _cardHeight = 80.0;
-  static const double _separatorHeight = 12.0;
+  static const double _cardHeight = 104.0;
+  static const double _separatorHeight = 14.0;
   static const double _listHeight = 3 * _cardHeight + 2 * _separatorHeight;
 
   static const List<_PartnerData> _partners = [
@@ -29,17 +30,20 @@ class _AboutUsPartnersSectionDesktopVersionState
       logoPath: 'assets/images/idr.png',
       name: 'IDR-Paraná',
       description: 'O Senhor é o meu pastor; nada me faltará.',
+      url: 'https://www.idrparana.pr.gov.br/',
     ),
     _PartnerData(
       logoPath: 'assets/images/utfpr.png',
       name: 'UTFPR',
       description: 'Tudo posso naquele que me fortalece.',
+      url: 'https://www.utfpr.edu.br/',
     ),
     _PartnerData(
       logoPath: 'assets/images/senar.png',
       name: 'SENAR PARANÁ',
       description:
           'Sabemos que todas as coisas cooperam para o bem daqueles que amam a Deus.',
+      url: 'https://www.sistemafaep.org.br/',
     ),
   ];
 
@@ -124,65 +128,108 @@ class _PartnerCard extends StatelessWidget {
 
   const _PartnerCard({required this.partner});
 
+  Future<void> _openSite() async {
+    final uri = Uri.parse(partner.url);
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 104,
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: CustomColors.honey_cream,
-        borderRadius: BorderRadius.circular(12),
+        color: CustomColors.salt_flower,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: CustomColors.soft_border),
         boxShadow: [
           BoxShadow(
-            color: CustomColors.midnight_slate.withOpacity(0.10),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
+            color: CustomColors.midnight_slate.withOpacity(0.06),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 100,
-            height: 80,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            child: Image.asset(
-              partner.logoPath,
-              fit: BoxFit.contain,
-            ),
-          ),
-          Container(
-            width: 1,
-            height: 56,
-            color: CustomColors.midnight_slate.withOpacity(0.12),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    partner.name,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
-                      color: CustomColors.pine_shadow,
-                    ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: _openSite,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 5,
+                height: double.infinity,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      CustomColors.copper_spice,
+                      CustomColors.fresh_sprout
+                    ],
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    partner.description,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      color: CustomColors.pine_shadow,
-                      height: 1.5,
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+              const SizedBox(width: 16),
+              Container(
+                width: 120,
+                height: 84,
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: CustomColors.soft_border),
+                ),
+                child: Image.asset(
+                  partner.logoPath,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              const SizedBox(width: 18),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 18),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        partner.name,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800,
+                          color: CustomColors.pine_shadow,
+                          letterSpacing: 0.2,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        partner.description,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12.5,
+                          fontStyle: FontStyle.italic,
+                          color: CustomColors.pine_shadow.withOpacity(0.65),
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(right: 16),
+                child: Icon(
+                  Icons.north_east_rounded,
+                  size: 18,
+                  color: CustomColors.copper_spice,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -192,10 +239,12 @@ class _PartnerData {
   final String logoPath;
   final String name;
   final String description;
+  final String url;
 
   const _PartnerData({
     required this.logoPath,
     required this.name,
     required this.description,
+    required this.url,
   });
 }

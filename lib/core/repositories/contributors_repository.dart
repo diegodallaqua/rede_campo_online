@@ -23,6 +23,8 @@ class ContributorsRepository {
         },
         body: jsonEncode(contributor.toMap()),
       );
+      print(response.statusCode);
+      print(response.body);
 
       if (response.statusCode != 200 &&
           response.statusCode != 204 &&
@@ -43,8 +45,10 @@ class ContributorsRepository {
     }
   }
 
-  Future<void> delete(int id) async {
-    var url = Uri.parse('$baseURL$contributorsURL$id');
+  // O backend não expõe id próprio do contribuidor: ele é identificado pela
+  // composição (publication_id, author_order) na rota.
+  Future<void> delete(int publicationId, int authorOrder) async {
+    var url = Uri.parse('$baseURL$contributorsURL$publicationId/$authorOrder');
     final token = await TokenRepository().getToken();
 
     try {
@@ -56,6 +60,9 @@ class ContributorsRepository {
           'Authorization': 'Bearer $token',
         },
       );
+
+      print(response.statusCode);
+      print(response.body);
 
       if (response.statusCode != 200 && response.statusCode != 204) {
         // 200	OK

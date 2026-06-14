@@ -23,6 +23,9 @@ const publicationsURL = '/publications/';
 // MEMBERS
 const membersURL = '/members/';
 
+// MEMBER ROLES
+const memberRolesURL = '/member-roles/';
+
 // PROJECTS
 const projectsURL = '/projects/';
 

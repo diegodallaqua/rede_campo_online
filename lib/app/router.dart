@@ -4,6 +4,8 @@ import 'package:mobx/mobx.dart';
 import 'package:rede_campo_online/features/about_us/screens/about_us_screen.dart';
 import 'package:rede_campo_online/features/admin/events/screens/admin_create_event_screen.dart';
 import 'package:rede_campo_online/features/admin/events/screens/admin_events_screen.dart';
+import 'package:rede_campo_online/features/admin/members/screens/admin_create_member_screen.dart';
+import 'package:rede_campo_online/features/admin/members/screens/admin_members_screen.dart';
 import 'package:rede_campo_online/features/admin/news/screens/admin_create_news_screen.dart';
 import 'package:rede_campo_online/features/admin/news/screens/admin_news_screen.dart';
 import 'package:rede_campo_online/features/admin/projects/screens/admin_create_project_screen.dart';
@@ -25,6 +27,7 @@ import '../core/stores/user_manager_store.dart';
 import '../features/events/models/events.dart';
 import '../features/events/screens/event_details_screen.dart';
 import '../features/events/screens/events_screen.dart';
+import '../features/members/models/members.dart';
 import '../features/news/models/news.dart';
 import '../features/news/screens/news_details_screen.dart';
 import '../features/news/screens/news_screen.dart';
@@ -60,6 +63,8 @@ abstract class AppRoutes {
   static const adminCreateEvent = '/admin/events/create';
   static const adminPublications = '/admin/publications';
   static const adminCreatePublication = '/admin/publications/create';
+  static const adminMembers = '/admin/members';
+  static const adminCreateMember = '/admin/members/create';
 }
 
 /// Notifies GoRouter whenever the auth state changes so the redirect
@@ -232,6 +237,17 @@ final appRouter = GoRouter(
         final extra = state.extra;
         return AdminCreatePublicationScreen(
             publication: extra is Publications ? extra : null);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.adminMembers,
+      builder: (context, state) => const AdminMembersScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.adminCreateMember,
+      builder: (context, state) {
+        final extra = state.extra;
+        return AdminCreateMemberScreen(member: extra is Members ? extra : null);
       },
     ),
   ],
