@@ -42,7 +42,7 @@ class BookChapterHeaderSectionDesktopVersion extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        bookChapter.publication?.title ?? '—',
+                        bookChapter.publication?.title ?? '-',
                         style: const TextStyle(
                           fontSize: 52,
                           fontWeight: FontWeight.w900,
@@ -74,8 +74,8 @@ class BookChapterHeaderSectionDesktopVersion extends StatelessWidget {
                         ),
                       ],
                       if (bookChapter.publication?.research_areas != null &&
-                          bookChapter.publication!.research_areas!
-                              .isNotEmpty) ...[
+                          bookChapter
+                              .publication!.research_areas!.isNotEmpty) ...[
                         const SizedBox(height: 20),
                         Wrap(
                           spacing: 8,

@@ -85,7 +85,7 @@ class _ContributorChip extends StatelessWidget {
   bool get _isExternal => contributor.external_author != null;
 
   String get _name =>
-      contributor.member?.name ?? contributor.external_author?.name ?? '—';
+      contributor.member?.name ?? contributor.external_author?.name ?? '-';
 
   @override
   Widget build(BuildContext context) {

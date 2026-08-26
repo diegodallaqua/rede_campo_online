@@ -55,7 +55,7 @@ abstract class _PagedStore<T> extends BaseStore<T> with Store {
   @action
   void setLastPageKnown(bool value) => _lastPageKnown = value;
 
-  // Computed's — listagem completa
+  // Computed's - listagem completa
   @computed
   int get itemCount => _lastPage ? list.length : list.length + 1;
 

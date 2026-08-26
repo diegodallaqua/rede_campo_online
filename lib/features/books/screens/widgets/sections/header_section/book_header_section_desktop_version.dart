@@ -40,7 +40,7 @@ class BookHeaderSectionDesktopVersion extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        book.publication?.title ?? '—',
+                        book.publication?.title ?? '-',
                         style: const TextStyle(
                           fontSize: 52,
                           fontWeight: FontWeight.w900,
@@ -176,7 +176,6 @@ class _BookMetadataCard extends StatelessWidget {
           child: CustomRow(
             icon: Icons.link_outlined,
             text: book.book_url!,
-            textColor: Colors.blue,
           ),
         ),
       if (book.publication?.publication_date != null)

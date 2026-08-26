@@ -56,7 +56,7 @@ class ProjectTypeField extends StatelessWidget {
               .map(
                 (type) => DropdownMenuItem<ProjectTypes>(
                   value: type,
-                  child: Text(type.name ?? '—'),
+                  child: Text(type.name ?? '-'),
                 ),
               )
               .toList(),

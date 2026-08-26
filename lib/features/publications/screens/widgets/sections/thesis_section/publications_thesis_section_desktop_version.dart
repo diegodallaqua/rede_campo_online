@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/features/thesis/stores/thesis_store.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../listing/thesis/publications_thesis_list_widget_desktop_version.dart';
 
 class PublicationsThesisSectionDesktopVersion extends StatefulWidget {
   final ThesisStore thesisStore;
+  final TextEditingController searchController;
+  final ValueChanged<String> onSearch;
 
   const PublicationsThesisSectionDesktopVersion({
     super.key,
     required this.thesisStore,
+    required this.searchController,
+    required this.onSearch,
   });
 
   @override
@@ -32,25 +37,38 @@ class _PublicationsThesisSectionDesktopVersionState
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 48),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Text(
-                      'Dissertações',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700,
-                        color: CustomColors.fresh_sprout,
-                        letterSpacing: 0.2,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Dissertações',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w700,
+                            color: CustomColors.fresh_sprout,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          width: 64,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            color: CustomColors.fresh_sprout,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    Container(
-                      width: 64,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: CustomColors.fresh_sprout,
-                        borderRadius: BorderRadius.circular(2),
+                    const SizedBox(width: 32),
+                    Expanded(
+                      child: CustomSearchBar(
+                        controller: widget.searchController,
+                        onSubmitted: widget.onSearch,
+                        hintText: 'Pesquisar dissertações',
                       ),
                     ),
                   ],

@@ -8,8 +8,8 @@ import '../../widgets/custom_row.dart';
 
 /// Tile de listagem de membros exclusivo do painel administrativo. Diferente
 /// do [MemberTile] público (cartão vertical compacto), apresenta um cartão
-/// horizontal denso em informação — avatar, nome, papel, organização e
-/// e-mail — com faixa de destaque e ação de edição.
+/// horizontal denso em informação - avatar, nome, papel, organização e
+/// e-mail - com faixa de destaque e ação de edição.
 class AdminMemberTile extends StatelessWidget {
   final Members member;
   final VoidCallback? onTap;
@@ -117,7 +117,7 @@ class AdminMemberTile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          member.name ?? '—',
+          member.name ?? '-',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(

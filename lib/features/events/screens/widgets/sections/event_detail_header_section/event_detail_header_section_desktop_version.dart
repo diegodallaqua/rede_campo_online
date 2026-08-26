@@ -52,7 +52,7 @@ class EventDetailHeaderSectionDesktopVersion extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        event.name ?? '—',
+                        event.name ?? '-',
                         style: const TextStyle(
                           fontSize: 52,
                           fontWeight: FontWeight.w900,

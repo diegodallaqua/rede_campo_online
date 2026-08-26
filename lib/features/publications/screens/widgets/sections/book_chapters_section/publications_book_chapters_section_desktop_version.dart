@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/features/book_chapters/stores/book_chapters_store.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../listing/book_chapters/publications_book_chapters_list_widget_desktop_version.dart';
 
 class PublicationsBookChaptersSectionDesktopVersion extends StatefulWidget {
   final BookChaptersStore bookChaptersStore;
+  final TextEditingController searchController;
+  final ValueChanged<String> onSearch;
 
   const PublicationsBookChaptersSectionDesktopVersion({
     super.key,
     required this.bookChaptersStore,
+    required this.searchController,
+    required this.onSearch,
   });
 
   @override
@@ -32,25 +37,42 @@ class _PublicationsBookChaptersSectionDesktopVersionState
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 48),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Text(
-                      'Capítulos de Livros',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700,
-                        color: CustomColors.copper_spice,
-                        letterSpacing: 0.2,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Capítulos de Livros',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w700,
+                            color: CustomColors.copper_spice,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          width: 64,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            color: CustomColors.copper_spice,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    Container(
-                      width: 64,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: CustomColors.copper_spice,
-                        borderRadius: BorderRadius.circular(2),
+                    const SizedBox(width: 32),
+                    Expanded(
+                      child: CustomSearchBar(
+                        controller: widget.searchController,
+                        onSubmitted: widget.onSearch,
+                        hintText: 'Pesquisar capítulos de livros',
+                        borderColor: CustomColors.midnight_slate,
+                        textColor: CustomColors.midnight_slate,
+                        hintColor: CustomColors.midnight_slate,
+                        iconColor: CustomColors.midnight_slate,
                       ),
                     ),
                   ],

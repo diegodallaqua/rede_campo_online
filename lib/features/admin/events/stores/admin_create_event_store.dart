@@ -1,10 +1,8 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
-import 'package:rede_campo_online/core/global/injection.dart';
 import 'package:rede_campo_online/core/models/addresses.dart';
 import 'package:rede_campo_online/core/repositories/addresses_repository.dart';
 import 'package:rede_campo_online/core/repositories/image_upload_repository.dart';
-import 'package:rede_campo_online/core/stores/user_manager_store.dart';
 import 'package:rede_campo_online/core/models/pending_media.dart';
 import 'package:rede_campo_online/features/events/models/events.dart';
 import 'package:rede_campo_online/features/events/models/events_media.dart';
@@ -37,7 +35,6 @@ abstract class AdminCreateEventStoreBase with Store {
   final _imageUploadRepository = ImageUploadRepository();
   final _projectsRepository = ProjectsRepository();
   final _addressesRepository = AddressesRepository();
-  final _userStore = getIt<UserManagerStore>();
 
   final availableProjects = ObservableList<Projects>();
   final availableAddresses = ObservableList<Addresses>();
@@ -269,8 +266,8 @@ abstract class AdminCreateEventStoreBase with Store {
     for (final item in pendingMedia) {
       final upload = await _imageUploadRepository.uploadImage(
         file: item.file,
-        entityType: 'member',
-        entityId: _userStore.userId ?? 0,
+        entityType: 'event',
+        entityId: eventId,
       );
       await _eventMediaRepository.create(EventMedia(
         event: Events(id: eventId),

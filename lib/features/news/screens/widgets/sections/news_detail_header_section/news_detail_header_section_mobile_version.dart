@@ -36,7 +36,7 @@ class NewsDetailHeaderSectionMobileVersion extends StatelessWidget {
             const SizedBox(height: 16),
           ],
           Text(
-            news.title ?? '—',
+            news.title ?? '-',
             style: const TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.w900,

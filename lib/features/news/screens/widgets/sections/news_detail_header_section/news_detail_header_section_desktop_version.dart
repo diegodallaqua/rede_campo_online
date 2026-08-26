@@ -69,7 +69,7 @@ class NewsDetailHeaderSectionDesktopVersion extends StatelessWidget {
                         const SizedBox(height: 20),
                       ],
                       Text(
-                        news.title ?? '—',
+                        news.title ?? '-',
                         style: const TextStyle(
                           fontSize: 52,
                           fontWeight: FontWeight.w900,

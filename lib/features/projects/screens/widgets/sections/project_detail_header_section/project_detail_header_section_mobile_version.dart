@@ -30,7 +30,7 @@ class ProjectDetailHeaderSectionMobileVersion extends StatelessWidget {
             const SizedBox(height: 6),
           ],
           Text(
-            project.name ?? '—',
+            project.name ?? '-',
             style: const TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.w900,
@@ -79,7 +79,7 @@ class _DateRangeRow extends StatelessWidget {
   const _DateRangeRow({required this.project});
 
   String _formatDate(DateTime? date) {
-    if (date == null) return '—';
+    if (date == null) return '-';
     return '${date.day.toString().padLeft(2, '0')}/'
         '${date.month.toString().padLeft(2, '0')}/'
         '${date.year}';

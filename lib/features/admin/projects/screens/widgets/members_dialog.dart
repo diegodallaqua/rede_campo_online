@@ -93,7 +93,7 @@ class _MembersDialogState extends State<MembersDialog> {
                       activeColor: CustomColors.copper_spice,
                       controlAffinity: ListTileControlAffinity.leading,
                       title: Text(
-                        member.name ?? '—',
+                        member.name ?? '-',
                         style: const TextStyle(
                           fontSize: 14,
                           color: CustomColors.midnight_slate,

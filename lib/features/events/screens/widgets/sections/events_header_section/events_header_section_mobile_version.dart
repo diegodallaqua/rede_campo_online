@@ -5,7 +5,7 @@ class EventsHeaderSectionMobileVersion extends StatelessWidget {
   const EventsHeaderSectionMobileVersion({super.key});
 
   static const String _verse =
-      'Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus, e te fortaleço, e te ajudo, e te sustento com a destra da minha justiça. Ela que envergonhados e confundidos serão todos os que se indignam contra ti; tornar-se-ão em nada, e perecerão os que contendem contigo.';
+      'Os eventos da Rede Campo são espaços de encontro entre ciência e território, palestras, workshops, dias de campo e atividades de extensão que aproximam pesquisadores, produtores, estudantes e comunidades rurais. São momentos de troca, aprendizado e construção coletiva, onde o conhecimento produzido dentro da universidade ganha vida no contato direto com as pessoas e os lugares que nos inspiram. Acompanhe os próximos eventos e venha fazer parte dessa conversa.';
 
   @override
   Widget build(BuildContext context) {

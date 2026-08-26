@@ -61,7 +61,7 @@ class _FooterDesktop extends StatelessWidget {
                     ),
                     const SizedBox(height: 14),
                     const Text(
-                      'Rua Cerejeiras, Sala N1, Câmpus Santa Helena.\n'
+                      'Rua Cerejeiras, Sala N1, Campus Santa Helena.\n'
                       'Prédio da Universidade Tecnológica Federal do Paraná\n'
                       'Santa Helena - PR',
                       style: TextStyle(
@@ -90,7 +90,7 @@ class _FooterDesktop extends StatelessWidget {
                     ),
                     SizedBox(height: 6),
                     Text(
-                      '+55 (45) 96805-4151',
+                      '+55 (51) 98243-4348',
                       style: TextStyle(
                         fontSize: 13,
                         color: CustomColors.midnight_slate,
@@ -164,7 +164,7 @@ class _FooterDesktop extends StatelessWidget {
           const SizedBox(height: 4),
           const Center(
             child: Text(
-              'CNPJ: 89.737.605/0001-73 – UTFPR  |  Política de Privacidade  |  Termos de Uso  |  Desenvolvido por Diego Lucas Hattori Dallaqua',
+              'CNPJ: 89.737.605/0001-73 – UTFPR  |  Desenvolvido por Diego Lucas Hattori Dallaqua',
               style: TextStyle(
                 fontSize: 11,
                 color: CustomColors.midnight_slate,
@@ -201,7 +201,7 @@ class _FooterMobile extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           const Text(
-            'Rua Cerejeiras, Sala N1, Câmpus Santa Helena.\n'
+            'Rua Cerejeiras, Sala N1, Campus Santa Helena.\n'
             'Prédio da Universidade Tecnológica Federal do Paraná | Santa Helena - PR',
             style: TextStyle(
               fontSize: 12,
@@ -220,7 +220,7 @@ class _FooterMobile extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           const Text(
-            '+55 (45) 96805-4151',
+            '+55 (51) 98243-4348',
             style: TextStyle(fontSize: 13, color: CustomColors.midnight_slate),
           ),
           const SizedBox(height: 12),
@@ -265,7 +265,7 @@ class _FooterMobile extends StatelessWidget {
           const SizedBox(height: 4),
           const Center(
             child: Text(
-              'CNPJ: 89.737.605/0001-73 – UTFPR  |  Política de Privacidade  |  Termos de Uso  |  Desenvolvido por Diego Lucas Hattori Dallaqua',
+              'CNPJ: 89.737.605/0001-73 – UTFPR  |  Desenvolvido por Diego Lucas Hattori Dallaqua',
               style: TextStyle(
                 fontSize: 11,
                 color: CustomColors.midnight_slate,

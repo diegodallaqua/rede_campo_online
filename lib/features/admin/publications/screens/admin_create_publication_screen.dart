@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rede_campo_online/core/ui/forms/custom_text_field.dart';
+import 'package:rede_campo_online/core/ui/forms/entity_picker_field.dart';
 import 'package:rede_campo_online/core/ui/forms/research_areas_field.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/admin/admin_mobile_page_scaffold.dart';
@@ -15,6 +16,7 @@ import 'package:rede_campo_online/features/admin/publications/screens/widgets/fo
 import 'package:rede_campo_online/features/admin/publications/screens/widgets/form/publication_type_field.dart';
 import 'package:rede_campo_online/features/admin/publications/screens/widgets/form/publication_type_form_fields.dart';
 import 'package:rede_campo_online/features/admin/publications/stores/admin_create_publication_store.dart';
+import 'package:rede_campo_online/features/projects/models/projects.dart';
 import 'package:rede_campo_online/features/publications/models/publications.dart';
 
 class AdminCreatePublicationScreen extends StatefulWidget {
@@ -189,6 +191,22 @@ class _AdminCreatePublicationScreenState
           textInputAction: TextInputAction.next,
           autovalidateMode: AutovalidateMode.always,
           validator: (_) => _store.doiError,
+        ),
+        const SizedBox(height: 16),
+        Observer(
+          builder: (_) => EntityPickerField<Projects>(
+            label: 'Projeto (opcional)',
+            icon: Icons.science_outlined,
+            items: _store.availableProjects.toList(),
+            itemId: (project) => project.id,
+            itemLabel: (project) => project.name ?? '-',
+            selected: _store.project,
+            onChanged: _store.setProject,
+            onClear: () => _store.setProject(null),
+            searchHint: 'Pesquisar projetos',
+            emptyLabel: 'Nenhum projeto vinculado',
+            emptyMessage: 'Nenhum projeto disponível.',
+          ),
         ),
         const SizedBox(height: 16),
         Observer(

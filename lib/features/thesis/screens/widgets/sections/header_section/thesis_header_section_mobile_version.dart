@@ -14,7 +14,7 @@ class ThesisHeaderSectionMobileVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = thesis.publication?.title ?? '—';
+    final title = thesis.publication?.title ?? '-';
     final doi = thesis.publication?.doi ?? '';
 
     return Container(

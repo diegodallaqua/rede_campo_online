@@ -16,7 +16,7 @@ class ThesisHeaderSectionDesktopVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = thesis.publication?.title ?? '—';
+    final title = thesis.publication?.title ?? '-';
     final doi = thesis.publication?.doi ?? '';
     final areas = thesis.publication?.research_areas ?? [];
 

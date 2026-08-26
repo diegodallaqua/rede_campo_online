@@ -1,6 +1,7 @@
 import 'package:rede_campo_online/core/models/research_areas.dart';
 
 import '../../../core/models/contributor.dart';
+import '../../projects/models/projects.dart';
 
 class Publications {
   Publications(
@@ -11,6 +12,7 @@ class Publications {
       this.doi,
       this.publication_type,
       this.details,
+      this.project,
       this.research_areas,
       this.contributors});
 
@@ -19,16 +21,15 @@ class Publications {
   String? abstract;
   DateTime? publication_date;
   String? doi;
-  // Tipo ('article' | 'book' | 'book_chapter' | 'thesis') e atributos
-  // específicos, retornados inline em `details` na leitura.
   String? publication_type;
   Map<String, dynamic>? details;
+  Projects? project;
   List<ResearchAreas>? research_areas;
   List<Contributors>? contributors;
 
   @override
   String toString() {
-    return 'Publications{id: $id, title: $title, abstract: $abstract, publication_date: $publication_date, doi: $doi, research_areas: $research_areas, contributors: $contributors}';
+    return 'Publications{id: $id, title: $title, abstract: $abstract, publication_date: $publication_date, doi: $doi, project: $project, research_areas: $research_areas, contributors: $contributors}';
   }
 
   factory Publications.fromMap(Map<String, dynamic> map) {
@@ -47,6 +48,9 @@ class Publications {
       details: map['details'] is Map
           ? Map<String, dynamic>.from(map['details'])
           : null,
+      project: map['project'] != null
+          ? Projects.fromMap(Map<String, dynamic>.from(map['project']))
+          : null,
       research_areas: map.containsKey('research_areas')
           ? List<ResearchAreas>.from((map['research_areas'] ?? [])
               .map((x) => ResearchAreas.fromMap(x)))
@@ -64,6 +68,9 @@ class Publications {
         'publication_date':
             publication_date?.toIso8601String().substring(0, 10),
         if (doi != null && doi!.isNotEmpty) 'doi': doi,
+        // Vínculo opcional: enviado sempre (null quando não há projeto) para
+        // que a edição consiga desvincular a publicação de um projeto.
+        'project_id': project?.id,
         'research_area_ids': research_areas?.map((ra) => ra.id).toList() ?? [],
       };
 }

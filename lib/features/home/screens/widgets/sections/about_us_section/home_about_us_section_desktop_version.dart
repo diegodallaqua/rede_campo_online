@@ -8,7 +8,7 @@ class HomeAboutUsSectionDesktopVersion extends StatelessWidget {
   const HomeAboutUsSectionDesktopVersion({super.key});
 
   static const String _aboutText =
-      'Eu te amarei do coração, ó Senhor, fortaleza minha. O Senhor é o meu rochedo, e o meu lugar forte, e o meu libertador; o meu Deus, a minha fortaleza, em quem confio; o meu escudo, a força da minha salvação, e o meu alto refúgio. Invocarei o nome do Senhor, que é digno de louvor, e ficarei livre dos meus inimigos. Cordas de morte me cercaram, e torrentes de impiedade me assombraram. Cordas do inferno me cingiram, laços de morte me surpreenderam. Na angústia invoquei o Senhor, e clamei ao meu Deus; desde o seu templo ouviu a minha voz, e aos seus ouvidos chegou o meu clamor perante a sua face.';
+      'A Rede Campo nasceu de uma pergunta simples: o que acontece quando a universidade vai até o campo, não só para estudar, mas para construir junto? Criada em 2021 e vinculada à UTFPR Campus Santa Helena, somos um grupo de pesquisadores e extensionistas que acreditam que o conhecimento científico só faz sentido pleno quando chega a quem precisa dele. Por isso, nossa atuação vai além dos laboratórios e artigos acadêmicos: estamos nas propriedades rurais, nas comunidades, nas conversas que transformam teoria em prática. Trabalhamos na interseção entre ciência e território, desenvolvendo tecnologias aplicadas ao desenvolvimento rural sustentável e compartilhando esses resultados de forma aberta e acessível. Aqui você encontra nossas pesquisas, projetos de extensão, publicações e muito do que produzimos em parceria com agricultores, organizações e comunidades da região.';
 
   @override
   Widget build(BuildContext context) {

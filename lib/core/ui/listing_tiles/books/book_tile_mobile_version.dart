@@ -36,7 +36,7 @@ class BookTileMobileVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = book.publication?.title ?? '—';
+    final title = book.publication?.title ?? '-';
     final publisher = book.publisher ?? '';
     final edition = book.edition ?? '';
     final date = book.publication?.publication_date;
@@ -98,7 +98,7 @@ class BookTileMobileVersion extends StatelessWidget {
                         const SizedBox(width: 5),
                         Expanded(
                           child: Text(
-                            publisher.isNotEmpty ? publisher : '—',
+                            publisher.isNotEmpty ? publisher : '-',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(

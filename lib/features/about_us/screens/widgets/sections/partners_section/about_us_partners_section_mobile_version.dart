@@ -33,20 +33,22 @@ class _AboutUsPartnersSectionMobileVersionState
     _PartnerData(
       logoPath: 'assets/images/idr.png',
       name: 'IDR-Paraná',
-      description: 'O Senhor é o meu pastor; nada me faltará.',
+      description:
+          'Instituto de Desenvolvimento Rural do Paraná, órgão estadual que une extensão rural, pesquisa agrícola e desenvolvimento agrário.',
       url: 'https://www.idrparana.pr.gov.br/',
     ),
     _PartnerData(
       logoPath: 'assets/images/utfpr.png',
       name: 'UTFPR',
-      description: 'Tudo posso naquele que me fortalece.',
+      description:
+          'Universidade Tecnológica Federal do Paraná, instituição pública voltada ao ensino superior tecnológico, engenharias e pesquisa.',
       url: 'https://www.utfpr.edu.br/',
     ),
     _PartnerData(
       logoPath: 'assets/images/senar.png',
       name: 'SENAR PARANÁ',
       description:
-          'Sabemos que todas as coisas cooperam para o bem daqueles que amam a Deus.',
+          'Serviço Nacional de Aprendizagem Rural do Paraná, focado na capacitação profissional e assistência técnica do produtor rural.',
       url: 'https://www.sistemafaep.org.br/',
     ),
   ];

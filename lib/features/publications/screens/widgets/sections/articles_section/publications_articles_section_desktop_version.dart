@@ -68,6 +68,7 @@ class _PublicationsArticlesSectionDesktopVersionState
                       child: CustomSearchBar(
                         controller: widget.searchController,
                         onSubmitted: widget.onSearch,
+                        hintText: 'Pesquisar artigos',
                       ),
                     ),
                   ],

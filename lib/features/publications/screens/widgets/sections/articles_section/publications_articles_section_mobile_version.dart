@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/features/articles/stores/articles_store.dart';
 import '../../listing/articles/publications_articles_list_widget_mobile_version.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 
 class PublicationsArticlesSectionMobileVersion extends StatefulWidget {
   final ArticlesStore articlesStore;
+  final TextEditingController searchController;
+  final ValueChanged<String> onSearch;
 
   const PublicationsArticlesSectionMobileVersion({
     super.key,
     required this.articlesStore,
+    required this.searchController,
+    required this.onSearch,
   });
 
   @override
@@ -36,6 +41,12 @@ class _PublicationsArticlesSectionMobileVersionState
               color: CustomColors.fresh_sprout,
               letterSpacing: 0.2,
             ),
+          ),
+          const SizedBox(height: 16),
+          CustomSearchBar(
+            controller: widget.searchController,
+            onSubmitted: widget.onSearch,
+            hintText: 'Pesquisar artigos',
           ),
           const SizedBox(height: 16),
           PublicationsArticlesListWidgetMobileVersion(

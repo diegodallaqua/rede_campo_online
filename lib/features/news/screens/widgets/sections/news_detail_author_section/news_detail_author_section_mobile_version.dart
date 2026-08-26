@@ -50,12 +50,11 @@ class NewsDetailAuthorSectionMobileVersion extends StatelessWidget {
                   ? Image.network(
                       pictureUrl(),
                       fit: BoxFit.cover,
-                      loadingBuilder: (_, child, progress) =>
-                          progress == null
-                              ? child
-                              : AvatarPlaceholder(
-                                  name: member.name,
-                                  backgroundColor: CustomColors.copper_spice),
+                      loadingBuilder: (_, child, progress) => progress == null
+                          ? child
+                          : AvatarPlaceholder(
+                              name: member.name,
+                              backgroundColor: CustomColors.copper_spice),
                       errorBuilder: (_, __, ___) => AvatarPlaceholder(
                           name: member.name,
                           backgroundColor: CustomColors.copper_spice),
@@ -67,7 +66,7 @@ class NewsDetailAuthorSectionMobileVersion extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            member.name ?? '—',
+            member.name ?? '-',
             style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w700,

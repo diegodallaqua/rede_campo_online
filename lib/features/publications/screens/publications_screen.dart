@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/widgets/layout/footer.dart';
-import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/core/stores/filter_search_store.dart';
 import 'package:rede_campo_online/features/articles/stores/articles_store.dart';
 import 'package:rede_campo_online/features/book_chapters/stores/book_chapters_store.dart';
@@ -33,7 +32,14 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
   final ThesisStore _thesisStore = ThesisStore(pageSize: 4);
   final BooksStore _booksStore = BooksStore(pageSize: 3);
   final BookChaptersStore _bookChaptersStore = BookChaptersStore(pageSize: 3);
-  final TextEditingController _searchController = TextEditingController();
+
+  // Mobile search controllers (um por tipo de publicação)
+  final TextEditingController _articlesSearchController =
+      TextEditingController();
+  final TextEditingController _thesisSearchController = TextEditingController();
+  final TextEditingController _booksSearchController = TextEditingController();
+  final TextEditingController _bookChaptersSearchController =
+      TextEditingController();
 
   // Desktop stores
   final ArticlesStore _articlesStoreDesktop = ArticlesStore(pageSize: 8);
@@ -41,31 +47,32 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
   final BooksStore _booksStoreDesktop = BooksStore(pageSize: 10);
   final BookChaptersStore _bookChaptersStoreDesktop =
       BookChaptersStore(pageSize: 8);
-  final TextEditingController _searchControllerDesktop =
+
+  // Desktop search controllers (um por tipo de publicação)
+  final TextEditingController _articlesSearchControllerDesktop =
+      TextEditingController();
+  final TextEditingController _thesisSearchControllerDesktop =
+      TextEditingController();
+  final TextEditingController _booksSearchControllerDesktop =
+      TextEditingController();
+  final TextEditingController _bookChaptersSearchControllerDesktop =
       TextEditingController();
 
   @override
   void dispose() {
-    _searchController.dispose();
-    _searchControllerDesktop.dispose();
+    _articlesSearchController.dispose();
+    _thesisSearchController.dispose();
+    _booksSearchController.dispose();
+    _bookChaptersSearchController.dispose();
+    _articlesSearchControllerDesktop.dispose();
+    _thesisSearchControllerDesktop.dispose();
+    _booksSearchControllerDesktop.dispose();
+    _bookChaptersSearchControllerDesktop.dispose();
     super.dispose();
   }
 
-  void _onSearch(String value) {
-    final filter = FilterSearchStore()..setSearch(value);
-    _articlesStore.setFilter(filter);
-    _thesisStore.setFilter(filter);
-    _booksStore.setFilter(filter);
-    _bookChaptersStore.setFilter(filter);
-  }
-
-  void _onSearchDesktop(String value) {
-    final filter = FilterSearchStore()..setSearch(value);
-    _articlesStoreDesktop.setFilter(filter);
-    _thesisStoreDesktop.setFilter(filter);
-    _booksStoreDesktop.setFilter(filter);
-    _bookChaptersStoreDesktop.setFilter(filter);
-  }
+  FilterSearchStore _buildFilter(String value) =>
+      FilterSearchStore()..setSearch(value);
 
   @override
   Widget build(BuildContext context) {
@@ -84,18 +91,17 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
-                      child: CustomSearchBar(
-                        controller: _searchController,
-                        onSubmitted: _onSearch,
-                      ),
-                    ),
                     PublicationsArticlesSectionMobileVersion(
                       articlesStore: _articlesStore,
+                      searchController: _articlesSearchController,
+                      onSearch: (value) =>
+                          _articlesStore.setFilter(_buildFilter(value)),
                     ),
                     PublicationsThesisSectionMobileVersion(
                       thesisStore: _thesisStore,
+                      searchController: _thesisSearchController,
+                      onSearch: (value) =>
+                          _thesisStore.setFilter(_buildFilter(value)),
                     ),
                   ],
                 ),
@@ -103,9 +109,14 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
               const SizedBox(height: 12),
               PublicationsBooksSectionMobileVersion(
                 booksStore: _booksStore,
+                searchController: _booksSearchController,
+                onSearch: (value) => _booksStore.setFilter(_buildFilter(value)),
               ),
               PublicationsBookChaptersSectionMobileVersion(
                 bookChaptersStore: _bookChaptersStore,
+                searchController: _bookChaptersSearchController,
+                onSearch: (value) =>
+                    _bookChaptersStore.setFilter(_buildFilter(value)),
               ),
               const Footer(),
             ],
@@ -124,20 +135,30 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                   children: [
                     PublicationsArticlesSectionDesktopVersion(
                       articlesStore: _articlesStoreDesktop,
-                      searchController: _searchControllerDesktop,
-                      onSearch: _onSearchDesktop,
+                      searchController: _articlesSearchControllerDesktop,
+                      onSearch: (value) =>
+                          _articlesStoreDesktop.setFilter(_buildFilter(value)),
                     ),
                     PublicationsThesisSectionDesktopVersion(
                       thesisStore: _thesisStoreDesktop,
+                      searchController: _thesisSearchControllerDesktop,
+                      onSearch: (value) =>
+                          _thesisStoreDesktop.setFilter(_buildFilter(value)),
                     ),
                   ],
                 ),
               ),
               PublicationsBooksSectionDesktopVersion(
                 booksStore: _booksStoreDesktop,
+                searchController: _booksSearchControllerDesktop,
+                onSearch: (value) =>
+                    _booksStoreDesktop.setFilter(_buildFilter(value)),
               ),
               PublicationsBookChaptersSectionDesktopVersion(
                 bookChaptersStore: _bookChaptersStoreDesktop,
+                searchController: _bookChaptersSearchControllerDesktop,
+                onSearch: (value) =>
+                    _bookChaptersStoreDesktop.setFilter(_buildFilter(value)),
               ),
               const Footer(),
             ],

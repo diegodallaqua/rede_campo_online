@@ -61,7 +61,7 @@ class ProjectTileMobileVersion extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  project.name ?? '—',
+                  project.name ?? '-',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

@@ -200,7 +200,7 @@ class _AdminCreateEventScreenState extends State<AdminCreateEventScreen> {
                                   items: _createEventStore.availableProjects
                                       .toList(),
                                   itemId: (project) => project.id,
-                                  itemLabel: (project) => project.name ?? '—',
+                                  itemLabel: (project) => project.name ?? '-',
                                   selected: _createEventStore.project,
                                   onChanged: _createEventStore.setProject,
                                   searchHint: 'Pesquisar projetos',

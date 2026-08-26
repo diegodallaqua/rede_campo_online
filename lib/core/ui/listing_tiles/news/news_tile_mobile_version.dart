@@ -27,7 +27,7 @@ class NewsTileMobileVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = news.title ?? '—';
+    final title = news.title ?? '-';
     final description = news.description?.trim();
     final date = news.publication_date;
 

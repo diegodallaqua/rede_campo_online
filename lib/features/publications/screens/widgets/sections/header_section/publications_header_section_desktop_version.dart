@@ -5,8 +5,7 @@ class PublicationsHeaderSectionDesktopVersion extends StatelessWidget {
   const PublicationsHeaderSectionDesktopVersion({super.key});
 
   static const String _verse =
-      'Porque estou bem certo de que nem a morte, nem a vida, nem os anjos, nem os principados, nem as potestades, nem o presente, nem o porvir, nem os poderes, nem a altura, nem a profundidade, nem qualquer outra criatura nos poderá separar do amor de Deus, que está em Cristo Jesus, nosso Senhor.';
-
+      'As publicações da Rede Campo reúnem artigos científicos, livros e demais produções acadêmicas geradas pelo grupo ao longo de suas pesquisas. Fiel aos princípios da ciência aberta, disponibilizamos nossos trabalhos de forma acessível, para que pesquisadores, extensionistas e qualquer pessoa interessada possa acessar, aprender e construir sobre o que produzimos.';
   @override
   Widget build(BuildContext context) {
     return SizedBox(

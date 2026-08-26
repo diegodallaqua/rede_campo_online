@@ -17,6 +17,7 @@ class EntityPickerField<T> extends StatelessWidget {
     required this.selected,
     required this.onChanged,
     this.itemSubtitle,
+    this.onClear,
     this.searchHint = 'Pesquisar',
     this.emptyLabel = 'Nenhum item selecionado',
     this.emptyMessage = 'Nenhum item disponível.',
@@ -31,6 +32,10 @@ class EntityPickerField<T> extends StatelessWidget {
   final String? Function(T item)? itemSubtitle;
   final T? selected;
   final void Function(T) onChanged;
+
+  /// Quando informado, o campo é opcional: um botão de limpar é exibido ao
+  /// lado do item selecionado.
+  final VoidCallback? onClear;
   final String searchHint;
   final String emptyLabel;
   final String emptyMessage;
@@ -94,6 +99,21 @@ class EntityPickerField<T> extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
+                      if (onClear != null) ...[
+                        const SizedBox(width: 8),
+                        IconButton(
+                          onPressed: onClear,
+                          icon: const Icon(Icons.close_rounded, size: 18),
+                          tooltip: 'Remover seleção',
+                          color: CustomColors.midnight_slate.withOpacity(0.45),
+                          visualDensity: VisualDensity.compact,
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(
+                            minWidth: 32,
+                            minHeight: 32,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),

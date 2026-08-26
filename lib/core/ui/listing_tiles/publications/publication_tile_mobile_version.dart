@@ -6,11 +6,13 @@ import '../../widgets/custom_chip.dart';
 
 class PublicationTileMobileVersion extends StatelessWidget {
   final Publications publication;
+  final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
 
   const PublicationTileMobileVersion({
     super.key,
     required this.publication,
+    this.onTap,
     this.margin,
   });
 
@@ -20,7 +22,7 @@ class PublicationTileMobileVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = publication.title ?? '—';
+    final title = publication.title ?? '-';
     final abstract = publication.abstract?.trim();
     final date = publication.publication_date;
     final year = date != null ? date.year.toString() : '';
@@ -156,6 +158,18 @@ class PublicationTileMobileVersion extends StatelessWidget {
       ),
     );
 
-    return Container(margin: margin, child: card);
+    return Container(
+      margin: margin,
+      child: onTap == null
+          ? card
+          : Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(_borderRadius),
+                onTap: onTap,
+                child: card,
+              ),
+            ),
+    );
   }
 }

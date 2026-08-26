@@ -20,7 +20,7 @@ class BookHeaderSectionMobileVersion extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            book.publication?.title ?? '—',
+            book.publication?.title ?? '-',
             style: const TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.w900,
@@ -138,7 +138,7 @@ class BookHeaderSectionMobileVersion extends StatelessWidget {
                           ),
                           TextSpan(
                             text: book.book_url,
-                            style: const TextStyle(color: Colors.blue),
+                            style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ],
                       ),

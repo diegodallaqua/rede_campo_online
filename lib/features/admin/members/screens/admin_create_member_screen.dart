@@ -189,7 +189,7 @@ class _AdminCreateMemberScreenState extends State<AdminCreateMemberScreen> {
                         icon: Icons.badge_outlined,
                         items: _createMemberStore.availableMemberRoles.toList(),
                         itemId: (role) => role.id,
-                        itemLabel: (role) => role.name ?? '—',
+                        itemLabel: (role) => role.name ?? '-',
                         selected: _createMemberStore.memberRole,
                         onChanged: _createMemberStore.setMemberRole,
                         searchHint: 'Pesquisar papéis',
@@ -204,7 +204,7 @@ class _AdminCreateMemberScreenState extends State<AdminCreateMemberScreen> {
                         items:
                             _createMemberStore.availableOrganizations.toList(),
                         itemId: (org) => org.id,
-                        itemLabel: (org) => org.name ?? '—',
+                        itemLabel: (org) => org.name ?? '-',
                         selected: _createMemberStore.organization,
                         onChanged: _createMemberStore.setOrganization,
                         searchHint: 'Pesquisar organizações',

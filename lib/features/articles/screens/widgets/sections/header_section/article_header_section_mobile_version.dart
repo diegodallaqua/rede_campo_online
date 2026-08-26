@@ -11,7 +11,7 @@ class ArticleHeaderSectionMobileVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = article.publication?.title ?? '—';
+    final title = article.publication?.title ?? '-';
     final doi = article.publication?.doi ?? '';
 
     return Container(

@@ -5,7 +5,7 @@ import '../theme/custom_colors.dart';
 import '../widgets/contributors_carousel.dart';
 
 /// Seção "Autores" das telas de detalhe de publicações (artigos, livros,
-/// capítulos e dissertações) — variante desktop, com título alinhado à
+/// capítulos e dissertações) - variante desktop, com título alinhado à
 /// esquerda seguido de um divisor em degradê.
 class AuthorsSectionDesktopVersion extends StatelessWidget {
   final String title;

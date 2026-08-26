@@ -90,7 +90,7 @@ class NewsDetailAuthorSectionDesktopVersion extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          member.name ?? '—',
+                          member.name ?? '-',
                           style: const TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.w700,

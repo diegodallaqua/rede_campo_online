@@ -17,7 +17,7 @@ class ProjectDetailHeaderSectionDesktopVersion extends StatelessWidget {
   });
 
   String _formatDate(DateTime? date) {
-    if (date == null) return '—';
+    if (date == null) return '-';
     return '${date.day.toString().padLeft(2, '0')}/'
         '${date.month.toString().padLeft(2, '0')}/'
         '${date.year}';
@@ -53,7 +53,7 @@ class ProjectDetailHeaderSectionDesktopVersion extends StatelessWidget {
                         const SizedBox(height: 12),
                       ],
                       Text(
-                        project.name ?? '—',
+                        project.name ?? '-',
                         style: const TextStyle(
                           fontSize: 52,
                           fontWeight: FontWeight.w900,

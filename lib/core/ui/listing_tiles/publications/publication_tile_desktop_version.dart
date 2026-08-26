@@ -6,11 +6,13 @@ import '../../widgets/custom_row.dart';
 
 class PublicationTileDesktopVersion extends StatelessWidget {
   final Publications publication;
+  final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
 
   const PublicationTileDesktopVersion({
     super.key,
     required this.publication,
+    this.onTap,
     this.margin,
   });
 
@@ -77,7 +79,7 @@ class PublicationTileDesktopVersion extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    publication.title ?? '—',
+                    publication.title ?? '-',
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -118,6 +120,18 @@ class PublicationTileDesktopVersion extends StatelessWidget {
       ),
     );
 
-    return Container(margin: margin, child: content);
+    return Container(
+      margin: margin,
+      child: onTap == null
+          ? content
+          : Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(borderRadius),
+                onTap: onTap,
+                child: content,
+              ),
+            ),
+    );
   }
 }

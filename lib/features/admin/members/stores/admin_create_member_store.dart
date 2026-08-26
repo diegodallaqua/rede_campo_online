@@ -63,7 +63,7 @@ abstract class AdminCreateMemberStoreBase with Store {
     } catch (_) {}
   }
 
-  // Foto de perfil — imagem já persistida e/ou recém-selecionada.
+  // Foto de perfil - imagem já persistida e/ou recém-selecionada.
   @readonly
   String _profilePicture = '';
 

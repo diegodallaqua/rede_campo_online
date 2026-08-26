@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/features/thesis/stores/thesis_store.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../listing/thesis/publications_thesis_list_widget_mobile_version.dart';
 
 class PublicationsThesisSectionMobileVersion extends StatefulWidget {
   final ThesisStore thesisStore;
+  final TextEditingController searchController;
+  final ValueChanged<String> onSearch;
 
   const PublicationsThesisSectionMobileVersion({
     super.key,
     required this.thesisStore,
+    required this.searchController,
+    required this.onSearch,
   });
 
   @override
@@ -36,6 +41,12 @@ class _PublicationsThesisSectionMobileVersionState
               color: CustomColors.fresh_sprout,
               letterSpacing: 0.2,
             ),
+          ),
+          const SizedBox(height: 16),
+          CustomSearchBar(
+            controller: widget.searchController,
+            onSubmitted: widget.onSearch,
+            hintText: 'Pesquisar dissertações',
           ),
           const SizedBox(height: 16),
           PublicationsThesisListWidgetMobileVersion(

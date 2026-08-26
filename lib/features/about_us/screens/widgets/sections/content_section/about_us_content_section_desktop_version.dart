@@ -6,16 +6,16 @@ class AboutUsContentSectionDesktopVersion extends StatelessWidget {
   const AboutUsContentSectionDesktopVersion({super.key});
 
   static const String _summaryText =
-      'Quem nos separará do amor de Cristo? A tribulação, ou a angústia, ou a perseguição, ou a fome, ou a nudez, ou o perigo, ou a espada? Como está escrito: Por amor de ti somos entregues à morte todo o dia; fomos reputados como ovelhas para o matadouro. Mas em todas estas coisas somos mais do que vencedores, por aquele que nos amou. Porque estou certo de que, nem a morte, nem a vida, nem os anjos, nem os principados, nem as potestades, nem o presente, nem o porvir, nem a altura, nem a profundidade, nem alguma outra criatura nos poderá separar do amor de Deus, que está em Cristo Jesus nosso Senhor.';
+      'A Rede Campo é um grupo de pesquisa e extensão da UTFPR Campus Santa Helena, fundado em 2021, com foco em tecnologias aplicadas ao desenvolvimento rural sustentável. Reunimos pesquisadores e extensionistas comprometidos em aproximar universidade e território, traduzindo produção científica em soluções reais para o campo. Atuamos de forma colaborativa e com princípios de ciência aberta, organizando nossas produções, projetos e ações em um espaço digital acessível a agricultores, comunidades, parceiros e ao público em geral.';
 
   static const String _missionText =
-      'Confia no Senhor de todo o teu coração, e não te estribes no teu próprio entendimento. Reconhece-o em todos os teus caminhos, e ele endireitará as tuas veredas.';
+      'Desenvolver, compartilhar e transferir tecnologias aplicadas ao desenvolvimento rural sustentável, articulando pesquisa científica e extensão universitária para fortalecer comunidades, produtores e organizações do campo.';
 
   static const String _visionText =
-      'Ora, a fé é o firme fundamento das coisas que se esperam, e a prova das coisas que se não veem. Porque por ela os antigos alcançaram testemunho.';
+      'Ser referência regional na integração entre ciência aberta e extensão tecnológica rural, reconhecida pela qualidade das produções, pela transparência das práticas e pelo impacto concreto nos territórios onde atuamos.';
 
   static const String _valuesText =
-      'Não estejais inquietos por coisa alguma; antes as vossas petições sejam em tudo conhecidas diante de Deus, pela oração e súplica, com ação de graças. E a paz de Deus, que excede todo o entendimento, guardará os vossos corações e os vossos sentimentos em Cristo Jesus.';
+      'Nosso trabalho é guiado pela ciência aberta, pela valorização do território rural, pela inovação aplicada e pela colaboração em rede, sempre com foco no impacto social concreto nas comunidades que atendemos.';
 
   @override
   Widget build(BuildContext context) {

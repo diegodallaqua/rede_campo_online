@@ -48,14 +48,14 @@ abstract class NewsStoreBase extends BaseStore<News> with Store {
   @action
   void setLastPage(bool value) => _lastPage = value;
 
-  // Computed's — listagem completa
+  // Computed's - listagem completa
   @computed
   int get itemCount => _lastPage ? list.length : list.length + 1;
 
   @computed
   bool get showProgress => loading && list.isEmpty;
 
-  // Notícias recentes — exclusivas para a Home Page
+  // Notícias recentes - exclusivas para a Home Page
   @observable
   ObservableList<News> recentNews = ObservableList<News>();
 
@@ -68,7 +68,7 @@ abstract class NewsStoreBase extends BaseStore<News> with Store {
   @computed
   bool get showRecentProgress => isLoadingRecent && recentNews.isEmpty;
 
-  // Ações — listagem completa
+  // Ações - listagem completa
   @action
   void loadNextPage() {
     if (list.isNotEmpty) {
@@ -137,7 +137,7 @@ abstract class NewsStoreBase extends BaseStore<News> with Store {
     }
   }
 
-  // Ações — Home Page (Listagem das notícias Recentes)
+  // Ações - Home Page (Listagem das notícias Recentes)
   @action
   Future<void> loadRecentNews({int limit = 10}) async {
     // Evita fetch duplicado se já estiver carregando.

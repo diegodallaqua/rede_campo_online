@@ -7,7 +7,7 @@ class AboutUsHistorySectionDesktopVersion extends StatelessWidget {
   const AboutUsHistorySectionDesktopVersion({super.key});
 
   static const String _historyText =
-      'Não sabes, não ouviste que o eterno Deus, o Senhor, o Criador dos fins da terra, nem se cansa nem se fatiga? Não há esquadrinhação do seu entendimento. Dá força ao cansado, e multiplica as forças ao que não tem nenhum vigor. Os jovens se cansarão e se fatigarão, e os moços certamente cairão; mas os que esperam no Senhor renovarão as forças, subirão com asas como águias; correrão, e não se cansarão; andarão, e não se fatigarão.';
+      'A Rede Campo surgiu em 2021 como um grupo de pesquisa vinculado à UTFPR Campus Santa Helena, reunindo pesquisadores e extensionistas com um objetivo em comum: aproximar a universidade do território rural por meio da ciência e da tecnologia. Desde o início, o grupo atuou na interface entre produção acadêmica e práticas aplicadas, desenvolvendo projetos voltados ao desenvolvimento rural sustentável e estabelecendo vínculos com comunidades, produtores e organizações da região. Com o crescimento das atividades, ficou evidente a necessidade de um espaço digital próprio que centralizasse as produções, organizasse a memória institucional do grupo e ampliasse o diálogo com públicos além da academia - superando os limites dos canais informais, como WhatsApp e Instagram, que eram utilizados até então. A criação desta plataforma representa, portanto, um passo importante na consolidação da Rede Campo como referência em extensão tecnológica rural, tornando seu trabalho mais visível, acessível e duradouro.';
 
   @override
   Widget build(BuildContext context) {

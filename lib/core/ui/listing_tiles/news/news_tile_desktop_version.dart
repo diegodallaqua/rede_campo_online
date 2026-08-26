@@ -71,7 +71,7 @@ class NewsTileDesktopVersion extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  news.title ?? '—',
+                  news.title ?? '-',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

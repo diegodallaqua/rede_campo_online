@@ -9,7 +9,7 @@ import '../../theme/custom_colors.dart';
 
 /// Cartão de detalhes que exibe todas as informações de um membro (ou autor
 /// externo) ao tocar em um [MemberTile]/[ContributorTile]. Usado nas telas de
-/// detalhe — Sobre Nós, Projeto, Artigo, Livro, Capítulo e Dissertação.
+/// detalhe - Sobre Nós, Projeto, Artigo, Livro, Capítulo e Dissertação.
 class MemberDetailsDialog extends StatelessWidget {
   final String? name;
   final String? roleLabel;
@@ -135,7 +135,7 @@ class MemberDetailsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final displayName = _clean(name) ?? '—';
+    final displayName = _clean(name) ?? '-';
     final role = _clean(roleLabel);
     final org = _clean(organization);
     final mail = _clean(email);

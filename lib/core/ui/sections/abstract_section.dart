@@ -7,7 +7,7 @@ import '../listing_tiles/research_areas/research_area_tile.dart';
 import '../theme/custom_colors.dart';
 
 /// Seção de resumo (abstract) das telas de detalhe de publicações, com a
-/// tradução para o inglês exibida ao lado — variante desktop.
+/// tradução para o inglês exibida ao lado - variante desktop.
 class AbstractSectionDesktopVersion extends StatelessWidget {
   final String abstractText;
   final TranslationStore store;
@@ -52,8 +52,8 @@ class AbstractSectionDesktopVersion extends StatelessWidget {
                               abstractText,
                               style: TextStyle(
                                 fontSize: 15,
-                                color: CustomColors.vanilla_haze
-                                    .withOpacity(0.85),
+                                color:
+                                    CustomColors.vanilla_haze.withOpacity(0.85),
                                 height: 1.8,
                               ),
                               textAlign: TextAlign.justify,

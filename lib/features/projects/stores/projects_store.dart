@@ -48,14 +48,14 @@ abstract class ProjectsStoreBase extends BaseStore<Projects> with Store {
   @action
   void setLastPage(bool value) => _lastPage = value;
 
-  // Computed's — listagem completa
+  // Computed's - listagem completa
   @computed
   int get itemCount => _lastPage ? list.length : list.length + 1;
 
   @computed
   bool get showProgress => loading && list.isEmpty;
 
-  // Ações — listagem completa
+  // Ações - listagem completa
   @action
   void loadNextPage() {
     if (list.isNotEmpty) {

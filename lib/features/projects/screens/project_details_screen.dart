@@ -10,6 +10,8 @@ import 'widgets/sections/project_detail_header_section/project_detail_header_sec
 import 'widgets/sections/project_detail_header_section/project_detail_header_section_mobile_version.dart';
 import 'widgets/sections/project_events_section/project_events_section_desktop_version.dart';
 import 'widgets/sections/project_events_section/project_events_section_mobile_version.dart';
+import 'widgets/sections/project_publications_section/project_publications_section_desktop_version.dart';
+import 'widgets/sections/project_publications_section/project_publications_section_mobile_version.dart';
 import 'widgets/sections/project_gallery_section/project_gallery_section_desktop_version.dart';
 import 'widgets/sections/project_gallery_section/project_gallery_section_mobile_version.dart';
 import 'widgets/sections/project_team_section/project_team_section_desktop_version.dart';
@@ -43,6 +45,8 @@ class ProjectDetailsScreen extends StatelessWidget {
                   children: [
                     ProjectEventsSectionMobileVersion(
                         projectDetailStore: projectDetailStore),
+                    ProjectPublicationsSectionMobileVersion(
+                        projectDetailStore: projectDetailStore),
                     ProjectTeamSectionMobileVersion(project: project),
                   ],
                 ),
@@ -67,6 +71,8 @@ class ProjectDetailsScreen extends StatelessWidget {
                     ProjectGallerySectionDesktopVersion(
                         projectDetailStore: projectDetailStore),
                     ProjectEventsSectionDesktopVersion(
+                        projectDetailStore: projectDetailStore),
+                    ProjectPublicationsSectionDesktopVersion(
                         projectDetailStore: projectDetailStore),
                   ],
                 ),

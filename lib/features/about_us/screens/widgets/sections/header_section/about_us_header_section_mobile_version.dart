@@ -55,16 +55,7 @@ class AboutUsHeaderSectionMobileVersion extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 36),
-                CustomButton(
-                  width: MediaQuery.sizeOf(context).width * 0.55,
-                  color: CustomColors.honey_cream,
-                  text: 'Veja Nossos Projetos',
-                  textColor: CustomColors.midnight_slate,
-                  borderRadius: 8,
-                  fontWeight: FontWeight.w700,
-                  function: () => context.go(AppRoutes.projects),
-                ),
+                
               ],
             ),
           ),

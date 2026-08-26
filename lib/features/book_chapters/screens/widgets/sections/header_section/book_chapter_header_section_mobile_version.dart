@@ -22,7 +22,7 @@ class BookChapterHeaderSectionMobileVersion extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            bookChapter.publication?.title ?? '—',
+            bookChapter.publication?.title ?? '-',
             style: const TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.w900,

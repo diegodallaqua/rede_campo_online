@@ -13,7 +13,7 @@ class ArticleHeaderSectionDesktopVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = article.publication?.title ?? '—';
+    final title = article.publication?.title ?? '-';
     final doi = article.publication?.doi ?? '';
     final areas = article.publication?.research_areas ?? [];
 

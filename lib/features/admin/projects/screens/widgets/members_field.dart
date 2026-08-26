@@ -97,7 +97,7 @@ class MembersField extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               children: selectedMembers
-                  .map((member) => _MemberChip(name: member.name ?? '—'))
+                  .map((member) => _MemberChip(name: member.name ?? '-'))
                   .toList(),
             ),
           ),

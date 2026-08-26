@@ -68,7 +68,7 @@ class ProjectTileDesktopVersion extends StatelessWidget {
                     // 2 linhas × fontSize 14 × lineHeight 1.3 ≈ 37px
                     height: 37,
                     child: Text(
-                      project.name ?? '—',
+                      project.name ?? '-',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -79,9 +79,7 @@ class ProjectTileDesktopVersion extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 6),
-
                   Expanded(
                     child: RichText(
                       textAlign: TextAlign.start,
@@ -102,7 +100,6 @@ class ProjectTileDesktopVersion extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   if (!isAdmin) ...[
                     const SizedBox(height: 10),
 

@@ -5,7 +5,7 @@ class ProjectsHeaderSectionMobileVersion extends StatelessWidget {
   const ProjectsHeaderSectionMobileVersion({super.key});
 
   static const String _verse =
-      'Não sabes, não ouviste que o Senhor é o Deus eterno, criador dos fins da terra? Ele não se cansa nem se fatiga, e a sua sabedoria é insondável. Dá força ao cansado, e multiplica as forças ao que não tem nenhum vigor. Os jovens se cansarão e se fatigarão, os moços certamente cairão; mas os que esperam no Senhor renovarão as suas forças; subirão com asas como águias; correrão, e não se cansarão; caminharão, e não se fatigarão.';
+      'Os projetos da Rede Campo reúnem iniciativas de pesquisa e extensão desenvolvidas em parceria com comunidades, produtores e organizações do meio rural. Cada projeto nasce de uma demanda real do território e é conduzido com rigor científico e compromisso prático, resultando em tecnologias, metodologias e soluções aplicadas ao desenvolvimento rural sustentável. Aqui você encontra o que estamos construindo, e o impacto que isso gera no campo.';
 
   @override
   Widget build(BuildContext context) {

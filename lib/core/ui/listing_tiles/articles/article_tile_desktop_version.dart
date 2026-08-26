@@ -21,7 +21,7 @@ class ArticleTileDesktopVersion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pub = article.publication;
-    final title = pub?.title ?? '—';
+    final title = pub?.title ?? '-';
     final journal = article.journal_name ?? '';
     final volume = article.volume ?? '';
     final issue = article.issue ?? '';
@@ -138,7 +138,7 @@ class ArticleTileDesktopVersion extends StatelessWidget {
                       const SizedBox(width: 5),
                       Expanded(
                         child: Text(
-                          journal.isNotEmpty ? journal : '—',
+                          journal.isNotEmpty ? journal : '-',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(

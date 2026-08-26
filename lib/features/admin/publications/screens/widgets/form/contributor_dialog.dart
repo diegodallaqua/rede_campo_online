@@ -10,7 +10,7 @@ import 'package:rede_campo_online/core/models/external_author.dart';
 import 'package:rede_campo_online/features/members/models/members.dart';
 
 /// Diálogo de criação de um contribuidor da publicação. O contribuidor pode
-/// ser um membro do grupo ou um autor externo criado na hora — neste caso o
+/// ser um membro do grupo ou um autor externo criado na hora - neste caso o
 /// autor externo é persistido junto com o salvamento da publicação, antes do
 /// próprio contribuidor.
 class ContributorDialog extends StatefulWidget {
@@ -320,7 +320,7 @@ class _ContributorDialogState extends State<ContributorDialog> {
       dense: true,
       activeColor: CustomColors.copper_spice,
       title: Text(
-        member.name ?? '—',
+        member.name ?? '-',
         style: const TextStyle(
           fontSize: 14,
           color: CustomColors.midnight_slate,
@@ -410,7 +410,7 @@ class _ContributorDialogState extends State<ContributorDialog> {
           .map(
             (role) => DropdownMenuItem<ContributorRoles>(
               value: role,
-              child: Text(role.name ?? '—'),
+              child: Text(role.name ?? '-'),
             ),
           )
           .toList(),

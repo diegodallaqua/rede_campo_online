@@ -5,7 +5,7 @@ class NewsHeaderSectionDesktopVersion extends StatelessWidget {
   const NewsHeaderSectionDesktopVersion({super.key});
 
   static const String _verse =
-      'Não temas, porque eu estou contigo; não te assombres, porque eu sou o teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça.';
+      'Aqui você encontra os acontecimentos mais recentes da Rede Campo: novos projetos, parcerias institucionais, participações em eventos científicos, conquistas do grupo e tudo que marca nossa trajetória. Acreditamos que compartilhar o dia a dia do nosso trabalho é também uma forma de aproximar a universidade da sociedade, mostrando na prática, como a pesquisa e a extensão rural fazem diferença. Acompanhe e fique por dentro do que está acontecendo.';
 
   @override
   Widget build(BuildContext context) {

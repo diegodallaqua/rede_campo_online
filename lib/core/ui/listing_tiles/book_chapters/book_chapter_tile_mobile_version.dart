@@ -23,7 +23,7 @@ class BookChapterTileMobileVersion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pub = bookChapter.publication;
-    final title = pub?.title ?? '—';
+    final title = pub?.title ?? '-';
     final bookName = bookChapter.book_name ?? '';
     final chapterNumber = bookChapter.chapter_number;
     final date = pub?.publication_date;
@@ -89,7 +89,7 @@ class BookChapterTileMobileVersion extends StatelessWidget {
                         const SizedBox(width: 5),
                         Expanded(
                           child: Text(
-                            bookName.isNotEmpty ? bookName : '—',
+                            bookName.isNotEmpty ? bookName : '-',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(

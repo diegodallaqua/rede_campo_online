@@ -9,7 +9,7 @@ class ArrowButton extends StatelessWidget {
   final Color iconColor;
 
   // Quando fornecido, o botão desabilitado muda a cor do ícone em vez de
-  // aplicar opacidade — ideal para o estilo retangular do carrossel de páginas.
+  // aplicar opacidade - ideal para o estilo retangular do carrossel de páginas.
   final Color? disabledIconColor;
 
   final Color backgroundColor;

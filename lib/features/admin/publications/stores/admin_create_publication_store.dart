@@ -1,6 +1,5 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
-import 'package:rede_campo_online/core/global/injection.dart';
 import 'package:rede_campo_online/core/models/contributor.dart';
 import 'package:rede_campo_online/core/models/contributor_roles.dart';
 import 'package:rede_campo_online/core/models/organizations.dart';
@@ -12,7 +11,6 @@ import 'package:rede_campo_online/core/repositories/image_upload_repository.dart
 import 'package:rede_campo_online/core/repositories/organizations_repository.dart';
 import 'package:rede_campo_online/core/repositories/research_areas_repository.dart';
 import 'package:rede_campo_online/core/stores/filter_search_store.dart';
-import 'package:rede_campo_online/core/stores/user_manager_store.dart';
 import 'package:rede_campo_online/features/admin/publications/models/publication_type.dart';
 import 'package:rede_campo_online/features/articles/models/articles.dart';
 import 'package:rede_campo_online/features/articles/repositories/articles_repository.dart';
@@ -22,6 +20,8 @@ import 'package:rede_campo_online/features/books/models/books.dart';
 import 'package:rede_campo_online/features/books/repositories/books_repository.dart';
 import 'package:rede_campo_online/features/members/models/members.dart';
 import 'package:rede_campo_online/features/members/repositories/members_repository.dart';
+import 'package:rede_campo_online/features/projects/models/projects.dart';
+import 'package:rede_campo_online/features/projects/repositories/projects_repository.dart';
 import 'package:rede_campo_online/features/publications/models/publications.dart';
 import 'package:rede_campo_online/features/publications/repositories/publications_repository.dart';
 import 'package:rede_campo_online/features/thesis/models/thesis.dart';
@@ -38,6 +38,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
     _abstract = publication.abstract ?? '';
     _doi = publication.doi ?? '';
     _publicationDate = publication.publication_date;
+    _project = publication.project;
     if (publication.research_areas != null) {
       selectedResearchAreas.addAll(publication.research_areas!);
     }
@@ -49,6 +50,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
     loadMembers();
     loadContributorRoles();
     loadOrganizations();
+    loadProjects();
     if (editing) {
       // O tipo e seus atributos chegam inline em `details`; se ausentes
       // (formato antigo), recai para a detecção via endpoints de tipo.
@@ -72,8 +74,8 @@ abstract class AdminCreatePublicationStoreBase with Store {
   final _organizationsRepository = OrganizationsRepository();
   final _researchAreasRepository = ResearchAreasRepository();
   final _membersRepository = MembersRepository();
+  final _projectsRepository = ProjectsRepository();
   final _imageUploadRepository = ImageUploadRepository();
-  final _userStore = getIt<UserManagerStore>();
   final _organizationsList = ObservableList<Organizations>();
 
   bool get editing => publication.id != null;
@@ -83,6 +85,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
   final selectedResearchAreas = ObservableList<ResearchAreas>();
   final availableMembers = ObservableList<Members>();
   final availableContributorRoles = ObservableList<ContributorRoles>();
+  final availableProjects = ObservableList<Projects>();
 
   ObservableList<Organizations> get availableOrganizations =>
       _organizationsList;
@@ -131,6 +134,17 @@ abstract class AdminCreatePublicationStoreBase with Store {
     } catch (_) {}
   }
 
+  Future<void> loadProjects() async {
+    try {
+      final projects = await _projectsRepository.findAllProjects(take: 100);
+      runInAction(() {
+        availableProjects
+          ..clear()
+          ..addAll(projects);
+      });
+    } catch (_) {}
+  }
+
   void setResearchAreas(List<ResearchAreas> areas) {
     runInAction(() {
       selectedResearchAreas
@@ -139,7 +153,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
     });
   }
 
-  // Contribuidores — não têm id próprio (são identificados no backend por
+  // Contribuidores - não têm id próprio (são identificados no backend por
   // publication_id + author_order). Os novos são criados junto com o
   // salvamento (autor externo antes do contribuidor).
   final contributors = ObservableList<Contributors>();
@@ -215,6 +229,14 @@ abstract class AdminCreatePublicationStoreBase with Store {
     if (!showErrors || doiValid) return null;
     return 'Informe um DOI válido (ex.: 10.1000/xyz123)';
   }
+
+  // Projeto vinculado. Opcional: a publicação pode não pertencer a nenhum
+  // projeto, e o vínculo pode ser removido na edição.
+  @readonly
+  Projects? _project;
+
+  @action
+  void setProject(Projects? value) => _project = value;
 
   // Tipo da publicação. Na criação é escolhido pelo usuário; na edição é
   // detectado a partir do registro de tipo já existente e não pode ser trocado.
@@ -463,7 +485,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
   @action
   void setEdition(String value) => _edition = value;
 
-  // Capa do livro — imagem escolhida pelo usuário, enviada ao Cloudflare no
+  // Capa do livro - imagem escolhida pelo usuário, enviada ao Cloudflare no
   // salvamento; a url_small retornada é usada como cover_photo.
   @readonly
   XFile? _coverPhotoFile;
@@ -662,6 +684,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
         abstract: _abstract.trim(),
         publication_date: _publicationDate,
         doi: _doi.trim(),
+        project: _project,
         research_areas: selectedResearchAreas.toList(),
       );
 
@@ -699,6 +722,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
     publication.abstract = _abstract.trim();
     publication.publication_date = _publicationDate;
     publication.doi = _doi.trim();
+    publication.project = _project;
     publication.research_areas = selectedResearchAreas.toList();
 
     try {
@@ -767,13 +791,13 @@ abstract class AdminCreatePublicationStoreBase with Store {
 
   /// Resolve a capa do livro: envia a nova imagem ao Cloudflare e usa a
   /// url_small; se nenhuma foi escolhida, mantém a capa já existente.
-  Future<String> _resolveCoverPhoto() async {
+  Future<String> _resolveCoverPhoto(int publicationId) async {
     final file = _coverPhotoFile;
     if (file == null) return _existingCoverPhoto;
     final upload = await _imageUploadRepository.uploadImage(
       file: file,
-      entityType: 'member',
-      entityId: _userStore.userId ?? 0,
+      entityType: 'book',
+      entityId: publicationId,
     );
     return upload.urlSmall.isNotEmpty ? upload.urlSmall : upload.bestUrl;
   }
@@ -796,7 +820,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
           publication: publicationRef,
           publisher: _bookPublisher.trim(),
           edition: _edition.trim(),
-          cover_photo: await _resolveCoverPhoto(),
+          cover_photo: await _resolveCoverPhoto(publicationId),
           isbn: _isbn.trim(),
           book_url: _bookUrl.trim(),
         ));
@@ -837,7 +861,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
           publication: publicationRef,
           publisher: _bookPublisher.trim(),
           edition: _edition.trim(),
-          cover_photo: await _resolveCoverPhoto(),
+          cover_photo: await _resolveCoverPhoto(publication.id ?? 0),
           isbn: _isbn.trim(),
           book_url: _bookUrl.trim(),
         ));

@@ -33,6 +33,19 @@
   <link rel="manifest" href="manifest.json">
 
   <script>
+    // Permite o zoom nativo do navegador com Ctrl/Cmd + scroll do mouse.
+    // O engine do Flutter escuta o evento "wheel" e chama preventDefault() quando
+    // a tecla Ctrl está pressionada, bloqueando o zoom. Interceptamos o evento na
+    // fase de captura (antes de chegar ao Flutter) e interrompemos a propagação,
+    // sem cancelar a ação padrão do navegador.
+    window.addEventListener('wheel', function (event) {
+      if (event.ctrlKey || event.metaKey) {
+        event.stopImmediatePropagation();
+      }
+    }, { capture: true, passive: true });
+  </script>
+
+  <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;
   </script>

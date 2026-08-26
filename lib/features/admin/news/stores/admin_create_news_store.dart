@@ -223,8 +223,8 @@ abstract class AdminCreateNewsStoreBase with Store {
     for (final item in pendingMedia) {
       final upload = await _imageUploadRepository.uploadImage(
         file: item.file,
-        entityType: 'member',
-        entityId: _userStore.userId ?? 0,
+        entityType: 'news',
+        entityId: newsId,
       );
       await _newsMediaRepository.create(NewsMedia(
         news: News(id: newsId),

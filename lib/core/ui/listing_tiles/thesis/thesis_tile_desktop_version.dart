@@ -21,7 +21,7 @@ class ThesisTileDesktopVersion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pub = thesis.publication;
-    final title = pub?.title ?? '—';
+    final title = pub?.title ?? '-';
     final orgName = thesis.organization?.name ?? '';
     final year = pub?.publication_date?.year.toString() ?? '';
     final pages = thesis.number_of_pages;
@@ -130,7 +130,7 @@ class ThesisTileDesktopVersion extends StatelessWidget {
                       const SizedBox(width: 5),
                       Expanded(
                         child: Text(
-                          orgName.isNotEmpty ? orgName : '—',
+                          orgName.isNotEmpty ? orgName : '-',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(

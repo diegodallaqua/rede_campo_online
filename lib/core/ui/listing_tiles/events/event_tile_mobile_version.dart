@@ -37,7 +37,7 @@ class EventTileMobileVersion extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          event.name ?? '—',
+          event.name ?? '-',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(

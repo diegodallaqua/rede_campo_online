@@ -83,11 +83,14 @@ class _AdminEntityListDesktopVersionState<T>
             child: ListErrorState(
               message: store.error ?? widget.errorMessage,
               onRetry: store.refreshData,
+              iconColor: CustomColors.copper_spice,
             ),
           );
         } else if (store.list.isEmpty) {
           return Center(
-            child: ListEmptyState(message: widget.emptyMessage),
+            child: ListEmptyState(
+                message: widget.emptyMessage,
+                iconColor: CustomColors.copper_spice),
           );
         }
 
@@ -242,13 +245,15 @@ class _AdminEntityListMobileVersionState<T>
         } else if (store.error != null && store.list.isEmpty) {
           return Center(
             child: ListErrorState(
-              message: store.error ?? widget.errorMessage,
-              onRetry: store.refreshData,
-            ),
+                message: store.error ?? widget.errorMessage,
+                onRetry: store.refreshData,
+                iconColor: CustomColors.copper_spice),
           );
         } else if (store.list.isEmpty) {
           return Center(
-            child: ListEmptyState(message: widget.emptyMessage),
+            child: ListEmptyState(
+                message: widget.emptyMessage,
+                iconColor: CustomColors.copper_spice),
           );
         }
 

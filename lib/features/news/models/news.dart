@@ -1,12 +1,10 @@
 import 'package:rede_campo_online/core/models/research_areas.dart';
 
 import '../../members/models/members.dart';
-import '../../projects/models/projects.dart';
 
 class News {
   News(
       {this.id,
-      this.project,
       this.member,
       this.title,
       this.description,
@@ -15,7 +13,6 @@ class News {
       this.research_areas});
 
   int? id;
-  Projects? project;
   Members? member;
   String? title;
   String? description;
@@ -25,15 +22,12 @@ class News {
 
   @override
   String toString() {
-    return 'News{id: $id, project: $project, member: $member, title: $title, description: $description, content: $content, publication_date: $publication_date, research_areas: $research_areas}';
+    return 'News{id: $id, member: $member, title: $title, description: $description, content: $content, publication_date: $publication_date, research_areas: $research_areas}';
   }
 
   factory News.fromMap(Map<String, dynamic> map) {
     return News(
       id: map['id'],
-      project: map.containsKey('project') && map['project'] != null
-          ? Projects.fromMap(map['project'] ?? {})
-          : null,
       member: map.containsKey('member') && map['member'] != null
           ? Members.fromMap(map['member'] ?? {})
           : null,
@@ -51,7 +45,6 @@ class News {
   }
 
   Map<String, dynamic> toMap() => {
-        if (project?.id != null) 'project_id': project!.id,
         'member_id': member!.id!,
         'title': title,
         'description': description,

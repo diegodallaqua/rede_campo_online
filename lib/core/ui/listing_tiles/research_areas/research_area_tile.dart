@@ -43,7 +43,7 @@ class ResearchAreaTile extends StatelessWidget {
         border: border,
       ),
       child: Text(
-        researchArea.name ?? '—',
+        researchArea.name ?? '-',
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: FontWeight.w600,

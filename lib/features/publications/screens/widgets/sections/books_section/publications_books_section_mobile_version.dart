@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/features/books/stores/books_store.dart';
 import '../../listing/books/publications_books_list_widget_mobile_version.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 
 class PublicationsBooksSectionMobileVersion extends StatefulWidget {
   final BooksStore booksStore;
+  final TextEditingController searchController;
+  final ValueChanged<String> onSearch;
 
   const PublicationsBooksSectionMobileVersion({
     super.key,
     required this.booksStore,
+    required this.searchController,
+    required this.onSearch,
   });
 
   @override
@@ -36,6 +41,16 @@ class _PublicationsBooksSectionMobileVersionState
               color: CustomColors.copper_spice,
               letterSpacing: 0.2,
             ),
+          ),
+          const SizedBox(height: 16),
+          CustomSearchBar(
+            controller: widget.searchController,
+            onSubmitted: widget.onSearch,
+            hintText: 'Pesquisar livros',
+            borderColor: CustomColors.midnight_slate,
+            textColor: CustomColors.midnight_slate,
+            hintColor: CustomColors.midnight_slate,
+            iconColor: CustomColors.midnight_slate,
           ),
           const SizedBox(height: 16),
           PublicationsBooksListWidgetMobileVersion(

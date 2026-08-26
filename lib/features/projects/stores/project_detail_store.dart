@@ -6,6 +6,8 @@ import '../../events/models/events.dart';
 import '../../events/models/events_media.dart';
 import '../../events/repositories/event_media_repository.dart';
 import '../../events/repositories/events_repository.dart';
+import '../../publications/models/publications.dart';
+import '../../publications/repositories/publications_repository.dart';
 import '../models/project_media.dart';
 import '../repositories/project_media_repository.dart';
 
@@ -17,6 +19,8 @@ abstract class ProjectDetailStoreBase with Store {
   final ProjectMediaRepository _mediaRepository = ProjectMediaRepository();
   final EventsRepository _eventsRepository = EventsRepository();
   final EventMediaRepository _eventMediaRepository = EventMediaRepository();
+  final PublicationsRepository _publicationsRepository =
+      PublicationsRepository();
 
   final int projectId;
 
@@ -50,7 +54,17 @@ abstract class ProjectDetailStoreBase with Store {
   @readonly
   String? _eventsError;
 
-  Future<void> loadData() => Future.wait([loadMedia(), loadEvents()]);
+  @readonly
+  ObservableList<Publications> _publications = ObservableList<Publications>();
+
+  @readonly
+  bool _publicationsLoading = false;
+
+  @readonly
+  String? _publicationsError;
+
+  Future<void> loadData() =>
+      Future.wait([loadMedia(), loadEvents(), loadPublications()]);
 
   @action
   Future<void> loadMedia() async {
@@ -108,7 +122,31 @@ abstract class ProjectDetailStoreBase with Store {
     }
   }
 
+  @action
+  Future<void> loadPublications() async {
+    _publicationsLoading = true;
+    _publicationsError = null;
+    try {
+      final publications =
+          await _publicationsRepository.findByProjectId(projectId);
+      _publications
+        ..clear()
+        ..addAll(publications);
+    } catch (e, s) {
+      log(
+        'ProjectDetailStore: Erro ao carregar publicações do projeto $projectId',
+        error: e,
+        stackTrace: s,
+      );
+      _publicationsError = e.toString();
+    } finally {
+      _publicationsLoading = false;
+    }
+  }
+
   Future<void> refreshMedia() => loadMedia();
 
   Future<void> refreshEvents() => loadEvents();
+
+  Future<void> refreshPublications() => loadPublications();
 }

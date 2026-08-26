@@ -210,7 +210,7 @@ class _ExistingMediaItem extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              media.name ?? '—',
+              media.name ?? '-',
               style: const TextStyle(
                 fontSize: 13,
                 color: CustomColors.midnight_slate,

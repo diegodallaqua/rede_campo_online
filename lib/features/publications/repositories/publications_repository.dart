@@ -87,6 +87,41 @@ class PublicationsRepository {
     }
   }
 
+  Future<List<Publications>> findByProjectId(int projectId) async {
+    final token = await TokenRepository().getToken();
+    final url = Uri.parse('$baseURL$projectsURL$projectId/publications');
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        final List<dynamic> data = decoded is List
+            ? decoded
+            : (decoded['data'] as List<dynamic>? ?? []);
+        return data
+            .map((p) => Publications.fromMap(p as Map<String, dynamic>))
+            .toList();
+      } else {
+        return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
+      }
+    } catch (e, s) {
+      log(
+        'PublicationsRepository: Erro ao buscar publicações do projeto $projectId',
+        error: e.toString(),
+        stackTrace: s,
+      );
+      return Future.error('Erro ao buscar publicações do projeto');
+    }
+  }
+
   Future<void> editPublication(Publications publication) async {
     var url = Uri.parse(baseURL + publicationsURL + publication.id!.toString());
 

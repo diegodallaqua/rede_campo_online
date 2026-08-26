@@ -171,7 +171,7 @@ class PublicationTypeFormFields extends StatelessWidget {
           icon: Icons.account_balance_outlined,
           items: store.availableOrganizations.toList(),
           itemId: (organization) => organization.id,
-          itemLabel: (organization) => organization.name ?? '—',
+          itemLabel: (organization) => organization.name ?? '-',
           selected: store.organization,
           onChanged: store.setOrganization,
           searchHint: 'Pesquisar organização',
