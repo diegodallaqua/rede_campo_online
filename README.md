@@ -189,22 +189,6 @@ Convenções que o código novo deve seguir:
 - Upload de mídia usa `MediaUploadField`, genérico sobre a interface `MediaAttachment` (`core/models/`).
 - Modelos, repositórios e stores compartilhados por mais de uma feature vivem em `core/models`, `core/repositories` e `core/stores` - nunca em `core/utils`.
 
-
-## Contribuição
-
-O padrão de branches, de commits e de código está descrito em [CONTRIBUTING.md](CONTRIBUTING.md).
-
-Resumo do formato de commit:
-
-- **Tipo:** `feat` (nova funcionalidade), `fix`, `refactor`, `docs`, `chore`
-- **Escopo:** parte do sistema afetada (ex.: `admin`, `news`, `core`)
-- **Título:** curto e descritivo (< 72 caracteres)
-- **Corpo:**
-  - Parágrafo inicial explicando o "porquê" e a visão geral
-  - Lista de modificações principais (arquivos + mudanças)
-  - Lista de funcionalidades implementadas
-  - Seção de testes realizados
-
 ## Licença
 
 Projeto acadêmico desenvolvido para o grupo de pesquisa Rede Campo. A licença ainda não foi definida - até que um arquivo `LICENSE` seja adicionado ao repositório, todos os direitos são reservados aos autores.
