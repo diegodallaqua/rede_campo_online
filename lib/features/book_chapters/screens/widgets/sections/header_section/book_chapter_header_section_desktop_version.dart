@@ -163,11 +163,27 @@ class _BookChapterMetadataCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Nome e ISBN do livro vinculado têm precedência sobre os do próprio
+    // capítulo.
+    final bookName = bookChapter.displayBookName ?? '';
+    final isbn = bookChapter.displayIsbn ?? '';
+    final pageRange = bookChapter.pageRange;
+
     final rows = <CustomRow>[
-      if (bookChapter.book_name != null && bookChapter.book_name!.isNotEmpty)
+      if (bookName.isNotEmpty)
         CustomRow(
           icon: Icons.menu_book_outlined,
-          text: 'Livro: ${bookChapter.book_name}',
+          text: 'Livro: $bookName',
+        ),
+      if (isbn.isNotEmpty)
+        CustomRow(
+          icon: Icons.qr_code_2_rounded,
+          text: 'ISBN: $isbn',
+        ),
+      if (pageRange.isNotEmpty)
+        CustomRow(
+          icon: Icons.auto_stories_outlined,
+          text: 'Páginas: $pageRange',
         ),
       if (bookChapter.publication?.publication_date != null)
         CustomRow(

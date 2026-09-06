@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/models/contributor.dart';
@@ -9,7 +10,8 @@ import '../../theme/custom_colors.dart';
 
 /// Cartão de detalhes que exibe todas as informações de um membro (ou autor
 /// externo) ao tocar em um [MemberTile]/[ContributorTile]. Usado nas telas de
-/// detalhe - Sobre Nós, Projeto, Artigo, Livro, Capítulo e Dissertação.
+/// detalhe - Sobre Nós, Projeto, Artigo, Livro, Capítulo e Trabalho
+/// Acadêmico.
 class MemberDetailsDialog extends StatelessWidget {
   final String? name;
   final String? roleLabel;
@@ -18,6 +20,7 @@ class MemberDetailsDialog extends StatelessWidget {
   final String? description;
   final String? lattesUrl;
   final String? linkedInUrl;
+  final String? instagramUrl;
   final String? orcid;
   final bool isExternal;
   final String? profilePictureUrl;
@@ -32,6 +35,7 @@ class MemberDetailsDialog extends StatelessWidget {
     this.description,
     this.lattesUrl,
     this.linkedInUrl,
+    this.instagramUrl,
     this.orcid,
     this.isExternal = false,
     this.profilePictureUrl,
@@ -57,6 +61,7 @@ class MemberDetailsDialog extends StatelessWidget {
         description: member.description,
         lattesUrl: member.lattesUrl,
         linkedInUrl: member.linkedInUrl,
+        instagramUrl: member.instagramUrl,
         profilePictureUrl: _resolvePicture(member.profilePicture),
         accentColor: accentColor,
       ),
@@ -126,6 +131,16 @@ class MemberDetailsDialog extends StatelessWidget {
     return '$baseURL/${url.startsWith('/') ? url.substring(1) : url}';
   }
 
+  /// Aceita tanto a URL completa quanto apenas o nome de usuário (com ou sem
+  /// '@'), montando o endereço do perfil quando necessário.
+  static String _instagramLink(String value) {
+    if (value.startsWith('http://') || value.startsWith('https://')) {
+      return value;
+    }
+    final handle = value.startsWith('@') ? value.substring(1) : value;
+    return 'https://www.instagram.com/$handle';
+  }
+
   static String? _clean(String? value) {
     final trimmed = value?.trim();
     return (trimmed != null && trimmed.isNotEmpty) ? trimmed : null;
@@ -142,6 +157,7 @@ class MemberDetailsDialog extends StatelessWidget {
     final about = _clean(description);
     final lattes = _clean(lattesUrl);
     final linkedIn = _clean(linkedInUrl);
+    final instagram = _clean(instagramUrl);
     final orc = _clean(orcid);
 
     final links = <Widget>[
@@ -165,6 +181,14 @@ class MemberDetailsDialog extends StatelessWidget {
           label: 'LinkedIn',
           accentColor: accentColor,
           onTap: () => _launch(linkedIn),
+        ),
+      if (instagram != null)
+        _ContactRow(
+          icon: FontAwesomeIcons.instagram,
+          isBrandIcon: true,
+          label: 'Instagram',
+          accentColor: accentColor,
+          onTap: () => _launch(_instagramLink(instagram)),
         ),
       if (orc != null)
         _ContactRow(
@@ -356,11 +380,16 @@ class _ContactRow extends StatelessWidget {
   final Color accentColor;
   final VoidCallback onTap;
 
+  /// Ícones do FontAwesome não são quadrados e precisam de [FaIcon] para não
+  /// serem cortados pelo [Icon] do Material.
+  final bool isBrandIcon;
+
   const _ContactRow({
     required this.icon,
     required this.label,
     required this.accentColor,
     required this.onTap,
+    this.isBrandIcon = false,
   });
 
   @override
@@ -374,7 +403,14 @@ class _ContactRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
           child: Row(
             children: [
-              Icon(icon, size: 20, color: accentColor),
+              SizedBox(
+                width: 20,
+                child: Center(
+                  child: isBrandIcon
+                      ? FaIcon(icon, size: 18, color: accentColor)
+                      : Icon(icon, size: 20, color: accentColor),
+                ),
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(

@@ -21,6 +21,9 @@ class PublicationFormControllers {
         bookUrl = _bind(store.bookUrl, store.setBookUrl),
         bookName = _bind(store.bookName, store.setBookName),
         chapterNumber = _bind(store.chapterNumber, store.setChapterNumber),
+        chapterIsbn = _bind(store.chapterIsbn, store.setChapterIsbn),
+        startPage = _bind(store.startPage, store.setStartPage),
+        endPage = _bind(store.endPage, store.setEndPage),
         numberOfPages = _bind(store.numberOfPages, store.setNumberOfPages);
 
   final TextEditingController title;
@@ -43,8 +46,11 @@ class PublicationFormControllers {
   // Capítulo de Livro
   final TextEditingController bookName;
   final TextEditingController chapterNumber;
+  final TextEditingController chapterIsbn;
+  final TextEditingController startPage;
+  final TextEditingController endPage;
 
-  // Tese
+  // Trabalho Acadêmico
   final TextEditingController numberOfPages;
 
   static TextEditingController _bind(
@@ -71,6 +77,9 @@ class PublicationFormControllers {
         bookUrl,
         bookName,
         chapterNumber,
+        chapterIsbn,
+        startPage,
+        endPage,
         numberOfPages,
       ];
 
@@ -88,6 +97,9 @@ class PublicationFormControllers {
     bookUrl.text = store.bookUrl;
     bookName.text = store.bookName;
     chapterNumber.text = store.chapterNumber;
+    chapterIsbn.text = store.chapterIsbn;
+    startPage.text = store.startPage;
+    endPage.text = store.endPage;
     numberOfPages.text = store.numberOfPages;
   }
 

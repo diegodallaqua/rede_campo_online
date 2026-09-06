@@ -1,32 +1,34 @@
 import 'package:flutter/material.dart';
-import '../../../../features/thesis/models/thesis.dart';
+import '../../../../features/academic_works/models/academic_work.dart';
 import '../../theme/custom_colors.dart';
 
-class ThesisTileMobileVersion extends StatelessWidget {
-  final Thesis thesis;
+class AcademicWorkTileMobileVersion extends StatelessWidget {
+  final AcademicWork academicWork;
   final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
 
-  const ThesisTileMobileVersion({
+  const AcademicWorkTileMobileVersion({
     super.key,
-    required this.thesis,
+    required this.academicWork,
     this.onTap,
     this.margin,
   });
 
-  static const double _height = 118.0;
+  static const double _height = 140.0;
   static const double _accentWidth = 5.0;
   static const double _borderRadius = 12.0;
 
   @override
   Widget build(BuildContext context) {
-    final pub = thesis.publication;
+    final pub = academicWork.publication;
     final title = pub?.title ?? '-';
-    final orgName = thesis.organization?.name ?? '';
+    final orgName = academicWork.organization?.name ?? '';
     final date = pub?.publication_date;
     final year = date != null ? date.year.toString() : '';
-    final pages = thesis.number_of_pages;
+    final pages = academicWork.number_of_pages;
     final pagesLabel = (pages != null && pages > 0) ? '$pages páginas' : '';
+    // "<name> de <degree_level>" (ex.: "Dissertação de Mestrado").
+    final typeLabel = academicWork.academic_work_type?.label ?? '';
 
     final card = SizedBox(
       height: _height,
@@ -56,6 +58,33 @@ class ThesisTileMobileVersion extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.school_outlined,
+                          size: 12,
+                          color: CustomColors.fresh_sprout,
+                        ),
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: Text(
+                            (typeLabel.isNotEmpty
+                                    ? typeLabel
+                                    : 'Trabalho Acadêmico')
+                                .toUpperCase(),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              color: CustomColors.fresh_sprout,
+                              letterSpacing: 0.6,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
                     Text(
                       title,
                       maxLines: 2,

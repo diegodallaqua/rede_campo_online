@@ -22,6 +22,7 @@ abstract class AdminCreateMemberStoreBase with Store {
     _description = member.description ?? '';
     _lattesUrl = member.lattesUrl ?? '';
     _linkedInUrl = member.linkedInUrl ?? '';
+    _instagramUrl = member.instagramUrl ?? '';
     _memberRole = member.memberRole;
     _organization = member.organization;
     _profilePicture = member.profilePicture ?? '';
@@ -213,6 +214,21 @@ abstract class AdminCreateMemberStoreBase with Store {
     return 'Informe uma URL válida (http:// ou https://)';
   }
 
+  @readonly
+  late String _instagramUrl = '';
+
+  @action
+  void setInstagramUrl(String value) => _instagramUrl = value;
+
+  @computed
+  bool get instagramUrlValid => _isOptionalUrlValid(_instagramUrl);
+
+  String? get instagramUrlError {
+    if (!showErrors || instagramUrlValid) return null;
+    if (_instagramUrl.length > 500) return 'Máximo de 500 caracteres';
+    return 'Informe uma URL válida (http:// ou https://)';
+  }
+
   // URL opcional; quando preenchida exige http/https válido para evitar que
   // links maliciosos (javascript:, data:, etc.) sejam publicados.
   bool _isOptionalUrlValid(String raw) {
@@ -259,7 +275,8 @@ abstract class AdminCreateMemberStoreBase with Store {
       organizationValid &&
       descriptionValid &&
       lattesUrlValid &&
-      linkedInUrlValid;
+      linkedInUrlValid &&
+      instagramUrlValid;
 
   // Faz upload da imagem pendente (se houver) e devolve a URL a persistir.
   Future<String?> _resolveProfilePicture() async {
@@ -289,6 +306,7 @@ abstract class AdminCreateMemberStoreBase with Store {
         description: _description.trim(),
         lattesUrl: _lattesUrl.trim(),
         linkedInUrl: _linkedInUrl.trim(),
+        instagramUrl: _instagramUrl.trim(),
         profilePicture: profilePicture,
         password: _password,
       );
@@ -315,6 +333,7 @@ abstract class AdminCreateMemberStoreBase with Store {
       member.description = _description.trim();
       member.lattesUrl = _lattesUrl.trim();
       member.linkedInUrl = _linkedInUrl.trim();
+      member.instagramUrl = _instagramUrl.trim();
       member.profilePicture = profilePicture;
       // Em branco => não enviada; toMap preserva a senha atual no servidor.
       member.password = _password.isEmpty ? null : _password;

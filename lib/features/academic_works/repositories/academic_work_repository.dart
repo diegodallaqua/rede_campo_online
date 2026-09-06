@@ -7,11 +7,11 @@ import '../../../core/global/constants/api_constants.dart';
 import '../../../core/utils/error_message_api.dart';
 import '../../../core/repositories/token_repository.dart';
 import '../../../core/stores/filter_search_store.dart';
-import '../models/thesis.dart';
+import '../models/academic_work.dart';
 
-class ThesisRepository {
-  Future<void> createThesis(Thesis thesis) async {
-    var url = Uri.parse(baseURL + thesisURL);
+class AcademicWorkRepository {
+  Future<void> createAcademicWork(AcademicWork academicWork) async {
+    var url = Uri.parse(baseURL + academicWorksURL);
     final token = await TokenRepository().getToken();
 
     try {
@@ -22,7 +22,7 @@ class ThesisRepository {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: jsonEncode(thesis.toMap()),
+        body: jsonEncode(academicWork.toMap()),
       );
 
       if (response.statusCode != 200 &&
@@ -38,17 +38,18 @@ class ThesisRepository {
         );
       }
     } catch (e, s) {
-      log('Repository: Erro ao criar Dissertação.',
+      log('Repository: Erro ao criar Trabalho Acadêmico.',
           error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao criar Dissertação');
+      return Future.error('Erro ao criar Trabalho Acadêmico');
     }
   }
 
-  Future<List<Thesis>> findAllThesis(
+  Future<List<AcademicWork>> findAllAcademicWorks(
       {int? page, FilterSearchStore? filterSearchStore, int? take}) async {
     final token = await TokenRepository().getToken();
 
-    final url = Uri.parse('$baseURL$thesisURL').replace(queryParameters: {
+    final url =
+        Uri.parse('$baseURL$academicWorksURL').replace(queryParameters: {
       if (page != null) 'page': '$page',
       if (take != null) 'take': '$take',
       if (filterSearchStore != null && filterSearchStore.search.isNotEmpty)
@@ -69,8 +70,7 @@ class ThesisRepository {
         final Map<String, dynamic> jsonData = jsonDecode(response.body);
 
         final List<dynamic> data = jsonData["data"];
-        final List<Thesis> theses = data.map((t) => Thesis.fromMap(t)).toList();
-        return theses;
+        return data.map((a) => AcademicWork.fromMap(a)).toList();
       } else {
         return Future.error(
           ErrorsAPI.fromMap(
@@ -79,17 +79,17 @@ class ThesisRepository {
         );
       }
     } catch (e, s) {
-      log('Repository: Erro ao buscar Dissertaçãos:',
+      log('Repository: Erro ao buscar Trabalhos Acadêmicos:',
           error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao buscar Dissertaçãos');
+      return Future.error('Erro ao buscar Trabalhos Acadêmicos');
     }
   }
 
-  /// Busca a tese de uma publicação específica. Retorna null se a publicação
-  /// não for uma tese (ou não houver registro).
-  Future<Thesis?> findByPublicationId(int publicationId) async {
+  /// Busca o trabalho acadêmico de uma publicação específica. Retorna null se
+  /// a publicação não for um trabalho acadêmico (ou não houver registro).
+  Future<AcademicWork?> findByPublicationId(int publicationId) async {
     final token = await TokenRepository().getToken();
-    final url = Uri.parse('$baseURL$thesisURL$publicationId');
+    final url = Uri.parse('$baseURL$academicWorksURL$publicationId');
 
     try {
       final response = await http.get(
@@ -107,19 +107,19 @@ class ThesisRepository {
             ? (decoded.containsKey('data') ? decoded['data'] : decoded)
             : decoded;
         if (map == null) return null;
-        return Thesis.fromMap(map as Map<String, dynamic>);
+        return AcademicWork.fromMap(map as Map<String, dynamic>);
       }
       return null;
     } catch (e, s) {
-      log('Repository: Erro ao buscar Tese por publicação:',
+      log('Repository: Erro ao buscar Trabalho Acadêmico por publicação:',
           error: e.toString(), stackTrace: s);
       return null;
     }
   }
 
-  Future<void> editThesis(Thesis thesis) async {
-    var url =
-        Uri.parse(baseURL + thesisURL + thesis.publication!.id!.toString());
+  Future<void> editAcademicWork(AcademicWork academicWork) async {
+    var url = Uri.parse(
+        baseURL + academicWorksURL + academicWork.publication!.id!.toString());
 
     final token = await TokenRepository().getToken();
 
@@ -132,7 +132,7 @@ class ThesisRepository {
           'Authorization': 'Bearer $token',
         },
         // O id da publicação já vai na URL; a API rejeita-o no corpo do PUT.
-        body: jsonEncode(thesis.toMap()..remove('publication_id')),
+        body: jsonEncode(academicWork.toMap()..remove('publication_id')),
       );
 
       if (response.statusCode != 200 &&
@@ -148,14 +148,14 @@ class ThesisRepository {
         );
       }
     } catch (e, s) {
-      log('Repository: Erro ao editar Dissertação:',
+      log('Repository: Erro ao editar Trabalho Acadêmico:',
           error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao editar Dissertação');
+      return Future.error('Erro ao editar Trabalho Acadêmico');
     }
   }
 
-  Future<void> deleteThesis(String id) async {
-    var url = Uri.parse(baseURL + thesisURL + id);
+  Future<void> deleteAcademicWork(String id) async {
+    var url = Uri.parse(baseURL + academicWorksURL + id);
 
     final token = await TokenRepository().getToken();
 
@@ -179,9 +179,9 @@ class ThesisRepository {
         );
       }
     } catch (e, s) {
-      log('Repository: Erro ao deletar Dissertação:',
+      log('Repository: Erro ao deletar Trabalho Acadêmico:',
           error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao deletar Dissertação');
+      return Future.error('Erro ao deletar Trabalho Acadêmico');
     }
   }
 }

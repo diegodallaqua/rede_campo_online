@@ -8,13 +8,14 @@ import '../../features/book_chapters/repositories/book_chapters_repository.dart'
 import '../../features/books/models/books.dart';
 import '../../features/books/repositories/books_repository.dart';
 import '../../features/publications/models/publications.dart';
-import '../../features/thesis/models/thesis.dart';
-import '../../features/thesis/repositories/thesis_repository.dart';
+import '../../features/academic_works/models/academic_work.dart';
+import '../../features/academic_works/repositories/academic_work_repository.dart';
+import '../models/academic_work_types.dart';
 import '../models/organizations.dart';
 import '../ui/theme/custom_colors.dart';
 
 /// Resolve o tipo concreto de uma publicação e navega para a tela de detalhe
-/// correspondente (artigo, livro, capítulo de livro ou tese).
+/// correspondente (artigo, livro, capítulo de livro ou trabalho acadêmico).
 ///
 /// As rotas de detalhe exigem o modelo tipado em `extra`. O tipo e seus
 /// atributos chegam inline em `publication_type`/`details`; quando ausentes
@@ -57,8 +58,9 @@ void _push(BuildContext context, Object typed) {
   } else if (typed is BookChapters) {
     context.push('/publications/book-chapters/${typed.publication?.id}',
         extra: typed);
-  } else if (typed is Thesis) {
-    context.push('/publications/thesis/${typed.publication?.id}', extra: typed);
+  } else if (typed is AcademicWork) {
+    context.push('/publications/academic-works/${typed.publication?.id}',
+        extra: typed);
   }
 }
 
@@ -93,9 +95,23 @@ Object? _buildFromDetails(Publications publication) {
         book_name: (details['book_name'] ?? '').toString(),
         chapter_number:
             num.tryParse(details['chapter_number']?.toString() ?? ''),
+        book: details['book'] is Map
+            ? Books.fromMap(Map<String, dynamic>.from(details['book']))
+            : (details['book_id'] != null
+                ? Books(
+                    publication: Publications(
+                      id: int.tryParse(details['book_id'].toString()),
+                    ),
+                  )
+                : null),
+        isbn: details['isbn']?.toString(),
+        start_page: int.tryParse(details['start_page']?.toString() ?? ''),
+        end_page: int.tryParse(details['end_page']?.toString() ?? ''),
       );
+    // `thesis` é aceito por compatibilidade com o nome anterior do tipo.
+    case 'academic_work':
     case 'thesis':
-      return Thesis(
+      return AcademicWork(
         publication: publication,
         organization: details['organization'] is Map
             ? Organizations.fromMap(
@@ -103,6 +119,13 @@ Object? _buildFromDetails(Publications publication) {
             : null,
         number_of_pages:
             int.tryParse(details['number_of_pages']?.toString() ?? ''),
+        academic_work_type: details['academic_work_type'] is Map
+            ? AcademicWorkType.fromMap(
+                Map<String, dynamic>.from(details['academic_work_type']))
+            : null,
+        defense_date: details['defense_date'] != null
+            ? DateTime.tryParse(details['defense_date'].toString())
+            : null,
       );
   }
   return null;
@@ -124,7 +147,7 @@ Future<Object?> _fetchTyped(int publicationId) async {
     );
     if (chapter != null) return chapter;
 
-    return await ThesisRepository().findByPublicationId(publicationId);
+    return await AcademicWorkRepository().findByPublicationId(publicationId);
   } catch (_) {
     return null;
   }

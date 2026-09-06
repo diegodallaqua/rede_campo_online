@@ -11,6 +11,7 @@ class Members {
     this.description,
     this.lattesUrl,
     this.linkedInUrl,
+    this.instagramUrl,
     this.profilePicture,
     this.password,
   });
@@ -23,6 +24,7 @@ class Members {
   String? description;
   String? lattesUrl;
   String? linkedInUrl;
+  String? instagramUrl;
   String? profilePicture;
   // Credencial de acesso; nunca chega do servidor (apenas enviada em
   // criação/troca de senha) e por isso fica fora de [fromMap]/[toString].
@@ -39,6 +41,7 @@ class Members {
         'description: $description, '
         'lattesUrl: $lattesUrl, '
         'linkedInUrl: $linkedInUrl, '
+        'instagramUrl: $instagramUrl, '
         'profilePicture: $profilePicture'
         '}';
   }
@@ -58,6 +61,7 @@ class Members {
       description: (map['description'] ?? '') as String,
       lattesUrl: (map['lattes_url'] ?? '') as String,
       linkedInUrl: (map['linked_in_url'] ?? '') as String,
+      instagramUrl: (map['instagram_url'] ?? '') as String,
       profilePicture: (map['profile_picture'] ?? '') as String,
     );
   }
@@ -70,6 +74,7 @@ class Members {
         'description': description,
         'lattes_url': lattesUrl,
         'linked_in_url': linkedInUrl,
+        'instagram_url': instagramUrl,
         'profile_picture': profilePicture,
         // Apenas envia a senha quando definida (criação ou troca explícita),
         // preservando a senha atual em edições que a deixam em branco.

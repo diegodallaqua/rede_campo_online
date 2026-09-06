@@ -4,21 +4,23 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../../../core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../../core/ui/widgets/custom_row.dart';
-import '../../../../models/thesis.dart';
+import '../../../../../../core/utils/formatters.dart';
+import '../../../../models/academic_work.dart';
 
-class ThesisHeaderSectionDesktopVersion extends StatelessWidget {
-  final Thesis thesis;
+class AcademicWorkHeaderSectionDesktopVersion extends StatelessWidget {
+  final AcademicWork academicWork;
 
-  const ThesisHeaderSectionDesktopVersion({
+  const AcademicWorkHeaderSectionDesktopVersion({
     super.key,
-    required this.thesis,
+    required this.academicWork,
   });
 
   @override
   Widget build(BuildContext context) {
-    final title = thesis.publication?.title ?? '-';
-    final doi = thesis.publication?.doi ?? '';
-    final areas = thesis.publication?.research_areas ?? [];
+    final title = academicWork.publication?.title ?? '-';
+    final doi = academicWork.publication?.doi ?? '';
+    final areas = academicWork.publication?.research_areas ?? [];
+    final typeLabel = academicWork.academic_work_type?.label ?? '';
 
     return Container(
       color: CustomColors.vanilla_haze,
@@ -35,9 +37,12 @@ class ThesisHeaderSectionDesktopVersion extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'DISSERTAÇÃO / TESE',
-                        style: TextStyle(
+                      Text(
+                        (typeLabel.isNotEmpty
+                                ? typeLabel
+                                : 'Trabalho Acadêmico')
+                            .toUpperCase(),
+                        style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: CustomColors.copper_spice,
@@ -87,7 +92,7 @@ class ThesisHeaderSectionDesktopVersion extends StatelessWidget {
                 const SizedBox(width: 64),
                 Expanded(
                   flex: 3,
-                  child: _ThesisMetadataCard(thesis: thesis),
+                  child: _AcademicWorkMetadataCard(academicWork: academicWork),
                 ),
               ],
             ),
@@ -146,23 +151,25 @@ class _DoiLink extends StatelessWidget {
   }
 }
 
-class _ThesisMetadataCard extends StatelessWidget {
-  final Thesis thesis;
+class _AcademicWorkMetadataCard extends StatelessWidget {
+  final AcademicWork academicWork;
 
-  const _ThesisMetadataCard({required this.thesis});
+  const _AcademicWorkMetadataCard({required this.academicWork});
 
   @override
   Widget build(BuildContext context) {
-    final date = thesis.publication?.publication_date;
-    final dateStr = date != null
-        ? '${date.day.toString().padLeft(2, '0')}/'
-            '${date.month.toString().padLeft(2, '0')}/'
-            '${date.year}'
-        : null;
-    final orgName = thesis.organization?.name;
-    final pages = thesis.number_of_pages;
+    final typeLabel = academicWork.academic_work_type?.label ?? '';
+    final orgName = academicWork.organization?.name;
+    final pages = academicWork.number_of_pages;
+    final defenseDate = academicWork.defense_date;
+    final publicationDate = academicWork.publication?.publication_date;
 
     final rows = <CustomRow>[
+      if (typeLabel.isNotEmpty)
+        CustomRow(
+          icon: Icons.school_outlined,
+          text: 'Tipo: $typeLabel',
+        ),
       if (orgName?.isNotEmpty == true)
         CustomRow(
           icon: Icons.business_outlined,
@@ -173,10 +180,15 @@ class _ThesisMetadataCard extends StatelessWidget {
           icon: Icons.import_contacts_outlined,
           text: 'Páginas: $pages',
         ),
-      if (dateStr != null)
+      if (defenseDate != null)
+        CustomRow(
+          icon: Icons.event_available_outlined,
+          text: 'Defendido em: ${defenseDate.formattedDate()}',
+        ),
+      if (publicationDate != null)
         CustomRow(
           icon: Icons.calendar_today_outlined,
-          text: 'Publicado em: $dateStr',
+          text: 'Publicado em: ${publicationDate.formattedDate()}',
         ),
     ];
 

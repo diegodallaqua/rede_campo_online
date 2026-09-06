@@ -2,34 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rede_campo_online/core/ui/listing_tiles/thesis/thesis_tile_mobile_version.dart';
+import 'package:rede_campo_online/core/ui/listing_tiles/academic_works/academic_work_tile_mobile_version.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_empty_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_error_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_loading_state.dart';
 
-import '../../../../../thesis/stores/thesis_store.dart';
+import '../../../../../academic_works/stores/academic_work_store.dart';
 
-class PublicationsThesisListWidgetMobileVersion extends StatefulWidget {
-  final ThesisStore thesisStore;
+class PublicationsAcademicWorksListWidgetMobileVersion extends StatefulWidget {
+  final AcademicWorkStore academicWorkStore;
   final int maxDiscoveredPage;
   final ValueChanged<int> onPageDiscovered;
 
-  const PublicationsThesisListWidgetMobileVersion({
+  const PublicationsAcademicWorksListWidgetMobileVersion({
     super.key,
-    required this.thesisStore,
+    required this.academicWorkStore,
     required this.maxDiscoveredPage,
     required this.onPageDiscovered,
   });
 
   @override
-  State<PublicationsThesisListWidgetMobileVersion> createState() =>
-      _PublicationsThesisListWidgetMobileVersionState();
+  State<PublicationsAcademicWorksListWidgetMobileVersion> createState() =>
+      _PublicationsAcademicWorksListWidgetMobileVersionState();
 }
 
-class _PublicationsThesisListWidgetMobileVersionState
-    extends State<PublicationsThesisListWidgetMobileVersion> {
+class _PublicationsAcademicWorksListWidgetMobileVersionState
+    extends State<PublicationsAcademicWorksListWidgetMobileVersion> {
   void _notifyPageDiscovered(int discovered) {
     if (discovered > widget.maxDiscoveredPage) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -42,33 +42,34 @@ class _PublicationsThesisListWidgetMobileVersionState
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        if (!widget.thesisStore.loading && widget.thesisStore.list.isNotEmpty) {
-          final discovered =
-              widget.thesisStore.page + (widget.thesisStore.lastPage ? 0 : 1);
+        if (!widget.academicWorkStore.loading &&
+            widget.academicWorkStore.list.isNotEmpty) {
+          final discovered = widget.academicWorkStore.page +
+              (widget.academicWorkStore.lastPage ? 0 : 1);
           _notifyPageDiscovered(discovered);
         }
 
-        final showPagination = widget.thesisStore.list.isNotEmpty &&
-            (!widget.thesisStore.lastPage ||
-                widget.thesisStore.page > 1 ||
+        final showPagination = widget.academicWorkStore.list.isNotEmpty &&
+            (!widget.academicWorkStore.lastPage ||
+                widget.academicWorkStore.page > 1 ||
                 widget.maxDiscoveredPage > 1);
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (widget.thesisStore.showProgress)
+            if (widget.academicWorkStore.showProgress)
               const ListLoadingState(color: CustomColors.vanilla_haze)
-            else if (widget.thesisStore.error != null &&
-                widget.thesisStore.list.isEmpty)
+            else if (widget.academicWorkStore.error != null &&
+                widget.academicWorkStore.list.isEmpty)
               ListErrorState(
-                message: 'Não foi possível carregar as dissertações.',
-                onRetry: widget.thesisStore.refreshData,
+                message: 'Não foi possível carregar os trabalhos acadêmicos.',
+                onRetry: widget.academicWorkStore.refreshData,
                 iconColor: CustomColors.copper_spice,
                 messageColor: CustomColors.vanilla_haze,
               )
-            else if (widget.thesisStore.list.isEmpty)
+            else if (widget.academicWorkStore.list.isEmpty)
               const ListEmptyState(
-                message: 'Nenhuma dissertação encontrada.',
+                message: 'Nenhum trabalho acadêmico encontrado.',
                 messageColor: CustomColors.vanilla_haze,
                 iconColor: CustomColors.concrete_mist,
               )
@@ -85,20 +86,20 @@ class _PublicationsThesisListWidgetMobileVersionState
   }
 
   Widget _buildList() {
-    final thesis = widget.thesisStore.list;
+    final academicWorks = widget.academicWorkStore.list;
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
-      itemCount: thesis.length,
+      itemCount: academicWorks.length,
       separatorBuilder: (_, __) => const SizedBox(height: 16),
       itemBuilder: (context, index) {
-        final report = thesis[index];
-        return ThesisTileMobileVersion(
-          thesis: report,
+        final academicWork = academicWorks[index];
+        return AcademicWorkTileMobileVersion(
+          academicWork: academicWork,
           onTap: () => context.push(
-            '/publications/thesis/${report.publication?.id}',
-            extra: report,
+            '/publications/academic-works/${academicWork.publication?.id}',
+            extra: academicWork,
           ),
         );
       },
@@ -106,9 +107,9 @@ class _PublicationsThesisListWidgetMobileVersionState
   }
 
   Widget _buildPageCarousel() {
-    final currentPage = widget.thesisStore.page;
-    final isLastPage = widget.thesisStore.lastPage;
-    final isLoading = widget.thesisStore.loading;
+    final currentPage = widget.academicWorkStore.page;
+    final isLastPage = widget.academicWorkStore.lastPage;
+    final isLoading = widget.academicWorkStore.loading;
 
     final knownFromStore = isLastPage ? currentPage : currentPage + 1;
     final effectiveMaxPage = widget.maxDiscoveredPage > knownFromStore
@@ -124,7 +125,7 @@ class _PublicationsThesisListWidgetMobileVersionState
             ArrowButton(
               icon: Icons.chevron_left_rounded,
               enabled: !isLoading && currentPage > 1,
-              onTap: () => widget.thesisStore.goToPage(currentPage - 1),
+              onTap: () => widget.academicWorkStore.goToPage(currentPage - 1),
               iconColor: CustomColors.midnight_slate,
               disabledIconColor: CustomColors.concrete_mist,
               backgroundColor: Colors.white,
@@ -141,14 +142,14 @@ class _PublicationsThesisListWidgetMobileVersionState
                 page: page,
                 isActive: page == currentPage,
                 enabled: !isLoading,
-                onTap: () => widget.thesisStore.goToPage(page),
+                onTap: () => widget.academicWorkStore.goToPage(page),
               );
             }),
             if (!isLastPage)
               ArrowButton(
                 icon: Icons.chevron_right_rounded,
                 enabled: !isLoading,
-                onTap: () => widget.thesisStore.goToPage(currentPage + 1),
+                onTap: () => widget.academicWorkStore.goToPage(currentPage + 1),
                 iconColor: CustomColors.midnight_slate,
                 disabledIconColor: CustomColors.concrete_mist,
                 backgroundColor: Colors.white,

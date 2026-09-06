@@ -36,8 +36,8 @@ import '../features/projects/screens/project_details_screen.dart';
 import '../features/projects/screens/projects_screen.dart';
 import '../features/publications/models/publications.dart';
 import '../features/publications/screens/publications_screen.dart';
-import '../features/thesis/models/thesis.dart';
-import '../features/thesis/screens/thesis_details_screen.dart';
+import '../features/academic_works/models/academic_work.dart';
+import '../features/academic_works/screens/academic_work_details_screen.dart';
 
 abstract class AppRoutes {
   static const home = '/';
@@ -48,7 +48,7 @@ abstract class AppRoutes {
   static const newsDetail = '/news/:id';
   static const publications = '/publications';
   static const articleDetail = '/publications/articles/:id';
-  static const thesisDetail = '/publications/thesis/:id';
+  static const academicWorkDetail = '/publications/academic-works/:id';
   static const bookDetail = '/publications/books/:id';
   static const bookChapterDetail = '/publications/book-chapters/:id';
   static const events = '/events';
@@ -149,11 +149,11 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: AppRoutes.thesisDetail,
+      path: AppRoutes.academicWorkDetail,
       builder: (context, state) {
         final extra = state.extra;
-        if (extra is! Thesis) return const PublicationsScreen();
-        return ThesisDetailsScreen(thesis: extra);
+        if (extra is! AcademicWork) return const PublicationsScreen();
+        return AcademicWorkDetailsScreen(academicWork: extra);
       },
     ),
     GoRoute(

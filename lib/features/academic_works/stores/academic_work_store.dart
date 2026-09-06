@@ -4,23 +4,24 @@ import 'package:mobx/mobx.dart';
 
 import '../../../core/stores/base_store.dart';
 import '../../../core/stores/filter_search_store.dart';
-import '../models/thesis.dart';
-import '../repositories/thesis_repository.dart';
+import '../models/academic_work.dart';
+import '../repositories/academic_work_repository.dart';
 
-part 'thesis_store.g.dart';
+part 'academic_work_store.g.dart';
 
-class ThesisStore = ThesisStoreBase with _$ThesisStore;
+class AcademicWorkStore = AcademicWorkStoreBase with _$AcademicWorkStore;
 
-abstract class ThesisStoreBase extends BaseStore<Thesis> with Store {
-  final ThesisRepository _repository = ThesisRepository();
+abstract class AcademicWorkStoreBase extends BaseStore<AcademicWork>
+    with Store {
+  final AcademicWorkRepository _repository = AcademicWorkRepository();
 
-  ThesisStoreBase({this.pageSize = 15}) {
+  AcademicWorkStoreBase({this.pageSize = 15}) {
     loadData();
   }
 
   final int pageSize;
 
-  List<Thesis> _cachedTheses = [];
+  List<AcademicWork> _cachedAcademicWorks = [];
 
   @observable
   FilterSearchStore filterStore = FilterSearchStore();
@@ -31,7 +32,7 @@ abstract class ThesisStoreBase extends BaseStore<Thesis> with Store {
   void setFilter(FilterSearchStore value) {
     filterStore = value;
     setPage(1);
-    if (_cachedTheses.isEmpty) {
+    if (_cachedAcademicWorks.isEmpty) {
       setLastPage(false);
       setData([]);
       loadData();
@@ -69,7 +70,7 @@ abstract class ThesisStoreBase extends BaseStore<Thesis> with Store {
   @action
   Future<void> refreshData() async {
     await Future.delayed(const Duration(milliseconds: 100));
-    _cachedTheses = [];
+    _cachedAcademicWorks = [];
     resetPage();
   }
 
@@ -77,7 +78,7 @@ abstract class ThesisStoreBase extends BaseStore<Thesis> with Store {
   void goToPage(int targetPage) {
     if (loading || targetPage == _page) return;
     setPage(targetPage);
-    if (_cachedTheses.isNotEmpty) {
+    if (_cachedAcademicWorks.isNotEmpty) {
       _applyPage();
     } else {
       setLastPage(false);
@@ -88,7 +89,7 @@ abstract class ThesisStoreBase extends BaseStore<Thesis> with Store {
 
   @action
   void resetPage() {
-    _cachedTheses = [];
+    _cachedAcademicWorks = [];
     setPage(1);
     setLastPage(false);
     setData([]);
@@ -98,8 +99,8 @@ abstract class ThesisStoreBase extends BaseStore<Thesis> with Store {
   void _applyPage() {
     final query = filterStore.search.toLowerCase().trim();
     final filtered = query.isEmpty
-        ? _cachedTheses
-        : _cachedTheses
+        ? _cachedAcademicWorks
+        : _cachedAcademicWorks
             .where((r) =>
                 (r.publication?.title ?? '').toLowerCase().contains(query))
             .toList();
@@ -114,15 +115,15 @@ abstract class ThesisStoreBase extends BaseStore<Thesis> with Store {
     setLoading(true);
     setError(null);
     try {
-      if (_cachedTheses.isEmpty) {
-        _cachedTheses = await _repository.findAllThesis(
+      if (_cachedAcademicWorks.isEmpty) {
+        _cachedAcademicWorks = await _repository.findAllAcademicWorks(
           filterSearchStore: filterStore,
         );
       }
       _applyPage();
     } catch (e, s) {
       log(
-        'ThesisStore: Erro ao carregar Dissertações e Teses (página $_page)',
+        'AcademicWorkStore: Erro ao carregar Trabalhos Acadêmicos (página $_page)',
         error: e.toString(),
         stackTrace: s,
       );

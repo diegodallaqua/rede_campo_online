@@ -15,6 +15,24 @@ class BookChapterHeaderSectionMobileVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Nome e ISBN do livro vinculado têm precedência sobre os do próprio
+    // capítulo.
+    final bookName = bookChapter.displayBookName ?? '';
+    final isbn = bookChapter.displayIsbn ?? '';
+    final pageRange = bookChapter.pageRange;
+    final publicationDate = bookChapter.publication?.publication_date;
+
+    final infoLines = <Widget>[
+      if (bookName.isNotEmpty) _InfoLine(label: 'Livro', value: bookName),
+      if (isbn.isNotEmpty) _InfoLine(label: 'ISBN', value: isbn),
+      if (pageRange.isNotEmpty) _InfoLine(label: 'Páginas', value: pageRange),
+      if (publicationDate != null)
+        _InfoLine(
+          label: 'Publicado em',
+          value: publicationDate.formattedDate(),
+        ),
+    ];
+
     return Container(
       color: CustomColors.vanilla_haze,
       padding: const EdgeInsets.fromLTRB(24, 32, 24, 28),
@@ -55,46 +73,10 @@ class BookChapterHeaderSectionMobileVersion extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (bookChapter.book_name != null &&
-                    bookChapter.book_name!.isNotEmpty) ...[
-                  RichText(
-                    text: TextSpan(
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: CustomColors.pine_shadow,
-                        height: 1.5,
-                      ),
-                      children: [
-                        const TextSpan(
-                          text: 'Livro: ',
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        TextSpan(text: bookChapter.book_name),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 8),
+                for (int i = 0; i < infoLines.length; i++) ...[
+                  infoLines[i],
+                  if (i < infoLines.length - 1) const SizedBox(height: 8),
                 ],
-                if (bookChapter.publication?.publication_date != null)
-                  RichText(
-                    text: TextSpan(
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: CustomColors.pine_shadow,
-                        height: 1.5,
-                      ),
-                      children: [
-                        const TextSpan(
-                          text: 'Publicado em: ',
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        TextSpan(
-                          text: bookChapter.publication?.publication_date
-                              ?.formattedDate(),
-                        ),
-                      ],
-                    ),
-                  ),
               ],
             ),
           ),
@@ -115,6 +97,33 @@ class BookChapterHeaderSectionMobileVersion extends StatelessWidget {
               ),
             ),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+class _InfoLine extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _InfoLine({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        style: const TextStyle(
+          fontSize: 13,
+          color: CustomColors.pine_shadow,
+          height: 1.5,
+        ),
+        children: [
+          TextSpan(
+            text: '$label: ',
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
+          TextSpan(text: value),
         ],
       ),
     );

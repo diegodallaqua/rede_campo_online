@@ -4,7 +4,7 @@ enum PublicationType {
   article('Artigo'),
   book('Livro'),
   bookChapter('Capítulo de Livro'),
-  thesis('Tese');
+  academicWork('Trabalho Acadêmico');
 
   final String label;
 

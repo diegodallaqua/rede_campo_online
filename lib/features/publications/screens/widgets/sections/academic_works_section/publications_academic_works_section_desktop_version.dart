@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
-import 'package:rede_campo_online/features/thesis/stores/thesis_store.dart';
+import 'package:rede_campo_online/features/academic_works/stores/academic_work_store.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
-import '../../listing/thesis/publications_thesis_list_widget_desktop_version.dart';
+import '../../listing/academic_works/publications_academic_works_list_widget_desktop_version.dart';
 
-class PublicationsThesisSectionDesktopVersion extends StatefulWidget {
-  final ThesisStore thesisStore;
+class PublicationsAcademicWorksSectionDesktopVersion extends StatefulWidget {
+  final AcademicWorkStore academicWorkStore;
   final TextEditingController searchController;
   final ValueChanged<String> onSearch;
 
-  const PublicationsThesisSectionDesktopVersion({
+  const PublicationsAcademicWorksSectionDesktopVersion({
     super.key,
-    required this.thesisStore,
+    required this.academicWorkStore,
     required this.searchController,
     required this.onSearch,
   });
 
   @override
-  State<PublicationsThesisSectionDesktopVersion> createState() =>
-      _PublicationsThesisSectionDesktopVersionState();
+  State<PublicationsAcademicWorksSectionDesktopVersion> createState() =>
+      _PublicationsAcademicWorksSectionDesktopVersionState();
 }
 
-class _PublicationsThesisSectionDesktopVersionState
-    extends State<PublicationsThesisSectionDesktopVersion> {
+class _PublicationsAcademicWorksSectionDesktopVersionState
+    extends State<PublicationsAcademicWorksSectionDesktopVersion> {
   int _maxDiscoveredPage = 1;
 
   @override
@@ -44,7 +44,7 @@ class _PublicationsThesisSectionDesktopVersionState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Dissertações',
+                          'Trabalhos Acadêmicos',
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.w700,
@@ -68,15 +68,15 @@ class _PublicationsThesisSectionDesktopVersionState
                       child: CustomSearchBar(
                         controller: widget.searchController,
                         onSubmitted: widget.onSearch,
-                        hintText: 'Pesquisar dissertações',
+                        hintText: 'Pesquisar trabalhos acadêmicos',
                       ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 24),
-              PublicationsThesisListWidgetDesktopVersion(
-                thesisStore: widget.thesisStore,
+              PublicationsAcademicWorksListWidgetDesktopVersion(
+                academicWorkStore: widget.academicWorkStore,
                 maxDiscoveredPage: _maxDiscoveredPage,
                 onPageDiscovered: (newMax) {
                   if (newMax != _maxDiscoveredPage) {

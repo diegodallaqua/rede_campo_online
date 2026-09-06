@@ -8,39 +8,40 @@ import '../../../core/ui/widgets/layout/footer.dart';
 import '../../../core/ui/theme/custom_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/stores/translation_store.dart';
-import '../models/thesis.dart';
-import 'widgets/sections/header_section/thesis_header_section_desktop_version.dart';
-import 'widgets/sections/header_section/thesis_header_section_mobile_version.dart';
+import '../models/academic_work.dart';
+import 'widgets/sections/header_section/academic_work_header_section_desktop_version.dart';
+import 'widgets/sections/header_section/academic_work_header_section_mobile_version.dart';
 
-class ThesisDetailsScreen extends StatefulWidget {
-  final Thesis thesis;
+class AcademicWorkDetailsScreen extends StatefulWidget {
+  final AcademicWork academicWork;
 
-  const ThesisDetailsScreen({super.key, required this.thesis});
+  const AcademicWorkDetailsScreen({super.key, required this.academicWork});
 
   @override
-  State<ThesisDetailsScreen> createState() => _ThesisDetailsScreenState();
+  State<AcademicWorkDetailsScreen> createState() =>
+      _AcademicWorkDetailsScreenState();
 }
 
-class _ThesisDetailsScreenState extends State<ThesisDetailsScreen> {
+class _AcademicWorkDetailsScreenState extends State<AcademicWorkDetailsScreen> {
   late final TranslationStore translationStore;
 
-  static const _authorsTitle = 'Autores da Dissertação';
+  static const _authorsTitle = 'Autores do Trabalho';
   static const _authorsEmptyMessage =
-      'Nenhum autor vinculado a esta dissertação.';
+      'Nenhum autor vinculado a este trabalho.';
 
   @override
   void initState() {
     super.initState();
     translationStore = TranslationStore();
     translationStore.fetchTranslation(
-      widget.thesis.publication?.abstract ?? '',
+      widget.academicWork.publication?.abstract ?? '',
     );
   }
 
   String get _publishedLabel {
     final parts = <String>[];
-    final org = widget.thesis.organization?.name ?? '';
-    final date = widget.thesis.publication?.publication_date;
+    final org = widget.academicWork.organization?.name ?? '';
+    final date = widget.academicWork.publication?.publication_date;
     if (org.isNotEmpty) parts.add(org);
     if (date != null) {
       final dateStr = date.formattedDate();
@@ -51,8 +52,8 @@ class _ThesisDetailsScreenState extends State<ThesisDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final abstractText = widget.thesis.publication?.abstract ?? '';
-    final contributors = widget.thesis.publication?.contributors ?? [];
+    final abstractText = widget.academicWork.publication?.abstract ?? '';
+    final contributors = widget.academicWork.publication?.contributors ?? [];
 
     return AppScaffold(
       body: ResponsiveVisibility(
@@ -63,12 +64,15 @@ class _ThesisDetailsScreenState extends State<ThesisDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ThesisHeaderSectionMobileVersion(thesis: widget.thesis),
+              AcademicWorkHeaderSectionMobileVersion(
+                academicWork: widget.academicWork,
+              ),
               AbstractSectionMobileVersion(
                 abstractText: abstractText,
                 store: translationStore,
                 publishedLabel: _publishedLabel,
-                researchAreas: widget.thesis.publication?.research_areas ?? [],
+                researchAreas:
+                    widget.academicWork.publication?.research_areas ?? [],
               ),
               ColoredBox(
                 color: CustomColors.midnight_slate,
@@ -88,7 +92,9 @@ class _ThesisDetailsScreenState extends State<ThesisDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ThesisHeaderSectionDesktopVersion(thesis: widget.thesis),
+              AcademicWorkHeaderSectionDesktopVersion(
+                academicWork: widget.academicWork,
+              ),
               ColoredBox(
                 color: CustomColors.midnight_slate,
                 child: Column(

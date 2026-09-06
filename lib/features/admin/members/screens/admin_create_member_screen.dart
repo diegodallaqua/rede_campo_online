@@ -36,6 +36,7 @@ class _AdminCreateMemberScreenState extends State<AdminCreateMemberScreen> {
   late final TextEditingController _descriptionController;
   late final TextEditingController _lattesUrlController;
   late final TextEditingController _linkedInUrlController;
+  late final TextEditingController _instagramUrlController;
 
   @override
   void initState() {
@@ -52,6 +53,8 @@ class _AdminCreateMemberScreenState extends State<AdminCreateMemberScreen> {
         TextEditingController(text: widget.member?.lattesUrl ?? '');
     _linkedInUrlController =
         TextEditingController(text: widget.member?.linkedInUrl ?? '');
+    _instagramUrlController =
+        TextEditingController(text: widget.member?.instagramUrl ?? '');
 
     _nameController
         .addListener(() => _createMemberStore.setName(_nameController.text));
@@ -65,6 +68,8 @@ class _AdminCreateMemberScreenState extends State<AdminCreateMemberScreen> {
         () => _createMemberStore.setLattesUrl(_lattesUrlController.text));
     _linkedInUrlController.addListener(
         () => _createMemberStore.setLinkedInUrl(_linkedInUrlController.text));
+    _instagramUrlController.addListener(
+        () => _createMemberStore.setInstagramUrl(_instagramUrlController.text));
 
     _whenDisposer = when(
       (_) => _createMemberStore.savedOrUpdatedOrDeleted,
@@ -98,6 +103,7 @@ class _AdminCreateMemberScreenState extends State<AdminCreateMemberScreen> {
     _descriptionController.dispose();
     _lattesUrlController.dispose();
     _linkedInUrlController.dispose();
+    _instagramUrlController.dispose();
     super.dispose();
   }
 
@@ -239,9 +245,19 @@ class _AdminCreateMemberScreenState extends State<AdminCreateMemberScreen> {
                         controller: _linkedInUrlController,
                         prefixIcon: Icons.link_rounded,
                         keyboardType: TextInputType.url,
-                        textInputAction: TextInputAction.done,
+                        textInputAction: TextInputAction.next,
                         autovalidateMode: AutovalidateMode.always,
                         validator: (_) => _createMemberStore.linkedInUrlError,
+                      ),
+                      const SizedBox(height: 16),
+                      CustomTextField(
+                        label: 'Instagram (opcional)',
+                        controller: _instagramUrlController,
+                        prefixIcon: Icons.camera_alt_outlined,
+                        keyboardType: TextInputType.url,
+                        textInputAction: TextInputAction.done,
+                        autovalidateMode: AutovalidateMode.always,
+                        validator: (_) => _createMemberStore.instagramUrlError,
                       ),
                       const SizedBox(height: 16),
                       Observer(

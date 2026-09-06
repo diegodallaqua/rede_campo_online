@@ -103,7 +103,7 @@ abstract class BookChaptersStoreBase extends BaseStore<BookChapters>
         : _cachedChapters
             .where((c) =>
                 (c.publication?.title ?? '').toLowerCase().contains(query) ||
-                (c.book_name ?? '').toLowerCase().contains(query))
+                (c.displayBookName ?? '').toLowerCase().contains(query))
             .toList();
     final total = filtered.length;
     final start = (_page - 1) * pageSize;

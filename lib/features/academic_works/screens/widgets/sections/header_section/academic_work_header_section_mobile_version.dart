@@ -2,20 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
-import '../../../../models/thesis.dart';
+import '../../../../../../core/utils/formatters.dart';
+import '../../../../models/academic_work.dart';
 
-class ThesisHeaderSectionMobileVersion extends StatelessWidget {
-  final Thesis thesis;
+class AcademicWorkHeaderSectionMobileVersion extends StatelessWidget {
+  final AcademicWork academicWork;
 
-  const ThesisHeaderSectionMobileVersion({
+  const AcademicWorkHeaderSectionMobileVersion({
     super.key,
-    required this.thesis,
+    required this.academicWork,
   });
 
   @override
   Widget build(BuildContext context) {
-    final title = thesis.publication?.title ?? '-';
-    final doi = thesis.publication?.doi ?? '';
+    final title = academicWork.publication?.title ?? '-';
+    final doi = academicWork.publication?.doi ?? '';
+    final typeLabel = academicWork.academic_work_type?.label ?? '';
+    final pages = academicWork.number_of_pages;
+    final defenseDate = academicWork.defense_date;
+
+    final details = [
+      if (defenseDate != null) 'Defendido em ${defenseDate.formattedDate()}',
+      if (pages != null && pages > 0) '$pages páginas',
+    ].join('  ·  ');
 
     return Container(
       color: CustomColors.vanilla_haze,
@@ -23,6 +32,19 @@ class ThesisHeaderSectionMobileVersion extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          if (typeLabel.isNotEmpty) ...[
+            Text(
+              typeLabel.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: CustomColors.pine_shadow,
+                letterSpacing: 1.5,
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
           Text(
             title,
             style: const TextStyle(
@@ -34,6 +56,17 @@ class ThesisHeaderSectionMobileVersion extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
+          if (details.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            Text(
+              details,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 12,
+                color: CustomColors.pine_shadow,
+              ),
+            ),
+          ],
           if (doi.isNotEmpty) ...[
             const SizedBox(height: 12),
             _DoiLink(doi: doi),

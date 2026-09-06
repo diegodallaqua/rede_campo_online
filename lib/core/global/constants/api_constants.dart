@@ -1,5 +1,5 @@
 enum BaseEnvironment {
-  development('http://127.0.0.1:3308');
+  development('http://192.168.0.131:3333');
   //production('https://');
 
   final String baseURL;
@@ -59,8 +59,11 @@ const bookChaptersURL = '/book-chapters/';
 // BOOK
 const booksURL = '/books/';
 
-// THESIS
-const thesisURL = '/thesis/';
+// ACADEMIC WORKS
+const academicWorksURL = '/academic-works/';
+
+// ACADEMIC WORK TYPES
+const academicWorkTypesURL = '/academic-work-types/';
 
 // RESEARCH AREAS
 const researchAreasURL = '/research-areas/';

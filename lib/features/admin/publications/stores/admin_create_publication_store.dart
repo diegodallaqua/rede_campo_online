@@ -1,9 +1,11 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
+import 'package:rede_campo_online/core/models/academic_work_types.dart';
 import 'package:rede_campo_online/core/models/contributor.dart';
 import 'package:rede_campo_online/core/models/contributor_roles.dart';
 import 'package:rede_campo_online/core/models/organizations.dart';
 import 'package:rede_campo_online/core/models/research_areas.dart';
+import 'package:rede_campo_online/core/repositories/academic_work_types_repository.dart';
 import 'package:rede_campo_online/core/repositories/contributor_roles_repository.dart';
 import 'package:rede_campo_online/core/repositories/contributors_repository.dart';
 import 'package:rede_campo_online/core/repositories/external_authors_repository.dart';
@@ -24,8 +26,8 @@ import 'package:rede_campo_online/features/projects/models/projects.dart';
 import 'package:rede_campo_online/features/projects/repositories/projects_repository.dart';
 import 'package:rede_campo_online/features/publications/models/publications.dart';
 import 'package:rede_campo_online/features/publications/repositories/publications_repository.dart';
-import 'package:rede_campo_online/features/thesis/models/thesis.dart';
-import 'package:rede_campo_online/features/thesis/repositories/thesis_repository.dart';
+import 'package:rede_campo_online/features/academic_works/models/academic_work.dart';
+import 'package:rede_campo_online/features/academic_works/repositories/academic_work_repository.dart';
 
 part 'admin_create_publication_store.g.dart';
 
@@ -50,6 +52,8 @@ abstract class AdminCreatePublicationStoreBase with Store {
     loadMembers();
     loadContributorRoles();
     loadOrganizations();
+    loadAcademicWorkTypes();
+    loadBooks();
     loadProjects();
     if (editing) {
       // O tipo e seus atributos chegam inline em `details`; se ausentes
@@ -67,11 +71,12 @@ abstract class AdminCreatePublicationStoreBase with Store {
   final _articlesRepository = ArticlesRepository();
   final _booksRepository = BooksRepository();
   final _bookChaptersRepository = BookChaptersRepository();
-  final _thesisRepository = ThesisRepository();
+  final _academicWorkRepository = AcademicWorkRepository();
   final _contributorsRepository = ContributorsRepository();
   final _externalAuthorsRepository = ExternalAuthorsRepository();
   final _contributorRolesRepository = ContributorRolesRepository();
   final _organizationsRepository = OrganizationsRepository();
+  final _academicWorkTypesRepository = AcademicWorkTypesRepository();
   final _researchAreasRepository = ResearchAreasRepository();
   final _membersRepository = MembersRepository();
   final _projectsRepository = ProjectsRepository();
@@ -86,6 +91,8 @@ abstract class AdminCreatePublicationStoreBase with Store {
   final availableMembers = ObservableList<Members>();
   final availableContributorRoles = ObservableList<ContributorRoles>();
   final availableProjects = ObservableList<Projects>();
+  final availableAcademicWorkTypes = ObservableList<AcademicWorkType>();
+  final availableBooks = ObservableList<Books>();
 
   ObservableList<Organizations> get availableOrganizations =>
       _organizationsList;
@@ -130,6 +137,28 @@ abstract class AdminCreatePublicationStoreBase with Store {
         _organizationsList
           ..clear()
           ..addAll(organizations);
+      });
+    } catch (_) {}
+  }
+
+  Future<void> loadAcademicWorkTypes() async {
+    try {
+      final types = await _academicWorkTypesRepository.findAll();
+      runInAction(() {
+        availableAcademicWorkTypes
+          ..clear()
+          ..addAll(types);
+      });
+    } catch (_) {}
+  }
+
+  Future<void> loadBooks() async {
+    try {
+      final books = await _booksRepository.findAllBooks(take: 100);
+      runInAction(() {
+        availableBooks
+          ..clear()
+          ..addAll(books);
       });
     } catch (_) {}
   }
@@ -283,9 +312,10 @@ abstract class AdminCreatePublicationStoreBase with Store {
         return;
       }
 
-      final thesis = await _thesisRepository.findByPublicationId(id);
-      if (thesis != null) {
-        _applyThesis(thesis);
+      final academicWork =
+          await _academicWorkRepository.findByPublicationId(id);
+      if (academicWork != null) {
+        _applyAcademicWork(academicWork);
         _setLoadingType(false);
         return;
       }
@@ -330,11 +360,11 @@ abstract class AdminCreatePublicationStoreBase with Store {
         }
       }
 
-      final theses = await _thesisRepository.findAllThesis(
+      final academicWorks = await _academicWorkRepository.findAllAcademicWorks(
           filterSearchStore: filter, take: 100);
-      for (final t in theses) {
-        if (t.publication?.id == id) {
-          _applyThesis(t);
+      for (final a in academicWorks) {
+        if (a.publication?.id == id) {
+          _applyAcademicWork(a);
           return true;
         }
       }
@@ -350,8 +380,10 @@ abstract class AdminCreatePublicationStoreBase with Store {
         return PublicationType.book;
       case 'book_chapter':
         return PublicationType.bookChapter;
+      // `thesis` é aceito por compatibilidade com o nome anterior do tipo.
+      case 'academic_work':
       case 'thesis':
-        return PublicationType.thesis;
+        return PublicationType.academicWork;
     }
     return null;
   }
@@ -380,12 +412,31 @@ abstract class AdminCreatePublicationStoreBase with Store {
       case PublicationType.bookChapter:
         _bookName = (d['book_name'] ?? '').toString();
         _chapterNumber = d['chapter_number']?.toString() ?? '';
-      case PublicationType.thesis:
+        _book = d['book'] is Map
+            ? Books.fromMap(Map<String, dynamic>.from(d['book']))
+            : (d['book_id'] != null
+                ? Books(
+                    publication: Publications(
+                      id: int.tryParse(d['book_id'].toString()),
+                    ),
+                  )
+                : null);
+        _chapterIsbn = (d['isbn'] ?? '').toString();
+        _startPage = d['start_page']?.toString() ?? '';
+        _endPage = d['end_page']?.toString() ?? '';
+      case PublicationType.academicWork:
         _organization = d['organization'] is Map
             ? Organizations.fromMap(
                 Map<String, dynamic>.from(d['organization']))
             : null;
         _numberOfPages = d['number_of_pages']?.toString() ?? '';
+        _academicWorkType = d['academic_work_type'] is Map
+            ? AcademicWorkType.fromMap(
+                Map<String, dynamic>.from(d['academic_work_type']))
+            : null;
+        _defenseDate = d['defense_date'] != null
+            ? DateTime.tryParse(d['defense_date'].toString())
+            : null;
     }
   }
 
@@ -414,13 +465,19 @@ abstract class AdminCreatePublicationStoreBase with Store {
     _publicationType = PublicationType.bookChapter;
     _bookName = c.book_name ?? '';
     _chapterNumber = c.chapter_number?.toString() ?? '';
+    _book = c.book;
+    _chapterIsbn = c.isbn ?? '';
+    _startPage = c.start_page?.toString() ?? '';
+    _endPage = c.end_page?.toString() ?? '';
   }
 
   @action
-  void _applyThesis(Thesis t) {
-    _publicationType = PublicationType.thesis;
-    _organization = t.organization;
-    _numberOfPages = t.number_of_pages?.toString() ?? '';
+  void _applyAcademicWork(AcademicWork a) {
+    _publicationType = PublicationType.academicWork;
+    _organization = a.organization;
+    _numberOfPages = a.number_of_pages?.toString() ?? '';
+    _academicWorkType = a.academic_work_type;
+    _defenseDate = a.defense_date;
   }
 
   @computed
@@ -580,7 +637,8 @@ abstract class AdminCreatePublicationStoreBase with Store {
   bool get _isBookChapter => _publicationType == PublicationType.bookChapter;
 
   @computed
-  bool get bookNameValid => !_isBookChapter || _bookName.trim().isNotEmpty;
+  bool get bookNameValid =>
+      !_isBookChapter || hasLinkedBook || _bookName.trim().isNotEmpty;
 
   String? get bookNameError {
     if (!showErrors || bookNameValid) return null;
@@ -600,7 +658,81 @@ abstract class AdminCreatePublicationStoreBase with Store {
     return 'Informe um número válido';
   }
 
-  // Tese
+  /// Livro ao qual o capítulo pertence. Vínculo opcional.
+  @readonly
+  Books? _book;
+
+  @action
+  void setBook(Books? value) => _book = value;
+
+  @readonly
+  late String _chapterIsbn = '';
+
+  @action
+  void setChapterIsbn(String value) => _chapterIsbn = value;
+
+  @readonly
+  late String _startPage = '';
+
+  @action
+  void setStartPage(String value) => _startPage = value;
+
+  @readonly
+  late String _endPage = '';
+
+  @action
+  void setEndPage(String value) => _endPage = value;
+
+  /// Com um livro vinculado, o nome e o ISBN exibidos passam a ser os dele,
+  /// então os campos equivalentes do capítulo deixam de ser pedidos.
+  @computed
+  bool get hasLinkedBook => _book != null;
+
+  // ISBN opcional do capítulo; quando preenchido, segue o mesmo formato do
+  // ISBN do livro (ISBN-10 ou ISBN-13, com ou sem hífens/espaços).
+  @computed
+  bool get chapterIsbnValid {
+    if (!_isBookChapter || hasLinkedBook) return true;
+    final value = _chapterIsbn.trim();
+    if (value.isEmpty) return true;
+    final digits = value.replaceAll(RegExp(r'[\s-]'), '');
+    return RegExp(r'^(\d{9}[\dXx]|\d{13})$').hasMatch(digits);
+  }
+
+  String? get chapterIsbnError {
+    if (!showErrors || chapterIsbnValid) return null;
+    return 'Informe um ISBN válido (10 ou 13 dígitos)';
+  }
+
+  @computed
+  bool get startPageValid {
+    if (!_isBookChapter || _startPage.trim().isEmpty) return true;
+    final page = int.tryParse(_startPage.trim());
+    return page != null && page > 0;
+  }
+
+  String? get startPageError {
+    if (!showErrors || startPageValid) return null;
+    return 'Informe um número válido';
+  }
+
+  @computed
+  bool get endPageValid {
+    if (!_isBookChapter || _endPage.trim().isEmpty) return true;
+    final page = int.tryParse(_endPage.trim());
+    if (page == null || page <= 0) return false;
+    final start = int.tryParse(_startPage.trim());
+    return start == null || page >= start;
+  }
+
+  String? get endPageError {
+    if (!showErrors || endPageValid) return null;
+    final page = int.tryParse(_endPage.trim());
+    if (page == null || page <= 0) return 'Informe um número válido';
+    return 'A página final não pode ser menor que a inicial';
+  }
+
+  // Trabalho Acadêmico
   @readonly
   Organizations? _organization;
 
@@ -613,10 +745,23 @@ abstract class AdminCreatePublicationStoreBase with Store {
   @action
   void setNumberOfPages(String value) => _numberOfPages = value;
 
-  bool get _isThesis => _publicationType == PublicationType.thesis;
+  @readonly
+  AcademicWorkType? _academicWorkType;
+
+  @action
+  void setAcademicWorkType(AcademicWorkType? value) =>
+      _academicWorkType = value;
+
+  @readonly
+  DateTime? _defenseDate;
+
+  @action
+  void setDefenseDate(DateTime? value) => _defenseDate = value;
+
+  bool get _isAcademicWork => _publicationType == PublicationType.academicWork;
 
   @computed
-  bool get organizationValid => !_isThesis || _organization?.id != null;
+  bool get organizationValid => !_isAcademicWork || _organization?.id != null;
 
   String? get organizationError {
     if (!showErrors || organizationValid) return null;
@@ -625,7 +770,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
 
   @computed
   bool get numberOfPagesValid {
-    if (!_isThesis) return true;
+    if (!_isAcademicWork) return true;
     final number = int.tryParse(_numberOfPages.trim());
     return number != null && number > 0;
   }
@@ -634,6 +779,23 @@ abstract class AdminCreatePublicationStoreBase with Store {
     if (!showErrors || numberOfPagesValid) return null;
     if (_numberOfPages.trim().isEmpty) return 'Campo obrigatório';
     return 'Informe um número válido';
+  }
+
+  @computed
+  bool get academicWorkTypeValid =>
+      !_isAcademicWork || _academicWorkType?.id != null;
+
+  String? get academicWorkTypeError {
+    if (!showErrors || academicWorkTypeValid) return null;
+    return 'Campo obrigatório';
+  }
+
+  @computed
+  bool get defenseDateValid => !_isAcademicWork || _defenseDate != null;
+
+  String? get defenseDateError {
+    if (!showErrors || defenseDateValid) return null;
+    return 'Campo obrigatório';
   }
 
   @readonly
@@ -675,8 +837,13 @@ abstract class AdminCreatePublicationStoreBase with Store {
       bookUrlValid &&
       bookNameValid &&
       chapterNumberValid &&
+      chapterIsbnValid &&
+      startPageValid &&
+      endPageValid &&
       organizationValid &&
-      numberOfPagesValid;
+      numberOfPagesValid &&
+      academicWorkTypeValid &&
+      defenseDateValid;
 
   Publications _buildPublication() => Publications(
         id: publication.id,
@@ -802,6 +969,22 @@ abstract class AdminCreatePublicationStoreBase with Store {
     return upload.urlSmall.isNotEmpty ? upload.urlSmall : upload.bestUrl;
   }
 
+  /// Nome do livro gravado no capítulo: com um livro vinculado, o título dele
+  /// prevalece; sem vínculo, o valor digitado no formulário.
+  String get _resolvedBookName {
+    final linkedTitle = _book?.publication?.title;
+    if (linkedTitle != null && linkedTitle.isNotEmpty) return linkedTitle;
+    return _bookName.trim();
+  }
+
+  /// ISBN gravado no capítulo: nulo quando há livro vinculado (o ISBN passa a
+  /// ser o do livro) ou quando o campo foi deixado em branco.
+  String? get _resolvedChapterIsbn {
+    if (hasLinkedBook) return null;
+    final value = _chapterIsbn.trim();
+    return value.isEmpty ? null : value;
+  }
+
   Future<void> _createTypeRecord(int publicationId) async {
     final publicationRef = Publications(id: publicationId);
 
@@ -827,14 +1010,20 @@ abstract class AdminCreatePublicationStoreBase with Store {
       case PublicationType.bookChapter:
         await _bookChaptersRepository.createBookChapters(BookChapters(
           publication: publicationRef,
-          book_name: _bookName.trim(),
+          book_name: _resolvedBookName,
           chapter_number: num.parse(_chapterNumber.trim()),
+          book: _book,
+          isbn: _resolvedChapterIsbn,
+          start_page: int.tryParse(_startPage.trim()),
+          end_page: int.tryParse(_endPage.trim()),
         ));
-      case PublicationType.thesis:
-        await _thesisRepository.createThesis(Thesis(
+      case PublicationType.academicWork:
+        await _academicWorkRepository.createAcademicWork(AcademicWork(
           publication: publicationRef,
           organization: _organization,
           number_of_pages: int.parse(_numberOfPages.trim()),
+          academic_work_type: _academicWorkType,
+          defense_date: _defenseDate,
         ));
     }
   }
@@ -868,14 +1057,20 @@ abstract class AdminCreatePublicationStoreBase with Store {
       case PublicationType.bookChapter:
         await _bookChaptersRepository.editBookChapters(BookChapters(
           publication: publicationRef,
-          book_name: _bookName.trim(),
+          book_name: _resolvedBookName,
           chapter_number: num.parse(_chapterNumber.trim()),
+          book: _book,
+          isbn: _resolvedChapterIsbn,
+          start_page: int.tryParse(_startPage.trim()),
+          end_page: int.tryParse(_endPage.trim()),
         ));
-      case PublicationType.thesis:
-        await _thesisRepository.editThesis(Thesis(
+      case PublicationType.academicWork:
+        await _academicWorkRepository.editAcademicWork(AcademicWork(
           publication: publicationRef,
           organization: _organization,
           number_of_pages: int.parse(_numberOfPages.trim()),
+          academic_work_type: _academicWorkType,
+          defense_date: _defenseDate,
         ));
     }
   }

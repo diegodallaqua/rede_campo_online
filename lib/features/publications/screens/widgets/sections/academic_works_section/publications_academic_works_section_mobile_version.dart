@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
-import 'package:rede_campo_online/features/thesis/stores/thesis_store.dart';
+import 'package:rede_campo_online/features/academic_works/stores/academic_work_store.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
-import '../../listing/thesis/publications_thesis_list_widget_mobile_version.dart';
+import '../../listing/academic_works/publications_academic_works_list_widget_mobile_version.dart';
 
-class PublicationsThesisSectionMobileVersion extends StatefulWidget {
-  final ThesisStore thesisStore;
+class PublicationsAcademicWorksSectionMobileVersion extends StatefulWidget {
+  final AcademicWorkStore academicWorkStore;
   final TextEditingController searchController;
   final ValueChanged<String> onSearch;
 
-  const PublicationsThesisSectionMobileVersion({
+  const PublicationsAcademicWorksSectionMobileVersion({
     super.key,
-    required this.thesisStore,
+    required this.academicWorkStore,
     required this.searchController,
     required this.onSearch,
   });
 
   @override
-  State<PublicationsThesisSectionMobileVersion> createState() =>
-      _PublicationsThesisSectionMobileVersionState();
+  State<PublicationsAcademicWorksSectionMobileVersion> createState() =>
+      _PublicationsAcademicWorksSectionMobileVersionState();
 }
 
-class _PublicationsThesisSectionMobileVersionState
-    extends State<PublicationsThesisSectionMobileVersion> {
+class _PublicationsAcademicWorksSectionMobileVersionState
+    extends State<PublicationsAcademicWorksSectionMobileVersion> {
   int _maxDiscoveredPage = 1;
 
   @override
@@ -33,7 +33,7 @@ class _PublicationsThesisSectionMobileVersionState
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Text(
-            'Dissertações',
+            'Trabalhos Acadêmicos',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24,
@@ -46,11 +46,11 @@ class _PublicationsThesisSectionMobileVersionState
           CustomSearchBar(
             controller: widget.searchController,
             onSubmitted: widget.onSearch,
-            hintText: 'Pesquisar dissertações',
+            hintText: 'Pesquisar trabalhos acadêmicos',
           ),
           const SizedBox(height: 16),
-          PublicationsThesisListWidgetMobileVersion(
-            thesisStore: widget.thesisStore,
+          PublicationsAcademicWorksListWidgetMobileVersion(
+            academicWorkStore: widget.academicWorkStore,
             maxDiscoveredPage: _maxDiscoveredPage,
             onPageDiscovered: (newMax) {
               if (newMax > _maxDiscoveredPage) {

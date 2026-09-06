@@ -24,7 +24,8 @@ class BookChapterTileMobileVersion extends StatelessWidget {
   Widget build(BuildContext context) {
     final pub = bookChapter.publication;
     final title = pub?.title ?? '-';
-    final bookName = bookChapter.book_name ?? '';
+    // O nome do livro vinculado tem precedência sobre o do próprio capítulo.
+    final bookName = bookChapter.displayBookName ?? '';
     final chapterNumber = bookChapter.chapter_number;
     final date = pub?.publication_date;
     final year = date != null ? date.year.toString() : '';

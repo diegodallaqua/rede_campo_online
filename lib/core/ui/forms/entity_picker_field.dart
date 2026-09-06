@@ -5,7 +5,7 @@ import 'package:rede_campo_online/core/ui/widgets/dialogs/entity_picker_dialog.d
 
 /// Campo genérico de seleção única que abre um EntityPickerDialog com barra
 /// de pesquisa, no mesmo padrão visual do ResearchAreasField. Usado para os
-/// campos de projeto/endereço do evento e organização da tese.
+/// campos de projeto/endereço do evento e organização do trabalho acadêmico.
 class EntityPickerField<T> extends StatelessWidget {
   const EntityPickerField({
     super.key,

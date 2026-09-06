@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import '../../../../features/thesis/models/thesis.dart';
+import '../../../../features/academic_works/models/academic_work.dart';
 import '../../theme/custom_colors.dart';
 import '../../widgets/custom_chip.dart';
 
-class ThesisTileDesktopVersion extends StatelessWidget {
-  final Thesis thesis;
+class AcademicWorkTileDesktopVersion extends StatelessWidget {
+  final AcademicWork academicWork;
   final VoidCallback? onTap;
   final EdgeInsetsGeometry? margin;
 
-  const ThesisTileDesktopVersion({
+  const AcademicWorkTileDesktopVersion({
     super.key,
-    required this.thesis,
+    required this.academicWork,
     this.onTap,
     this.margin,
   });
@@ -20,11 +20,13 @@ class ThesisTileDesktopVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pub = thesis.publication;
+    final pub = academicWork.publication;
     final title = pub?.title ?? '-';
-    final orgName = thesis.organization?.name ?? '';
+    final orgName = academicWork.organization?.name ?? '';
     final year = pub?.publication_date?.year.toString() ?? '';
-    final pages = thesis.number_of_pages;
+    final pages = academicWork.number_of_pages;
+    // "<name> de <degree_level>" (ex.: "Dissertação de Mestrado").
+    final typeLabel = academicWork.academic_work_type?.label ?? '';
     final pagesLabel = (pages != null && pages > 0) ? '$pages páginas' : '';
     final areas = pub?.research_areas
             ?.map((e) => e.name ?? '')
@@ -67,17 +69,24 @@ class ThesisTileDesktopVersion extends StatelessWidget {
                         color: CustomColors.fresh_sprout,
                       ),
                       const SizedBox(width: 5),
-                      const Text(
-                        'DISSERTAÇÃO',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: CustomColors.fresh_sprout,
-                          letterSpacing: 0.6,
+                      Expanded(
+                        child: Text(
+                          (typeLabel.isNotEmpty
+                                  ? typeLabel
+                                  : 'Trabalho Acadêmico')
+                              .toUpperCase(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: CustomColors.fresh_sprout,
+                            letterSpacing: 0.6,
+                          ),
                         ),
                       ),
                       if (year.isNotEmpty) ...[
-                        const Spacer(),
+                        const SizedBox(width: 6),
                         CustomChip(
                           label: year,
                           color: CustomColors.pine_shadow,
