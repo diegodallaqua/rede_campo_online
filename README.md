@@ -1,41 +1,43 @@
 # Rede Campo Online
 
-Repositório oficial da **Plataforma Rede Campo Online**, um site responsivo (Flutter Web) voltado ao grupo de pesquisa Rede Campo.
+🌐 **English** | [Português](README.pt-BR.md)
 
-A aplicação é um front-end que consome uma API REST própria e oferece:
+Official repository of the **Rede Campo Online Platform**, a responsive website (Flutter Web) built for the Rede Campo research group.
 
-- **Área pública:** home, sobre nós, notícias, projetos, eventos, publicações (artigos, teses, livros e capítulos de livros) e membros.
-- **Painel administrativo** (`/admin`, protegido por login JWT): gerenciamento de notícias, projetos, eventos, publicações e membros.
+The application is a front-end that consumes its own REST API and provides:
 
-## Pré-requisitos
+- **Public area:** home, about us, news, projects, events, publications (articles, theses, books, and book chapters), and members.
+- **Admin panel** (`/admin`, protected by JWT login): management of news, projects, events, publications, and members.
 
-Para compilar e executar este projeto, você precisará das seguintes ferramentas instaladas em sua máquina:
+## Prerequisites
 
-- **Flutter:** Versão 3.16.4 - canal `stable` (use o [Puro](https://puro.dev/) para gerenciar as versões do Flutter)
-- **Dart:** Versão 3.2.3 (já incluída no Flutter 3.16.4)
-  - Restrição declarada em `pubspec.yaml`: `sdk: '>=3.2.3 <4.0.0'`
-- **Navegador Chrome / Chromium** (alvo de execução e depuração do Flutter Web)
-- **API Rede Campo Online** em execução (back-end REST consumido pelo app)
+To build and run this project, you will need the following tools installed on your machine:
 
-> ⚠️ **Alvo suportado:** este projeto é compilado apenas para **Web**. O repositório não contém as pastas `android/` e `ios/`, portanto não são necessários Java, Gradle, AGP ou Kotlin.
+- **Flutter:** Version 3.16.4 - `stable` channel (use [Puro](https://puro.dev/) to manage Flutter versions)
+- **Dart:** Version 3.2.3 (bundled with Flutter 3.16.4)
+  - Constraint declared in `pubspec.yaml`: `sdk: '>=3.2.3 <4.0.0'`
+- **Chrome / Chromium browser** (Flutter Web run and debug target)
+- **Rede Campo Online API** running (REST back-end consumed by the app)
 
-📌 **Trecho de exemplo do `pubspec.yaml`:**
+> ⚠️ **Supported target:** this project is built for **Web** only. The repository does not contain the `android/` and `ios/` folders, so Java, Gradle, AGP, and Kotlin are not required.
+
+📌 **Sample `pubspec.yaml` excerpt:**
 
 ```yaml
 environment:
   sdk: '>=3.2.3 <4.0.0'
 ```
 
-📌 **Fixando a versão do Flutter com o Puro:**
+📌 **Pinning the Flutter version with Puro:**
 
 ```bash
 puro create rede_campo 3.16.4
 puro use rede_campo
 ```
 
-## Configuração do ambiente
+## Environment configuration
 
-O endereço da API e as rotas são centralizados em `lib/core/global/constants/api_constants.dart`:
+The API address and routes are centralized in `lib/core/global/constants/api_constants.dart`:
 
 ```dart
 enum BaseEnvironment {
@@ -50,80 +52,80 @@ enum BaseEnvironment {
 final baseURL = BaseEnvironment.development.baseURL;
 ```
 
-Antes de subir a aplicação em outro ambiente:
+Before running the application in another environment:
 
-1. Descomente/ajuste a entrada `production` do enum `BaseEnvironment` com a URL pública da API.
-2. Troque `final baseURL = ...` para o ambiente desejado.
-3. Informe o segredo do JWT via `--dart-define` (a constante `jwtSecret` é lida de `String.fromEnvironment('JWT_SECRET')`):
+1. Uncomment/adjust the `production` entry of the `BaseEnvironment` enum with the public API URL.
+2. Change `final baseURL = ...` to the desired environment.
+3. Provide the JWT secret via `--dart-define` (the `jwtSecret` constant is read from `String.fromEnvironment('JWT_SECRET')`):
 
 ```bash
-flutter run -d chrome --dart-define=JWT_SECRET=seu_segredo_aqui
+flutter run -d chrome --dart-define=JWT_SECRET=your_secret_here
 ```
 
-## Como executar o projeto
+## Running the project
 
-1. **Clone o repositório:**
+1. **Clone the repository:**
 
    ```bash
    git clone https://github.com/diegodallaqua/rede_campo_online.git
    ```
 
-2. **Acesse o diretório do projeto:**
+2. **Go to the project directory:**
 
    ```bash
    cd rede_campo_online
    ```
 
-3. **Instale as dependências do Flutter:**
+3. **Install Flutter dependencies:**
 
    ```bash
    flutter pub get
    ```
 
-4. **Gere os arquivos do MobX (`*.g.dart`):**
+4. **Generate MobX files (`*.g.dart`):**
 
    ```bash
    flutter packages pub run build_runner build --delete-conflicting-outputs
    ```
 
-   Durante o desenvolvimento, para regerar automaticamente a cada alteração:
+   During development, to regenerate automatically on every change:
 
    ```bash
    flutter packages pub run build_runner watch --delete-conflicting-outputs
    ```
 
-5. **Execute o aplicativo:**
+5. **Run the application:**
 
    ```bash
    flutter run -d chrome
    ```
 
-   Caso a API use certificado autoassinado (comum em VM interna):
+   If the API uses a self-signed certificate (common on internal VMs):
 
    ```bash
    flutter run -d chrome --web-browser-flag=--ignore-certificate-errors
    ```
 
-6. **Caso necessário, apague erros de geração de código:**
+6. **If needed, delete duplicated code generation files:**
 
    ```bash
    find . -name "*.g [0-9]*.dart" -type f -delete
    ```
 
-   No PowerShell (Windows):
+   On PowerShell (Windows):
 
    ```powershell
    Get-ChildItem -Recurse -Filter "*.g [0-9]*.dart" | Remove-Item
    ```
 
-7. **Analisar e testar:**
+7. **Analyze and test:**
 
    ```bash
    flutter analyze
    flutter test
    ```
 
-8. **Testar se o servidor da API está no ar:**
+8. **Check whether the API server is up:**
 
    ```bash
    for pair in "development|http://127.0.0.1:3308"; do
@@ -135,62 +137,62 @@ flutter run -d chrome --dart-define=JWT_SECRET=seu_segredo_aqui
    done
    ```
 
-   Adicione o par `"production|https://<host-da-vm>:<porta>"` à lista quando o ambiente de produção estiver configurado.
+   Add the `"production|https://<vm-host>:<port>"` pair to the list once the production environment is configured.
 
-## Build e publicação
+## Build and deployment
 
 ```bash
-flutter build web --release --dart-define=JWT_SECRET=seu_segredo_aqui
+flutter build web --release --dart-define=JWT_SECRET=your_secret_here
 ```
 
-O resultado fica em `build/web/`. Consulte o [DEPLOY.md](DEPLOY.md) para as instruções de hospedagem na VM (Nginx, `--base-href`, HTTPS e CORS).
+The output is placed in `build/web/`. See [DEPLOY.md](DEPLOY.md) for VM hosting instructions (Nginx, `--base-href`, HTTPS, and CORS).
 
-## Estrutura do projeto
+## Project structure
 
-O projeto segue uma arquitetura **feature-first** com uma camada `core/` compartilhada:
+The project follows a **feature-first** architecture with a shared `core/` layer:
 
-- `lib/`: todo o código-fonte em Dart.
-  - `app/`: ponto de entrada e navegação.
-    - `main.dart`: inicialização (injeção de dependência, locale `pt_BR`, verificação de sessão) e `MaterialApp.router` com breakpoints responsivos.
-    - `router.dart`: rotas do `go_router` (`AppRoutes`) e guarda de acesso à área `/admin`.
-  - `core/`: código compartilhado entre features.
-    - `global/`: `injection.dart` (GetIt) e `constants/api_constants.dart` (URL base + rotas da API).
-    - `models/`: modelos transversais (endereços, cidades, estados, organizações, contribuidores, papéis, token de autenticação, mídias etc.).
-    - `repositories/`: repositórios transversais (endereços, organizações, áreas de pesquisa, upload de imagens, token, tradução etc.).
-    - `stores/`: stores MobX base - `BaseStore`, `PagedStore<T>` (listagens paginadas), `MediaMapStore<M>`, `FilterSearchStore`, `TranslationStore` e `UserManagerStore` (sessão).
-    - `ui/`: componentes reutilizáveis - `buttons/`, `forms/`, `listing_tiles/`, `sections/`, `theme/` (`CustomColors`) e `widgets/` (incluindo os genéricos de listagem administrativa em `widgets/admin/`).
-    - `utils/`: utilitários puros (formatadores, placeholders, toasts, tratamento de mensagens de erro da API).
-  - `features/`: uma pasta por domínio (`home`, `about_us`, `news`, `projects`, `events`, `publications`, `articles`, `books`, `book_chapters`, `thesis`, `members`, `login`, `admin`). Cada feature repete o mesmo formato interno:
-    - `models/`: modelos daquele domínio.
-    - `repositories/`: acesso HTTP àquele domínio.
-    - `stores/`: stores MobX daquele domínio.
-    - `screens/`: telas e seus `widgets/` (`sections/`, `listing/`), com versões `*_desktop_version.dart` e `*_mobile_version.dart`.
-- `assets/`: imagens e fontes da aplicação (`assets/images/`, `assets/fonts/RobotoSlab.ttf`).
-- `web/`: arquivos específicos da plataforma Web (`index.html`, `manifest.json`, ícones e favicon).
-- `*.puml`: diagramas UML do projeto (ver seção abaixo).
+- `lib/`: all Dart source code.
+  - `app/`: entry point and navigation.
+    - `main.dart`: initialization (dependency injection, `pt_BR` locale, session check) and `MaterialApp.router` with responsive breakpoints.
+    - `router.dart`: `go_router` routes (`AppRoutes`) and access guard for the `/admin` area.
+  - `core/`: code shared across features.
+    - `global/`: `injection.dart` (GetIt) and `constants/api_constants.dart` (base URL + API routes).
+    - `models/`: cross-cutting models (addresses, cities, states, organizations, contributors, roles, auth token, media, etc.).
+    - `repositories/`: cross-cutting repositories (addresses, organizations, research areas, image upload, token, translation, etc.).
+    - `stores/`: base MobX stores - `BaseStore`, `PagedStore<T>` (paginated listings), `MediaMapStore<M>`, `FilterSearchStore`, `TranslationStore`, and `UserManagerStore` (session).
+    - `ui/`: reusable components - `buttons/`, `forms/`, `listing_tiles/`, `sections/`, `theme/` (`CustomColors`), and `widgets/` (including the generic admin listing widgets in `widgets/admin/`).
+    - `utils/`: pure utilities (formatters, placeholders, toasts, API error message handling).
+  - `features/`: one folder per domain (`home`, `about_us`, `news`, `projects`, `events`, `publications`, `articles`, `books`, `book_chapters`, `thesis`, `members`, `login`, `admin`). Each feature follows the same internal layout:
+    - `models/`: models for that domain.
+    - `repositories/`: HTTP access for that domain.
+    - `stores/`: MobX stores for that domain.
+    - `screens/`: screens and their `widgets/` (`sections/`, `listing/`), with `*_desktop_version.dart` and `*_mobile_version.dart` variants.
+- `assets/`: application images and fonts (`assets/images/`, `assets/fonts/RobotoSlab.ttf`).
+- `web/`: Web platform-specific files (`index.html`, `manifest.json`, icons, and favicon).
+- `*.puml`: project UML diagrams (see section below).
 
-## Arquitetura e principais bibliotecas
+## Architecture and main libraries
 
-| Responsabilidade | Biblioteca / Padrão |
+| Responsibility | Library / Pattern |
 | --- | --- |
-| Gerência de estado | `mobx` + `flutter_mobx` (stores com código gerado por `mobx_codegen`) |
-| Injeção de dependência | `get_it` (`setupDependencies()` em `core/global/injection.dart`) |
-| Navegação | `go_router` (rotas declaradas em `app/router.dart`) |
-| Responsividade | `responsive_framework` (breakpoints: mobile 400, tablet 768, desktop 1024) |
-| Comunicação HTTP | `http` + `http_parser` |
-| Autenticação | `dart_jsonwebtoken` (leitura do `exp`) + `flutter_secure_storage` (persistência do token) |
-| Imagens | `image_picker`, `image_cropper`, `cached_network_image` |
-| Formatação | `intl`, `brasil_fields` |
+| State management | `mobx` + `flutter_mobx` (stores with code generated by `mobx_codegen`) |
+| Dependency injection | `get_it` (`setupDependencies()` in `core/global/injection.dart`) |
+| Navigation | `go_router` (routes declared in `app/router.dart`) |
+| Responsiveness | `responsive_framework` (breakpoints: mobile 400, tablet 768, desktop 1024) |
+| HTTP communication | `http` + `http_parser` |
+| Authentication | `dart_jsonwebtoken` (reads `exp`) + `flutter_secure_storage` (token persistence) |
+| Images | `image_picker`, `image_cropper`, `cached_network_image` |
+| Formatting | `intl`, `brasil_fields` |
 
-Convenções que o código novo deve seguir:
+Conventions new code should follow:
 
-- Listagens paginadas estendem `PagedStore<T>` e implementam apenas `fetchPage(int)` - não precisam de `.g.dart` próprio.
-- Listagens do painel administrativo reutilizam os genéricos `AdminEntityListSection{Desktop,Mobile}Version<T>` e `AdminEntityList{Desktop,Mobile}Version<T>` (`core/ui/widgets/admin/`), parametrizados por store, textos, `itemBuilder` e `gridDelegate`.
-- Upload de mídia usa `MediaUploadField`, genérico sobre a interface `MediaAttachment` (`core/models/`).
-- Modelos, repositórios e stores compartilhados por mais de uma feature vivem em `core/models`, `core/repositories` e `core/stores` - nunca em `core/utils`.
+- Paginated listings extend `PagedStore<T>` and implement only `fetchPage(int)` - they do not need their own `.g.dart`.
+- Admin panel listings reuse the generic `AdminEntityListSection{Desktop,Mobile}Version<T>` and `AdminEntityList{Desktop,Mobile}Version<T>` widgets (`core/ui/widgets/admin/`), parameterized by store, texts, `itemBuilder`, and `gridDelegate`.
+- Media upload uses `MediaUploadField`, generic over the `MediaAttachment` interface (`core/models/`).
+- Models, repositories, and stores shared by more than one feature live in `core/models`, `core/repositories`, and `core/stores` - never in `core/utils`.
 
-## Licença
+## License
 
-Este repositório é público apenas para fins de portfólio e demonstração acadêmica, **não é software de código aberto**. Todos os direitos são reservados ao autor. Cópia, modificação, redistribuição ou uso deste código (total ou parcial), inclusive por terceiros, requer autorização prévia e por escrito. Veja o arquivo [LICENSE](LICENSE) para o texto completo.
+This repository is public only for portfolio and academic demonstration purposes and **is not open source software**. All rights are reserved by the author. Copying, modifying, redistributing, or using this code (in whole or in part), including by third parties, requires prior written permission. See the [LICENSE](LICENSE) file for the full text.
 
-Projeto desenvolvido como Trabalho de Conclusão de Curso (TCC) para o grupo de pesquisa Rede Campo, que mantém uma versão própria e modificada deste software, regida por acordo separado.
+Developed as an undergraduate thesis (Trabalho de Conclusão de Curso - TCC) for the Rede Campo research group, which maintains its own modified version of this software under a separate agreement.
