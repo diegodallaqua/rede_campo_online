@@ -191,4 +191,6 @@ Convenções que o código novo deve seguir:
 
 ## Licença
 
-Projeto acadêmico desenvolvido para o grupo de pesquisa Rede Campo. A licença ainda não foi definida - até que um arquivo `LICENSE` seja adicionado ao repositório, todos os direitos são reservados aos autores.
+Este repositório é público apenas para fins de portfólio e demonstração acadêmica, **não é software de código aberto**. Todos os direitos são reservados ao autor. Cópia, modificação, redistribuição ou uso deste código (total ou parcial), inclusive por terceiros, requer autorização prévia e por escrito. Veja o arquivo [LICENSE](LICENSE) para o texto completo.
+
+Projeto desenvolvido como Trabalho de Conclusão de Curso (TCC) para o grupo de pesquisa Rede Campo, que mantém uma versão própria e modificada deste software, regida por acordo separado.
