@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../features/book_chapters/models/book_chapters.dart';
 import '../../theme/custom_colors.dart';
 import '../../widgets/custom_chip.dart';
+import '../../widgets/custom_chips_row.dart';
 
 class BookChapterTileDesktopVersion extends StatelessWidget {
   final BookChapters bookChapter;
@@ -32,7 +33,6 @@ class BookChapterTileDesktopVersion extends StatelessWidget {
     final areas = pub?.research_areas
             ?.map((e) => e.name ?? '')
             .where((n) => n.isNotEmpty)
-            .take(2)
             .toList() ??
         [];
 
@@ -102,18 +102,9 @@ class BookChapterTileDesktopVersion extends StatelessWidget {
                   ),
                   if (areas.isNotEmpty) ...[
                     const SizedBox(height: 6),
-                    Row(
-                      children: areas
-                          .map(
-                            (area) => Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: CustomChip(
-                                label: area,
-                                color: CustomColors.copper_spice,
-                              ),
-                            ),
-                          )
-                          .toList(),
+                    CustomChipsRow(
+                      labels: areas,
+                      color: CustomColors.copper_spice,
                     ),
                   ],
                   const Spacer(),

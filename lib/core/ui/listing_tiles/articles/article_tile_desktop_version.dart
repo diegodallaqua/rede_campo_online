@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../features/articles/models/articles.dart';
 import '../../theme/custom_colors.dart';
 import '../../widgets/custom_chip.dart';
+import '../../widgets/custom_chips_row.dart';
 
 class ArticleTileDesktopVersion extends StatelessWidget {
   final Articles article;
@@ -30,7 +31,6 @@ class ArticleTileDesktopVersion extends StatelessWidget {
     final areas = pub?.research_areas
             ?.map((e) => e.name ?? '')
             .where((n) => n.isNotEmpty)
-            .take(2)
             .toList() ??
         [];
 
@@ -107,18 +107,9 @@ class ArticleTileDesktopVersion extends StatelessWidget {
                   ),
                   if (areas.isNotEmpty) ...[
                     const SizedBox(height: 6),
-                    Row(
-                      children: areas
-                          .map(
-                            (area) => Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: CustomChip(
-                                label: area,
-                                color: CustomColors.pine_shadow,
-                              ),
-                            ),
-                          )
-                          .toList(),
+                    CustomChipsRow(
+                      labels: areas,
+                      color: CustomColors.pine_shadow,
                     ),
                   ],
                   const Spacer(),
