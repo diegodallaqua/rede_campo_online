@@ -1,5 +1,3 @@
-// lib/repositories/token_repository.dart
-
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -71,7 +69,7 @@ class TokenRepository {
     }
   }
 
-  /// Verifica a expiração real decodificando o JWT localmente.
+  /// Verifica a expiração decodificando o JWT localmente.
   Future<bool> verifyToken() async {
     final token = await _storage.read(key: _keyToken);
     if (token == null || token.isEmpty) return false;
@@ -87,7 +85,7 @@ class TokenRepository {
       final expiresAt =
           DateTime.fromMillisecondsSinceEpoch(exp * 1000, isUtc: true);
 
-      // Adiciona margem de 30s para evitar race conditions de expiração.
+      // Margem de 30s contra race conditions de expiração.
       return DateTime.now().toUtc().isBefore(
             expiresAt.subtract(const Duration(seconds: 30)),
           );

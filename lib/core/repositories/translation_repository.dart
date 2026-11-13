@@ -22,7 +22,7 @@ abstract class TranslationRepository {
         return translated.isNotEmpty ? translated : null;
       }
     } catch (_) {
-      // Silently omit the translation if the request fails
+      // Omite a tradução se a requisição falhar.
     }
 
     return null;

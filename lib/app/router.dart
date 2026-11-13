@@ -67,15 +67,14 @@ abstract class AppRoutes {
   static const adminCreateMember = '/admin/members/create';
 }
 
-/// Notifies GoRouter whenever the auth state changes so the redirect
-/// re-evaluates without requiring manual navigation.
+/// Notifica o GoRouter quando o login muda, reavaliando o redirect.
 class _AuthChangeNotifier extends ChangeNotifier {
   late final ReactionDisposer _disposer;
 
   _AuthChangeNotifier() {
     final userStore = getIt<UserManagerStore>();
     _disposer = autorun((_) {
-      // Accessing isLoggedIn registers it as a dependency of this reaction.
+      // Ler isLoggedIn registra a dependência na reaction.
       userStore.isLoggedIn;
       notifyListeners();
     });

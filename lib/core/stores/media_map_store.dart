@@ -2,11 +2,8 @@ import 'dart:developer';
 
 import 'package:mobx/mobx.dart';
 
-/// Carrega todas as mídias de uma entidade e as indexa pelo id do dono
-/// (primeira mídia de cada um), padrão usado nas listagens administrativas
-/// de eventos, notícias e projetos.
-///
-/// Implementado com MobX "puro" (sem codegen) por ser pequeno e genérico.
+/// Indexa a primeira mídia de cada entidade pelo id do dono.
+/// Usado nas listagens do painel. MobX sem codegen.
 class MediaMapStore<M> {
   MediaMapStore({
     required this.fetchAll,
