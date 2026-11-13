@@ -61,8 +61,7 @@ abstract class AdminCreateProjectStoreBase with Store {
         availableProjectTypes
           ..clear()
           ..addAll(types);
-        // Reconcilia o tipo já vinculado ao projeto com a instância da lista
-        // disponível, para que a seleção do dropdown funcione por igualdade.
+        // Usa a instância da lista para o dropdown casar a seleção.
         final currentId = project.projectType?.id ?? _projectType?.id;
         if (currentId != null) {
           for (final t in types) {

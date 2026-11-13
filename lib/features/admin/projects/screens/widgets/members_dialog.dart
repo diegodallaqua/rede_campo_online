@@ -12,7 +12,7 @@ class MembersDialog extends StatefulWidget {
   final List<Members> availableMembers;
   final List<Members> selectedMembers;
 
-  /// Shows the dialog and returns the confirmed selection, or null if cancelled.
+  /// Exibe o diálogo e retorna a seleção confirmada, ou null se cancelado.
   static Future<List<Members>?> show({
     required BuildContext context,
     required List<Members> availableMembers,

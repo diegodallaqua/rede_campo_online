@@ -20,8 +20,7 @@ class ProjectTypeField extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasError = errorText != null;
 
-    // Garante que o valor selecionado seja a mesma instância presente na lista
-    // (igualdade por identidade exigida pelo DropdownButton).
+    // Usa a instância da lista (DropdownButton compara por identidade).
     final value = selectedType == null
         ? null
         : availableTypes.firstWhere(
