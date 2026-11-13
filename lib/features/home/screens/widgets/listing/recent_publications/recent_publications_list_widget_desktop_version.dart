@@ -12,12 +12,10 @@ import '../../../../../publications/stores/publications_store.dart';
 
 class PublicationsListWidgetDesktopVersion extends StatefulWidget {
   final PublicationsStore publicationsStore;
-  final int totalCount;
 
   const PublicationsListWidgetDesktopVersion({
     super.key,
     required this.publicationsStore,
-    this.totalCount = 10,
   });
 
   @override
@@ -38,7 +36,7 @@ class _PublicationsListWidgetDesktopVersionState
   @override
   void initState() {
     super.initState();
-    widget.publicationsStore.loadRecentPublications(limit: widget.totalCount);
+    widget.publicationsStore.loadRecentPublications();
     _scrollController.addListener(_updateArrowState);
   }
 
@@ -90,8 +88,7 @@ class _PublicationsListWidgetDesktopVersionState
             widget.publicationsStore.recentPublications.isEmpty) {
           return ListErrorState(
             message: 'Não foi possível carregar as publicações.',
-            onRetry: () => widget.publicationsStore
-                .refreshRecentPublications(limit: widget.totalCount),
+            onRetry: () => widget.publicationsStore.refreshRecentPublications(),
             iconColor: CustomColors.copper_spice,
             messageColor: CustomColors.pine_shadow,
           );

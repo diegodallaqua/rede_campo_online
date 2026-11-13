@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:mobx/mobx.dart';
 
 import '../../../core/stores/base_store.dart';
+import '../../../core/stores/media_map_store.dart';
 import '../models/events.dart';
 import '../models/events_media.dart';
 import '../repositories/event_media_repository.dart';
@@ -14,7 +15,6 @@ class EventsStore = EventsStoreBase with _$EventsStore;
 
 abstract class EventsStoreBase extends BaseStore<Events> with Store {
   final EventsRepository _repository = EventsRepository();
-  final EventMediaRepository _mediaRepository = EventMediaRepository();
 
   EventsStoreBase({this.pageSize = 4}) {
     loadUpcoming();
@@ -42,13 +42,6 @@ abstract class EventsStoreBase extends BaseStore<Events> with Store {
   void goToPage(int targetPage) {
     if (loading || targetPage == _page) return;
     setPage(targetPage);
-    setLastPage(false);
-    setData([]);
-    loadUpcoming();
-  }
-
-  void resetUpcoming() {
-    setPage(1);
     setLastPage(false);
     setData([]);
     loadUpcoming();
@@ -131,49 +124,13 @@ abstract class EventsStoreBase extends BaseStore<Events> with Store {
     }
   }
 
-  @observable
-  ObservableMap<int, EventMedia> mediaMap = ObservableMap<int, EventMedia>();
+  late final _media = MediaMapStore<EventMedia>(
+    fetchAll: const EventMediaRepository().findAll,
+    ownerId: (m) => m.event?.id,
+    logLabel: 'EventsStore',
+  );
 
-  @observable
-  bool loadingMedia = false;
+  ObservableMap<int, EventMedia> get mediaMap => _media.map;
 
-  @observable
-  String? errorMedia;
-
-  @action
-  void _setLoadingMedia(bool value) => loadingMedia = value;
-
-  @action
-  void _setErrorMedia(String? value) => errorMedia = value;
-
-  @action
-  void _setMediaData(Map<int, EventMedia> data) {
-    mediaMap.clear();
-    mediaMap.addAll(data);
-  }
-
-  Future<void> loadMedia() async {
-    _setLoadingMedia(true);
-    _setErrorMedia(null);
-    try {
-      final mediaList = await _mediaRepository.findAll();
-      final map = <int, EventMedia>{};
-      for (final m in mediaList) {
-        final eventId = m.event?.id;
-        if (eventId != null && !map.containsKey(eventId)) {
-          map[eventId] = m;
-        }
-      }
-      _setMediaData(map);
-    } catch (e, s) {
-      log(
-        'EventsStore: Erro ao carregar mídias dos eventos',
-        error: e.toString(),
-        stackTrace: s,
-      );
-      _setErrorMedia(e.toString());
-    } finally {
-      _setLoadingMedia(false);
-    }
-  }
+  Future<void> loadMedia() => _media.load();
 }

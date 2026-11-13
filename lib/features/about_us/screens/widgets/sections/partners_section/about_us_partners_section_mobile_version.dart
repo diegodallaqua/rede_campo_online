@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../../../../core/utils/external_links.dart';
 
 import '../../listing/partners/about_us_partners_tile_mobile_version.dart';
 
@@ -52,11 +52,6 @@ class _AboutUsPartnersSectionMobileVersionState
       url: 'https://www.sistemafaep.org.br/',
     ),
   ];
-
-  Future<void> _openSite(String url) async {
-    final uri = Uri.parse(url);
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +109,7 @@ class _AboutUsPartnersSectionMobileVersionState
                     logoPath: partner.logoPath,
                     name: partner.name,
                     description: partner.description,
-                    onTap: () => _openSite(partner.url),
+                    onTap: () => openExternalUrl(partner.url),
                   );
                 },
               ),

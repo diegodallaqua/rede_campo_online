@@ -9,6 +9,7 @@ import 'package:rede_campo_online/core/repositories/organizations_repository.dar
 import 'package:rede_campo_online/core/stores/user_manager_store.dart';
 import 'package:rede_campo_online/features/members/models/members.dart';
 import 'package:rede_campo_online/features/members/repositories/members_repository.dart';
+import '../../../../core/utils/validators.dart';
 
 part 'admin_create_member_store.g.dart';
 
@@ -234,10 +235,7 @@ abstract class AdminCreateMemberStoreBase with Store {
     final value = raw.trim();
     if (value.isEmpty) return true;
     if (value.length > 500) return false;
-    final uri = Uri.tryParse(value);
-    return uri != null &&
-        (uri.scheme == 'http' || uri.scheme == 'https') &&
-        uri.host.isNotEmpty;
+    return isHttpUrl(value);
   }
 
   @readonly

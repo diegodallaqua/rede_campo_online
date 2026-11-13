@@ -42,7 +42,7 @@ abstract class AdminCreateProjectStoreBase with Store {
   final _projectTypesRepository = ProjectTypesRepository();
   final _researchAreasRepository = ResearchAreasRepository();
   final _membersRepository = MembersRepository();
-  final _projectMediaRepository = ProjectMediaRepository();
+  final _projectMediaRepository = const ProjectMediaRepository();
   final _imageUploadRepository = ImageUploadRepository();
 
   // Tipos de projeto

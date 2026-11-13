@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../utils/external_links.dart';
 
 import '../../../../core/models/contributor.dart';
 import '../../../../features/members/models/members.dart';
@@ -162,21 +162,21 @@ class MemberDetailsDialog extends StatelessWidget {
           icon: Icons.email_outlined,
           label: mail,
           accentColor: accentColor,
-          onTap: () => _launch('mailto:$mail'),
+          onTap: () => openExternalUrl('mailto:$mail'),
         ),
       if (lattes != null)
         _ContactRow(
           icon: Icons.school_outlined,
           label: 'Currículo Lattes',
           accentColor: accentColor,
-          onTap: () => _launch(lattes),
+          onTap: () => openExternalUrl(lattes),
         ),
       if (linkedIn != null)
         _ContactRow(
           icon: Icons.business_center_outlined,
           label: 'LinkedIn',
           accentColor: accentColor,
-          onTap: () => _launch(linkedIn),
+          onTap: () => openExternalUrl(linkedIn),
         ),
       if (instagram != null)
         _ContactRow(
@@ -184,14 +184,14 @@ class MemberDetailsDialog extends StatelessWidget {
           isBrandIcon: true,
           label: 'Instagram',
           accentColor: accentColor,
-          onTap: () => _launch(_instagramLink(instagram)),
+          onTap: () => openExternalUrl(_instagramLink(instagram)),
         ),
       if (orc != null)
         _ContactRow(
           icon: Icons.badge_outlined,
           label: 'ORCID: $orc',
           accentColor: accentColor,
-          onTap: () => _launch(
+          onTap: () => openExternalUrl(
             orc.startsWith('http') ? orc : 'https://orcid.org/$orc',
           ),
         ),
@@ -308,14 +308,6 @@ class MemberDetailsDialog extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> _launch(String raw) async {
-    final uri = Uri.tryParse(raw);
-    if (uri == null) return;
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
   }
 }
 

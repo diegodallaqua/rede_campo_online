@@ -10,6 +10,7 @@ import 'package:rede_campo_online/features/events/repositories/event_media_repos
 import 'package:rede_campo_online/features/events/repositories/events_repository.dart';
 import 'package:rede_campo_online/features/projects/models/projects.dart';
 import 'package:rede_campo_online/features/projects/repositories/projects_repository.dart';
+import '../../../../core/utils/validators.dart';
 
 part 'admin_create_event_store.g.dart';
 
@@ -31,7 +32,7 @@ abstract class AdminCreateEventStoreBase with Store {
 
   final Events event;
   final _repository = EventsRepository();
-  final _eventMediaRepository = EventMediaRepository();
+  final _eventMediaRepository = const EventMediaRepository();
   final _imageUploadRepository = ImageUploadRepository();
   final _projectsRepository = ProjectsRepository();
   final _addressesRepository = AddressesRepository();
@@ -183,10 +184,7 @@ abstract class AdminCreateEventStoreBase with Store {
     final value = _registrationUrl.trim();
     if (value.isEmpty) return true;
     if (value.length > 500) return false;
-    final uri = Uri.tryParse(value);
-    return uri != null &&
-        (uri.scheme == 'http' || uri.scheme == 'https') &&
-        uri.host.isNotEmpty;
+    return isHttpUrl(value);
   }
 
   String? get registrationUrlError {

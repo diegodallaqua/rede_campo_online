@@ -14,8 +14,6 @@ class PublicationsListWidgetMobileVersion extends StatefulWidget {
 
   final int visibleCount;
 
-  final int totalCount;
-
   static const double _tileHeight = PublicationTileMobileVersion.height;
   static const double _separatorHeight = 8.0;
 
@@ -23,7 +21,6 @@ class PublicationsListWidgetMobileVersion extends StatefulWidget {
     super.key,
     required this.publicationsStore,
     this.visibleCount = 3,
-    this.totalCount = 10,
   });
 
   @override
@@ -38,7 +35,7 @@ class _HomePublicationsListWidgetState
   @override
   void initState() {
     super.initState();
-    widget.publicationsStore.loadRecentPublications(limit: widget.totalCount);
+    widget.publicationsStore.loadRecentPublications();
   }
 
   @override
@@ -66,8 +63,7 @@ class _HomePublicationsListWidgetState
             widget.publicationsStore.recentPublications.isEmpty) {
           return ListErrorState(
             message: 'Não foi possível carregar as publicações.',
-            onRetry: () => widget.publicationsStore
-                .refreshRecentPublications(limit: widget.totalCount),
+            onRetry: () => widget.publicationsStore.refreshRecentPublications(),
             iconColor: CustomColors.copper_spice,
             messageColor: CustomColors.pine_shadow,
           );

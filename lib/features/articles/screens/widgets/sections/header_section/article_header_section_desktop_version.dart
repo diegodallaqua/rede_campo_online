@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../../../../core/utils/external_links.dart';
 
 import '../../../../../../core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
@@ -100,21 +100,10 @@ class _DoiLink extends StatelessWidget {
 
   const _DoiLink({required this.doi});
 
-  String get _resolvedUrl =>
-      doi.startsWith('http') ? doi : 'https://doi.org/$doi';
-
-  Future<void> _open() async {
-    final uri = Uri.tryParse(_resolvedUrl);
-    if (uri == null) return;
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _open,
+      onTap: () => openExternalUrl(doiUrl(doi)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

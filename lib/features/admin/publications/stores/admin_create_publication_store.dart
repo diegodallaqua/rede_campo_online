@@ -12,7 +12,6 @@ import 'package:rede_campo_online/core/repositories/external_authors_repository.
 import 'package:rede_campo_online/core/repositories/image_upload_repository.dart';
 import 'package:rede_campo_online/core/repositories/organizations_repository.dart';
 import 'package:rede_campo_online/core/repositories/research_areas_repository.dart';
-import 'package:rede_campo_online/core/stores/filter_search_store.dart';
 import 'package:rede_campo_online/features/admin/publications/models/publication_type.dart';
 import 'package:rede_campo_online/features/articles/models/articles.dart';
 import 'package:rede_campo_online/features/articles/repositories/articles_repository.dart';
@@ -28,6 +27,7 @@ import 'package:rede_campo_online/features/publications/models/publications.dart
 import 'package:rede_campo_online/features/publications/repositories/publications_repository.dart';
 import 'package:rede_campo_online/features/academic_works/models/academic_work.dart';
 import 'package:rede_campo_online/features/academic_works/repositories/academic_work_repository.dart';
+import '../../../../core/utils/validators.dart';
 
 part 'admin_create_publication_store.g.dart';
 
@@ -67,10 +67,10 @@ abstract class AdminCreatePublicationStoreBase with Store {
 
   final Publications publication;
   final _repository = PublicationsRepository();
-  final _articlesRepository = ArticlesRepository();
-  final _booksRepository = BooksRepository();
-  final _bookChaptersRepository = BookChaptersRepository();
-  final _academicWorkRepository = AcademicWorkRepository();
+  final _articlesRepository = const ArticlesRepository();
+  final _booksRepository = const BooksRepository();
+  final _bookChaptersRepository = const BookChaptersRepository();
+  final _academicWorkRepository = const AcademicWorkRepository();
   final _contributorsRepository = ContributorsRepository();
   final _externalAuthorsRepository = ExternalAuthorsRepository();
   final _contributorRolesRepository = ContributorRolesRepository();
@@ -153,7 +153,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
 
   Future<void> loadBooks() async {
     try {
-      final books = await _booksRepository.findAllBooks(take: 100);
+      final books = await _booksRepository.findAll(take: 100);
       runInAction(() {
         availableBooks
           ..clear()
@@ -325,10 +325,10 @@ abstract class AdminCreatePublicationStoreBase with Store {
   }
 
   Future<bool> _detectTypeFromListings(int id) async {
-    final filter = FilterSearchStore()..setSearch(publication.title ?? '');
+    final search = publication.title;
     try {
-      final articles = await _articlesRepository.findAllArticles(
-          filterSearchStore: filter, take: 100);
+      final articles =
+          await _articlesRepository.findAll(search: search, take: 100);
       for (final a in articles) {
         if (a.publication?.id == id) {
           _applyArticle(a);
@@ -336,8 +336,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
         }
       }
 
-      final books = await _booksRepository.findAllBooks(
-          filterSearchStore: filter, take: 100);
+      final books = await _booksRepository.findAll(search: search, take: 100);
       for (final b in books) {
         if (b.publication?.id == id) {
           _applyBook(b);
@@ -345,8 +344,8 @@ abstract class AdminCreatePublicationStoreBase with Store {
         }
       }
 
-      final chapters = await _bookChaptersRepository.findAllBookChapters(
-          filterSearchStore: filter, take: 100);
+      final chapters =
+          await _bookChaptersRepository.findAll(search: search, take: 100);
       for (final c in chapters) {
         if (c.publication?.id == id) {
           _applyBookChapter(c);
@@ -354,8 +353,8 @@ abstract class AdminCreatePublicationStoreBase with Store {
         }
       }
 
-      final academicWorks = await _academicWorkRepository.findAllAcademicWorks(
-          filterSearchStore: filter, take: 100);
+      final academicWorks =
+          await _academicWorkRepository.findAll(search: search, take: 100);
       for (final a in academicWorks) {
         if (a.publication?.id == id) {
           _applyAcademicWork(a);
@@ -565,8 +564,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
   @computed
   bool get isbnValid {
     if (!_isBook) return true;
-    final digits = _isbn.replaceAll(RegExp(r'[\s-]'), '');
-    return RegExp(r'^(\d{9}[\dXx]|\d{13})$').hasMatch(digits);
+    return isIsbn(_isbn);
   }
 
   String? get isbnError {
@@ -575,20 +573,12 @@ abstract class AdminCreatePublicationStoreBase with Store {
     return 'Informe um ISBN válido (10 ou 13 dígitos)';
   }
 
-  // Exige URL http/https válida (bloqueia javascript:, data: etc.).
-  bool _isValidHttpUrl(String value) {
-    final uri = Uri.tryParse(value);
-    return uri != null &&
-        (uri.scheme == 'http' || uri.scheme == 'https') &&
-        uri.host.isNotEmpty;
-  }
-
   @computed
   bool get bookUrlValid {
     if (!_isBook) return true;
     final value = _bookUrl.trim();
     if (value.isEmpty) return true;
-    return _isValidHttpUrl(value);
+    return isHttpUrl(value);
   }
 
   String? get bookUrlError {
@@ -668,8 +658,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
     if (!_isBookChapter || hasLinkedBook) return true;
     final value = _chapterIsbn.trim();
     if (value.isEmpty) return true;
-    final digits = value.replaceAll(RegExp(r'[\s-]'), '');
-    return RegExp(r'^(\d{9}[\dXx]|\d{13})$').hasMatch(digits);
+    return isIsbn(value);
   }
 
   String? get chapterIsbnError {
@@ -955,7 +944,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
 
     switch (_publicationType!) {
       case PublicationType.article:
-        await _articlesRepository.createArticles(Articles(
+        await _articlesRepository.create(Articles(
           publication: publicationRef,
           journal_name: _journalName.trim(),
           volume: _volume.trim(),
@@ -964,7 +953,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
           publisher: _articlePublisher.trim(),
         ));
       case PublicationType.book:
-        await _booksRepository.createBooks(Books(
+        await _booksRepository.create(Books(
           publication: publicationRef,
           publisher: _bookPublisher.trim(),
           edition: _edition.trim(),
@@ -973,7 +962,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
           book_url: _bookUrl.trim(),
         ));
       case PublicationType.bookChapter:
-        await _bookChaptersRepository.createBookChapters(BookChapters(
+        await _bookChaptersRepository.create(BookChapters(
           publication: publicationRef,
           book_name: _resolvedBookName,
           chapter_number: num.parse(_chapterNumber.trim()),
@@ -983,7 +972,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
           end_page: int.tryParse(_endPage.trim()),
         ));
       case PublicationType.academicWork:
-        await _academicWorkRepository.createAcademicWork(AcademicWork(
+        await _academicWorkRepository.create(AcademicWork(
           publication: publicationRef,
           organization: _organization,
           number_of_pages: int.parse(_numberOfPages.trim()),
@@ -1001,7 +990,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
 
     switch (type) {
       case PublicationType.article:
-        await _articlesRepository.editArticles(Articles(
+        await _articlesRepository.edit(Articles(
           publication: publicationRef,
           journal_name: _journalName.trim(),
           volume: _volume.trim(),
@@ -1010,7 +999,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
           publisher: _articlePublisher.trim(),
         ));
       case PublicationType.book:
-        await _booksRepository.editBooks(Books(
+        await _booksRepository.edit(Books(
           publication: publicationRef,
           publisher: _bookPublisher.trim(),
           edition: _edition.trim(),
@@ -1019,7 +1008,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
           book_url: _bookUrl.trim(),
         ));
       case PublicationType.bookChapter:
-        await _bookChaptersRepository.editBookChapters(BookChapters(
+        await _bookChaptersRepository.edit(BookChapters(
           publication: publicationRef,
           book_name: _resolvedBookName,
           chapter_number: num.parse(_chapterNumber.trim()),
@@ -1029,7 +1018,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
           end_page: int.tryParse(_endPage.trim()),
         ));
       case PublicationType.academicWork:
-        await _academicWorkRepository.editAcademicWork(AcademicWork(
+        await _academicWorkRepository.edit(AcademicWork(
           publication: publicationRef,
           organization: _organization,
           number_of_pages: int.parse(_numberOfPages.trim()),

@@ -14,7 +14,6 @@ import '../../../../../news/stores/news_store.dart';
 class RecentNewsListWidgetMobileVersion extends StatefulWidget {
   final NewsStore newsStore;
   final int visibleCount;
-  final int totalCount;
 
   static const double _tileHeight = NewsTileMobileVersion.height;
   static const double _separatorHeight = 8.0;
@@ -23,7 +22,6 @@ class RecentNewsListWidgetMobileVersion extends StatefulWidget {
     super.key,
     required this.newsStore,
     this.visibleCount = 3,
-    this.totalCount = 10,
   });
 
   @override
@@ -38,7 +36,7 @@ class _RecentNewsListWidgetMobileVersionState
   @override
   void initState() {
     super.initState();
-    widget.newsStore.loadRecentNews(limit: widget.totalCount);
+    widget.newsStore.loadRecentNews();
   }
 
   @override
@@ -63,8 +61,7 @@ class _RecentNewsListWidgetMobileVersionState
             widget.newsStore.recentNews.isEmpty) {
           return ListErrorState(
             message: 'Não foi possível carregar as notícias.',
-            onRetry: () =>
-                widget.newsStore.refreshRecentNews(limit: widget.totalCount),
+            onRetry: () => widget.newsStore.refreshRecentNews(),
             iconColor: CustomColors.copper_spice,
             messageColor: CustomColors.vanilla_haze,
           );

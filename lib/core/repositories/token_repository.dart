@@ -4,8 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
-import '../global/constants/api_constants.dart'
-    show baseURL, loginURL, jwtSecret;
+import '../global/constants/api_constants.dart' show baseURL, loginURL;
 import '../models/auth_token.dart';
 
 class TokenRepository {
@@ -47,7 +46,7 @@ class TokenRepository {
 
       return null;
     } catch (e) {
-      log('Erro ao realizar login: $e');
+      log('Erro ao realizar login', error: e);
       return null;
     }
   }
@@ -69,16 +68,14 @@ class TokenRepository {
     }
   }
 
-  /// Verifica a expiração decodificando o JWT localmente.
+  /// Verifica a expiração lendo o `exp` do JWT. A assinatura é validada só
+  /// pela API: o segredo nunca deve estar no cliente.
   Future<bool> verifyToken() async {
     final token = await _storage.read(key: _keyToken);
     if (token == null || token.isEmpty) return false;
 
     try {
-      final jwt = jwtSecret.isNotEmpty
-          ? JWT.verify(token, SecretKey(jwtSecret))
-          : JWT.decode(token);
-      final exp = jwt.payload['exp'] as int?;
+      final exp = JWT.decode(token).payload['exp'] as int?;
 
       if (exp == null) return false;
 

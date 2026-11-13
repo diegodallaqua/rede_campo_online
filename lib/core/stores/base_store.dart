@@ -2,9 +2,10 @@ import 'package:mobx/mobx.dart';
 
 part 'base_store.g.dart';
 
-class BaseStore<T> = _BaseStore<T> with _$BaseStore;
+/// Lista observável com estados de carregamento e erro.
+class BaseStore<T> = BaseStoreBase<T> with _$BaseStore;
 
-abstract class _BaseStore<T> with Store {
+abstract class BaseStoreBase<T> with Store {
   @observable
   bool _loading = false;
 

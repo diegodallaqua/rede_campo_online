@@ -37,30 +37,22 @@ puro use rede_campo
 
 ## Configuração do ambiente
 
-O endereço da API e as rotas são centralizados em `lib/core/global/constants/api_constants.dart`:
+As rotas da API são centralizadas em `lib/core/global/constants/api_constants.dart`. O endereço da API vem de `--dart-define=API_BASE_URL` (padrão: `http://192.168.0.131:3333`, o servidor de desenvolvimento):
 
 ```dart
-enum BaseEnvironment {
-  development('http://127.0.0.1:3308');
-  //production('https://');
-
-  final String baseURL;
-
-  const BaseEnvironment(this.baseURL);
-}
-
-final baseURL = BaseEnvironment.development.baseURL;
+const baseURL = String.fromEnvironment(
+  'API_BASE_URL',
+  defaultValue: 'http://192.168.0.131:3333',
+);
 ```
 
-Antes de subir a aplicação em outro ambiente:
-
-1. Descomente/ajuste a entrada `production` do enum `BaseEnvironment` com a URL pública da API.
-2. Troque `final baseURL = ...` para o ambiente desejado.
-3. Informe o segredo do JWT via `--dart-define` (a constante `jwtSecret` é lida de `String.fromEnvironment('JWT_SECRET')`):
+Para apontar para outro ambiente, informe a URL ao executar ou gerar o build (sempre HTTPS fora do desenvolvimento):
 
 ```bash
-flutter run -d chrome --dart-define=JWT_SECRET=seu_segredo_aqui
+flutter run -d chrome -t lib/app/main.dart --dart-define=API_BASE_URL=https://<host-da-api>
 ```
+
+O app não precisa do segredo do JWT: ele só lê a expiração do token, e a assinatura é validada pela API. Nunca passe o segredo via `--dart-define`, pois tudo o que é definido ali fica embutido no bundle web público.
 
 ## Como executar o projeto
 
@@ -97,13 +89,13 @@ flutter run -d chrome --dart-define=JWT_SECRET=seu_segredo_aqui
 5. **Execute o aplicativo:**
 
    ```bash
-   flutter run -d chrome
+   flutter run -d chrome -t lib/app/main.dart
    ```
 
    Caso a API use certificado autoassinado (comum em VM interna):
 
    ```bash
-   flutter run -d chrome --web-browser-flag=--ignore-certificate-errors
+   flutter run -d chrome -t lib/app/main.dart --web-browser-flag=--ignore-certificate-errors
    ```
 
 6. **Caso necessário, apague erros de geração de código:**
@@ -142,7 +134,7 @@ flutter run -d chrome --dart-define=JWT_SECRET=seu_segredo_aqui
 ## Build e publicação
 
 ```bash
-flutter build web --release --dart-define=JWT_SECRET=seu_segredo_aqui
+flutter build web --release -t lib/app/main.dart --dart-define=API_BASE_URL=https://<host-da-api>
 ```
 
 O resultado fica em `build/web/`. Consulte o [DEPLOY.md](DEPLOY.md) para as instruções de hospedagem na VM (Nginx, `--base-href`, HTTPS e CORS).
@@ -158,10 +150,11 @@ O projeto segue uma arquitetura **feature-first** com uma camada `core/` compart
   - `core/`: código compartilhado entre features.
     - `global/`: `injection.dart` (GetIt) e `constants/api_constants.dart` (URL base + rotas da API).
     - `models/`: modelos transversais (endereços, cidades, estados, organizações, contribuidores, papéis, token de autenticação, mídias etc.).
-    - `repositories/`: repositórios transversais (endereços, organizações, áreas de pesquisa, upload de imagens, token, tradução etc.).
-    - `stores/`: stores MobX base - `BaseStore`, `PagedStore<T>` (listagens paginadas), `MediaMapStore<M>`, `FilterSearchStore`, `TranslationStore` e `UserManagerStore` (sessão).
+    - `network/`: `ApiClient`, o cliente HTTP único (URL base, cabeçalhos, token e tratamento de erros).
+    - `repositories/`: repositórios transversais (endereços, organizações, áreas de pesquisa, upload de imagens, token, tradução etc.) e o genérico `MediaRepository<M>`.
+    - `stores/`: stores MobX base - `BaseStore`, `PagedStore<T>` (listagens paginadas no servidor), `ClientPagedStore<T>` (listagens paginadas em memória), `MediaMapStore<M>`, `FilterSearchStore`, `TranslationStore` e `UserManagerStore` (sessão).
     - `ui/`: componentes reutilizáveis - `buttons/`, `forms/`, `listing_tiles/`, `sections/`, `theme/` (`CustomColors`) e `widgets/` (incluindo os genéricos de listagem administrativa em `widgets/admin/`).
-    - `utils/`: utilitários puros (formatadores, placeholders, toasts, tratamento de mensagens de erro da API).
+    - `utils/`: utilitários puros (formatadores, validadores, placeholders, links externos seguros, mensagem de erro da API).
   - `features/`: uma pasta por domínio (`home`, `about_us`, `news`, `projects`, `events`, `publications`, `articles`, `books`, `book_chapters`, `thesis`, `members`, `login`, `admin`). Cada feature repete o mesmo formato interno:
     - `models/`: modelos daquele domínio.
     - `repositories/`: acesso HTTP àquele domínio.
@@ -181,12 +174,14 @@ O projeto segue uma arquitetura **feature-first** com uma camada `core/` compart
 | Responsividade | `responsive_framework` (breakpoints: mobile 400, tablet 768, desktop 1024) |
 | Comunicação HTTP | `http` + `http_parser` |
 | Autenticação | `dart_jsonwebtoken` (leitura do `exp`) + `flutter_secure_storage` (persistência do token) |
-| Imagens | `image_picker`, `image_cropper`, `cached_network_image` |
-| Formatação | `intl`, `brasil_fields` |
+| Imagens | `image_picker` |
+| Formatação | `intl` |
 
 Convenções que o código novo deve seguir:
 
-- Listagens paginadas estendem `PagedStore<T>` e implementam apenas `fetchPage(int)` - não precisam de `.g.dart` próprio.
+- Repositórios acessam a API só pelo `ApiClient` (nunca `http` direto); repositórios de mídia estendem `MediaRepository<M>` e os de tipo de publicação estendem `PublicationTypeRepository<T>`.
+- Listagens paginadas estendem `PagedStore<T>` e implementam apenas `fetchPage(int)`; listagens baixadas inteiras e paginadas em memória estendem `ClientPagedStore<T>` e implementam `fetchAll()` e `matches()`. Nenhuma precisa de `.g.dart` próprio.
+- Links externos abrem por `openExternalUrl` (`core/utils/external_links.dart`), que só aceita http(s), mailto e tel.
 - Listagens do painel administrativo reutilizam os genéricos `AdminEntityListSection{Desktop,Mobile}Version<T>` e `AdminEntityList{Desktop,Mobile}Version<T>` (`core/ui/widgets/admin/`), parametrizados por store, textos, `itemBuilder` e `gridDelegate`.
 - Upload de mídia usa `MediaUploadField`, genérico sobre a interface `MediaAttachment` (`core/models/`).
 - Modelos, repositórios e stores compartilhados por mais de uma feature vivem em `core/models`, `core/repositories` e `core/stores` - nunca em `core/utils`.

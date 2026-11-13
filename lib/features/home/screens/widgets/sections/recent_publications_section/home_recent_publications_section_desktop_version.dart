@@ -37,7 +37,6 @@ class HomeRecentPublicationsSectionDesktopVersion extends StatelessWidget {
               const SizedBox(height: 24),
               PublicationsListWidgetDesktopVersion(
                 publicationsStore: publicationsStore,
-                totalCount: 10,
               ),
             ],
           ),

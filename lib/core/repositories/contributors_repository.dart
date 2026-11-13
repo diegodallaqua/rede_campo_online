@@ -1,76 +1,19 @@
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:http/http.dart' as http;
-
-import '../../core/global/constants/api_constants.dart';
-import '../../core/utils/error_message_api.dart';
-import '../../core/repositories/token_repository.dart';
+import '../global/constants/api_constants.dart';
+import '../network/api_client.dart';
 import '../models/contributor.dart';
 
 class ContributorsRepository {
-  Future<void> create(Contributors contributor) async {
-    var url = Uri.parse(baseURL + contributorsURL);
-    final token = await TokenRepository().getToken();
+  final _api = const ApiClient();
 
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(contributor.toMap()),
+  Future<void> create(Contributors contributor) => _api.post(
+        contributorsURL,
+        contributor.toMap(),
+        errorMessage: 'Erro ao criar Contribuidor',
       );
-      print(response.statusCode);
-      print(response.body);
-
-      if (response.statusCode != 200 &&
-          response.statusCode != 204 &&
-          response.statusCode != 201) {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao criar Contribuidor.',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao criar Contribuidor');
-    }
-  }
 
   // Sem id próprio: identificado por (publication_id, author_order) na rota.
-  Future<void> delete(int publicationId, int authorOrder) async {
-    var url = Uri.parse('$baseURL$contributorsURL$publicationId/$authorOrder');
-    final token = await TokenRepository().getToken();
-
-    try {
-      final response = await http.delete(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
+  Future<void> delete(int publicationId, int authorOrder) => _api.delete(
+        '$contributorsURL$publicationId/$authorOrder',
+        errorMessage: 'Erro ao remover Contribuidor',
       );
-
-      print(response.statusCode);
-      print(response.body);
-
-      if (response.statusCode != 200 && response.statusCode != 204) {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao remover Contribuidor.',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao remover Contribuidor');
-    }
-  }
 }

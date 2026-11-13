@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../../../../core/utils/external_links.dart';
 
 import '../../../../../../core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
@@ -38,10 +38,7 @@ class BookHeaderSectionMobileVersion extends StatelessWidget {
                   : MouseCursor.defer,
               child: GestureDetector(
                 onTap: (book.book_url != null && book.book_url!.isNotEmpty)
-                    ? () => launchUrl(
-                          Uri.parse(book.book_url!),
-                          mode: LaunchMode.externalApplication,
-                        )
+                    ? () => openExternalUrl(book.book_url)
                     : null,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
@@ -122,7 +119,7 @@ class BookHeaderSectionMobileVersion extends StatelessWidget {
                     book.book_url != null &&
                     book.book_url!.isNotEmpty) ...[
                   GestureDetector(
-                    onTap: () => launchUrl(Uri.parse(book.book_url!)),
+                    onTap: () => openExternalUrl(book.book_url),
                     child: RichText(
                       maxLines: 2,
                       text: TextSpan(

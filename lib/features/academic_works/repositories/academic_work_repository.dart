@@ -1,178 +1,25 @@
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:http/http.dart' as http;
-
 import '../../../core/global/constants/api_constants.dart';
-import '../../../core/utils/error_message_api.dart';
-import '../../../core/repositories/token_repository.dart';
-import '../../../core/stores/filter_search_store.dart';
+import '../../publications/repositories/publication_type_repository.dart';
 import '../models/academic_work.dart';
 
-class AcademicWorkRepository {
-  Future<void> createAcademicWork(AcademicWork academicWork) async {
-    var url = Uri.parse(baseURL + academicWorksURL);
-    final token = await TokenRepository().getToken();
+class AcademicWorkRepository extends PublicationTypeRepository<AcademicWork> {
+  const AcademicWorkRepository();
 
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(academicWork.toMap()),
-      );
+  @override
+  String get path => academicWorksURL;
 
-      if (response.statusCode != 200 &&
-          response.statusCode != 204 &&
-          response.statusCode != 201) {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao criar Trabalho Acadêmico.',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao criar Trabalho Acadêmico');
-    }
-  }
+  @override
+  String get singular => 'Trabalho Acadêmico';
 
-  Future<List<AcademicWork>> findAllAcademicWorks(
-      {int? page, FilterSearchStore? filterSearchStore, int? take}) async {
-    final token = await TokenRepository().getToken();
+  @override
+  String get plural => 'Trabalhos Acadêmicos';
 
-    final url =
-        Uri.parse('$baseURL$academicWorksURL').replace(queryParameters: {
-      if (page != null) 'page': '$page',
-      if (take != null) 'take': '$take',
-      if (filterSearchStore != null && filterSearchStore.search.isNotEmpty)
-        'search': filterSearchStore.search,
-    });
+  @override
+  AcademicWork fromMap(Map<String, dynamic> map) => AcademicWork.fromMap(map);
 
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-      );
+  @override
+  Map<String, dynamic> toMap(AcademicWork item) => item.toMap();
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonData = jsonDecode(response.body);
-
-        final List<dynamic> data = jsonData["data"];
-        return data.map((a) => AcademicWork.fromMap(a)).toList();
-      } else {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao buscar Trabalhos Acadêmicos:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao buscar Trabalhos Acadêmicos');
-    }
-  }
-
-  /// Trabalho acadêmico da publicação, ou null se não houver.
-  Future<AcademicWork?> findByPublicationId(int publicationId) async {
-    final token = await TokenRepository().getToken();
-    final url = Uri.parse('$baseURL$academicWorksURL$publicationId');
-
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final decoded = jsonDecode(response.body);
-        final map = decoded is Map<String, dynamic>
-            ? (decoded.containsKey('data') ? decoded['data'] : decoded)
-            : decoded;
-        if (map == null) return null;
-        return AcademicWork.fromMap(map as Map<String, dynamic>);
-      }
-      return null;
-    } catch (e, s) {
-      log('Repository: Erro ao buscar Trabalho Acadêmico por publicação:',
-          error: e.toString(), stackTrace: s);
-      return null;
-    }
-  }
-
-  Future<void> editAcademicWork(AcademicWork academicWork) async {
-    var url = Uri.parse(
-        baseURL + academicWorksURL + academicWork.publication!.id!.toString());
-
-    final token = await TokenRepository().getToken();
-
-    try {
-      final response = await http.put(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        // Id vai na URL; a API o rejeita no corpo do PUT.
-        body: jsonEncode(academicWork.toMap()..remove('publication_id')),
-      );
-
-      if (response.statusCode != 200 &&
-          response.statusCode != 204 &&
-          response.statusCode != 201) {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao editar Trabalho Acadêmico:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao editar Trabalho Acadêmico');
-    }
-  }
-
-  Future<void> deleteAcademicWork(String id) async {
-    var url = Uri.parse(baseURL + academicWorksURL + id);
-
-    final token = await TokenRepository().getToken();
-
-    try {
-      final response = await http.delete(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      if (response.statusCode != 200 && response.statusCode != 204) {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao deletar Trabalho Acadêmico:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao deletar Trabalho Acadêmico');
-    }
-  }
+  @override
+  int? publicationIdOf(AcademicWork item) => item.publication?.id;
 }

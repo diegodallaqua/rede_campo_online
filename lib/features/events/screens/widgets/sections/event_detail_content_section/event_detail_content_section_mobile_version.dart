@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../../../../core/utils/external_links.dart';
 
 import '../../../../../../core/ui/buttons/custom_button.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
@@ -13,16 +13,6 @@ class EventDetailContentSectionMobileVersion extends StatelessWidget {
     super.key,
     required this.event,
   });
-
-  Future<void> _openRegistrationUrl() async {
-    final url = event.registration_url;
-    if (url == null || url.isEmpty) return;
-    final uri = Uri.tryParse(url);
-    if (uri == null) return;
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, webOnlyWindowName: '_blank');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +72,7 @@ class EventDetailContentSectionMobileVersion extends StatelessWidget {
               text: 'Inscreva-se',
               borderRadius: 10,
               fontWeight: FontWeight.w700,
-              function: _openRegistrationUrl,
+              function: () => openExternalUrl(event.registration_url),
             ),
         ],
       ),

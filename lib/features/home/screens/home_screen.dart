@@ -26,12 +26,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // Stores no State: criadas no build, cada rebuild geraria instâncias novas
   // e as listagens ficariam presas à antiga.
-  final NewsStore newsStore = NewsStore();
+  final NewsStore newsStore = NewsStore(loadList: false);
   final PublicationsStore publicationsStore = PublicationsStore();
 
   @override
   Widget build(BuildContext context) {
-
     return AppScaffold(
       body: ResponsiveVisibility(
         visible: false,
