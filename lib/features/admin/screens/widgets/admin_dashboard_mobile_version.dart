@@ -6,6 +6,9 @@ import 'package:rede_campo_online/core/global/injection.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/features/admin/stores/admin_store.dart';
 
+import 'admin_dashboard_desktop_version.dart' show adminGreeting;
+import 'admin_sections_grid.dart';
+
 class AdminDashboardMobileVersion extends StatelessWidget {
   const AdminDashboardMobileVersion({super.key});
 
@@ -20,66 +23,28 @@ class AdminDashboardMobileVersion extends StatelessWidget {
           _AdminHeader(store: store),
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(20, 28, 20, 32),
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'O que deseja fazer?',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: CustomColors.midnight_slate,
-                      letterSpacing: 0.1,
+                  Text(
+                    adminGreeting(store.userName),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: CustomColors.pine_shadow,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  _AdminActionCard(
-                    icon: Icons.article_outlined,
-                    iconColor: CustomColors.copper_spice,
-                    iconBackground: CustomColors.peach_cream,
-                    title: 'Gerenciar Notícias',
-                    description: 'Edite, apague ou publique notícias no site.',
-                    onTap: () => context.push(AppRoutes.adminNews),
+                  const SizedBox(height: 4),
+                  Text(
+                    'O que você quer publicar hoje?',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: CustomColors.pine_shadow.withOpacity(0.75),
+                    ),
                   ),
-                  const SizedBox(height: 14),
-                  _AdminActionCard(
-                    icon: Icons.science_outlined,
-                    iconColor: CustomColors.copper_spice,
-                    iconBackground: CustomColors.peach_cream,
-                    title: 'Gerenciar Projetos',
-                    description: 'Cadastre, edite ou apague projetos do site.',
-                    onTap: () => context.push(AppRoutes.adminProjects),
-                  ),
-                  const SizedBox(height: 14),
-                  _AdminActionCard(
-                    icon: Icons.event_outlined,
-                    iconColor: CustomColors.copper_spice,
-                    iconBackground: CustomColors.peach_cream,
-                    title: 'Gerenciar Eventos',
-                    description: 'Cadastre, edite ou apague eventos do site.',
-                    onTap: () => context.push(AppRoutes.adminEvents),
-                  ),
-                  const SizedBox(height: 14),
-                  _AdminActionCard(
-                    icon: Icons.menu_book_outlined,
-                    iconColor: CustomColors.copper_spice,
-                    iconBackground: CustomColors.peach_cream,
-                    title: 'Gerenciar Publicações',
-                    description:
-                        'Cadastre, edite ou apague publicações do site.',
-                    onTap: () => context.push(AppRoutes.adminPublications),
-                  ),
-                  const SizedBox(height: 14),
-                  _AdminActionCard(
-                    icon: Icons.groups_outlined,
-                    iconColor: CustomColors.copper_spice,
-                    iconBackground: CustomColors.peach_cream,
-                    title: 'Gerenciar Membros',
-                    description: 'Cadastre, edite ou apague membros do site.',
-                    onTap: () => context.push(AppRoutes.adminMembers),
-                  ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 20),
+                  const AdminSectionsGrid(),
                 ],
               ),
             ),
@@ -195,87 +160,6 @@ class _UserAvatar extends StatelessWidget {
             color: CustomColors.vanilla_haze,
             fontSize: 15,
             fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AdminActionCard extends StatelessWidget {
-  const _AdminActionCard({
-    required this.icon,
-    required this.iconColor,
-    required this.iconBackground,
-    required this.title,
-    required this.description,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final Color iconColor;
-  final Color iconBackground;
-  final String title;
-  final String description;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(14),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(14),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: const Color(0xFFE8E8DC)),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: iconBackground,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(icon, color: iconColor, size: 24),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: CustomColors.midnight_slate,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      description,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: CustomColors.midnight_slate.withOpacity(0.55),
-                        height: 1.4,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: CustomColors.midnight_slate.withOpacity(0.30),
-                size: 22,
-              ),
-            ],
           ),
         ),
       ),
