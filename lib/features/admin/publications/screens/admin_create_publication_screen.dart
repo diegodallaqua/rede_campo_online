@@ -49,9 +49,8 @@ class _AdminCreatePublicationScreenState
     editing = widget.publication != null;
     _store = AdminCreatePublicationStore(widget.publication ?? Publications());
 
-    // Tipo detectado de forma síncrona (inline) já preenche os valores no
-    // store; os controllers nascem a partir deles. Quando a detecção é
-    // assíncrona (fallback), o _typeDisposer popula os controllers depois.
+    // Com tipo inline, os controllers já nascem preenchidos; com detecção
+    // assíncrona, o _typeDisposer os preenche depois.
     _controllers = PublicationFormControllers(_store);
 
     _leaveGuard = AdminLeaveGuard(_controllers.all);
@@ -79,8 +78,7 @@ class _AdminCreatePublicationScreenState
       },
     );
 
-    // Na edição, o tipo e seus campos chegam de forma assíncrona; quando o tipo
-    // é detectado, preenche os controllers dos campos específicos.
+    // Na edição, preenche os campos específicos quando o tipo é detectado.
     _typeDisposer = reaction(
       (_) => _store.publicationType,
       (type) {
@@ -256,8 +254,7 @@ class _AdminCreatePublicationScreenState
             selectedType: _store.publicationType,
             onChanged: _store.setPublicationType,
             errorText: _store.publicationTypeError,
-            // Trava o tipo detectado na edição; libera a seleção quando não foi
-            // possível detectá-lo.
+            // Trava o tipo se detectado na edição.
             enabled: !editing || _store.publicationType == null,
           ),
           PublicationTypeFormFields(store: _store, controllers: _controllers),

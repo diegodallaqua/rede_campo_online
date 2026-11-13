@@ -56,8 +56,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
     loadBooks();
     loadProjects();
     if (editing) {
-      // O tipo e seus atributos chegam inline em `details`; se ausentes
-      // (formato antigo), recai para a detecção via endpoints de tipo.
+      // Tipo vem em `details`; se ausente, detecta via endpoints de tipo.
       if (publication.publication_type != null) {
         _applyTypeFromPublication();
       } else {
@@ -182,9 +181,8 @@ abstract class AdminCreatePublicationStoreBase with Store {
     });
   }
 
-  // Contribuidores - não têm id próprio (são identificados no backend por
-  // publication_id + author_order). Os novos são criados junto com o
-  // salvamento (autor externo antes do contribuidor).
+  // Contribuidores (sem id: publication_id + author_order). Novos são
+  // criados ao salvar.
   final contributors = ObservableList<Contributors>();
   final _originalContributors = <Contributors>[];
 
@@ -245,8 +243,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
   @action
   void setDoi(String value) => _doi = value;
 
-  // Opcional; quando preenchido exige o formato padrão de DOI (10.xxxx/...),
-  // evitando que valores arbitrários sejam publicados como identificador.
+  // Opcional; exige formato de DOI (10.xxxx/...).
   @computed
   bool get doiValid {
     final value = _doi.trim();
@@ -259,16 +256,14 @@ abstract class AdminCreatePublicationStoreBase with Store {
     return 'Informe um DOI válido (ex.: 10.1000/xyz123)';
   }
 
-  // Projeto vinculado. Opcional: a publicação pode não pertencer a nenhum
-  // projeto, e o vínculo pode ser removido na edição.
+  // Projeto vinculado (opcional, removível na edição).
   @readonly
   Projects? _project;
 
   @action
   void setProject(Projects? value) => _project = value;
 
-  // Tipo da publicação. Na criação é escolhido pelo usuário; na edição é
-  // detectado a partir do registro de tipo já existente e não pode ser trocado.
+  // Tipo: escolhido na criação, detectado e fixo na edição.
   @readonly
   PublicationType? _publicationType;
 
@@ -281,9 +276,8 @@ abstract class AdminCreatePublicationStoreBase with Store {
   @action
   void _setLoadingType(bool value) => _loadingType = value;
 
-  /// Descobre o tipo da publicação em edição. Tenta primeiro o GET direto por
-  /// id de publicação em cada endpoint de tipo; se nenhum responder, recai para
-  /// uma varredura das listagens (filtradas pelo título) casando o id.
+  /// Detecta o tipo da publicação: tenta GET por id em cada endpoint de tipo
+  /// e, se falhar, varre as listagens.
   @action
   Future<void> loadPublicationType() async {
     final id = publication.id;
@@ -526,16 +520,14 @@ abstract class AdminCreatePublicationStoreBase with Store {
   @action
   void setEdition(String value) => _edition = value;
 
-  // Capa do livro - imagem escolhida pelo usuário, enviada ao Cloudflare no
-  // salvamento; a url_small retornada é usada como cover_photo.
+  // Capa do livro: enviada ao Cloudflare ao salvar; url_small vira cover_photo.
   @readonly
   XFile? _coverPhotoFile;
 
   @action
   void setCoverPhotoFile(XFile? value) => _coverPhotoFile = value;
 
-  // Capa já salva (preenchida na edição). Mantida quando nenhuma nova imagem
-  // é escolhida.
+  // Capa já salva, mantida se nenhuma nova for escolhida.
   @readonly
   late String _existingCoverPhoto = '';
 
@@ -583,8 +575,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
     return 'Informe um ISBN válido (10 ou 13 dígitos)';
   }
 
-  // Exige URL http/https válida para evitar que links maliciosos
-  // (javascript:, data:, etc.) sejam publicados.
+  // Exige URL http/https válida (bloqueia javascript:, data: etc.).
   bool _isValidHttpUrl(String value) {
     final uri = Uri.tryParse(value);
     return uri != null &&
@@ -667,13 +658,11 @@ abstract class AdminCreatePublicationStoreBase with Store {
   @action
   void setEndPage(String value) => _endPage = value;
 
-  /// Com um livro vinculado, o nome e o ISBN exibidos passam a ser os dele,
-  /// então os campos equivalentes do capítulo deixam de ser pedidos.
+  /// Com livro vinculado, nome e ISBN vêm dele e não são pedidos.
   @computed
   bool get hasLinkedBook => _book != null;
 
-  // ISBN opcional do capítulo; quando preenchido, segue o mesmo formato do
-  // ISBN do livro (ISBN-10 ou ISBN-13, com ou sem hífens/espaços).
+  // ISBN opcional do capítulo, no mesmo formato do livro.
   @computed
   bool get chapterIsbnValid {
     if (!_isBookChapter || hasLinkedBook) return true;
@@ -904,13 +893,11 @@ abstract class AdminCreatePublicationStoreBase with Store {
     setLoading(false);
   }
 
-  /// Persiste os contribuidores ainda sem id. Autores externos novos são
-  /// criados antes do contribuidor correspondente, na ordem da lista.
+  /// Persiste contribuidores novos, criando antes os autores externos.
   Future<void> _saveNewContributors(int publicationId) async {
     for (var i = 0; i < contributors.length; i++) {
       final contributor = contributors[i];
-      // Contribuidores não têm id próprio; os já carregados do servidor são os
-      // mesmos objetos guardados em _originalContributors e não são reenviados.
+      // Os carregados (_originalContributors) não são reenviados.
       if (_originalContributors.contains(contributor)) continue;
 
       final externalAuthor = contributor.external_author;
@@ -926,11 +913,8 @@ abstract class AdminCreatePublicationStoreBase with Store {
     }
   }
 
-  // Contribuidores não têm id próprio; são identificados por
-  // (publication_id, author_order). Um original conta como removido quando não
-  // está mais na lista atual (comparação por identidade de objeto, já que não há
-  // id para casar). A exclusão roda antes da criação dos novos, liberando a
-  // ordem para que um substituto possa reusá-la sem disparar 409.
+  // Removidos = originais fora da lista atual (por identidade, sem id).
+  // Exclui antes de criar, liberando a ordem e evitando 409.
   Future<void> _deleteRemovedContributors() async {
     for (final original in _originalContributors) {
       final order = original.order;
@@ -940,8 +924,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
     }
   }
 
-  /// Resolve a capa do livro: envia a nova imagem ao Cloudflare e usa a
-  /// url_small; se nenhuma foi escolhida, mantém a capa já existente.
+  /// Envia a nova capa ao Cloudflare (url_small) ou mantém a existente.
   Future<String> _resolveCoverPhoto(int publicationId) async {
     final file = _coverPhotoFile;
     if (file == null) return _existingCoverPhoto;
@@ -953,16 +936,14 @@ abstract class AdminCreatePublicationStoreBase with Store {
     return upload.urlSmall.isNotEmpty ? upload.urlSmall : upload.bestUrl;
   }
 
-  /// Nome do livro gravado no capítulo: com um livro vinculado, o título dele
-  /// prevalece; sem vínculo, o valor digitado no formulário.
+  /// Nome do livro do capítulo: o do livro vinculado ou o digitado.
   String get _resolvedBookName {
     final linkedTitle = _book?.publication?.title;
     if (linkedTitle != null && linkedTitle.isNotEmpty) return linkedTitle;
     return _bookName.trim();
   }
 
-  /// ISBN gravado no capítulo: nulo quando há livro vinculado (o ISBN passa a
-  /// ser o do livro) ou quando o campo foi deixado em branco.
+  /// ISBN do capítulo: null com livro vinculado ou campo em branco.
   String? get _resolvedChapterIsbn {
     if (hasLinkedBook) return null;
     final value = _chapterIsbn.trim();
@@ -1012,8 +993,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
     }
   }
 
-  /// Atualiza o registro de tipo da publicação em edição. O tipo em si não é
-  /// alterado; apenas seus campos. Se o tipo não foi detectado, nada é feito.
+  /// Atualiza os campos do tipo (não o tipo). Sem tipo, nada faz.
   Future<void> _editTypeRecord() async {
     final type = _publicationType;
     if (type == null) return;

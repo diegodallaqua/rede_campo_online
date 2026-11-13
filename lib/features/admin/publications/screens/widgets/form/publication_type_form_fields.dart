@@ -11,8 +11,7 @@ import 'package:rede_campo_online/features/admin/publications/screens/widgets/fo
 import 'package:rede_campo_online/features/admin/publications/screens/widgets/form/publication_form_controllers.dart';
 import 'package:rede_campo_online/features/admin/publications/stores/admin_create_publication_store.dart';
 
-/// Campos específicos do tipo de publicação selecionado (artigo, livro,
-/// capítulo de livro ou trabalho acadêmico). Reage à troca de tipo no store.
+/// Campos específicos do tipo de publicação selecionado.
 class PublicationTypeFormFields extends StatelessWidget {
   const PublicationTypeFormFields({
     super.key,
@@ -161,8 +160,7 @@ class PublicationTypeFormFields extends StatelessWidget {
           emptyMessage: 'Nenhum livro disponível.',
         ),
       ),
-      // Com um livro vinculado, nome e ISBN exibidos passam a ser os dele, de
-      // modo que os campos equivalentes do capítulo são ocultados.
+      // Com livro vinculado, oculta nome e ISBN do capítulo.
       if (!store.hasLinkedBook) ...[
         const SizedBox(height: 16),
         CustomTextField(

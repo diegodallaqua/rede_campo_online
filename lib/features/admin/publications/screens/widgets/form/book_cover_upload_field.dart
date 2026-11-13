@@ -5,8 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rede_campo_online/core/ui/forms/form_field_shell.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 
-/// Campo de upload da capa do livro. Imagem única escolhida da galeria,
-/// enviada ao Cloudflare durante o salvamento da publicação.
+/// Upload da capa do livro, enviada ao Cloudflare ao salvar.
 class BookCoverUploadField extends StatefulWidget {
   const BookCoverUploadField({
     super.key,
@@ -20,8 +19,7 @@ class BookCoverUploadField extends StatefulWidget {
   final void Function(XFile file) onPickImage;
   final VoidCallback onRemove;
 
-  /// Capa já salva no servidor (edição). Exibida enquanto nenhuma nova imagem
-  /// é escolhida.
+  /// Capa já salva, exibida até escolherem outra.
   final String? existingUrl;
 
   @override

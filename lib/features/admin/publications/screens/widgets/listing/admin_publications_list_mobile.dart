@@ -7,8 +7,7 @@ import 'package:rede_campo_online/core/ui/widgets/list_status_builder.dart';
 import 'package:rede_campo_online/features/admin/publications/stores/admin_publications_store.dart';
 import 'package:rede_campo_online/features/publications/models/publications.dart';
 
-/// Listagem mobile do gerenciamento de publicações: busca e lista com
-/// rolagem infinita.
+/// Listagem mobile de publicações: busca e rolagem infinita.
 class AdminPublicationsListMobile extends StatefulWidget {
   const AdminPublicationsListMobile({
     super.key,

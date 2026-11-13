@@ -1,9 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:rede_campo_online/features/admin/publications/stores/admin_create_publication_store.dart';
 
-/// Controllers de texto do formulário de publicação. Cada controller nasce
-/// com o valor atual do store e propaga as digitações de volta para ele,
-/// removendo o cabeamento manual que ficava na tela.
+/// Controllers do formulário de publicação, sincronizados com o store.
 class PublicationFormControllers {
   PublicationFormControllers(AdminCreatePublicationStore store)
       : title = _bind(store.title, store.setTitle),
@@ -86,8 +84,7 @@ class PublicationFormControllers {
         numberOfPages,
       ];
 
-  /// Preenche os controllers dos campos específicos do tipo a partir do
-  /// store. Usado na edição quando o tipo é detectado de forma assíncrona.
+  /// Preenche os campos do tipo a partir do store (detecção assíncrona).
   void syncTypeFields(AdminCreatePublicationStore store) {
     journalName.text = store.journalName;
     volume.text = store.volume;
