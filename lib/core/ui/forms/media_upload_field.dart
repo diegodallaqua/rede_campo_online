@@ -7,9 +7,8 @@ import '../../models/media_attachment.dart';
 import '../../models/pending_media.dart';
 import '../theme/custom_colors.dart';
 
-/// Campo de upload de imagens usado nos formulários do painel administrativo.
-/// Exibe as mídias já persistidas ([existingItems]) e as recém-selecionadas
-/// ([items]), delegando todas as mutações ao chamador via callbacks.
+/// Upload de imagens do painel: exibe [existingItems] e [items].
+/// Mutações ficam a cargo do chamador.
 class MediaUploadField extends StatefulWidget {
   const MediaUploadField({
     super.key,

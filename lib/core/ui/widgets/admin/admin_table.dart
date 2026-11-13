@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../utils/placeholders.dart';
 import '../../theme/custom_colors.dart';
 
-/// Coluna das tabelas do painel: largura fixa quando [width] é informado,
-/// senão divide o espaço restante por [flex].
+/// Coluna da tabela: largura fixa com [width], senão [flex].
 class AdminTableColumn {
   final String label;
   final double? width;
@@ -65,8 +64,7 @@ class AdminTableHeader extends StatelessWidget {
   }
 }
 
-/// Linha da tabela: a linha inteira abre a edição; o botão de lápis à
-/// direita deixa a ação visível.
+/// Linha da tabela; o toque abre a edição.
 class AdminTableRow extends StatelessWidget {
   final List<AdminTableColumn> columns;
   final List<Widget> cells;
@@ -192,7 +190,7 @@ class AdminTableAvatar extends StatelessWidget {
   }
 }
 
-/// Título da linha em uma linha, com texto de apoio opcional abaixo.
+/// Título da linha com texto de apoio opcional.
 class AdminTableTitle extends StatelessWidget {
   final String title;
   final String? subtitle;
@@ -255,8 +253,7 @@ class AdminTableText extends StatelessWidget {
   }
 }
 
-/// Etiquetas de uma célula. Mostra até [maxVisible] e resume o resto em
-/// "+N".
+/// Etiquetas da célula: até [maxVisible], o resto vira "+N".
 class AdminTableChips extends StatelessWidget {
   final List<String> labels;
   final Color color;

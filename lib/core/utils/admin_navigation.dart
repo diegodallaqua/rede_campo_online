@@ -3,8 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../ui/theme/custom_colors.dart';
 
-/// Fecha a tela atual do painel. Sem histórico (aberta por link direto ou
-/// pela barra lateral), vai para [fallbackRoute].
+/// Fecha a tela do painel; sem histórico, vai para [fallbackRoute].
 void closeAdminPage(
   BuildContext context,
   String fallbackRoute, [
@@ -17,9 +16,8 @@ void closeAdminPage(
   }
 }
 
-/// Abre um formulário do painel. Quando o formulário fecha com uma mensagem
-/// (publicado, salvo ou apagado), mostra o aviso de sucesso e retorna true
-/// para que a tela de origem recarregue seus dados.
+/// Abre um formulário do painel. Se fechar com mensagem, mostra o aviso e
+/// retorna true para recarregar a origem.
 Future<bool> openAdminForm(
   BuildContext context,
   String route, {
@@ -31,7 +29,7 @@ Future<bool> openAdminForm(
   return true;
 }
 
-/// Aviso curto de sucesso usado pelo painel administrativo.
+/// Aviso de sucesso do painel.
 void showAdminSuccess(BuildContext context, String message) {
   final isDesktop = MediaQuery.sizeOf(context).width > 768;
 

@@ -19,9 +19,7 @@ typedef AdminEntityItemBuilder<T> = Widget Function(
 /// Constrói as células de uma linha da tabela, na ordem das colunas.
 typedef AdminEntityCellsBuilder<T> = List<Widget> Function(T item);
 
-/// Listagem administrativa desktop: tabela paginada com barra de páginas
-/// numeradas, estados de carregamento/erro/vazio e pull-to-refresh.
-/// Genérica sobre qualquer [PagedStore].
+/// Listagem desktop do painel: tabela paginada genérica sobre [PagedStore].
 class AdminEntityListDesktopVersion<T> extends StatefulWidget {
   final PagedStore<T> store;
   final int maxDiscoveredPage;
@@ -178,9 +176,7 @@ class _AdminEntityListDesktopVersionState<T>
   }
 }
 
-/// Listagem administrativa mobile com rolagem infinita. Usa grade quando
-/// [gridDelegate] é informado, senão uma lista vertical separada por
-/// [listSeparatorHeight].
+/// Listagem mobile com rolagem infinita; grade quando há [gridDelegate].
 class AdminEntityListMobileVersion<T> extends StatefulWidget {
   final PagedStore<T> store;
   final String errorMessage;

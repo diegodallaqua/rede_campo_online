@@ -5,8 +5,7 @@ import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/features/admin/screens/widgets/admin_sidebar.dart';
 import 'package:rede_campo_online/features/admin/stores/admin_store.dart';
 
-/// Estrutura das telas desktop do painel administrativo: sidebar de navegação
-/// fixa à esquerda e conteúdo da seção à direita.
+/// Estrutura desktop do painel: sidebar à esquerda e conteúdo à direita.
 class AdminDesktopShell extends StatelessWidget {
   const AdminDesktopShell({super.key, required this.child});
 
@@ -17,8 +16,7 @@ class AdminDesktopShell extends StatelessWidget {
     return ColoredBox(
       color: CustomColors.vanilla_haze.withOpacity(0.5),
       child: Row(
-        // Estica o conteúdo na altura toda: telas com rolagem curta começam
-        // no topo em vez de centralizadas.
+        // Estica na altura: conteúdo curto começa no topo.
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Observer(

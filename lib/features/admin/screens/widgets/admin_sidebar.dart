@@ -7,9 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'admin_sections.dart';
 
-/// Barra lateral das telas desktop do painel: gradiente cobre → grafite do
-/// login, navegação entre as seções, atalho para o site público, usuário e
-/// saída.
+/// Sidebar desktop do painel: navegação, site público, usuário e saída.
 class AdminSidebar extends StatelessWidget {
   const AdminSidebar({super.key, required this.store});
 
@@ -68,8 +66,7 @@ class AdminSidebar extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Rola sozinha em janelas baixas, mantendo usuário e "Sair"
-                // sempre visíveis.
+                // Rola em janelas baixas; usuário e "Sair" ficam visíveis.
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(

@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../utils/admin_navigation.dart';
 import '../confirmation_dialog.dart';
 
-/// Guarda o texto inicial dos campos de um formulário do painel e pede
-/// confirmação antes de sair quando algo foi digitado.
-///
-/// Crie depois que os controllers receberem os valores iniciais.
+/// Pede confirmação ao sair de um formulário do painel com texto alterado.
+/// Crie depois de preencher os controllers.
 class AdminLeaveGuard {
   AdminLeaveGuard(List<TextEditingController> controllers)
       : _controllers = controllers,
@@ -15,9 +13,7 @@ class AdminLeaveGuard {
   final List<TextEditingController> _controllers;
   List<String> _initialTexts;
 
-  /// Toma o texto atual como ponto de partida. Use quando o próprio
-  /// formulário preenche campos depois de aberto (dados que chegam
-  /// assíncronos), para não confundir isso com edição do usuário.
+  /// Toma o texto atual como base (ex.: dados carregados após abrir).
   void resetBaseline() {
     _initialTexts = _controllers.map((c) => c.text).toList();
   }
@@ -29,7 +25,7 @@ class AdminLeaveGuard {
     return false;
   }
 
-  /// Fecha o formulário; com texto alterado, só fecha se o usuário confirmar.
+  /// Fecha o formulário, confirmando se houver alterações.
   Future<void> leave(BuildContext context, String fallbackRoute) async {
     if (hasChanges) {
       final discard = await ConfirmationDialog.show(

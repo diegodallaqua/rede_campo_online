@@ -7,9 +7,8 @@ import '../../global/constants/api_constants.dart';
 import '../theme/custom_colors.dart';
 import 'form_field_shell.dart';
 
-/// Campo de upload de uma única imagem (ex.: foto de perfil de um membro).
-/// Exibe a imagem já persistida ([existingImageUrl]) ou a recém-selecionada
-/// ([pickedFile]) em um avatar circular, delegando as mutações ao chamador.
+/// Upload de imagem única (ex.: foto de perfil) em avatar circular.
+/// Mutações ficam a cargo do chamador.
 class ProfileImageField extends StatefulWidget {
   const ProfileImageField({
     super.key,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 
-/// Cabeçalho das seções desktop do painel administrativo: título, subtítulo
-/// e a ação principal da tela (por exemplo, "Nova notícia") à direita.
+/// Cabeçalho desktop do painel: título, subtítulo e ação principal.
 class AdminSectionHeader extends StatelessWidget {
   const AdminSectionHeader({
     super.key,
@@ -62,8 +61,7 @@ class AdminSectionHeader extends StatelessWidget {
   }
 }
 
-/// Estilos de título e subtítulo compartilhados pelas telas desktop do
-/// painel (listagens, início e formulários).
+/// Estilos de título e subtítulo das telas desktop do painel.
 abstract class AdminHeaderStyles {
   static const TextStyle title = TextStyle(
     fontSize: 24,

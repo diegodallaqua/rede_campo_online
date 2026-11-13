@@ -14,7 +14,7 @@ class ResearchAreasDialog extends StatefulWidget {
   final List<ResearchAreas> availableAreas;
   final List<ResearchAreas> selectedAreas;
 
-  /// Shows the dialog and returns the confirmed selection, or null if cancelled.
+  /// Exibe o diálogo e retorna a seleção confirmada, ou null se cancelado.
   static Future<List<ResearchAreas>?> show({
     required BuildContext context,
     required List<ResearchAreas> availableAreas,
@@ -99,8 +99,7 @@ class _ResearchAreasDialogState extends State<ResearchAreasDialog> {
                   color: CustomColors.neutral_gray, fontSize: 14, height: 1.5),
             )
           : SizedBox(
-              // Tamanho fixo para o diálogo não encolher conforme a pesquisa
-              // filtra os resultados.
+              // Tamanho fixo: não encolhe ao filtrar.
               height: MediaQuery.sizeOf(context).height * 0.6,
               width: 400,
               child: Column(

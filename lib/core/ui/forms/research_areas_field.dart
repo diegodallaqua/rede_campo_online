@@ -4,8 +4,7 @@ import 'package:rede_campo_online/core/ui/listing_tiles/research_areas/research_
 import 'package:rede_campo_online/core/ui/widgets/dialogs/research_areas_dialog.dart';
 import 'package:rede_campo_online/core/models/research_areas.dart';
 
-/// Campo de seleção múltipla de áreas de pesquisa, compartilhado pelos
-/// formulários administrativos (notícias, projetos e publicações).
+/// Seleção múltipla de áreas de pesquisa dos formulários do painel.
 class ResearchAreasField extends StatelessWidget {
   const ResearchAreasField({
     super.key,

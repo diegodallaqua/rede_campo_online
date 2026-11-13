@@ -11,13 +11,10 @@ OutlineInputBorder _border(Color color, [double width = 1.0]) {
   );
 }
 
-/// Decoração padrão dos campos de formulário do painel administrativo
-/// (fundo claro, borda arredondada, ícone à esquerda e destaque cobre no
-/// foco). Centraliza o visual que antes era replicado em cada campo.
+/// Decoração padrão dos campos do painel.
 ///
-/// [highlightError] tinge a borda do estado habilitado quando o erro é
-/// exibido fora da decoração (campos que renderizam a mensagem por conta
-/// própria, como dropdowns com texto de erro abaixo).
+/// [highlightError] tinge a borda quando o erro é exibido fora da decoração
+/// (ex.: dropdowns com texto de erro próprio).
 InputDecoration adminInputDecoration({
   required String label,
   required IconData icon,

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/custom_colors.dart';
 
-/// Botão flutuante de criação das listagens do painel no celular. No
-/// desktop a mesma ação fica no cabeçalho da listagem.
+/// FAB de criação das listagens do painel (só mobile).
 class AdminCreateFab extends StatelessWidget {
   const AdminCreateFab({
     super.key,
