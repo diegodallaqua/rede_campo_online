@@ -3,9 +3,8 @@ import 'package:rede_campo_online/core/ui/widgets/list_empty_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_error_state.dart';
 import 'package:rede_campo_online/core/ui/widgets/list_loading_state.dart';
 
-/// Decide entre os estados de carregamento, erro, vazio e conteúdo de uma
-/// listagem, centralizando o encadeamento repetido em todas as listas do
-/// painel administrativo. O [builder] só é chamado quando há itens.
+/// Escolhe entre carregamento, erro, vazio e conteúdo. [builder] só roda
+/// com itens.
 class ListStatusBuilder extends StatelessWidget {
   const ListStatusBuilder({
     super.key,

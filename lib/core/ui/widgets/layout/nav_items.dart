@@ -1,7 +1,6 @@
 import 'package:rede_campo_online/app/router.dart';
 
-/// Abas do site público, compartilhadas pela barra superior, pelo menu do
-/// celular e pelo rodapé.
+/// Abas do site público (barra superior, menu mobile e rodapé).
 class NavItem {
   final String label;
   final String route;

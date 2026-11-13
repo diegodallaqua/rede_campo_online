@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../theme/custom_text_styles.dart';
 
-/// Título de seção com linha guia: a barrinha de destaque continua como uma
-/// linha fina até a borda da grade, ligando o título à listagem abaixo.
+/// Título de seção com linha guia até a borda da grade.
 ///
-/// [trailing] ocupa o restante da linha do título, alinhado à direita
-/// (por exemplo, [SectionTitleAction] ou uma barra de busca).
+/// [trailing] ocupa o resto da linha, à direita (ex.: [SectionTitleAction]).
 class SectionTitle extends StatelessWidget {
   final String title;
   final Color color;

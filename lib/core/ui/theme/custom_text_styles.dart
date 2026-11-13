@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Escala tipográfica do site. Cada estilo define apenas família, tamanho,
-/// peso e altura de linha; a cor fica a cargo de quem usa, via `copyWith`,
-/// já que o mesmo estilo aparece sobre fundos claros e escuros.
+/// Escala tipográfica. Sem cor: aplique via `copyWith`.
 abstract class CustomTextStyles {
   static const String _slab = 'RobotoSlab';
 

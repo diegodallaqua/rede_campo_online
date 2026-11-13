@@ -6,8 +6,7 @@ import '../../stores/translation_store.dart';
 import '../listing_tiles/research_areas/research_area_tile.dart';
 import '../theme/custom_colors.dart';
 
-/// Seção de resumo (abstract) das telas de detalhe de publicações, com a
-/// tradução para o inglês exibida ao lado - variante desktop.
+/// Seção de resumo com tradução ao lado (desktop).
 class AbstractSectionDesktopVersion extends StatelessWidget {
   final String abstractText;
   final TranslationStore store;
@@ -100,14 +99,12 @@ class AbstractSectionDesktopVersion extends StatelessWidget {
   }
 }
 
-/// Variante mobile da seção de resumo, com tradução, data de publicação e
-/// áreas de pesquisa empilhadas verticalmente.
+/// Seção de resumo (mobile), com tradução, data e áreas empilhadas.
 class AbstractSectionMobileVersion extends StatelessWidget {
   final String abstractText;
   final TranslationStore store;
 
-  /// Texto exibido após "Publicado em:", montado pelo chamador a partir dos
-  /// metadados específicos da publicação (periódico/volume, organização etc.).
+  /// Texto após "Publicado em:", montado pelo chamador.
   final String publishedLabel;
   final List<ResearchAreas> researchAreas;
 

@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import '../theme/custom_colors.dart';
 import '../theme/custom_text_styles.dart';
 
-/// Cabeçalho das páginas internas (Projetos, Publicações, Eventos, Notícias e
-/// A Rede Campo): chamada curta, título na fonte da marca e texto de
-/// apresentação.
+/// Cabeçalho das páginas internas: chamada, título e apresentação.
 ///
-/// [title] herda o estilo de título de página em [CustomColors.copper_spice];
-/// trechos com outra cor podem ser passados como filhos do [TextSpan].
+/// [title] usa [CustomColors.copper_spice]; trechos de outra cor vão como
+/// filhos do [TextSpan].
 class PageHeaderSectionDesktopVersion extends StatelessWidget {
   final String preTitle;
   final InlineSpan title;

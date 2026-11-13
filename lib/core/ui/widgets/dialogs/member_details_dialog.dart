@@ -8,10 +8,7 @@ import '../../../global/constants/api_constants.dart';
 import '../../../utils/placeholders.dart';
 import '../../theme/custom_colors.dart';
 
-/// Cartão de detalhes que exibe todas as informações de um membro (ou autor
-/// externo) ao tocar em um [MemberTile]/[ContributorTile]. Usado nas telas de
-/// detalhe - Sobre Nós, Projeto, Artigo, Livro, Capítulo e Trabalho
-/// Acadêmico.
+/// Cartão com os dados de um membro ou autor externo.
 class MemberDetailsDialog extends StatelessWidget {
   final String? name;
   final String? roleLabel;
@@ -42,7 +39,7 @@ class MemberDetailsDialog extends StatelessWidget {
     this.accentColor = CustomColors.fresh_sprout,
   });
 
-  // ── Public entry points ──────────────────────────────────────────────────
+  // Pontos de entrada
 
   /// Abre o cartão a partir de um [Members] (Sobre Nós, Projetos).
   static Future<void> showForMember(
@@ -68,8 +65,8 @@ class MemberDetailsDialog extends StatelessWidget {
     );
   }
 
-  /// Abre o cartão a partir de um [Contributors] (telas de publicação). Quando
-  /// o contribuidor é externo (sem [Members]), exibe os dados do autor externo.
+  /// Abre o cartão a partir de um [Contributors] (telas de publicação).
+  /// Sem [Members], exibe o autor externo.
   static Future<void> showForContributor(
     BuildContext context,
     Contributors contributor, {
@@ -101,7 +98,7 @@ class MemberDetailsDialog extends StatelessWidget {
     );
   }
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
+  // Helpers
 
   static Future<void> _open(BuildContext context, Widget dialog) {
     return showGeneralDialog(
@@ -131,8 +128,7 @@ class MemberDetailsDialog extends StatelessWidget {
     return '$baseURL/${url.startsWith('/') ? url.substring(1) : url}';
   }
 
-  /// Aceita tanto a URL completa quanto apenas o nome de usuário (com ou sem
-  /// '@'), montando o endereço do perfil quando necessário.
+  /// Aceita URL completa ou só o usuário (com ou sem '@').
   static String _instagramLink(String value) {
     if (value.startsWith('http://') || value.startsWith('https://')) {
       return value;
@@ -146,7 +142,7 @@ class MemberDetailsDialog extends StatelessWidget {
     return (trimmed != null && trimmed.isNotEmpty) ? trimmed : null;
   }
 
-  // ── Build ────────────────────────────────────────────────────────────────
+  // Build
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +207,7 @@ class MemberDetailsDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // ── Accent strip + close button ──────────────────────────
+            // Faixa de destaque e botão fechar
             Stack(
               children: [
                 Container(height: 5, color: accentColor),
@@ -323,7 +319,7 @@ class MemberDetailsDialog extends StatelessWidget {
   }
 }
 
-// ── Sub-widgets ──────────────────────────────────────────────────────────────
+// Sub-widgets
 
 class _Avatar extends StatelessWidget {
   final String name;
@@ -380,8 +376,7 @@ class _ContactRow extends StatelessWidget {
   final Color accentColor;
   final VoidCallback onTap;
 
-  /// Ícones do FontAwesome não são quadrados e precisam de [FaIcon] para não
-  /// serem cortados pelo [Icon] do Material.
+  /// Ícones FontAwesome precisam de [FaIcon] para não serem cortados.
   final bool isBrandIcon;
 
   const _ContactRow({

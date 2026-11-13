@@ -8,8 +8,7 @@ class ArrowButton extends StatelessWidget {
 
   final Color iconColor;
 
-  // Quando fornecido, o botão desabilitado muda a cor do ícone em vez de
-  // aplicar opacidade - ideal para o estilo retangular do carrossel de páginas.
+  // Se definido, desabilitado muda a cor do ícone em vez da opacidade.
   final Color? disabledIconColor;
 
   final Color backgroundColor;
@@ -17,15 +16,15 @@ class ArrowButton extends StatelessWidget {
   final double borderRadius;
   final Border? border;
 
-  // Quando fornecido, o botão ocupa um quadrado de tamanho fixo.
+  // Se definido, botão quadrado de tamanho fixo.
   final double? fixedSize;
 
-  // Usado apenas quando fixedSize é null (estilo circular com padding).
+  // Só usado sem fixedSize.
   final EdgeInsetsGeometry padding;
 
   final EdgeInsetsGeometry? margin;
 
-  // Opacidade no estado desabilitado; ignorado se disabledIconColor for fornecido.
+  // Opacidade desabilitada; ignorada com disabledIconColor.
   final double disabledOpacity;
 
   // true → Material + InkWell (ripple); false → GestureDetector + Container.

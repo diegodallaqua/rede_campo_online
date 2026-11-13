@@ -27,10 +27,10 @@ class CustomButton extends StatelessWidget {
   final double height;
   final double elevation;
 
-  /// Quando informado, desenha um contorno de 1.5px (botão secundário).
+  /// Contorno de 1.5px (botão secundário).
   final Color? borderColor;
 
-  /// Ícone exibido depois do texto, como a seta de "Veja Nossos Projetos".
+  /// Ícone após o texto.
   final IconData? trailingIcon;
 
   @override

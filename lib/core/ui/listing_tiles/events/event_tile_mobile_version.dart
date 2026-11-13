@@ -23,7 +23,7 @@ class EventTileMobileVersion extends StatelessWidget {
     this.pinInfoToBottom = false,
   });
 
-  /// Altura que as listagens em grade e carrossel reservam para cada card.
+  /// Altura reservada para cada card nas listagens.
   static const double height = 236.0;
   static const double _coverHeight = 100.0;
 

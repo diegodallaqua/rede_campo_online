@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 
-/// Indicador de progresso compacto usado em rodapés de lista e seções de
-/// formulário enquanto dados pontuais carregam.
+/// Indicador de progresso compacto.
 class SmallLoadingIndicator extends StatelessWidget {
   const SmallLoadingIndicator({
     super.key,

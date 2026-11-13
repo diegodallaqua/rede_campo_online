@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/custom_colors.dart';
 import 'custom_chip.dart';
 
-/// Linha de chips que só exibe a quantidade que cabe na largura disponível.
-/// Quando algum chip fica de fora, acrescenta um chip "..." no final.
+/// Chips que cabem na largura; o excedente vira um chip "...".
 class CustomChipsRow extends StatelessWidget {
   final List<String> labels;
   final Color color;
@@ -57,7 +56,7 @@ class CustomChipsRow extends StatelessWidget {
         for (var i = 0; i < labels.length; i++) {
           final needed = used + (i == 0 ? 0 : spacing) + widths[i];
           final hasMoreAfter = i < labels.length - 1;
-          // Reserva espaço para o "..." caso ainda sobrem chips depois deste.
+          // Reserva espaço para o "..." se sobrarem chips.
           final withIndicator =
               hasMoreAfter ? needed + spacing + overflowWidth : needed;
 
@@ -67,7 +66,7 @@ class CustomChipsRow extends StatelessWidget {
           visibleCount++;
         }
 
-        // Nada coube: mostra apenas o primeiro chip, truncado pelo ellipsis.
+        // Nada coube: mostra só o primeiro chip, truncado.
         if (visibleCount == 0) {
           return Row(
             children: [
