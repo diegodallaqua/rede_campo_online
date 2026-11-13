@@ -47,8 +47,8 @@ class ProjectTypeField extends StatelessWidget {
           ),
           hint: Text(
             availableTypes.isEmpty ? 'Carregando tipos...' : 'Tipo de projeto',
-            style: TextStyle(
-              color: CustomColors.midnight_slate.withOpacity(0.45),
+            style: const TextStyle(
+              color: CustomColors.muted_text,
               fontSize: 14,
             ),
           ),
@@ -63,8 +63,8 @@ class ProjectTypeField extends StatelessWidget {
           onChanged: onChanged,
           decoration: InputDecoration(
             labelText: 'Tipo de projeto',
-            labelStyle: TextStyle(
-              color: CustomColors.midnight_slate.withOpacity(0.45),
+            labelStyle: const TextStyle(
+              color: CustomColors.muted_text,
               fontSize: 14,
             ),
             floatingLabelStyle: const TextStyle(
@@ -72,11 +72,11 @@ class ProjectTypeField extends StatelessWidget {
               fontSize: 14,
               fontWeight: FontWeight.w600,
             ),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.only(left: 12),
+            prefixIcon: const Padding(
+              padding: EdgeInsets.only(left: 12),
               child: Icon(
                 Icons.category_outlined,
-                color: CustomColors.midnight_slate.withOpacity(0.45),
+                color: CustomColors.muted_text,
                 size: 18,
               ),
             ),
@@ -146,9 +146,7 @@ class ProjectStatusField extends StatelessWidget {
                 ? Icons.check_circle_outline_rounded
                 : Icons.pause_circle_outline_rounded,
             size: 18,
-            color: active
-                ? CustomColors.copper_spice
-                : CustomColors.midnight_slate.withOpacity(0.45),
+            color: active ? CustomColors.copper_spice : CustomColors.muted_text,
           ),
           const SizedBox(width: 12),
           Expanded(
