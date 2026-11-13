@@ -105,7 +105,7 @@ class EntityPickerField<T> extends StatelessWidget {
                           onPressed: onClear,
                           icon: const Icon(Icons.close_rounded, size: 18),
                           tooltip: 'Remover seleção',
-                          color: CustomColors.midnight_slate.withOpacity(0.45),
+                          color: CustomColors.muted_text,
                           visualDensity: VisualDensity.compact,
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(

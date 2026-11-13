@@ -1,36 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../stores/paged_store.dart';
 import 'admin_entity_list.dart';
+import 'admin_table.dart';
 import 'admin_search_bar.dart';
 import 'admin_section_header.dart';
 
 /// Seção desktop das telas de gerenciamento do painel administrativo:
-/// cabeçalho (voltar/título/subtítulo), busca e listagem paginada genérica.
+/// cabeçalho (título, subtítulo e ação de criar), busca e tabela paginada.
 class AdminEntityListSectionDesktopVersion<T> extends StatefulWidget {
   final PagedStore<T> store;
   final String title;
   final String subtitle;
+  final String searchHint;
   final String errorMessage;
   final String emptyMessage;
-  final AdminEntityItemBuilder<T> itemBuilder;
-  final SliverGridDelegate gridDelegate;
+  final String createLabel;
+  final VoidCallback onCreate;
+  final List<AdminTableColumn> columns;
+  final AdminEntityCellsBuilder<T> cellsBuilder;
+  final ValueChanged<T> onEdit;
 
   const AdminEntityListSectionDesktopVersion({
     super.key,
     required this.store,
     required this.title,
     required this.subtitle,
+    required this.searchHint,
     required this.errorMessage,
     required this.emptyMessage,
-    required this.itemBuilder,
-    this.gridDelegate = const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 6,
-      crossAxisSpacing: 16,
-      mainAxisSpacing: 16,
-      mainAxisExtent: 310,
-    ),
+    required this.createLabel,
+    required this.onCreate,
+    required this.columns,
+    required this.cellsBuilder,
+    required this.onEdit,
   });
 
   @override
@@ -63,13 +66,15 @@ class _AdminEntityListSectionDesktopVersionState<T>
         AdminSectionHeader(
           title: widget.title,
           subtitle: widget.subtitle,
-          onBack: () => context.pop(),
+          actionLabel: widget.createLabel,
+          onAction: widget.onCreate,
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
           child: AdminSearchBar(
             controller: _searchController,
             onSubmitted: _onSearch,
+            hintText: widget.searchHint,
           ),
         ),
         Expanded(
@@ -83,8 +88,9 @@ class _AdminEntityListSectionDesktopVersionState<T>
             },
             errorMessage: widget.errorMessage,
             emptyMessage: widget.emptyMessage,
-            itemBuilder: widget.itemBuilder,
-            gridDelegate: widget.gridDelegate,
+            columns: widget.columns,
+            cellsBuilder: widget.cellsBuilder,
+            onEdit: widget.onEdit,
           ),
         ),
       ],
@@ -100,6 +106,7 @@ class AdminEntityListSectionMobileVersion<T> extends StatefulWidget {
   final String emptyMessage;
   final AdminEntityItemBuilder<T> itemBuilder;
   final SliverGridDelegate? gridDelegate;
+  final String searchHint;
 
   const AdminEntityListSectionMobileVersion({
     super.key,
@@ -108,6 +115,7 @@ class AdminEntityListSectionMobileVersion<T> extends StatefulWidget {
     required this.emptyMessage,
     required this.itemBuilder,
     this.gridDelegate,
+    this.searchHint = 'Pesquisar',
   });
 
   @override
@@ -139,6 +147,7 @@ class _AdminEntityListSectionMobileVersionState<T>
           child: AdminSearchBar(
             controller: _searchController,
             onSubmitted: _onSearch,
+            hintText: widget.searchHint,
           ),
         ),
         Expanded(

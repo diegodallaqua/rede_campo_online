@@ -1,64 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 
-/// Cabeçalho das seções desktop do painel administrativo: ação de voltar,
-/// título e subtítulo da listagem.
+/// Cabeçalho das seções desktop do painel administrativo: título, subtítulo
+/// e a ação principal da tela (por exemplo, "Nova notícia") à direita.
 class AdminSectionHeader extends StatelessWidget {
   const AdminSectionHeader({
     super.key,
     required this.title,
     required this.subtitle,
-    required this.onBack,
-    this.backLabel = 'Painel Admin',
+    this.actionLabel,
+    this.onAction,
   });
 
   final String title;
   final String subtitle;
-  final VoidCallback onBack;
-  final String backLabel;
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
+    final label = actionLabel;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(40, 40, 40, 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          TextButton.icon(
-            onPressed: onBack,
-            icon: const Icon(Icons.arrow_back_rounded, size: 16),
-            label: Text(backLabel),
-            style: TextButton.styleFrom(
-              foregroundColor: CustomColors.midnight_slate.withOpacity(0.50),
-              padding: EdgeInsets.zero,
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              textStyle: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: AdminHeaderStyles.title),
+                const SizedBox(height: 8),
+                Text(subtitle, style: AdminHeaderStyles.subtitle),
+              ],
+            ),
+          ),
+          if (label != null && onAction != null)
+            ElevatedButton.icon(
+              onPressed: onAction,
+              icon: const Icon(Icons.add_rounded, size: 20),
+              label: Text(label),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: CustomColors.copper_spice,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                minimumSize: const Size(0, 44),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                textStyle: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 14),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: CustomColors.pine_shadow,
-              letterSpacing: -0.5,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            subtitle,
-            style: TextStyle(
-              fontSize: 14,
-              color: CustomColors.pine_shadow.withOpacity(0.55),
-            ),
-          ),
         ],
       ),
     );
   }
+}
+
+/// Estilos de título e subtítulo compartilhados pelas telas desktop do
+/// painel (listagens, início e formulários).
+abstract class AdminHeaderStyles {
+  static const TextStyle title = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    color: CustomColors.pine_shadow,
+    letterSpacing: -0.5,
+  );
+
+  static final TextStyle subtitle = TextStyle(
+    fontSize: 14,
+    color: CustomColors.pine_shadow.withOpacity(0.75),
+  );
 }
