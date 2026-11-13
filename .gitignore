@@ -12,6 +12,10 @@
 *.iml
 .vscode/
 
+# AI
+.claude/
+.agents/
+
 
 
 # Flutter repo-specific
