@@ -9,9 +9,7 @@ class AcademicWorkType {
   String? name;
   String? degree_level;
 
-  /// Rótulo exibido nas listagens e telas de detalhe, no formato
-  /// "<name> de <degree_level>" (ex.: "Dissertação de Mestrado"). Quando
-  /// apenas um dos dois campos existe, retorna o que estiver preenchido.
+  /// Rótulo "<name> de <degree_level>"; se faltar um, usa o outro.
   String get label {
     final type = name ?? '';
     final level = degree_level ?? '';

@@ -29,9 +29,6 @@ class ContributorsRepository {
       if (response.statusCode != 200 &&
           response.statusCode != 204 &&
           response.statusCode != 201) {
-        // 200	OK
-        // 204	No Content
-        // 201  Created
         return Future.error(
           ErrorsAPI.fromMap(
             json.decode(response.body),
@@ -45,8 +42,7 @@ class ContributorsRepository {
     }
   }
 
-  // O backend não expõe id próprio do contribuidor: ele é identificado pela
-  // composição (publication_id, author_order) na rota.
+  // Sem id próprio: identificado por (publication_id, author_order) na rota.
   Future<void> delete(int publicationId, int authorOrder) async {
     var url = Uri.parse('$baseURL$contributorsURL$publicationId/$authorOrder');
     final token = await TokenRepository().getToken();
@@ -65,8 +61,6 @@ class ContributorsRepository {
       print(response.body);
 
       if (response.statusCode != 200 && response.statusCode != 204) {
-        // 200	OK
-        // 204	No Content
         return Future.error(
           ErrorsAPI.fromMap(
             json.decode(response.body),

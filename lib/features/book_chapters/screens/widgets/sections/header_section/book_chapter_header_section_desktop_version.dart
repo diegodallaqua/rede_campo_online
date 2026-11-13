@@ -163,8 +163,7 @@ class _BookChapterMetadataCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Nome e ISBN do livro vinculado têm precedência sobre os do próprio
-    // capítulo.
+    // Nome e ISBN do livro vinculado têm precedência.
     final bookName = bookChapter.displayBookName ?? '';
     final isbn = bookChapter.displayIsbn ?? '';
     final pageRange = bookChapter.pageRange;

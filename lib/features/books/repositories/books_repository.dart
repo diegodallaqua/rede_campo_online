@@ -28,9 +28,6 @@ class BooksRepository {
       if (response.statusCode != 200 &&
           response.statusCode != 204 &&
           response.statusCode != 201) {
-        // 200	OK
-        // 204	No Content
-        // 201  Created
         return Future.error(
           ErrorsAPI.fromMap(
             json.decode(response.body),
@@ -85,8 +82,7 @@ class BooksRepository {
     }
   }
 
-  /// Busca o livro de uma publicação específica. Retorna null se a publicação
-  /// não for um livro (ou não houver registro).
+  /// Livro da publicação, ou null se não houver.
   Future<Books?> findByPublicationId(int publicationId) async {
     final token = await TokenRepository().getToken();
     final url = Uri.parse('$baseURL$booksURL$publicationId');
@@ -130,16 +126,13 @@ class BooksRepository {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        // O id da publicação já vai na URL; a API rejeita-o no corpo do PUT.
+        // Id vai na URL; a API o rejeita no corpo do PUT.
         body: jsonEncode(book.toMap()..remove('publication_id')),
       );
 
       if (response.statusCode != 200 &&
           response.statusCode != 204 &&
           response.statusCode != 201) {
-        // 200	OK
-        // 204	No Content
-        // 201  Created
         return Future.error(
           ErrorsAPI.fromMap(
             json.decode(response.body),
@@ -169,8 +162,6 @@ class BooksRepository {
       );
 
       if (response.statusCode != 200 && response.statusCode != 204) {
-        // 200	OK
-        // 204	No Content
         return Future.error(
           ErrorsAPI.fromMap(
             json.decode(response.body),

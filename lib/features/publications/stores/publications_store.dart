@@ -50,7 +50,7 @@ abstract class PublicationsStoreBase extends BaseStore<Publications>
   @computed
   bool get showProgress => loading && list.isEmpty;
 
-  // Notícias recentes - exclusivas para a Home Page
+  // Publicações recentes - exclusivas para a Home Page
   @observable
   ObservableList<Publications> recentPublications =
       ObservableList<Publications>();
@@ -123,7 +123,7 @@ abstract class PublicationsStoreBase extends BaseStore<Publications>
     }
   }
 
-  // Ações - Home Page (Listagem das notícias Recentes)
+  // Ações - Home Page (publicações recentes)
   @action
   Future<void> loadRecentPublications({int limit = 10}) async {
     // Evita fetch duplicado se já estiver carregando.
@@ -149,7 +149,7 @@ abstract class PublicationsStoreBase extends BaseStore<Publications>
     }
   }
 
-  /// Recarrega as notícias recentes da Home sem afetar a listagem completa.
+  /// Recarrega as publicações recentes da Home sem afetar a listagem.
   @action
   Future<void> refreshRecentPublications({int limit = 5}) async {
     recentPublications.clear();

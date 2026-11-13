@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../features/admin/publications/models/publication_type.dart';
 import '../../../../features/publications/models/publications.dart';
 
-/// Rótulos e ícones derivados de uma publicação, compartilhados pelos cards
-/// desktop e mobile.
+/// Rótulos e ícones de uma publicação, comuns aos cards desktop e mobile.
 extension PublicationTileInfo on Publications {
   PublicationType? get _type => PublicationType.fromApi(publication_type);
 
@@ -18,8 +17,7 @@ extension PublicationTileInfo on Publications {
         null => Icons.description_outlined,
       };
 
-  /// Autores na ordem de autoria ("Ana, Bruno +2"), ou null quando a
-  /// publicação não traz contribuidores.
+  /// Autores em ordem ("Ana, Bruno +2"), ou null sem contribuidores.
   String? authorsLabel({int max = 2}) {
     final ordered = [...?contributors]
       ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));

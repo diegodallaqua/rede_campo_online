@@ -24,9 +24,8 @@ class Books {
 
   factory Books.fromMap(Map<String, dynamic> map) {
     return Books(
-      // A chave primária do livro é o próprio `publication_id`; quando a
-      // publicação não vem aninhada, ela é reconstruída a partir dele para que
-      // o livro continue utilizável como referência (ex.: vínculo do capítulo).
+      // Chave primária é `publication_id`; sem publicação aninhada, ela é
+      // reconstruída a partir dele.
       publication: map.containsKey('publication') && map['publication'] != null
           ? Publications.fromMap(map['publication'] ?? {})
           : (map['publication_id'] != null
