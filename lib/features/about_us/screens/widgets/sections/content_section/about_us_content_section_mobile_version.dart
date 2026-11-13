@@ -30,7 +30,7 @@ class AboutUsContentSectionMobileVersion extends StatelessWidget {
               color: Colors.white,
               height: 1.7,
             ),
-            textAlign: TextAlign.justify,
+            textAlign: TextAlign.start,
           ),
           SizedBox(height: 38),
           Text(
