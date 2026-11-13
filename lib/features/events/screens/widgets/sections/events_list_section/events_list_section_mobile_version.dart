@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/section_title.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/features/events/stores/events_store.dart';
 import '../../listing/upcoming/upcoming_events_list_widget_mobile_version.dart';
@@ -28,14 +29,9 @@ class _EventsListSectionMobileVersionState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Próximos Eventos',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: CustomColors.fresh_sprout,
-            ),
-            textAlign: TextAlign.center,
+          const SectionTitle.mobile(
+            title: 'Próximos Eventos',
+            color: CustomColors.fresh_sprout,
           ),
           const SizedBox(height: 16),
           UpcomingEventsListWidgetMobileVersion(
@@ -48,14 +44,9 @@ class _EventsListSectionMobileVersionState
             },
           ),
           const SizedBox(height: 32),
-          const Text(
-            'Eventos Recentes',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: CustomColors.fresh_sprout,
-            ),
-            textAlign: TextAlign.center,
+          const SectionTitle.mobile(
+            title: 'Eventos Recentes',
+            color: CustomColors.fresh_sprout,
           ),
           const SizedBox(height: 16),
           RecentEventsListWidgetMobileVersion(

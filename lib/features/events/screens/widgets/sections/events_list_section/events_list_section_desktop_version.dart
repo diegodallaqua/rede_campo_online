@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
+import 'package:rede_campo_online/core/ui/widgets/section_title.dart';
 import 'package:rede_campo_online/features/events/stores/events_store.dart';
 import '../../listing/upcoming/upcoming_events_list_widget_desktop_version.dart';
 import '../../listing/recent/recent_events_list_widget_desktop_version.dart';
@@ -59,29 +60,7 @@ class _EventsListSectionDesktopVersionState
   Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 48),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.w700,
-              color: CustomColors.fresh_sprout,
-              letterSpacing: 0.2,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            width: 64,
-            height: 3,
-            decoration: BoxDecoration(
-              color: CustomColors.fresh_sprout,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-        ],
-      ),
+      child: SectionTitle(title: title, color: CustomColors.fresh_sprout),
     );
   }
 }

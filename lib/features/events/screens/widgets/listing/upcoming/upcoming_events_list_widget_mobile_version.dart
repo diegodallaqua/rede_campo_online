@@ -113,7 +113,7 @@ class _UpcomingEventsListWidgetMobileVersionState
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        mainAxisExtent: 215,
+        mainAxisExtent: EventTileMobileVersion.height,
       ),
       itemCount: events.length,
       itemBuilder: (context, index) {

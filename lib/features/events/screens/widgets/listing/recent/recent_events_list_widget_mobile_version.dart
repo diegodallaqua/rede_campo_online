@@ -14,7 +14,7 @@ class RecentEventsListWidgetMobileVersion extends StatefulWidget {
   final EventsStore eventsStore;
 
   static const double _separatorWidth = 12.0;
-  static const double _tileHeight = 215.0;
+  static const double _tileHeight = EventTileMobileVersion.height;
 
   const RecentEventsListWidgetMobileVersion({
     super.key,
