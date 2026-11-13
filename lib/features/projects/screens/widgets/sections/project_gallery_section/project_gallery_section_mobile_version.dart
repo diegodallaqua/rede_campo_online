@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/section_title.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
@@ -25,14 +26,12 @@ class ProjectGallerySectionMobileVersion extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Galeria do Projeto',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            child: SectionTitle.mobile(
+              title: 'Galeria do Projeto',
               color: CustomColors.copper_spice,
             ),
-            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
           Observer(

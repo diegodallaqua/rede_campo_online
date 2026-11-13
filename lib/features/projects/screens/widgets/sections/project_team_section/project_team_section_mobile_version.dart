@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/section_title.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../models/projects.dart';
@@ -21,14 +22,12 @@ class ProjectTeamSectionMobileVersion extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Equipe do Projeto',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: SectionTitle.mobile(
+              title: 'Equipe do Projeto',
               color: CustomColors.fresh_sprout,
             ),
-            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
           ProjectMembersListWidgetMobileVersion(members: members),

@@ -111,7 +111,7 @@ class _ProjectsListWidgetDesktopVersionState
           crossAxisCount: 4,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          mainAxisExtent: 310,
+          mainAxisExtent: ProjectTileDesktopVersion.height,
         ),
         itemCount: projects.length,
         itemBuilder: (context, index) {

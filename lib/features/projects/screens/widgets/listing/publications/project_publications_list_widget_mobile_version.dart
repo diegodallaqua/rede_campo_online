@@ -16,7 +16,7 @@ class ProjectPublicationsListWidgetMobileVersion extends StatefulWidget {
   /// Quantidade de itens visíveis antes de a lista rolar internamente.
   final int visibleCount;
 
-  static const double _tileHeight = 145.0;
+  static const double _tileHeight = PublicationTileMobileVersion.height;
   static const double _separatorHeight = 8.0;
 
   const ProjectPublicationsListWidgetMobileVersion({

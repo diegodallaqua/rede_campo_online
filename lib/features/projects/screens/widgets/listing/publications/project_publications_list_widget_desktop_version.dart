@@ -15,7 +15,8 @@ class ProjectPublicationsListWidgetDesktopVersion extends StatefulWidget {
   final ProjectDetailStore projectDetailStore;
 
   static const double _cardWidth = 300.0;
-  static const double _cardHeight = 240.0;
+  // Altura do card + 12px acima e abaixo para a elevação no hover.
+  static const double _cardHeight = PublicationTileDesktopVersion.height + 24;
   static const double _gap = 16.0;
 
   const ProjectPublicationsListWidgetDesktopVersion({
@@ -143,7 +144,7 @@ class _ProjectPublicationsListWidgetDesktopVersionState
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
                   physics: const ClampingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   itemCount: publications.length,
                   separatorBuilder: (_, __) => const SizedBox(
                     width: ProjectPublicationsListWidgetDesktopVersion._gap,
