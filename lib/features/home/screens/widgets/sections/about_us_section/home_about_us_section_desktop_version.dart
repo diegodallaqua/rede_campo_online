@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../../../app/router.dart';
 import '../../../../../../core/ui/buttons/custom_button.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
+import '../../../../../../core/ui/theme/custom_text_styles.dart';
+import '../../../../../../core/ui/widgets/section_title.dart';
 
 class HomeAboutUsSectionDesktopVersion extends StatelessWidget {
   const HomeAboutUsSectionDesktopVersion({super.key});
@@ -14,51 +16,37 @@ class HomeAboutUsSectionDesktopVersion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 900),
+        constraints: const BoxConstraints(maxWidth: 1280),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(48, 56, 48, 56),
+          padding: const EdgeInsets.fromLTRB(48, 64, 48, 56),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Sobre nós',
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700,
-                  color: CustomColors.fresh_sprout,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Container(
-                width: 64,
-                height: 3,
-                decoration: BoxDecoration(
-                  color: CustomColors.fresh_sprout,
-                  borderRadius: BorderRadius.circular(2),
-                ),
+              const SectionTitle(
+                title: 'Sobre nós',
+                color: CustomColors.fresh_sprout,
               ),
               const SizedBox(height: 28),
-              const Text(
-                _aboutText,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  height: 1.9,
+              ConstrainedBox(
+                // Mantém a linha em torno de 75 caracteres.
+                constraints: const BoxConstraints(maxWidth: 760),
+                child: Text(
+                  _aboutText,
+                  style: CustomTextStyles.bodyDesktop.copyWith(
+                    color: Colors.white,
+                    height: 1.85,
+                  ),
                 ),
-                textAlign: TextAlign.left,
               ),
-              const SizedBox(height: 36),
-              Align(
-                alignment: Alignment.centerRight,
-                child: CustomButton(
-                  width: 180,
-                  color: CustomColors.concrete_mist,
-                  text: 'Saiba mais',
-                  textColor: CustomColors.midnight_slate,
-                  borderRadius: 12,
-                  fontWeight: FontWeight.w700,
-                  function: () => context.go(AppRoutes.aboutUs),
-                ),
+              const SizedBox(height: 32),
+              CustomButton(
+                width: 180,
+                color: CustomColors.concrete_mist,
+                text: 'Saiba mais',
+                textColor: CustomColors.midnight_slate,
+                borderRadius: 12,
+                fontWeight: FontWeight.w700,
+                function: () => context.go(AppRoutes.aboutUs),
               ),
             ],
           ),

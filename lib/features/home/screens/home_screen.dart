@@ -16,13 +16,23 @@ import 'widgets/sections/partners_section/home_partners_section_mobile_version.d
 import 'widgets/sections/recent_publications_section/home_recent_publications_section_desktop_version.dart';
 import 'widgets/sections/recent_publications_section/home_recent_publications_section_mobile_version.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // As stores vivem no State: criá-las no build geraria instâncias novas a
+  // cada rebuild (comum no primeiro carregamento, quando o layout responsivo
+  // se ajusta), enquanto as listagens continuariam presas à instância antiga,
+  // a única em que o carregamento das recentes foi disparado.
+  final NewsStore newsStore = NewsStore();
+  final PublicationsStore publicationsStore = PublicationsStore();
+
+  @override
   Widget build(BuildContext context) {
-    final NewsStore newsStore = NewsStore();
-    final PublicationsStore publicationsStore = PublicationsStore();
 
     return AppScaffold(
       body: ResponsiveVisibility(

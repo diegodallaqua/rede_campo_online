@@ -6,6 +6,7 @@ import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../../core/ui/widgets/list_empty_state.dart';
 import '../../../../../../core/ui/widgets/list_error_state.dart';
 import '../../../../../../core/ui/widgets/list_loading_state.dart';
+import '../../../../../../core/utils/publication_navigation.dart';
 import '../../../../../publications/stores/publications_store.dart';
 
 class PublicationsListWidgetMobileVersion extends StatefulWidget {
@@ -15,7 +16,7 @@ class PublicationsListWidgetMobileVersion extends StatefulWidget {
 
   final int totalCount;
 
-  static const double _tileHeight = 110.0;
+  static const double _tileHeight = PublicationTileMobileVersion.height;
   static const double _separatorHeight = 8.0;
 
   const PublicationsListWidgetMobileVersion({
@@ -105,6 +106,7 @@ class _HomePublicationsListWidgetState
 
             return PublicationTileMobileVersion(
               publication: item,
+              onTap: () => openPublicationDetails(context, item),
               margin: const EdgeInsets.symmetric(horizontal: 2),
             );
           },

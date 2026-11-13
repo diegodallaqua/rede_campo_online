@@ -7,7 +7,7 @@ import '../../../../../../core/ui/widgets/arrow_button.dart';
 import '../../../../../../core/ui/widgets/list_empty_state.dart';
 import '../../../../../../core/ui/widgets/list_error_state.dart';
 import '../../../../../../core/ui/widgets/list_loading_state.dart';
-import '../../../../../publications/models/publications.dart';
+import '../../../../../../core/utils/publication_navigation.dart';
 import '../../../../../publications/stores/publications_store.dart';
 
 class PublicationsListWidgetDesktopVersion extends StatefulWidget {
@@ -27,7 +27,8 @@ class PublicationsListWidgetDesktopVersion extends StatefulWidget {
 
 class _PublicationsListWidgetDesktopVersionState
     extends State<PublicationsListWidgetDesktopVersion> {
-  static const double _listHeight = 240.0;
+  // Altura do card + 12px acima e abaixo para a elevação no hover.
+  static const double _listHeight = PublicationTileDesktopVersion.height + 24;
   final ScrollController _scrollController = ScrollController();
 
   double _tileWidth = 300.0;
@@ -129,7 +130,7 @@ class _PublicationsListWidgetDesktopVersionState
                   child: ListView.separated(
                     controller: _scrollController,
                     scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     itemCount: publications.length,
                     separatorBuilder: (_, __) => const SizedBox(width: 16),
                     itemBuilder: (context, index) {
@@ -138,6 +139,7 @@ class _PublicationsListWidgetDesktopVersionState
                         width: _tileWidth,
                         child: PublicationTileDesktopVersion(
                           publication: item,
+                          onTap: () => openPublicationDetails(context, item),
                         ),
                       );
                     },
@@ -158,9 +160,5 @@ class _PublicationsListWidgetDesktopVersionState
         ],
       ),
     );
-  }
-
-  void _onPublicationTap(Publications publication) {
-    // TODO: navegar para a tela de detalhe da publicação.
   }
 }
