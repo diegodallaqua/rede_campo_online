@@ -6,9 +6,7 @@ import '../repositories/translation_repository.dart';
 
 part 'translation_store.g.dart';
 
-/// Traduz o resumo (abstract) de uma publicação para o inglês, expondo o
-/// progresso e o resultado para as seções de detalhe (artigos, trabalhos
-/// acadêmicos).
+/// Traduz o resumo de uma publicação para o inglês.
 class TranslationStore = TranslationStoreBase with _$TranslationStore;
 
 abstract class TranslationStoreBase with Store {

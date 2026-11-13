@@ -23,7 +23,7 @@ abstract class UserManagerStoreBase with Store {
   @computed
   bool get isLoggedIn => _authData != null;
 
-  /// Atalhos de conveniência para a UI responsiva.
+  /// Atalhos para a UI responsiva.
   @computed
   String get userName => _authData?.user?.name ?? '';
 
@@ -95,7 +95,7 @@ abstract class UserManagerStoreBase with Store {
     setLoading(true);
     await _tokenRepository.exit();
 
-    // Garante que nenhum dado sensível permaneça em memória após o logout.
+    // Não deixa dados sensíveis em memória.
     _authData = null;
     setError(null);
     setLoading(false);

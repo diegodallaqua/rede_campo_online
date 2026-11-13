@@ -7,10 +7,7 @@ import 'filter_search_store.dart';
 
 part 'paged_store.g.dart';
 
-/// Estende [BaseStore] com paginação numerada, busca e antecipação da
-/// existência da próxima página ("peek"), padrão compartilhado por todas as
-/// listagens do painel administrativo.
-///
+/// [BaseStore] com paginação numerada, busca e "peek" da próxima página.
 /// Subclasses implementam apenas [fetchPage].
 abstract class PagedStore<T> = _PagedStore<T> with _$PagedStore<T>;
 
@@ -132,8 +129,7 @@ abstract class _PagedStore<T> extends BaseStore<T> with Store {
     }
   }
 
-  // Verifica antecipadamente se a próxima página existe, evitando que a
-  // paginação pisque ao exibir e remover uma página vazia.
+  // Checa a próxima página antes, evitando que a paginação pisque.
   Future<void> _peekNextPage(int forPage) async {
     try {
       final peek = await fetchPage(forPage + 1);
