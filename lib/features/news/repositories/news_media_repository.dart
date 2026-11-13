@@ -9,9 +9,7 @@ import '../../../core/repositories/token_repository.dart';
 import '../models/news_media.dart';
 
 class NewsMediaRepository {
-  /// Tenta extrair a mensagem de erro JSON da resposta; se o corpo não for
-  /// JSON (ex.: página HTML de erro 404/500), devolve uma mensagem legível
-  /// com o status HTTP em vez de estourar um FormatException.
+  /// Extrai a mensagem de erro do JSON; se não for JSON, usa o status HTTP.
   Object _parseError(http.Response response, String fallback) {
     try {
       return ErrorsAPI.fromMap(
