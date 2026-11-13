@@ -26,8 +26,7 @@ class Members {
   String? linkedInUrl;
   String? instagramUrl;
   String? profilePicture;
-  // Credencial de acesso; nunca chega do servidor (apenas enviada em
-  // criação/troca de senha) e por isso fica fora de [fromMap]/[toString].
+  // Só enviada ao servidor, nunca recebida; fora de [fromMap]/[toString].
   String? password;
 
   @override
@@ -76,8 +75,7 @@ class Members {
         'linked_in_url': linkedInUrl,
         'instagram_url': instagramUrl,
         'profile_picture': profilePicture,
-        // Apenas envia a senha quando definida (criação ou troca explícita),
-        // preservando a senha atual em edições que a deixam em branco.
+        // Só envia se definida; em branco mantém a senha atual.
         if (password != null && password!.isNotEmpty) 'password': password,
       };
 }
