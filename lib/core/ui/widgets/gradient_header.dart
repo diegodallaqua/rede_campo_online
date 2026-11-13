@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/custom_colors.dart';
 
-/// Gradient hero header used on admin detail screens, mirroring the
-/// LoginScreen mobile layout (copper → midnight gradient with a back action,
-/// title and subtitle in [CustomColors.vanilla_haze]).
+/// Cabeçalho em gradiente das telas de detalhe do painel.
 class GradientHeader extends StatelessWidget {
   const GradientHeader({
     super.key,

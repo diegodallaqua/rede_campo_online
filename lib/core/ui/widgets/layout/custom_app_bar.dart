@@ -69,8 +69,7 @@ class _Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // O arquivo do logo tem margem transparente; o recorte centralizado em
-    // 200×56 deixa só o emblema e o nome visíveis.
+    // Recorte 200×56 deixa só emblema e nome visíveis.
     return Semantics(
       label: 'Rede Campo, ir para o início',
       button: true,
@@ -108,8 +107,7 @@ class _DesktopNavLinks extends StatelessWidget {
   }
 }
 
-/// Aba da barra superior: sublinhado cobre de 3px quando ativa e cinza ao
-/// passar o mouse, encostado na linha inferior da barra.
+/// Aba da barra superior: sublinhado cobre quando ativa, cinza no hover.
 class _NavLink extends StatefulWidget {
   final NavItem item;
   final bool isActive;

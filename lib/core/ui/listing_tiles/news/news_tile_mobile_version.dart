@@ -23,8 +23,7 @@ class NewsTileMobileVersion extends StatelessWidget {
     this.isAdmin = false,
   });
 
-  /// Altura fixa do card, usada também pelas listagens para calcular o
-  /// espaço visível.
+  /// Altura fixa do card, usada também pelas listagens.
   static const double height = 136.0;
   static const double _imageWidth = 96.0;
 

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'custom_colors.dart';
 
-/// Tema global do app. Sem ele o Material 3 usa o esquema roxo padrão, que
-/// tinge botões elevados, cursor, seleção de texto e indicadores de progresso.
+/// Tema global; evita o roxo padrão do Material 3.
 abstract class CustomTheme {
   static ThemeData get light {
     const colorScheme = ColorScheme.light(
@@ -17,8 +16,7 @@ abstract class CustomTheme {
       onBackground: CustomColors.midnight_slate,
       error: CustomColors.danger_red,
       onError: Colors.white,
-      // Remove a sobreposição de cor que o Material 3 aplica a superfícies
-      // elevadas (botões, cards, diálogos, menus).
+      // Remove o tint do Material 3 em superfícies elevadas.
       surfaceTint: Colors.transparent,
     );
 

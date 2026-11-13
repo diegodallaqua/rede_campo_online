@@ -7,9 +7,7 @@ import 'arrow_button.dart';
 import 'dialogs/member_details_dialog.dart';
 import 'list_empty_state.dart';
 
-/// Carrossel horizontal de autores/colaboradores com setas de navegação,
-/// usado nas telas de detalhe de publicações (artigos, livros, capítulos e
-/// trabalhos acadêmicos) em todas as larguras de tela.
+/// Carrossel de autores das telas de detalhe de publicações.
 class ContributorsCarousel extends StatefulWidget {
   final List<Contributors> contributors;
   final String emptyMessage;

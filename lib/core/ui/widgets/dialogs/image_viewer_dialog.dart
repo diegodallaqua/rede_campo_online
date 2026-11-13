@@ -90,7 +90,7 @@ class _ImageViewerDialogState extends State<ImageViewerDialog> {
       child: SafeArea(
         child: Stack(
           children: [
-            // ── Swipeable image pages ──────────────────────────────
+            // Páginas de imagem
             PageView.builder(
               controller: _controller,
               itemCount: total,
@@ -117,7 +117,7 @@ class _ImageViewerDialogState extends State<ImageViewerDialog> {
               },
             ),
 
-            // ── Top bar: counter (left) + close button (right) ─────
+            // Topo: contador e botão fechar
             Positioned(
               top: 0,
               left: 0,
@@ -138,7 +138,7 @@ class _ImageViewerDialogState extends State<ImageViewerDialog> {
               ),
             ),
 
-            // ── Left / Right arrows ────────────────────────────────
+            // Setas
             if (_hasMultiple) ...[
               Positioned(
                 left: 12,
@@ -172,7 +172,7 @@ class _ImageViewerDialogState extends State<ImageViewerDialog> {
               ),
             ],
 
-            // ── Bottom: name + dot indicators / counter ─────────────
+            // Rodapé: nome e indicadores
             Positioned(
               bottom: 0,
               left: 0,
@@ -219,7 +219,7 @@ class _ImageViewerDialogState extends State<ImageViewerDialog> {
   }
 }
 
-// ── Sub-widgets ──────────────────────────────────────────────────────────────
+// Sub-widgets
 
 class _CloseButton extends StatelessWidget {
   final VoidCallback onTap;

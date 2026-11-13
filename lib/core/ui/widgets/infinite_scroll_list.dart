@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/small_loading_indicator.dart';
 
-/// Lista vertical com paginação por rolagem infinita e pull-to-refresh.
-/// Quando [hasMore] é verdadeiro exibe um rodapé de carregamento e dispara
-/// [onLoadMore] ao se aproximar do fim da rolagem.
+/// Lista com rolagem infinita e pull-to-refresh. Com [hasMore], chama
+/// [onLoadMore] perto do fim.
 class InfiniteScrollList extends StatefulWidget {
   const InfiniteScrollList({
     super.key,

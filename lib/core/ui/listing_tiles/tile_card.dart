@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import '../../utils/placeholders.dart';
 import '../theme/custom_colors.dart';
 
-/// Moldura comum dos cards de listagem (notícias, projetos e eventos):
-/// fundo creme, cantos de 12px e, quando tocável, sobe 2px com sombra ao
-/// passar o mouse. O card inteiro é a área de toque.
+/// Elemento de reúso com moldura comum dos cards de listagem (notícias, projetos, eventos e publicações)
 class TileCard extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
@@ -65,8 +63,7 @@ class _TileCardState extends State<TileCard> {
   }
 }
 
-/// Imagem de capa do card, com [ImagePlaceholder] quando não há imagem ou o
-/// carregamento falha.
+/// Imagem de capa do card, com [ImagePlaceholder] quando não há imagem ou o carregamento falha.
 class TileCover extends StatelessWidget {
   final String? imageUrl;
   final double height;
@@ -91,7 +88,7 @@ class TileCover extends StatelessWidget {
   }
 }
 
-/// Rodapé "Saiba mais →" dos cards. É só indicação visual: o toque é do card.
+/// Rodapé "Saiba mais →", só visual: o toque é do card.
 class TileReadMore extends StatelessWidget {
   final String label;
   final IconData icon;

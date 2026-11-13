@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/arrow_button.dart';
 
-/// Barra de paginação numerada com setas de navegação, usada nas listagens
-/// desktop do painel administrativo. A seta de avanço só aparece quando se
-/// sabe que a próxima página existe.
+/// Paginação numerada das listagens desktop do painel. A seta de avanço só
+/// aparece se a próxima página existir.
 class PaginationBar extends StatelessWidget {
   const PaginationBar({
     super.key,
