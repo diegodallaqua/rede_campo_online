@@ -74,11 +74,11 @@ class MembersField extends StatelessWidget {
                   color: CustomColors.midnight_slate.withOpacity(0.25),
                 ),
                 const SizedBox(height: 6),
-                Text(
+                const Text(
                   'Nenhum membro selecionado',
                   style: TextStyle(
                     fontSize: 13,
-                    color: CustomColors.midnight_slate.withOpacity(0.45),
+                    color: CustomColors.muted_text,
                   ),
                 ),
               ],
