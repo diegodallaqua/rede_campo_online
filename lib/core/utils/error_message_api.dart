@@ -1,5 +1,4 @@
-/// Erro devolvido pela API (`{status, message}`), como o 409 ao excluir um
-/// projeto que ainda tem eventos vinculados.
+/// Erro devolvido pela API (`{status, message}`).
 class ErrorsAPI {
   final String status;
   final String message;
@@ -21,8 +20,7 @@ class ErrorsAPI {
   String toString() => message;
 }
 
-/// Texto do erro para o usuário: a mensagem da API, a da falha de rede ou,
-/// sem nenhuma delas, [fallback].
+/// Mensagem da API ou da falha de rede; senão [fallback].
 String errorMessageOf(Object error, String fallback) {
   if (error is ErrorsAPI && error.message.trim().isNotEmpty) {
     return error.message;

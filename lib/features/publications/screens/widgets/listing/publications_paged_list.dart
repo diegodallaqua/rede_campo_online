@@ -9,11 +9,8 @@ import '../../../../../core/ui/widgets/list_empty_state.dart';
 import '../../../../../core/ui/widgets/list_error_state.dart';
 import '../../../../../core/ui/widgets/list_loading_state.dart';
 
-/// Listagem paginada de um tipo de publicação, com estados de carregamento,
-/// erro e vazio e paginação numerada.
-///
-/// Com [gridDelegate] usa grade (desktop); sem ele, lista vertical (mobile).
-/// [onDarkBackground] ajusta as cores para seções de fundo escuro.
+/// Listagem paginada de um tipo de publicação.
+/// Com [gridDelegate] usa grade (desktop); sem ele, lista (mobile).
 class PublicationsPagedList<T> extends StatefulWidget {
   final ClientPagedStore<T> store;
   final Widget Function(BuildContext context, T item) itemBuilder;
@@ -22,7 +19,7 @@ class PublicationsPagedList<T> extends StatefulWidget {
   final bool onDarkBackground;
   final SliverGridDelegate? gridDelegate;
 
-  /// Maior página já descoberta, mantida pela seção entre trocas de página.
+  /// Maior página já descoberta (mantida pela seção).
   final int maxDiscoveredPage;
   final ValueChanged<int> onPageDiscovered;
 

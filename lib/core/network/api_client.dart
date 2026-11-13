@@ -9,12 +9,8 @@ import '../utils/error_message_api.dart';
 
 typedef FromMap<T> = T Function(Map<String, dynamic> map);
 
-/// Cliente HTTP da API: monta URL e cabeçalhos, envia o token e padroniza
-/// respostas e erros.
-///
-/// Falha de rede ou resposta ilegível lança [String] com a mensagem
-/// informada. Status fora de 2xx lança [ErrorsAPI] quando a API envia uma
-/// mensagem, senão a mesma [String].
+/// Cliente HTTP da API: URL, cabeçalhos, token e erros.
+/// Falha de rede lança [String]; status fora de 2xx lança [ErrorsAPI].
 class ApiClient {
   const ApiClient();
 

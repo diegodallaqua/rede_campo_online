@@ -6,10 +6,8 @@ import '../../../../../core/ui/widgets/custom_search_bar.dart';
 import '../../../../../core/ui/widgets/section_title.dart';
 import '../listing/publications_paged_list.dart';
 
-/// Seção de um tipo de publicação na tela de Publicações: título, busca e
-/// listagem paginada.
-///
-/// Com [gridDelegate] monta o layout desktop (grade); sem ele, o mobile.
+/// Seção de um tipo de publicação: título, busca e listagem.
+/// Com [gridDelegate] usa o layout desktop; sem ele, o mobile.
 class PublicationsTypeSection<T> extends StatefulWidget {
   final String title;
   final String searchHint;

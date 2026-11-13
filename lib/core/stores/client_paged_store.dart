@@ -22,7 +22,6 @@ abstract class ClientPagedStoreBase<T> extends BaseStore<T> with Store {
 
   String _query = '';
 
-  /// Busca todos os itens no repositório.
   Future<List<T>> fetchAll();
 
   /// Se [item] corresponde à busca [query] (já em minúsculas).

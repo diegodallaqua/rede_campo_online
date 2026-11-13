@@ -1,5 +1,4 @@
-/// URL da API. Em produção, defina via
-/// `--dart-define=API_BASE_URL=https://...` (use sempre HTTPS).
+/// URL da API; em produção use `--dart-define=API_BASE_URL=https://...`.
 const baseURL = String.fromEnvironment(
   'API_BASE_URL',
   defaultValue: 'http://192.168.0.131:3333',
