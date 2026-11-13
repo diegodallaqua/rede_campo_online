@@ -52,8 +52,8 @@ class CustomTextField extends StatelessWidget {
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(
-          color: CustomColors.midnight_slate.withOpacity(0.45),
+        labelStyle: const TextStyle(
+          color: CustomColors.muted_text,
           fontSize: 14,
         ),
         floatingLabelStyle: const TextStyle(
@@ -66,7 +66,7 @@ class CustomTextField extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 12),
                 child: Icon(
                   prefixIcon,
-                  color: CustomColors.midnight_slate.withOpacity(0.45),
+                  color: CustomColors.muted_text,
                   size: 18,
                 ),
               )

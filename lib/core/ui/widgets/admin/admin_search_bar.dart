@@ -25,7 +25,7 @@ class AdminSearchBar extends StatelessWidget {
       backgroundColor: Colors.white,
       borderColor: CustomColors.concrete_mist,
       textColor: CustomColors.midnight_slate,
-      hintColor: CustomColors.midnight_slate.withOpacity(0.45),
+      hintColor: CustomColors.midnight_slate.withOpacity(0.7),
       iconColor: CustomColors.copper_spice,
     );
   }

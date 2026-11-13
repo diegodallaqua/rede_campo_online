@@ -8,6 +8,7 @@ import '../list_empty_state.dart';
 import '../list_error_state.dart';
 import '../list_loading_state.dart';
 import '../pagination_bar.dart';
+import 'admin_table.dart';
 
 /// Constrói o item de uma listagem administrativa a partir da entidade.
 typedef AdminEntityItemBuilder<T> = Widget Function(
@@ -15,7 +16,10 @@ typedef AdminEntityItemBuilder<T> = Widget Function(
   T item,
 );
 
-/// Listagem administrativa desktop: grade paginada com barra de páginas
+/// Constrói as células de uma linha da tabela, na ordem das colunas.
+typedef AdminEntityCellsBuilder<T> = List<Widget> Function(T item);
+
+/// Listagem administrativa desktop: tabela paginada com barra de páginas
 /// numeradas, estados de carregamento/erro/vazio e pull-to-refresh.
 /// Genérica sobre qualquer [PagedStore].
 class AdminEntityListDesktopVersion<T> extends StatefulWidget {
@@ -24,8 +28,9 @@ class AdminEntityListDesktopVersion<T> extends StatefulWidget {
   final ValueChanged<int> onPageDiscovered;
   final String errorMessage;
   final String emptyMessage;
-  final AdminEntityItemBuilder<T> itemBuilder;
-  final SliverGridDelegate gridDelegate;
+  final List<AdminTableColumn> columns;
+  final AdminEntityCellsBuilder<T> cellsBuilder;
+  final ValueChanged<T> onEdit;
 
   const AdminEntityListDesktopVersion({
     super.key,
@@ -34,13 +39,9 @@ class AdminEntityListDesktopVersion<T> extends StatefulWidget {
     required this.onPageDiscovered,
     required this.errorMessage,
     required this.emptyMessage,
-    required this.itemBuilder,
-    this.gridDelegate = const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 6,
-      crossAxisSpacing: 16,
-      mainAxisSpacing: 16,
-      mainAxisExtent: 310,
-    ),
+    required this.columns,
+    required this.cellsBuilder,
+    required this.onEdit,
   });
 
   @override
@@ -104,7 +105,7 @@ class _AdminEntityListDesktopVersionState<T>
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(40, 0, 40, 24),
                   physics: const AlwaysScrollableScrollPhysics(),
-                  child: _buildGrid(store),
+                  child: _buildTable(store),
                 ),
               ),
             ),
@@ -128,14 +129,32 @@ class _AdminEntityListDesktopVersionState<T>
     );
   }
 
-  Widget _buildGrid(PagedStore<T> store) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: widget.gridDelegate,
-      itemCount: store.list.length,
-      itemBuilder: (context, index) =>
-          widget.itemBuilder(context, store.list[index]),
+  Widget _buildTable(PagedStore<T> store) {
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: CustomColors.soft_border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AdminTableHeader(columns: widget.columns),
+          for (final item in store.list) ...[
+            const Divider(
+              height: 1,
+              thickness: 1,
+              color: CustomColors.soft_border,
+            ),
+            AdminTableRow(
+              columns: widget.columns,
+              cells: widget.cellsBuilder(item),
+              onEdit: () => widget.onEdit(item),
+            ),
+          ],
+        ],
+      ),
     );
   }
 

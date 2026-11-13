@@ -99,9 +99,9 @@ class FormFieldEmptyState extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             message,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 13,
-              color: CustomColors.midnight_slate.withOpacity(0.45),
+              color: CustomColors.muted_text,
             ),
           ),
         ],

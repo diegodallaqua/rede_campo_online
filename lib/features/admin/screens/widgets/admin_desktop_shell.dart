@@ -17,6 +17,9 @@ class AdminDesktopShell extends StatelessWidget {
     return ColoredBox(
       color: CustomColors.vanilla_haze.withOpacity(0.5),
       child: Row(
+        // Estica o conteúdo na altura toda: telas com rolagem curta começam
+        // no topo em vez de centralizadas.
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Observer(
             builder: (_) => AdminSidebar(store: getIt<AdminStore>()),

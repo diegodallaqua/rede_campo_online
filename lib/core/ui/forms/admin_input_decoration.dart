@@ -28,8 +28,8 @@ InputDecoration adminInputDecoration({
   return InputDecoration(
     labelText: label,
     errorText: errorText,
-    labelStyle: TextStyle(
-      color: CustomColors.midnight_slate.withOpacity(0.45),
+    labelStyle: const TextStyle(
+      color: CustomColors.muted_text,
       fontSize: 14,
     ),
     floatingLabelStyle: const TextStyle(
@@ -41,7 +41,7 @@ InputDecoration adminInputDecoration({
       padding: const EdgeInsets.only(left: 12),
       child: Icon(
         icon,
-        color: CustomColors.midnight_slate.withOpacity(0.45),
+        color: CustomColors.muted_text,
         size: 18,
       ),
     ),
