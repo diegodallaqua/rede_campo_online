@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Emblema da Rede Campo recortado de `logo_icon.png`. O arquivo tem margem
-/// transparente à direita; o recorte quadrado mantém só o emblema, inteiro.
+/// Emblema da Rede Campo recortado de `logo_icon.png`, sem a margem à direita.
 class BrandEmblem extends StatelessWidget {
   final double size;
 

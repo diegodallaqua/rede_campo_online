@@ -24,10 +24,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // As stores vivem no State: criá-las no build geraria instâncias novas a
-  // cada rebuild (comum no primeiro carregamento, quando o layout responsivo
-  // se ajusta), enquanto as listagens continuariam presas à instância antiga,
-  // a única em que o carregamento das recentes foi disparado.
+  // Stores no State: criadas no build, cada rebuild geraria instâncias novas
+  // e as listagens ficariam presas à antiga.
   final NewsStore newsStore = NewsStore();
   final PublicationsStore publicationsStore = PublicationsStore();
 

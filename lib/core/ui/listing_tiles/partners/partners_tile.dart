@@ -5,10 +5,8 @@ import '../../../models/partner.dart';
 import '../../theme/custom_colors.dart';
 import '../../theme/custom_text_styles.dart';
 
-// Parceiros são apresentados como nós de uma rede, o mesmo motivo do logo da
-// Rede Campo (círculos vazados ligados por linhas): cada instituição é um nó
-// sobre uma linha contínua que atravessa a seção. Pensado para fundo claro
-// (vanilla_haze).
+// Parceiros como nós de uma rede, no motivo do logo da Rede Campo.
+// Pensado para fundo claro (vanilla_haze).
 
 const Color _lineColor = Color(0x5925422B); // pine_shadow a 35%
 const double _lineWidth = 2.0;
@@ -22,12 +20,9 @@ Future<void> _openSite(String url) async {
 String _domain(String url) =>
     (Uri.tryParse(url)?.host ?? url).replaceFirst(RegExp(r'^www\.'), '');
 
-/// Nó da rede na versão desktop: o círculo fica sobre a linha horizontal e o
-/// logo pende dele, seguido de nome, nome por extenso e domínio do site.
+/// Nó da rede (desktop): círculo sobre a linha horizontal, logo abaixo.
 ///
-/// Os itens devem ser colocados lado a lado sem espaçamento entre eles: cada
-/// um desenha sua metade da linha, e as metades se encontram formando uma
-/// linha contínua do primeiro ao último nó.
+/// Itens lado a lado sem espaçamento: cada um desenha metade da linha.
 class PartnerNodeDesktopVersion extends StatefulWidget {
   final Partner partner;
   final bool isFirst;
@@ -141,11 +136,9 @@ class _PartnerNodeDesktopVersionState extends State<PartnerNodeDesktopVersion> {
   }
 }
 
-/// Nó da rede na versão mobile: a linha corre na vertical, à esquerda, e o
-/// conteúdo do parceiro fica à direita do nó.
+/// Nó da rede (mobile): linha vertical à esquerda, conteúdo à direita.
 ///
-/// Os itens devem ser empilhados sem espaçamento entre eles, pelo mesmo motivo
-/// da versão desktop: cada um desenha seus trechos da linha.
+/// Itens empilhados sem espaçamento, pelo mesmo motivo do desktop.
 class PartnerNodeMobileVersion extends StatelessWidget {
   final Partner partner;
   final bool isFirst;
@@ -281,8 +274,7 @@ class _Node extends StatelessWidget {
   }
 }
 
-/// Placa branca em formato de pílula para o logo: as marcas parceiras são
-/// desenhadas para fundo claro neutro.
+/// Placa branca em pílula para o logo (marcas feitas para fundo claro).
 class _LogoPlate extends StatelessWidget {
   final String logoPath;
   final double logoScale;

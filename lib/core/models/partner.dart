@@ -8,11 +8,10 @@ class Partner {
 
   final String logoPath;
 
-  /// Site oficial, aberto em uma nova aba ao tocar no card.
+  /// Site oficial, aberto em nova aba.
   final String url;
 
-  /// Ampliação do logo para compensar arquivos com muita margem em branco,
-  /// mantendo o peso visual parecido entre as marcas.
+  /// Escala do logo para compensar margens em branco no arquivo.
   final double logoScale;
 
   const Partner({
