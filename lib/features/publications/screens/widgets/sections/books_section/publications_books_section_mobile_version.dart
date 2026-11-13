@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/section_title.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/features/books/stores/books_store.dart';
 import '../../listing/books/publications_books_list_widget_mobile_version.dart';
@@ -32,15 +33,9 @@ class _PublicationsBooksSectionMobileVersionState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Livros',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: CustomColors.copper_spice,
-              letterSpacing: 0.2,
-            ),
+          const SectionTitle.mobile(
+            title: 'Livros',
+            color: CustomColors.copper_spice,
           ),
           const SizedBox(height: 16),
           CustomSearchBar(

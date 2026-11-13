@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/section_title.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 import 'package:rede_campo_online/features/academic_works/stores/academic_work_store.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
@@ -32,15 +33,9 @@ class _PublicationsAcademicWorksSectionMobileVersionState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Trabalhos Acadêmicos',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: CustomColors.fresh_sprout,
-              letterSpacing: 0.2,
-            ),
+          const SectionTitle.mobile(
+            title: 'Trabalhos Acadêmicos',
+            color: CustomColors.fresh_sprout,
           ),
           const SizedBox(height: 16),
           CustomSearchBar(
