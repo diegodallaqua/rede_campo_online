@@ -38,10 +38,10 @@ class PublicationTypeField extends StatelessWidget {
             color: CustomColors.midnight_slate,
             fontSize: 14,
           ),
-          hint: Text(
+          hint: const Text(
             'Tipo de publicação',
             style: TextStyle(
-              color: CustomColors.midnight_slate.withOpacity(0.45),
+              color: CustomColors.muted_text,
               fontSize: 14,
             ),
           ),

@@ -266,8 +266,8 @@ class _ContributorDialogState extends State<ContributorDialog> {
           hintText: 'Pesquisar membro',
           borderColor: CustomColors.soft_border,
           textColor: CustomColors.midnight_slate,
-          hintColor: CustomColors.midnight_slate.withOpacity(0.45),
-          iconColor: CustomColors.midnight_slate.withOpacity(0.45),
+          hintColor: CustomColors.muted_text,
+          iconColor: CustomColors.muted_text,
         ),
         const SizedBox(height: 8),
         // Altura fixa com rolagem própria: a lista de membros nunca faz o
@@ -286,13 +286,13 @@ class _ContributorDialogState extends State<ContributorDialog> {
                   ),
                 )
               : _filteredMembers.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                  ? const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
                       child: Text(
                         'Nenhum resultado encontrado',
                         style: TextStyle(
                           fontSize: 14,
-                          color: CustomColors.midnight_slate.withOpacity(0.45),
+                          color: CustomColors.muted_text,
                         ),
                       ),
                     )
@@ -401,8 +401,8 @@ class _ContributorDialogState extends State<ContributorDialog> {
         widget.availableRoles.isEmpty
             ? 'Carregando papéis...'
             : 'Papel na publicação',
-        style: TextStyle(
-          color: CustomColors.midnight_slate.withOpacity(0.45),
+        style: const TextStyle(
+          color: CustomColors.muted_text,
           fontSize: 14,
         ),
       ),

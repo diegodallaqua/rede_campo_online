@@ -139,7 +139,7 @@ class _ContributorChip extends StatelessWidget {
             _ChipBadge(
               label: 'Externo',
               backgroundColor: CustomColors.concrete_mist.withOpacity(0.5),
-              textColor: CustomColors.pine_shadow.withOpacity(0.55),
+              textColor: CustomColors.pine_shadow.withOpacity(0.75),
             ),
           ],
           const SizedBox(width: 2),

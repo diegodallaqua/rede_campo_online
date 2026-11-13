@@ -62,6 +62,9 @@ class PublicationFormControllers {
     return controller;
   }
 
+  /// Todos os controllers do formulário, usados para detectar alterações.
+  List<TextEditingController> get all => _all;
+
   List<TextEditingController> get _all => [
         title,
         abstract_,
