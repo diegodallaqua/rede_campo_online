@@ -110,7 +110,7 @@ class _NewsListWidgetDesktopVersionState
           crossAxisCount: 4,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          mainAxisExtent: 310,
+          mainAxisExtent: NewsTileDesktopVersion.height,
         ),
         itemCount: newsList.length,
         itemBuilder: (context, index) {

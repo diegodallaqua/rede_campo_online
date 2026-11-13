@@ -54,7 +54,7 @@ class NewsDetailContentSectionMobileVersion extends StatelessWidget {
                 color: CustomColors.vanilla_haze,
                 height: 1.6,
               ),
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.start,
             ),
             const SizedBox(height: 20),
             Container(
@@ -71,7 +71,7 @@ class NewsDetailContentSectionMobileVersion extends StatelessWidget {
                 color: CustomColors.concrete_mist,
                 height: 1.7,
               ),
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.start,
             ),
           if (date.isNotEmpty) ...[
             const SizedBox(height: 20),
