@@ -4,10 +4,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 const _allowedSchemes = {'http', 'https', 'mailto', 'tel'};
 
-/// Abre um link externo em nova aba (ou no app do sistema).
-///
-/// Ignora URLs vazias, inválidas ou com esquema fora de http(s), mailto e
-/// tel, já que vários links vêm da API (ex.: bloqueia `javascript:`).
+/// Abre link externo em nova aba. Só aceita http(s), mailto e tel, pois
+/// vários links vêm da API (bloqueia `javascript:`).
 Future<void> openExternalUrl(String? url) async {
   final uri = Uri.tryParse(url?.trim() ?? '');
   if (uri == null || !_allowedSchemes.contains(uri.scheme.toLowerCase())) {

@@ -48,7 +48,6 @@ abstract class PublicationsStoreBase with Store {
     }
   }
 
-  /// Recarrega as publicações recentes da Home.
   @action
   Future<void> refreshRecentPublications() async {
     recentPublications.clear();

@@ -68,8 +68,7 @@ class TokenRepository {
     }
   }
 
-  /// Verifica a expiração lendo o `exp` do JWT. A assinatura é validada só
-  /// pela API: o segredo nunca deve estar no cliente.
+  /// Lê o `exp` do JWT; a assinatura é validada pela API.
   Future<bool> verifyToken() async {
     final token = await _storage.read(key: _keyToken);
     if (token == null || token.isEmpty) return false;

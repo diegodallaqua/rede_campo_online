@@ -33,8 +33,7 @@ class PublicationsScreen extends StatefulWidget {
 }
 
 class _PublicationsScreenState extends State<PublicationsScreen> {
-  // Lazy: cada store baixa a listagem inteira, então só o layout visível
-  // (mobile ou desktop) cria os seus.
+  // Lazy: só o layout visível cria (e carrega) seus stores.
   late final _articlesMobile = ArticlesStore(pageSize: 4);
   late final _academicWorksMobile = AcademicWorkStore(pageSize: 4);
   late final _booksMobile = BooksStore(pageSize: 3);
@@ -193,7 +192,7 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
       body: ResponsiveVisibility(
         visible: false,
         visibleWhen: const [Condition.largerThan(name: TABLET)],
-        // Builder adia a montagem: só o layout visível acessa seus stores.
+        // Builder adia o acesso aos stores ao layout visível.
         replacement: Builder(builder: (_) => _layout(desktop: false)),
         child: Builder(builder: (_) => _layout(desktop: true)),
       ),

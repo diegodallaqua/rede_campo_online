@@ -2,8 +2,7 @@ import 'dart:developer';
 
 import '../../../core/network/api_client.dart';
 
-/// CRUD comum dos registros de tipo de publicação (artigo, livro, capítulo
-/// e trabalho acadêmico), todos identificados pelo `publication_id`.
+/// CRUD comum dos tipos de publicação, identificados por `publication_id`.
 abstract class PublicationTypeRepository<T> {
   const PublicationTypeRepository();
 
