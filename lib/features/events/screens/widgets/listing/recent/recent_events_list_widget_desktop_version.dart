@@ -29,8 +29,7 @@ class RecentEventsListWidgetDesktopVersion extends StatelessWidget {
           );
         }
 
-        if (eventsStore.errorRecent != null &&
-            eventsStore.recentList.isEmpty) {
+        if (eventsStore.errorRecent != null && eventsStore.recentList.isEmpty) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
             child: ListErrorState(
@@ -68,7 +67,7 @@ class RecentEventsListWidgetDesktopVersion extends StatelessWidget {
           crossAxisCount: 4,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          mainAxisExtent: 300,
+          mainAxisExtent: EventTileDesktopVersion.height,
         ),
         itemCount: events.length,
         itemBuilder: (context, index) {

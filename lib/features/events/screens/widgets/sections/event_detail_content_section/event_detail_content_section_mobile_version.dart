@@ -48,7 +48,7 @@ class EventDetailContentSectionMobileVersion extends StatelessWidget {
                 color: CustomColors.vanilla_haze,
                 height: 1.7,
               ),
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.start,
             ),
             const SizedBox(height: 20),
           ],

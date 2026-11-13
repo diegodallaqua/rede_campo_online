@@ -126,7 +126,7 @@ class _UpcomingEventsListWidgetDesktopVersionState
           crossAxisCount: 4,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          mainAxisExtent: 300,
+          mainAxisExtent: EventTileDesktopVersion.height,
         ),
         itemCount: events.length,
         itemBuilder: (context, index) {
