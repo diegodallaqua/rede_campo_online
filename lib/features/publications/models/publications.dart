@@ -41,8 +41,7 @@ class Publications {
           ? DateTime.parse(map['publication_date'])
           : null,
       doi: (map['doi'] ?? '') as String,
-      // O tipo vem como `details.type`; aceita também `publication_type` no
-      // topo para compatibilidade com formatos anteriores.
+      // Tipo em `details.type`; aceita `publication_type` no topo (legado).
       publication_type: (map['publication_type'] ??
           (map['details'] is Map ? map['details']['type'] : null)) as String?,
       details: map['details'] is Map
@@ -68,8 +67,7 @@ class Publications {
         'publication_date':
             publication_date?.toIso8601String().substring(0, 10),
         if (doi != null && doi!.isNotEmpty) 'doi': doi,
-        // Vínculo opcional: enviado sempre (null quando não há projeto) para
-        // que a edição consiga desvincular a publicação de um projeto.
+        // Sempre enviado (null sem projeto) para permitir desvincular.
         'project_id': project?.id,
         'research_area_ids': research_areas?.map((ra) => ra.id).toList() ?? [],
       };

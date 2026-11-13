@@ -6,8 +6,7 @@ import '../../widgets/custom_row.dart';
 import '../tile_card.dart';
 import 'publication_tile_info.dart';
 
-/// Card horizontal de publicação: à esquerda, o ícone do tipo e o ano; à
-/// direita, tipo, título, autores e áreas de pesquisa.
+/// Card horizontal de publicação: ícone e ano à esquerda, dados à direita.
 class PublicationTileMobileVersion extends StatelessWidget {
   final Publications publication;
   final VoidCallback? onTap;
@@ -20,8 +19,7 @@ class PublicationTileMobileVersion extends StatelessWidget {
     this.margin,
   });
 
-  /// Altura fixa do card, usada também pelas listagens para calcular o
-  /// espaço visível.
+  /// Altura fixa do card, usada também pelas listagens.
   static const double height = 136.0;
   static const double _sideWidth = 64.0;
 

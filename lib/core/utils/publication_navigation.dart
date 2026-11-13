@@ -14,12 +14,10 @@ import '../models/academic_work_types.dart';
 import '../models/organizations.dart';
 import '../ui/theme/custom_colors.dart';
 
-/// Resolve o tipo concreto de uma publicação e navega para a tela de detalhe
-/// correspondente (artigo, livro, capítulo de livro ou trabalho acadêmico).
+/// Navega para o detalhe conforme o tipo da publicação.
 ///
-/// As rotas de detalhe exigem o modelo tipado em `extra`. O tipo e seus
-/// atributos chegam inline em `publication_type`/`details`; quando ausentes
-/// (formato antigo), são buscados nos endpoints de tipo por id de publicação.
+/// Usa o tipo inline (`publication_type`/`details`); se ausente (formato
+/// antigo), consulta os endpoints de tipo.
 Future<void> openPublicationDetails(
   BuildContext context,
   Publications publication,
@@ -64,8 +62,8 @@ void _push(BuildContext context, Object typed) {
   }
 }
 
-/// Monta o modelo tipado a partir dos atributos que vêm inline na publicação.
-/// Retorna null quando o tipo é desconhecido ou `details` não foi enviado.
+/// Monta o modelo tipado com os dados inline; null se o tipo for
+/// desconhecido ou faltar `details`.
 Object? _buildFromDetails(Publications publication) {
   final details = publication.details;
   if (details == null) return null;

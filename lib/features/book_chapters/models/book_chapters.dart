@@ -22,26 +22,22 @@ class BookChapters {
   int? start_page;
   int? end_page;
 
-  /// Nome do livro exibido nas telas: o título do livro vinculado tem
-  /// precedência sobre o nome gravado no próprio capítulo, que só é usado
-  /// quando não há vínculo ou quando o livro não tem título.
+  /// Nome do livro: o do livro vinculado, senão o do capítulo.
   String? get displayBookName {
     final linkedTitle = book?.publication?.title;
     if (linkedTitle != null && linkedTitle.isNotEmpty) return linkedTitle;
     return book_name;
   }
 
-  /// ISBN exibido nas telas: o do livro vinculado tem precedência sobre o do
-  /// próprio capítulo; o ISBN do capítulo só é usado quando não há livro
-  /// vinculado ou quando o livro não tem ISBN.
+  /// ISBN: o do livro vinculado, senão o do capítulo.
   String? get displayIsbn {
     final bookIsbn = book?.isbn;
     if (bookIsbn != null && bookIsbn.isNotEmpty) return bookIsbn;
     return isbn;
   }
 
-  /// Intervalo de páginas do capítulo ("120 - 145"), ou apenas a ponta
-  /// informada. Vazio quando nenhuma das duas foi preenchida.
+  /// Intervalo de páginas ("120 - 145") ou só a ponta informada; vazio se
+  /// nenhuma.
   String get pageRange {
     if (start_page != null && end_page != null) {
       return '$start_page - $end_page';
@@ -63,8 +59,7 @@ class BookChapters {
           : null,
       book_name: (map['book_name'] ?? '') as String,
       chapter_number: (map['chapter_number'] ?? 0) as num,
-      // O livro pode chegar aninhado ou apenas como `book_id`; no segundo caso
-      // preserva-se o vínculo (sem o ISBN, que então vem do próprio capítulo).
+      // Livro aninhado ou só `book_id` (aí o ISBN vem do capítulo).
       book: map['book'] is Map
           ? Books.fromMap(Map<String, dynamic>.from(map['book']))
           : (map['book_id'] != null
@@ -80,8 +75,7 @@ class BookChapters {
         'publication_id': publication!.id,
         'book_name': book_name!,
         'chapter_number': chapter_number!,
-        // Vínculo opcional: enviado sempre (null quando não há livro) para que
-        // a edição consiga desvincular o capítulo de um livro.
+        // Sempre enviado (null sem livro) para permitir desvincular.
         'book_id': book?.publication?.id,
         'isbn': isbn,
         'start_page': start_page,

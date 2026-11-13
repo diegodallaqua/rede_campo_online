@@ -28,9 +28,6 @@ class ArticlesRepository {
       if (response.statusCode != 200 &&
           response.statusCode != 204 &&
           response.statusCode != 201) {
-        // 200	OK
-        // 204	No Content
-        // 201  Created
         return Future.error(
           ErrorsAPI.fromMap(
             json.decode(response.body),
@@ -86,8 +83,7 @@ class ArticlesRepository {
     }
   }
 
-  /// Busca o artigo de uma publicação específica. Retorna null se a publicação
-  /// não for um artigo (ou não houver registro).
+  /// Artigo da publicação, ou null se não houver.
   Future<Articles?> findByPublicationId(int publicationId) async {
     final token = await TokenRepository().getToken();
     final url = Uri.parse('$baseURL$articlesURL$publicationId');
@@ -132,16 +128,13 @@ class ArticlesRepository {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        // O id da publicação já vai na URL; a API rejeita-o no corpo do PUT.
+        // Id vai na URL; a API o rejeita no corpo do PUT.
         body: jsonEncode(article.toMap()..remove('publication_id')),
       );
 
       if (response.statusCode != 200 &&
           response.statusCode != 204 &&
           response.statusCode != 201) {
-        // 200	OK
-        // 204	No Content
-        // 201  Created
         return Future.error(
           ErrorsAPI.fromMap(
             json.decode(response.body),
@@ -171,8 +164,6 @@ class ArticlesRepository {
       );
 
       if (response.statusCode != 200 && response.statusCode != 204) {
-        // 200	OK
-        // 204	No Content
         return Future.error(
           ErrorsAPI.fromMap(
             json.decode(response.body),

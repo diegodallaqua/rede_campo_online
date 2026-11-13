@@ -141,9 +141,6 @@ class PublicationsRepository {
       if (response.statusCode != 200 &&
           response.statusCode != 204 &&
           response.statusCode != 201) {
-        // 200	OK
-        // 204	No Content
-        // 201  Created
         return Future.error(
           ErrorsAPI.fromMap(
             json.decode(response.body),
@@ -173,8 +170,6 @@ class PublicationsRepository {
       );
 
       if (response.statusCode != 200 && response.statusCode != 204) {
-        // 200	OK
-        // 204	No Content
         return Future.error(
           ErrorsAPI.fromMap(
             json.decode(response.body),

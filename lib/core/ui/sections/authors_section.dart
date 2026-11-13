@@ -4,9 +4,7 @@ import '../../models/contributor.dart';
 import '../theme/custom_colors.dart';
 import '../widgets/contributors_carousel.dart';
 
-/// Seção "Autores" das telas de detalhe de publicações (artigos, livros,
-/// capítulos e trabalhos acadêmicos) - variante desktop, com título alinhado à
-/// esquerda seguido de um divisor em degradê.
+/// Seção "Autores" das telas de publicação (desktop).
 class AuthorsSectionDesktopVersion extends StatelessWidget {
   final String title;
   final String emptyMessage;
@@ -69,7 +67,7 @@ class AuthorsSectionDesktopVersion extends StatelessWidget {
   }
 }
 
-/// Variante mobile da seção "Autores", com título centralizado.
+/// Seção "Autores" (mobile), com título centralizado.
 class AuthorsSectionMobileVersion extends StatelessWidget {
   final String title;
   final String emptyMessage;

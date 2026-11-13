@@ -7,9 +7,7 @@ import '../../widgets/custom_row.dart';
 import '../tile_card.dart';
 import 'publication_tile_info.dart';
 
-/// Card vertical de publicação: faixa com o tipo (artigo, livro...), título,
-/// autores e, no rodapé, data e áreas de pesquisa. Quando tocável, exibe o
-/// atalho "Ver publicação" e o card inteiro leva ao detalhe.
+/// Card vertical de publicação. Quando tocável, leva ao detalhe.
 class PublicationTileDesktopVersion extends StatelessWidget {
   final Publications publication;
   final VoidCallback? onTap;
@@ -95,8 +93,7 @@ class PublicationTileDesktopVersion extends StatelessWidget {
   }
 }
 
-/// Faixa superior com o ícone e o nome do tipo da publicação. Ocupa o lugar
-/// da imagem de capa dos demais cards, já que publicações não têm uma.
+/// Faixa com ícone e tipo da publicação, no lugar da imagem de capa.
 class _TypeHeader extends StatelessWidget {
   final IconData icon;
   final String label;
