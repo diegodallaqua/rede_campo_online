@@ -5,8 +5,7 @@ import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../../core/ui/theme/custom_text_styles.dart';
 import '../../../../../../core/ui/widgets/section_title.dart';
 
-/// Seção dos parceiros, na paleta de Publicações Recentes: a rede corre na
-/// vertical, com um nó por instituição (ver [PartnerNodeMobileVersion]).
+/// Seção dos parceiros como rede vertical (ver [PartnerNodeMobileVersion]).
 class HomePartnersSectionMobileVersion extends StatelessWidget {
   const HomePartnersSectionMobileVersion({super.key});
 

@@ -5,9 +5,7 @@ import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../../core/ui/theme/custom_text_styles.dart';
 import '../../../../../../core/ui/widgets/section_title.dart';
 
-/// Seção dos parceiros, na paleta de Publicações Recentes: as instituições
-/// aparecem como nós de uma mesma rede, ligados por uma linha contínua
-/// (ver [PartnerNodeDesktopVersion]).
+/// Seção dos parceiros como rede (ver [PartnerNodeDesktopVersion]).
 class HomePartnersSectionDesktopVersion extends StatelessWidget {
   const HomePartnersSectionDesktopVersion({super.key});
 
