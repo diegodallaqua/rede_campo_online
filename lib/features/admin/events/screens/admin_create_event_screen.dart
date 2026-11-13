@@ -152,6 +152,7 @@ class _AdminCreateEventScreenState extends State<AdminCreateEventScreen> {
             controller: _nameController,
             prefixIcon: Icons.title_rounded,
             textInputAction: TextInputAction.next,
+            autovalidateMode: AutovalidateMode.always,
             validator: (_) => _createEventStore.nameError,
           ),
           CustomTextField(
@@ -162,6 +163,7 @@ class _AdminCreateEventScreenState extends State<AdminCreateEventScreen> {
             textInputAction: TextInputAction.newline,
             maxLines: 10,
             minLines: 5,
+            autovalidateMode: AutovalidateMode.always,
             validator: (_) => _createEventStore.descriptionError,
           ),
           CustomTextField(
@@ -170,6 +172,7 @@ class _AdminCreateEventScreenState extends State<AdminCreateEventScreen> {
             prefixIcon: Icons.link_rounded,
             keyboardType: TextInputType.url,
             textInputAction: TextInputAction.next,
+            autovalidateMode: AutovalidateMode.always,
             validator: (_) => _createEventStore.registrationUrlError,
           ),
         ],

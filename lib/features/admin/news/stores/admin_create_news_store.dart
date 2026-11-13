@@ -11,6 +11,7 @@ import 'package:rede_campo_online/features/news/models/news.dart';
 import 'package:rede_campo_online/features/news/models/news_media.dart';
 import 'package:rede_campo_online/features/news/repositories/news_media_repository.dart';
 import 'package:rede_campo_online/features/news/repositories/news_repository.dart';
+import '../../../../core/utils/error_message_api.dart';
 
 part 'admin_create_news_store.g.dart';
 
@@ -93,7 +94,7 @@ abstract class AdminCreateNewsStoreBase with Store {
       await _newsMediaRepository.deleteMedia(media.id!);
       existingMedia.removeAt(index);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao remover imagem.');
+      setError(errorMessageOf(e, 'Erro ao remover imagem.'));
     }
   }
 
@@ -213,7 +214,7 @@ abstract class AdminCreateNewsStoreBase with Store {
 
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao criar notícia.');
+      setError(errorMessageOf(e, 'Erro ao criar notícia.'));
     }
 
     setLoading(false);
@@ -252,7 +253,7 @@ abstract class AdminCreateNewsStoreBase with Store {
       }
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao editar notícia.');
+      setError(errorMessageOf(e, 'Erro ao editar notícia.'));
     }
 
     setLoading(false);
@@ -267,7 +268,7 @@ abstract class AdminCreateNewsStoreBase with Store {
       await _repository.deleteNews(news.id!.toString());
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao deletar notícia.');
+      setError(errorMessageOf(e, 'Erro ao deletar notícia.'));
     }
 
     setLoading(false);

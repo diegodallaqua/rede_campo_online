@@ -10,6 +10,7 @@ import 'package:rede_campo_online/core/stores/user_manager_store.dart';
 import 'package:rede_campo_online/features/members/models/members.dart';
 import 'package:rede_campo_online/features/members/repositories/members_repository.dart';
 import '../../../../core/utils/validators.dart';
+import '../../../../core/utils/error_message_api.dart';
 
 part 'admin_create_member_store.g.dart';
 
@@ -310,7 +311,7 @@ abstract class AdminCreateMemberStoreBase with Store {
       await _repository.createMember(newMember);
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao criar membro.');
+      setError(errorMessageOf(e, 'Erro ao criar membro.'));
     }
 
     setLoading(false);
@@ -338,7 +339,7 @@ abstract class AdminCreateMemberStoreBase with Store {
       await _repository.editMember(member);
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao editar membro.');
+      setError(errorMessageOf(e, 'Erro ao editar membro.'));
     }
 
     setLoading(false);
@@ -353,7 +354,7 @@ abstract class AdminCreateMemberStoreBase with Store {
       await _repository.deleteMember(member.id!.toString());
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao deletar membro.');
+      setError(errorMessageOf(e, 'Erro ao deletar membro.'));
     }
 
     setLoading(false);

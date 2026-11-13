@@ -28,6 +28,7 @@ import 'package:rede_campo_online/features/publications/repositories/publication
 import 'package:rede_campo_online/features/academic_works/models/academic_work.dart';
 import 'package:rede_campo_online/features/academic_works/repositories/academic_work_repository.dart';
 import '../../../../core/utils/validators.dart';
+import '../../../../core/utils/error_message_api.dart';
 
 part 'admin_create_publication_store.g.dart';
 
@@ -836,7 +837,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
 
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao criar publicação.');
+      setError(errorMessageOf(e, 'Erro ao criar publicação.'));
     }
 
     setLoading(false);
@@ -861,7 +862,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
       await _saveNewContributors(publication.id!);
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao editar publicação.');
+      setError(errorMessageOf(e, 'Erro ao editar publicação.'));
     }
 
     setLoading(false);
@@ -876,7 +877,7 @@ abstract class AdminCreatePublicationStoreBase with Store {
       await _repository.deletePublication(publication.id!.toString());
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao deletar publicação.');
+      setError(errorMessageOf(e, 'Erro ao deletar publicação.'));
     }
 
     setLoading(false);
