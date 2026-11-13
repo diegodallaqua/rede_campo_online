@@ -177,8 +177,7 @@ abstract class AdminCreateEventStoreBase with Store {
   @action
   void setRegistrationUrl(String value) => _registrationUrl = value;
 
-  // Opcional; quando preenchido exige URL http/https válida para evitar
-  // que links maliciosos (javascript:, data:, etc.) sejam publicados.
+  // Opcional; exige URL http/https válida (bloqueia javascript:, data: etc.).
   @computed
   bool get registrationUrlValid {
     final value = _registrationUrl.trim();
