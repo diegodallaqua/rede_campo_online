@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../../../app/router.dart';
 import '../../../../../../core/ui/buttons/custom_button.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
+import '../../../../../../core/ui/theme/custom_text_styles.dart';
+import '../../../../../../core/ui/widgets/brand_emblem.dart';
 
 class HomeHeaderSectionDesktopVersion extends StatelessWidget {
   const HomeHeaderSectionDesktopVersion({super.key});
@@ -11,81 +13,88 @@ class HomeHeaderSectionDesktopVersion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned.fill(
-          child: Opacity(
-            opacity: 0.1,
-            child: Transform.scale(
-              scale: 2.5,
-              child: Image.asset(
-                'assets/images/logo_icon.png',
-                fit: BoxFit.contain,
-              ),
+        const Positioned.fill(
+          child: IgnorePointer(
+            child: Center(
+              child: Opacity(opacity: 0.07, child: BrandEmblem(size: 640)),
             ),
           ),
         ),
-        SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 100),
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1280),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 48),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Conheça a Rede Campo!',
-                        style: TextStyle(
-                          fontSize: 38,
-                          color: CustomColors.pine_shadow,
+        Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1280),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 96),
+              child: Column(
+                children: [
+                  Text(
+                    'CONHEÇA A REDE CAMPO',
+                    style: CustomTextStyles.label.copyWith(
+                      fontSize: 15,
+                      letterSpacing: 2,
+                      color: CustomColors.pine_shadow,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 980),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: CustomTextStyles.heroTitleDesktop.copyWith(
+                          color: CustomColors.midnight_slate,
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      RichText(
-                        textAlign: TextAlign.center,
-                        text: const TextSpan(
-                          style: TextStyle(
-                            fontSize: 86,
-                            fontWeight: FontWeight.w900,
-                            color: CustomColors.midnight_slate,
-                            height: 1.2,
-                            fontFamily: 'RobotoSlab',
+                        children: const [
+                          TextSpan(text: 'Levando '),
+                          TextSpan(
+                            text: 'inovação e tecnologia',
+                            style: TextStyle(color: CustomColors.copper_spice),
                           ),
-                          children: [
-                            TextSpan(text: 'Levando '),
-                            TextSpan(
-                              text: 'inovação e tecnologia',
-                              style:
-                                  TextStyle(color: CustomColors.copper_spice),
-                            ),
-                            TextSpan(text: ' até o produtor!'),
-                          ],
-                        ),
+                          TextSpan(text: ' até o produtor!'),
+                        ],
                       ),
-                      const SizedBox(height: 24),
-                      const Text(
-                        'Pesquisa, inovação e extensão em desenvolvimento rural',
-                        style: TextStyle(
-                          fontSize: 38,
-                          color: CustomColors.pine_shadow,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 24),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    'Pesquisa, inovação e extensão em desenvolvimento rural',
+                    style: CustomTextStyles.leadDesktop.copyWith(
+                      color: CustomColors.pine_shadow,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 36),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
                       CustomButton(
-                        width: 260,
-                        color: CustomColors.honey_cream,
+                        width: 264,
+                        height: 52,
+                        elevation: 0,
+                        color: CustomColors.copper_spice,
                         text: 'Veja Nossos Projetos',
-                        textColor: CustomColors.midnight_slate,
-                        borderRadius: 8,
+                        textColor: Colors.white,
+                        borderRadius: 10,
                         fontWeight: FontWeight.w700,
+                        trailingIcon: Icons.arrow_forward_rounded,
                         function: () => context.go(AppRoutes.projects),
+                      ),
+                      const SizedBox(width: 16),
+                      CustomButton(
+                        width: 232,
+                        height: 52,
+                        elevation: 0,
+                        color: Colors.transparent,
+                        borderColor: CustomColors.pine_shadow,
+                        text: 'Sobre a Rede Campo',
+                        textColor: CustomColors.pine_shadow,
+                        borderRadius: 10,
+                        fontWeight: FontWeight.w700,
+                        function: () => context.go(AppRoutes.aboutUs),
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
             ),
           ),

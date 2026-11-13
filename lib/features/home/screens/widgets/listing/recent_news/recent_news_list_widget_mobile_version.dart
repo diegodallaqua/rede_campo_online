@@ -16,7 +16,7 @@ class RecentNewsListWidgetMobileVersion extends StatefulWidget {
   final int visibleCount;
   final int totalCount;
 
-  static const double _tileHeight = 110.0;
+  static const double _tileHeight = NewsTileMobileVersion.height;
   static const double _separatorHeight = 8.0;
 
   const RecentNewsListWidgetMobileVersion({

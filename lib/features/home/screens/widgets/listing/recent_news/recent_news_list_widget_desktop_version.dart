@@ -29,7 +29,8 @@ class RecentNewsListWidgetDesktopVersion extends StatefulWidget {
 
 class _RecentNewsListWidgetDesktopVersionState
     extends State<RecentNewsListWidgetDesktopVersion> {
-  static const double _listHeight = 315.0;
+  // Altura do card + 12px acima e abaixo para a elevação no hover.
+  static const double _listHeight = NewsTileDesktopVersion.height + 24;
   final ScrollController _scrollController = ScrollController();
 
   double _tileWidth = 350.0;
@@ -125,7 +126,7 @@ class _RecentNewsListWidgetDesktopVersionState
                   child: ListView.separated(
                     controller: _scrollController,
                     scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     itemCount: news.length,
                     separatorBuilder: (_, __) => const SizedBox(width: 16),
                     itemBuilder: (context, index) {

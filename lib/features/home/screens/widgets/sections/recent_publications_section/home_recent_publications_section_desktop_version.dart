@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../../app/router.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
+import '../../../../../../core/ui/widgets/section_title.dart';
 import '../../../../../publications/stores/publications_store.dart';
 import '../../listing/recent_publications/recent_publications_list_widget_desktop_version.dart';
 
@@ -18,59 +19,22 @@ class HomeRecentPublicationsSectionDesktopVersion extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 1280),
         child: Padding(
-          padding: const EdgeInsets.only(top: 16, bottom: 32),
+          padding: const EdgeInsets.only(top: 56, bottom: 32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 48),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Publicações Recentes',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w700,
-                            color: CustomColors.copper_spice,
-                            letterSpacing: 0.2,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          width: 64,
-                          height: 3,
-                          decoration: BoxDecoration(
-                            color: CustomColors.copper_spice,
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    TextButton.icon(
-                      onPressed: () => context.go(AppRoutes.publications),
-                      icon: const Text(
-                        'Ver todas',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: CustomColors.pine_shadow,
-                        ),
-                      ),
-                      label: const Icon(
-                        Icons.arrow_forward_rounded,
-                        size: 16,
-                        color: CustomColors.pine_shadow,
-                      ),
-                    ),
-                  ],
+                child: SectionTitle(
+                  title: 'Publicações Recentes',
+                  color: CustomColors.copper_spice,
+                  trailing: SectionTitleAction(
+                    color: CustomColors.pine_shadow,
+                    onTap: () => context.go(AppRoutes.publications),
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               PublicationsListWidgetDesktopVersion(
                 publicationsStore: publicationsStore,
                 totalCount: 10,
