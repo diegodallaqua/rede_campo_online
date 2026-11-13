@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/gradient_header.dart';
 
-/// Estrutura das telas mobile do painel administrativo: fundo em gradiente,
-/// [GradientHeader] com título/subtítulo e folha clara arredondada onde o
-/// conteúdo é exibido.
+/// Estrutura mobile do painel: [GradientHeader] e folha de conteúdo.
 class AdminMobilePageScaffold extends StatelessWidget {
   const AdminMobilePageScaffold({
     super.key,

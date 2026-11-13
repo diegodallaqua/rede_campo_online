@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/app/router.dart';
 
-/// Seção gerenciável do painel. Alimenta a barra lateral e os atalhos da
-/// tela inicial, mantendo nomes, ícones e rotas num só lugar.
+/// Seção do painel: nome, ícone e rota para sidebar e atalhos.
 class AdminSection {
   final String label;
   final String description;

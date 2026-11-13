@@ -4,9 +4,7 @@ import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 const _errorColor = CustomColors.danger_red;
 const _borderColor = CustomColors.soft_border;
 
-/// Bloco de formulário composto: rótulo à esquerda e ação (TextButton com
-/// ícone) à direita, seguidos do conteúdo do campo. Padrão usado pelos campos
-/// de áreas de pesquisa, contribuidores, uploads e seletores de entidade.
+/// Campo composto: rótulo e ação à direita, seguidos do conteúdo.
 class FormFieldShell extends StatelessWidget {
   const FormFieldShell({
     super.key,
@@ -62,8 +60,7 @@ class FormFieldShell extends StatelessWidget {
   }
 }
 
-/// Caixa de estado vazio de um campo composto: ícone e mensagem centralizados
-/// dentro de um contêiner com borda. [hasError] tinge a borda de vermelho.
+/// Estado vazio de um campo composto. [hasError] tinge a borda de vermelho.
 class FormFieldEmptyState extends StatelessWidget {
   const FormFieldEmptyState({
     super.key,
@@ -110,7 +107,7 @@ class FormFieldEmptyState extends StatelessWidget {
   }
 }
 
-/// Contêiner com borda usado para o conteúdo preenchido de um campo composto.
+/// Contêiner com borda para o conteúdo de um campo composto.
 class FormFieldContentBox extends StatelessWidget {
   const FormFieldContentBox({
     super.key,
@@ -140,8 +137,7 @@ class FormFieldContentBox extends StatelessWidget {
   }
 }
 
-/// Mensagem de erro exibida abaixo de campos que não usam a decoração
-/// padrão do Material para erros.
+/// Mensagem de erro para campos sem a decoração padrão do Material.
 class FieldErrorText extends StatelessWidget {
   const FieldErrorText({
     super.key,

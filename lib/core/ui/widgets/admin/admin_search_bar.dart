@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 
-/// [CustomSearchBar] pré-configurada com a paleta das listagens do painel
-/// administrativo (fundo branco, texto escuro e ícones cobre).
+/// [CustomSearchBar] com a paleta das listagens do painel.
 class AdminSearchBar extends StatelessWidget {
   const AdminSearchBar({
     super.key,

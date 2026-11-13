@@ -10,13 +10,11 @@ import 'admin_desktop_shell.dart';
 
 /// Estrutura dos formulários do painel (nova/editar).
 ///
-/// Desktop: barra lateral, caminho "Seção › título" e duas colunas. À
-/// esquerda ficam os [mainFields]; à direita, o painel [publishTitle] com os
-/// [publishFields] e os botões, seguido de um painel para cada item de
-/// [sideFields]. Com pouca largura útil as colunas se empilham.
+/// Desktop: [mainFields] à esquerda; à direita, painel [publishTitle] com
+/// [publishFields] e botões, mais um painel por [sideFields]. Empilha em
+/// telas estreitas.
 ///
-/// Mobile: cabeçalho em gradiente, todos os campos em uma coluna e barra de
-/// ações fixa no rodapé.
+/// Mobile: cabeçalho em gradiente, uma coluna e ações fixas no rodapé.
 class AdminFormScaffold extends StatelessWidget {
   const AdminFormScaffold({
     super.key,

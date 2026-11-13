@@ -3,9 +3,7 @@ import 'package:rede_campo_online/core/ui/forms/form_field_shell.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/dialogs/entity_picker_dialog.dart';
 
-/// Campo genérico de seleção única que abre um EntityPickerDialog com barra
-/// de pesquisa, no mesmo padrão visual do ResearchAreasField. Usado para os
-/// campos de projeto/endereço do evento e organização do trabalho acadêmico.
+/// Campo de seleção única que abre um EntityPickerDialog com busca.
 class EntityPickerField<T> extends StatelessWidget {
   const EntityPickerField({
     super.key,
@@ -33,8 +31,7 @@ class EntityPickerField<T> extends StatelessWidget {
   final T? selected;
   final void Function(T) onChanged;
 
-  /// Quando informado, o campo é opcional: um botão de limpar é exibido ao
-  /// lado do item selecionado.
+  /// Se informado, o campo é opcional e ganha botão de limpar.
   final VoidCallback? onClear;
   final String searchHint;
   final String emptyLabel;

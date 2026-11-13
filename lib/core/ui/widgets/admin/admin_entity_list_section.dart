@@ -6,8 +6,7 @@ import 'admin_table.dart';
 import 'admin_search_bar.dart';
 import 'admin_section_header.dart';
 
-/// Seção desktop das telas de gerenciamento do painel administrativo:
-/// cabeçalho (título, subtítulo e ação de criar), busca e tabela paginada.
+/// Seção desktop de gerenciamento: cabeçalho, busca e tabela paginada.
 class AdminEntityListSectionDesktopVersion<T> extends StatefulWidget {
   final PagedStore<T> store;
   final String title;
@@ -98,8 +97,7 @@ class _AdminEntityListSectionDesktopVersionState<T>
   }
 }
 
-/// Seção mobile das telas de gerenciamento do painel administrativo:
-/// busca e listagem com rolagem infinita.
+/// Seção mobile de gerenciamento: busca e rolagem infinita.
 class AdminEntityListSectionMobileVersion<T> extends StatefulWidget {
   final PagedStore<T> store;
   final String errorMessage;

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/core/ui/widgets/custom_search_bar.dart';
 
-/// Diálogo genérico de seleção única com barra de pesquisa, seguindo o mesmo
-/// layout do ResearchAreasDialog. Usado para escolher o projeto e o endereço
-/// de um evento.
+/// Diálogo de seleção única com busca, no layout do ResearchAreasDialog.
 class EntityPickerDialog<T> extends StatefulWidget {
   const EntityPickerDialog({
     super.key,
@@ -66,7 +64,7 @@ class _EntityPickerDialogState<T> extends State<EntityPickerDialog<T>> {
   @override
   void initState() {
     super.initState();
-    // Resolve a seleção para a instância presente na lista (igualdade por id),
+    // Usa a instância da lista igual à seleção (comparação por id).
     final selected = widget.selected;
     if (selected != null) {
       final selectedId = widget.itemId(selected);
@@ -115,8 +113,7 @@ class _EntityPickerDialogState<T> extends State<EntityPickerDialog<T>> {
                   color: CustomColors.neutral_gray, fontSize: 14, height: 1.5),
             )
           : SizedBox(
-              // Tamanho fixo para o diálogo não encolher conforme a pesquisa
-              // filtra os resultados.
+              // Tamanho fixo: não encolhe ao filtrar.
               height: MediaQuery.sizeOf(context).height * 0.6,
               width: 400,
               child: Column(
