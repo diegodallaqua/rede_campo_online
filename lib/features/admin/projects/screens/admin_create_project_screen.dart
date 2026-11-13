@@ -154,6 +154,7 @@ class _AdminCreateProjectScreenState extends State<AdminCreateProjectScreen> {
             controller: _nameController,
             prefixIcon: Icons.work_outline_rounded,
             textInputAction: TextInputAction.next,
+            autovalidateMode: AutovalidateMode.always,
             validator: (_) => _createProjectStore.nameError,
           ),
           CustomTextField(
@@ -163,6 +164,7 @@ class _AdminCreateProjectScreenState extends State<AdminCreateProjectScreen> {
             textInputAction: TextInputAction.newline,
             maxLines: 12,
             minLines: 6,
+            autovalidateMode: AutovalidateMode.always,
             validator: (_) => _createProjectStore.descriptionError,
           ),
           ProjectTypeField(

@@ -12,6 +12,7 @@ import 'package:rede_campo_online/features/projects/models/projects.dart';
 import 'package:rede_campo_online/features/projects/repositories/project_media_repository.dart';
 import 'package:rede_campo_online/features/projects/repositories/project_types_repository.dart';
 import 'package:rede_campo_online/features/projects/repositories/projects_repository.dart';
+import '../../../../core/utils/error_message_api.dart';
 
 part 'admin_create_project_store.g.dart';
 
@@ -156,7 +157,7 @@ abstract class AdminCreateProjectStoreBase with Store {
       await _projectMediaRepository.deleteMedia(media.id!);
       existingMedia.removeAt(index);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao remover imagem.');
+      setError(errorMessageOf(e, 'Erro ao remover imagem.'));
     }
   }
 
@@ -312,7 +313,7 @@ abstract class AdminCreateProjectStoreBase with Store {
 
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao criar projeto.');
+      setError(errorMessageOf(e, 'Erro ao criar projeto.'));
     }
 
     setLoading(false);
@@ -339,7 +340,7 @@ abstract class AdminCreateProjectStoreBase with Store {
       }
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao editar projeto.');
+      setError(errorMessageOf(e, 'Erro ao editar projeto.'));
     }
 
     setLoading(false);
@@ -354,7 +355,7 @@ abstract class AdminCreateProjectStoreBase with Store {
       await _repository.deleteProject(project.id!.toString());
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao deletar projeto.');
+      setError(errorMessageOf(e, 'Erro ao deletar projeto.'));
     }
 
     setLoading(false);

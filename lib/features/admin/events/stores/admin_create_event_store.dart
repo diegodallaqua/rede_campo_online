@@ -11,6 +11,7 @@ import 'package:rede_campo_online/features/events/repositories/events_repository
 import 'package:rede_campo_online/features/projects/models/projects.dart';
 import 'package:rede_campo_online/features/projects/repositories/projects_repository.dart';
 import '../../../../core/utils/validators.dart';
+import '../../../../core/utils/error_message_api.dart';
 
 part 'admin_create_event_store.g.dart';
 
@@ -96,7 +97,7 @@ abstract class AdminCreateEventStoreBase with Store {
       await _eventMediaRepository.deleteMedia(media.id!);
       existingMedia.removeAt(index);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao remover imagem.');
+      setError(errorMessageOf(e, 'Erro ao remover imagem.'));
     }
   }
 
@@ -253,7 +254,7 @@ abstract class AdminCreateEventStoreBase with Store {
 
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao criar evento.');
+      setError(errorMessageOf(e, 'Erro ao criar evento.'));
     }
 
     setLoading(false);
@@ -293,7 +294,7 @@ abstract class AdminCreateEventStoreBase with Store {
       }
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao editar evento.');
+      setError(errorMessageOf(e, 'Erro ao editar evento.'));
     }
 
     setLoading(false);
@@ -308,7 +309,7 @@ abstract class AdminCreateEventStoreBase with Store {
       await _repository.deleteEvent(event.id!.toString());
       setSavedOrUpdatedOrDeleted(true);
     } catch (e) {
-      setError(e is String ? e : 'Erro ao deletar evento.');
+      setError(errorMessageOf(e, 'Erro ao deletar evento.'));
     }
 
     setLoading(false);

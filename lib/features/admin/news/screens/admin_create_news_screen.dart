@@ -149,6 +149,7 @@ class _AdminCreateNewsScreenState extends State<AdminCreateNewsScreen> {
             controller: _titleController,
             prefixIcon: Icons.title_rounded,
             textInputAction: TextInputAction.next,
+            autovalidateMode: AutovalidateMode.always,
             validator: (_) => _createNewsStore.titleError,
           ),
           CustomTextField(
@@ -158,6 +159,7 @@ class _AdminCreateNewsScreenState extends State<AdminCreateNewsScreen> {
             textInputAction: TextInputAction.next,
             maxLines: 2,
             minLines: 2,
+            autovalidateMode: AutovalidateMode.always,
             validator: (_) => _createNewsStore.descriptionError,
           ),
           CustomTextField(
@@ -167,6 +169,7 @@ class _AdminCreateNewsScreenState extends State<AdminCreateNewsScreen> {
             textInputAction: TextInputAction.newline,
             maxLines: 14,
             minLines: 8,
+            autovalidateMode: AutovalidateMode.always,
             validator: (_) => _createNewsStore.contentError,
           ),
         ],
