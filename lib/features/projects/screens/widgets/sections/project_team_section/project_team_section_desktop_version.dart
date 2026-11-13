@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/section_title.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../models/projects.dart';
@@ -24,32 +25,9 @@ class ProjectTeamSectionDesktopVersion extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  const Text(
-                    'Equipe do Projeto',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w700,
-                      color: CustomColors.copper_spice,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: Container(
-                      height: 1,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            CustomColors.copper_spice.withOpacity(0.4),
-                            CustomColors.copper_spice.withOpacity(0.0),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              const SectionTitle(
+                title: 'Equipe do Projeto',
+                color: CustomColors.copper_spice,
               ),
               const SizedBox(height: 32),
               ProjectMembersListWidgetDesktopVersion(members: members),

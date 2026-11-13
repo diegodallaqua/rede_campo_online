@@ -16,7 +16,7 @@ class ProjectEventsListWidgetMobileVersion extends StatefulWidget {
   final ProjectDetailStore projectDetailStore;
 
   static const double _cardWidth = 148.0;
-  static const double _cardHeight = 215.0;
+  static const double _cardHeight = EventTileMobileVersion.height;
   static const double _gap = 12.0;
 
   const ProjectEventsListWidgetMobileVersion({

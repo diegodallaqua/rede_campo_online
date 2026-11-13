@@ -16,7 +16,8 @@ class ProjectEventsListWidgetDesktopVersion extends StatefulWidget {
   final ProjectDetailStore projectDetailStore;
 
   static const double _cardWidth = 220.0;
-  static const double _cardHeight = 300.0;
+  // Altura do card + 12px acima e abaixo para a elevação no hover.
+  static const double _cardHeight = EventTileDesktopVersion.height + 24;
   static const double _gap = 16.0;
 
   const ProjectEventsListWidgetDesktopVersion({
@@ -144,7 +145,7 @@ class _ProjectEventsListWidgetDesktopVersionState
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
                   physics: const ClampingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   itemCount: events.length,
                   separatorBuilder: (_, __) => const SizedBox(
                     width: ProjectEventsListWidgetDesktopVersion._gap,

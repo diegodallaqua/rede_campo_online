@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/section_title.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../stores/project_detail_store.dart';
@@ -22,32 +23,9 @@ class ProjectPublicationsSectionDesktopVersion extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  const Text(
-                    'Publicações Vinculadas',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w700,
-                      color: CustomColors.fresh_sprout,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: Container(
-                      height: 1,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            CustomColors.fresh_sprout.withOpacity(0.4),
-                            CustomColors.fresh_sprout.withOpacity(0.0),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              const SectionTitle(
+                title: 'Publicações Vinculadas',
+                color: CustomColors.fresh_sprout,
               ),
               const SizedBox(height: 32),
               ProjectPublicationsListWidgetDesktopVersion(
