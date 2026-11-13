@@ -5,8 +5,7 @@ import 'package:rede_campo_online/core/utils/admin_navigation.dart';
 
 import 'admin_sections.dart';
 
-/// Atalhos da tela inicial do painel: uma grade que quebra linha conforme a
-/// largura (até 3 colunas), com "Ver todas" e criação rápida em cada seção.
+/// Grade de atalhos da tela inicial do painel (até 3 colunas).
 class AdminSectionsGrid extends StatelessWidget {
   const AdminSectionsGrid({super.key});
 
