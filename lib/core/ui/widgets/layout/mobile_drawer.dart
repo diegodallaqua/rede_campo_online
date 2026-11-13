@@ -3,23 +3,17 @@ import 'package:go_router/go_router.dart';
 import 'package:rede_campo_online/app/router.dart';
 
 import '../../theme/custom_colors.dart';
+import 'nav_items.dart';
 
 class MobileDrawer extends StatelessWidget {
   const MobileDrawer({super.key, this.onClose});
 
   final VoidCallback? onClose;
 
-  static const _menuItems = [
-    _MenuItem(label: 'Início', route: AppRoutes.home),
-    _MenuItem(label: 'A Rede Campo', route: AppRoutes.aboutUs),
-    _MenuItem(label: 'Projetos', route: AppRoutes.projects),
-    _MenuItem(label: 'Publicações', route: AppRoutes.publications),
-    _MenuItem(label: 'Eventos', route: AppRoutes.events),
-    _MenuItem(label: 'Notícias', route: AppRoutes.news),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final currentPath = GoRouterState.of(context).uri.path;
+
     return Material(
       color: CustomColors.vanilla_haze,
       child: SafeArea(
@@ -39,30 +33,38 @@ class MobileDrawer extends StatelessWidget {
               child: ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: _menuItems.length,
+                itemCount: navItems.length,
                 separatorBuilder: (_, __) => const Divider(
                   color: CustomColors.copper_spice,
                   height: 1,
                   thickness: 1,
                 ),
                 itemBuilder: (context, index) {
-                  final item = _menuItems[index];
-                  return InkWell(
-                    onTap: () {
-                      onClose?.call();
-                      if (item.route != null) {
-                        context.go(item.route!);
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
-                      child: Text(
-                        item.label,
-                        style: const TextStyle(
-                          color: CustomColors.midnight_slate,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                  final item = navItems[index];
+                  final isActive = item.isActive(currentPath);
+
+                  return Material(
+                    color: isActive
+                        ? CustomColors.honey_cream.withOpacity(0.5)
+                        : Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        onClose?.call();
+                        context.go(item.route);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 16),
+                        child: Text(
+                          item.label,
+                          style: TextStyle(
+                            color: isActive
+                                ? CustomColors.copper_spice
+                                : CustomColors.midnight_slate,
+                            fontSize: 16,
+                            fontWeight:
+                                isActive ? FontWeight.w700 : FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
@@ -130,11 +132,4 @@ class MobileDrawer extends StatelessWidget {
       ),
     );
   }
-}
-
-class _MenuItem {
-  final String label;
-  final String? route;
-
-  const _MenuItem({required this.label, required this.route});
 }
