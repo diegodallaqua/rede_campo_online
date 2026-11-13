@@ -56,7 +56,7 @@ class DatePickerField extends StatelessWidget {
                     fontSize: 14,
                     color: selectedDate != null
                         ? CustomColors.midnight_slate
-                        : CustomColors.midnight_slate.withOpacity(0.45),
+                        : CustomColors.muted_text,
                   ),
                 ),
               ],

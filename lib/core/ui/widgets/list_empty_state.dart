@@ -25,7 +25,7 @@ class ListEmptyState extends StatelessWidget {
           children: [
             Icon(
               Icons.search_off,
-              size: 36,
+              size: 40,
               color: iconColor,
             ),
             const SizedBox(height: 8),
@@ -33,7 +33,8 @@ class ListEmptyState extends StatelessWidget {
               message,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 14,
+                height: 1.4,
                 color: messageColor,
               ),
             ),

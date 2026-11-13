@@ -141,7 +141,7 @@ class AbstractSectionMobileVersion extends StatelessWidget {
                 color: CustomColors.pine_shadow,
                 height: 1.7,
               ),
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.start,
             ),
             const SizedBox(height: 20),
           ],
@@ -160,6 +160,7 @@ class AbstractSectionMobileVersion extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   _SummaryBody(
+                    textAlign: TextAlign.start,
                     translating: store.translating,
                     summary: store.summary,
                     textStyle: const TextStyle(
@@ -240,11 +241,13 @@ class _SummaryBody extends StatelessWidget {
   final bool translating;
   final String? summary;
   final TextStyle textStyle;
+  final TextAlign textAlign;
 
   const _SummaryBody({
     required this.translating,
     required this.summary,
     required this.textStyle,
+    this.textAlign = TextAlign.justify,
   });
 
   @override
@@ -271,7 +274,7 @@ class _SummaryBody extends StatelessWidget {
     return Text(
       summary!,
       style: textStyle,
-      textAlign: TextAlign.justify,
+      textAlign: textAlign,
     );
   }
 }

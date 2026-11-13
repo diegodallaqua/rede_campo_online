@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/custom_colors.dart';
+import '../theme/custom_text_styles.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton(
@@ -10,7 +11,11 @@ class CustomButton extends StatelessWidget {
       required this.function,
       this.textColor,
       this.borderRadius,
-      this.fontWeight});
+      this.fontWeight,
+      this.height = 45,
+      this.elevation = 8,
+      this.borderColor,
+      this.trailingIcon});
 
   final double? width;
   final Color color;
@@ -19,29 +24,54 @@ class CustomButton extends StatelessWidget {
   final Function()? function;
   final double? borderRadius;
   final FontWeight? fontWeight;
+  final double height;
+  final double elevation;
+
+  /// Quando informado, desenha um contorno de 1.5px (botão secundário).
+  final Color? borderColor;
+
+  /// Ícone exibido depois do texto, como a seta de "Veja Nossos Projetos".
+  final IconData? trailingIcon;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 45,
+    final foreground = textColor ?? CustomColors.fresh_sprout;
+
+    return SizedBox(
+      height: height,
       width: width,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 24),
             ),
+            side: borderColor != null
+                ? BorderSide(color: borderColor!, width: 1.5)
+                : null,
             backgroundColor: color,
+            foregroundColor: foreground,
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            elevation: 8,
+            elevation: elevation,
             shadowColor: CustomColors.midnight_slate.withOpacity(0.25)),
         onPressed: function,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 17,
-            color: textColor ?? CustomColors.fresh_sprout,
-            fontWeight: fontWeight ?? FontWeight.w600,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
+                text,
+                overflow: TextOverflow.ellipsis,
+                style: CustomTextStyles.button.copyWith(
+                  color: foreground,
+                  fontWeight: fontWeight ?? FontWeight.w600,
+                ),
+              ),
+            ),
+            if (trailingIcon != null) ...[
+              const SizedBox(width: 10),
+              Icon(trailingIcon, size: 20, color: foreground),
+            ],
+          ],
         ),
       ),
     );

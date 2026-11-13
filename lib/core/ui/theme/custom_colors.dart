@@ -18,4 +18,8 @@ abstract class CustomColors {
   static const Color neutral_gray = Color(0xFF6B7280);
   static const Color placeholder_surface = Color(0xFFF0F0E8);
   static const Color placeholder_icon = Color(0xFFBBBBAA);
+
+  // Texto secundário (rótulos, dicas, estados vazios): midnight_slate a 70%,
+  // o mínimo que mantém contraste legível sobre os fundos claros.
+  static const Color muted_text = Color(0xB3343D44);
 }
