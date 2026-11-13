@@ -229,8 +229,7 @@ abstract class AdminCreateMemberStoreBase with Store {
     return 'Informe uma URL válida (http:// ou https://)';
   }
 
-  // URL opcional; quando preenchida exige http/https válido para evitar que
-  // links maliciosos (javascript:, data:, etc.) sejam publicados.
+  // Opcional; exige URL http/https válida (bloqueia javascript:, data: etc.).
   bool _isOptionalUrlValid(String raw) {
     final value = raw.trim();
     if (value.isEmpty) return true;

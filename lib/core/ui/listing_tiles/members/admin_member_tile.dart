@@ -6,10 +6,7 @@ import '../../../utils/placeholders.dart';
 import '../../theme/custom_colors.dart';
 import '../../widgets/custom_row.dart';
 
-/// Tile de listagem de membros exclusivo do painel administrativo. Diferente
-/// do [MemberTile] público (cartão vertical compacto), apresenta um cartão
-/// horizontal denso em informação - avatar, nome, papel, organização e
-/// e-mail - com faixa de destaque e ação de edição.
+/// Card horizontal de membro do painel, com ação de edição.
 class AdminMemberTile extends StatelessWidget {
   final Members member;
   final VoidCallback? onTap;
