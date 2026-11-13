@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/ui/theme/custom_colors.dart';
+import '../../../../../../core/ui/sections/page_header_section.dart';
 
 class PublicationsHeaderSectionMobileVersion extends StatelessWidget {
   const PublicationsHeaderSectionMobileVersion({super.key});
@@ -9,42 +9,10 @@ class PublicationsHeaderSectionMobileVersion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(24, 32, 24, 28),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Conheça as nossas',
-            style: TextStyle(
-              fontSize: 14,
-              color: CustomColors.pine_shadow,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            'Publicações',
-            style: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.w900,
-              color: CustomColors.copper_spice,
-              fontFamily: 'RobotoSlab',
-              height: 1.2,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 24),
-          Text(
-            _verse,
-            style: TextStyle(
-              fontSize: 14,
-              color: CustomColors.pine_shadow,
-              height: 1.7,
-            ),
-            textAlign: TextAlign.justify,
-          ),
-        ],
-      ),
+    return const PageHeaderSectionMobileVersion(
+      preTitle: 'Conheça as nossas',
+      title: TextSpan(text: 'Publicações'),
+      description: _verse,
     );
   }
 }
