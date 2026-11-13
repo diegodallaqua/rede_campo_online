@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
+import 'package:rede_campo_online/app/router.dart';
+import 'package:rede_campo_online/core/ui/widgets/admin/admin_leave_guard.dart';
+import 'package:rede_campo_online/core/utils/admin_navigation.dart';
+import 'package:rede_campo_online/features/admin/screens/widgets/admin_form_scaffold.dart';
 import 'package:rede_campo_online/core/ui/forms/custom_text_field.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
-import 'package:rede_campo_online/core/ui/widgets/bottom_action_bar.dart';
 import 'package:rede_campo_online/core/ui/widgets/confirmation_dialog.dart';
-import 'package:rede_campo_online/core/ui/widgets/gradient_header.dart';
 import 'package:rede_campo_online/core/ui/widgets/date_picker.dart';
 import 'package:rede_campo_online/core/ui/forms/media_upload_field.dart';
 import 'package:rede_campo_online/core/ui/forms/research_areas_field.dart';
@@ -24,6 +25,10 @@ class AdminCreateNewsScreen extends StatefulWidget {
 
 class _AdminCreateNewsScreenState extends State<AdminCreateNewsScreen> {
   late final bool editing;
+  late final AdminLeaveGuard _leaveGuard;
+
+  /// Mensagem do aviso de sucesso mostrado ao voltar para a lista.
+  String? _resultMessage;
   late final AdminCreateNewsStore _createNewsStore;
   late final ReactionDisposer _whenDisposer;
   late final ReactionDisposer _errorDisposer;
@@ -51,10 +56,15 @@ class _AdminCreateNewsScreenState extends State<AdminCreateNewsScreen> {
     _contentController.addListener(
         () => _createNewsStore.setContent(_contentController.text));
 
+    _leaveGuard = AdminLeaveGuard(
+        [_titleController, _descriptionController, _contentController]);
+
     _whenDisposer = when(
       (_) => _createNewsStore.savedOrUpdatedOrDeleted,
       () {
-        if (mounted) context.pop(true);
+        if (mounted) {
+          closeAdminPage(context, AppRoutes.adminNews, _resultMessage);
+        }
       },
     );
 
@@ -94,6 +104,7 @@ class _AdminCreateNewsScreenState extends State<AdminCreateNewsScreen> {
   Future<void> _handleSave() async {
     _createNewsStore.invalidSendPressed();
     if (!_createNewsStore.isFormValid) return;
+    _resultMessage = editing ? 'Alterações salvas.' : 'Notícia publicada.';
     if (editing) {
       await _createNewsStore.editNews();
     } else {
@@ -111,136 +122,76 @@ class _AdminCreateNewsScreenState extends State<AdminCreateNewsScreen> {
     );
 
     if (confirmed == true) {
+      _resultMessage = 'Notícia apagada.';
       await _createNewsStore.deleteNews();
     }
   }
 
+  void _handleBack() => _leaveGuard.leave(context, AppRoutes.adminNews);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [CustomColors.copper_spice, CustomColors.midnight_slate],
+    return Observer(
+      builder: (_) => AdminFormScaffold(
+        sectionLabel: 'Notícias',
+        title: editing ? 'Editar Notícia' : 'Nova Notícia',
+        subtitle: editing
+            ? 'Edite os campos abaixo e salve as alterações.'
+            : 'Preencha os campos abaixo para publicar uma nova notícia.',
+        onBack: _handleBack,
+        editing: editing,
+        loading: _createNewsStore.loading,
+        onSave: _handleSave,
+        onDelete: editing ? _handleDelete : null,
+        mainFields: [
+          CustomTextField(
+            label: 'Manchete',
+            controller: _titleController,
+            prefixIcon: Icons.title_rounded,
+            textInputAction: TextInputAction.next,
+            validator: (_) => _createNewsStore.titleError,
           ),
-        ),
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              GradientHeader(
-                title: editing ? 'Editar Notícia' : 'Nova Notícia',
-                subtitle: editing
-                    ? 'Edite os campos abaixo e salve as alterações.'
-                    : 'Preencha os campos abaixo para publicar uma nova notícia.',
-                onBack: () => context.pop(),
-              ),
-              Expanded(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: CustomColors.salt_flower,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(28)),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          padding: const EdgeInsets.fromLTRB(20, 28, 20, 24),
-                          child: Observer(
-                            builder: (_) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomTextField(
-                                  label: 'Manchete',
-                                  controller: _titleController,
-                                  prefixIcon: Icons.title_rounded,
-                                  textInputAction: TextInputAction.next,
-                                  validator: (_) => _createNewsStore.titleError,
-                                ),
-                                const SizedBox(height: 16),
-                                CustomTextField(
-                                  label: 'Subtítulo',
-                                  controller: _descriptionController,
-                                  prefixIcon: Icons.short_text_rounded,
-                                  textInputAction: TextInputAction.next,
-                                  maxLines: 2,
-                                  minLines: 2,
-                                  validator: (_) =>
-                                      _createNewsStore.descriptionError,
-                                ),
-                                const SizedBox(height: 16),
-                                CustomTextField(
-                                  label: 'Corpo da Notícia',
-                                  controller: _contentController,
-                                  keyboardType: TextInputType.multiline,
-                                  textInputAction: TextInputAction.newline,
-                                  maxLines: 8,
-                                  minLines: 5,
-                                  validator: (_) =>
-                                      _createNewsStore.contentError,
-                                ),
-                                const SizedBox(height: 16),
-                                DatePickerField(
-                                  selectedDate:
-                                      _createNewsStore.publicationDate,
-                                  onTap: _pickDate,
-                                  errorText:
-                                      _createNewsStore.publicationDateError,
-                                ),
-                                const SizedBox(height: 16),
-                                Observer(
-                                  builder: (_) => MediaUploadField(
-                                    existingItems:
-                                        _createNewsStore.existingMedia.toList(),
-                                    items:
-                                        _createNewsStore.pendingMedia.toList(),
-                                    onPickImage:
-                                        _createNewsStore.addPendingMedia,
-                                    onRemove:
-                                        _createNewsStore.removePendingMedia,
-                                    onNameChanged:
-                                        _createNewsStore.setPendingMediaName,
-                                    onDeleteExisting:
-                                        _createNewsStore.deleteExistingMedia,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                Observer(
-                                  builder: (_) => ResearchAreasField(
-                                    availableAreas: _createNewsStore
-                                        .availableResearchAreas
-                                        .toList(),
-                                    selectedAreas: _createNewsStore
-                                        .selectedResearchAreas
-                                        .toList(),
-                                    onChanged:
-                                        _createNewsStore.setResearchAreas,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Observer(
-                        builder: (_) => BottomActionBar(
-                          editing: editing,
-                          loading: _createNewsStore.loading,
-                          onSave: _handleSave,
-                          onDelete: editing ? _handleDelete : null,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+          CustomTextField(
+            label: 'Subtítulo',
+            controller: _descriptionController,
+            prefixIcon: Icons.short_text_rounded,
+            textInputAction: TextInputAction.next,
+            maxLines: 2,
+            minLines: 2,
+            validator: (_) => _createNewsStore.descriptionError,
           ),
-        ),
+          CustomTextField(
+            label: 'Corpo da Notícia',
+            controller: _contentController,
+            keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.newline,
+            maxLines: 14,
+            minLines: 8,
+            validator: (_) => _createNewsStore.contentError,
+          ),
+        ],
+        publishFields: [
+          DatePickerField(
+            selectedDate: _createNewsStore.publicationDate,
+            onTap: _pickDate,
+            errorText: _createNewsStore.publicationDateError,
+          ),
+        ],
+        sideFields: [
+          ResearchAreasField(
+            availableAreas: _createNewsStore.availableResearchAreas.toList(),
+            selectedAreas: _createNewsStore.selectedResearchAreas.toList(),
+            onChanged: _createNewsStore.setResearchAreas,
+          ),
+          MediaUploadField(
+            existingItems: _createNewsStore.existingMedia.toList(),
+            items: _createNewsStore.pendingMedia.toList(),
+            onPickImage: _createNewsStore.addPendingMedia,
+            onRemove: _createNewsStore.removePendingMedia,
+            onNameChanged: _createNewsStore.setPendingMediaName,
+            onDeleteExisting: _createNewsStore.deleteExistingMedia,
+          ),
+        ],
       ),
     );
   }
