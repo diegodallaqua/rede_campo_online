@@ -132,20 +132,22 @@ Object? _buildFromDetails(Publications publication) {
 /// Descobre o tipo consultando cada endpoint pelo id da publicação.
 Future<Object?> _fetchTyped(int publicationId) async {
   try {
-    final article = await ArticlesRepository().findByPublicationId(
+    final article = await const ArticlesRepository().findByPublicationId(
       publicationId,
     );
     if (article != null) return article;
 
-    final book = await BooksRepository().findByPublicationId(publicationId);
+    final book =
+        await const BooksRepository().findByPublicationId(publicationId);
     if (book != null) return book;
 
-    final chapter = await BookChaptersRepository().findByPublicationId(
+    final chapter = await const BookChaptersRepository().findByPublicationId(
       publicationId,
     );
     if (chapter != null) return chapter;
 
-    return await AcademicWorkRepository().findByPublicationId(publicationId);
+    return await const AcademicWorkRepository()
+        .findByPublicationId(publicationId);
   } catch (_) {
     return null;
   }

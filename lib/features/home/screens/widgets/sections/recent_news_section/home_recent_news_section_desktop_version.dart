@@ -34,8 +34,7 @@ class HomeRecentNewsSectionDesktopVersion extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              RecentNewsListWidgetDesktopVersion(
-                  newsStore: newsStore, totalCount: 10),
+              RecentNewsListWidgetDesktopVersion(newsStore: newsStore),
             ],
           ),
         ),

@@ -10,7 +10,7 @@ part 'event_detail_store.g.dart';
 class EventDetailStore = EventDetailStoreBase with _$EventDetailStore;
 
 abstract class EventDetailStoreBase with Store {
-  final EventMediaRepository _mediaRepository = EventMediaRepository();
+  final EventMediaRepository _mediaRepository = const EventMediaRepository();
   final int eventId;
 
   EventDetailStoreBase({required this.eventId}) {
@@ -31,10 +31,10 @@ abstract class EventDetailStoreBase with Store {
     _mediaLoading = true;
     _mediaError = null;
     try {
-      final all = await _mediaRepository.findAll();
+      final items = await _mediaRepository.findByEventId(eventId);
       _media
         ..clear()
-        ..addAll(all.where((m) => m.event?.id == eventId));
+        ..addAll(items);
     } catch (e, s) {
       log(
         'EventDetailStore: Erro ao carregar mídia do evento $eventId',

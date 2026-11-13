@@ -10,7 +10,7 @@ part 'news_detail_store.g.dart';
 class NewsDetailStore = NewsDetailStoreBase with _$NewsDetailStore;
 
 abstract class NewsDetailStoreBase with Store {
-  final NewsMediaRepository _mediaRepository = NewsMediaRepository();
+  final NewsMediaRepository _mediaRepository = const NewsMediaRepository();
   final int newsId;
 
   NewsDetailStoreBase({required this.newsId}) {
@@ -31,10 +31,10 @@ abstract class NewsDetailStoreBase with Store {
     _mediaLoading = true;
     _mediaError = null;
     try {
-      final all = await _mediaRepository.findAll();
+      final items = await _mediaRepository.findByNewsId(newsId);
       _media
         ..clear()
-        ..addAll(all.where((m) => m.news?.id == newsId));
+        ..addAll(items);
     } catch (e, s) {
       log(
         'NewsDetailStore: Erro ao carregar mídia da notícia $newsId',

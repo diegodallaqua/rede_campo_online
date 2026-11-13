@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../../../../core/utils/external_links.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 
@@ -130,11 +130,6 @@ class _PartnerCard extends StatelessWidget {
 
   const _PartnerCard({required this.partner});
 
-  Future<void> _openSite() async {
-    final uri = Uri.parse(partner.url);
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -155,7 +150,7 @@ class _PartnerCard extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: _openSite,
+          onTap: () => openExternalUrl(partner.url),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

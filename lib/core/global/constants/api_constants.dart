@@ -1,15 +1,9 @@
-enum BaseEnvironment {
-  development('http://192.168.0.131:3333');
-  //production('https://');
-
-  final String baseURL;
-
-  const BaseEnvironment(this.baseURL);
-}
-
-final baseURL = BaseEnvironment.development.baseURL;
-
-const jwtSecret = String.fromEnvironment('JWT_SECRET');
+/// URL da API. Em produção, defina via
+/// `--dart-define=API_BASE_URL=https://...` (use sempre HTTPS).
+const baseURL = String.fromEnvironment(
+  'API_BASE_URL',
+  defaultValue: 'http://192.168.0.131:3333',
+);
 
 // LOGIN
 const loginURL = '/sessions/';

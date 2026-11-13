@@ -1,39 +1,14 @@
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:http/http.dart' as http;
-
 import '../global/constants/api_constants.dart';
+import '../network/api_client.dart';
 import '../models/member_roles.dart';
-import '../utils/error_message_api.dart';
-import 'token_repository.dart';
 
 class MemberRolesRepository {
-  Future<List<MemberRoles>> findAll() async {
-    final token = await TokenRepository().getToken();
-    final url = Uri.parse('$baseURL$memberRolesURL?take=100');
+  final _api = const ApiClient();
 
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
+  Future<List<MemberRoles>> findAll() => _api.getList(
+        memberRolesURL,
+        MemberRoles.fromMap,
+        query: {'take': 100},
+        errorMessage: 'Erro ao buscar Papéis de Membro',
       );
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonData = jsonDecode(response.body);
-        final List<dynamic> data = jsonData['data'];
-        return data.map((e) => MemberRoles.fromMap(e)).toList();
-      }
-
-      return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
-    } catch (e, s) {
-      log('Repository: Erro ao buscar Papéis de Membro:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao buscar Papéis de Membro');
-    }
-  }
 }

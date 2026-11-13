@@ -1,151 +1,33 @@
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:http/http.dart' as http;
-
 import '../../../core/global/constants/api_constants.dart';
-import '../../../core/utils/error_message_api.dart';
-import '../../../core/repositories/token_repository.dart';
-import '../../../core/stores/filter_search_store.dart';
+import '../../../core/network/api_client.dart';
 import '../models/news.dart';
 
 class NewsRepository {
+  final _api = const ApiClient();
+
   Future<News> createNews(News news) async {
-    var url = Uri.parse(baseURL + newsURL);
-    final token = await TokenRepository().getToken();
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(news.toMap()),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final decoded = jsonDecode(response.body);
-        final map = decoded is Map<String, dynamic>
-            ? (decoded.containsKey('data')
-                ? decoded['data'] as Map<String, dynamic>
-                : decoded)
-            : decoded as Map<String, dynamic>;
-        return News.fromMap(map);
-      }
-      if (response.statusCode == 204) {
-        return News();
-      }
-      return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
-    } catch (e, s) {
-      log('Repository: Erro ao criar Notícia.',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao criar Notícia');
-    }
+    final map = await _api.post(newsURL, news.toMap(),
+        errorMessage: 'Erro ao criar Notícia');
+    return map == null ? News() : News.fromMap(map);
   }
 
   Future<List<News>> findAllNews(
-      {int? page = 1,
-      FilterSearchStore? filterSearchStore,
-      int take = 15}) async {
-    final token = await TokenRepository().getToken();
-
-    final url = Uri.parse('$baseURL$newsURL').replace(queryParameters: {
-      'page': '$page',
-      'take': '$take',
-      if (filterSearchStore != null && filterSearchStore.search.isNotEmpty)
-        'search': filterSearchStore.search,
-    });
-
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
+          {int? page = 1, String? search, int take = 15}) =>
+      _api.getList(
+        newsURL,
+        News.fromMap,
+        query: {
+          'page': page,
+          'take': take,
+          if (search != null && search.isNotEmpty) 'search': search,
         },
+        errorMessage: 'Erro ao buscar Notícias',
       );
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+  Future<void> editNews(News news) =>
+      _api.put('$newsURL${news.id}', news.toMap(),
+          errorMessage: 'Erro ao editar Notícia');
 
-        final List<dynamic> data = jsonData["data"];
-        final List<News> news = data.map((n) => News.fromMap(n)).toList();
-        return news;
-      } else {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao buscar Notícias:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao buscar Notícias');
-    }
-  }
-
-  Future<void> editNews(News news) async {
-    var url = Uri.parse(baseURL + newsURL + news.id!.toString());
-
-    final token = await TokenRepository().getToken();
-
-    try {
-      final response = await http.put(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(news.toMap()),
-      );
-
-      if (response.statusCode != 200 &&
-          response.statusCode != 204 &&
-          response.statusCode != 201) {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao editar Notícia:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao editar Notícia');
-    }
-  }
-
-  Future<void> deleteNews(String id) async {
-    var url = Uri.parse(baseURL + newsURL + id);
-
-    final token = await TokenRepository().getToken();
-
-    try {
-      final response = await http.delete(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      if (response.statusCode != 200 && response.statusCode != 204) {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao deletar Notícia:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao deletar Notícia');
-    }
-  }
+  Future<void> deleteNews(String id) =>
+      _api.delete('$newsURL$id', errorMessage: 'Erro ao deletar Notícia');
 }

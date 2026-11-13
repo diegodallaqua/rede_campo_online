@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../global/constants/api_constants.dart';
 import '../models/image_upload_response.dart';
-import 'token_repository.dart';
+import '../network/api_client.dart';
 
 class ImageUploadRepository {
   Future<ImageUploadResponse> uploadImage({
@@ -16,12 +16,11 @@ class ImageUploadRepository {
     required int entityId,
   }) async {
     try {
-      final token = await TokenRepository().getToken();
       final url = Uri.parse('$baseURL$imagesUploadURL');
       final bytes = await file.readAsBytes();
 
       final request = http.MultipartRequest('POST', url)
-        ..headers['Authorization'] = 'Bearer $token'
+        ..headers.addAll(await ApiClient.authHeader())
         ..fields['entityType'] = entityType
         ..fields['entityId'] = entityId.toString()
         ..files.add(http.MultipartFile.fromBytes(
@@ -38,12 +37,12 @@ class ImageUploadRepository {
         return ImageUploadResponse.fromMap(
             jsonDecode(response.body) as Map<String, dynamic>);
       }
+      log('ImageUploadRepository: upload respondeu ${response.statusCode}');
       return Future.error(
-          'Erro ao fazer upload da imagem (${response.statusCode}): ${response.body}');
+          'Erro ao fazer upload da imagem (HTTP ${response.statusCode}).');
     } catch (e, s) {
-      log('ImageUploadRepository: erro no upload',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao fazer upload da imagem: $e');
+      log('ImageUploadRepository: erro no upload', error: e, stackTrace: s);
+      return Future.error('Erro ao fazer upload da imagem.');
     }
   }
 

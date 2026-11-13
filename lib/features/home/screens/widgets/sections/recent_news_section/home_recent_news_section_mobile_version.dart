@@ -37,7 +37,6 @@ class HomeRecentNewsSectionMobileVersion extends StatelessWidget {
             child: RecentNewsListWidgetMobileVersion(
               newsStore: newsStore,
               visibleCount: 3,
-              totalCount: 10,
             ),
           ),
         ],

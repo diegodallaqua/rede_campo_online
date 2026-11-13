@@ -7,32 +7,29 @@ import 'filter_search_store.dart';
 
 part 'paged_store.g.dart';
 
-/// [BaseStore] com paginação numerada, busca e "peek" da próxima página.
+/// [BaseStore] com paginação no servidor, busca e "peek" da próxima página.
 /// Subclasses implementam apenas [fetchPage].
-abstract class PagedStore<T> = _PagedStore<T> with _$PagedStore<T>;
+abstract class PagedStore<T> = PagedStoreBase<T> with _$PagedStore<T>;
 
-abstract class _PagedStore<T> extends BaseStore<T> with Store {
-  _PagedStore({this.pageSize = 12}) {
-    loadData();
+abstract class PagedStoreBase<T> extends BaseStore<T> with Store {
+  /// [peekNextPage] consulta a página seguinte para saber se ela existe.
+  /// [autoLoad] carrega a primeira página ao criar o store.
+  PagedStoreBase({
+    this.pageSize = 12,
+    this.peekNextPage = true,
+    bool autoLoad = true,
+  }) {
+    if (autoLoad) loadData();
   }
 
   final int pageSize;
+  final bool peekNextPage;
 
-  /// Busca uma página de resultados no repositório da entidade.
+  /// Busca uma página no repositório, aplicando [filterStore].
   Future<List<T>> fetchPage(int page);
 
-  @observable
-  FilterSearchStore filterStore = FilterSearchStore();
+  final FilterSearchStore filterStore = FilterSearchStore();
 
-  FilterSearchStore get getCloneFilterStore => filterStore.cloneFilter();
-
-  @action
-  void setFilter(FilterSearchStore value) {
-    filterStore = value;
-    resetPage();
-  }
-
-  // Paginação da listagem completa
   @readonly
   int _page = 1;
 
@@ -52,7 +49,6 @@ abstract class _PagedStore<T> extends BaseStore<T> with Store {
   @action
   void setLastPageKnown(bool value) => _lastPageKnown = value;
 
-  // Computed's - listagem completa
   @computed
   int get itemCount => _lastPage ? list.length : list.length + 1;
 
@@ -106,7 +102,7 @@ abstract class _PagedStore<T> extends BaseStore<T> with Store {
         _peekNextPage(_page);
       }
     } else {
-      // Páginas subsequentes, sem cache para não conflitar.
+      // Páginas seguintes sem cache, para não conflitar.
       setLoading(true);
       try {
         final result = await fetchPage(_page);
@@ -131,6 +127,7 @@ abstract class _PagedStore<T> extends BaseStore<T> with Store {
 
   // Checa a próxima página antes, evitando que a paginação pisque.
   Future<void> _peekNextPage(int forPage) async {
+    if (!peekNextPage) return;
     try {
       final peek = await fetchPage(forPage + 1);
       if (_page == forPage) {

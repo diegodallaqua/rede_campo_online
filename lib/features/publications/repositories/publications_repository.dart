@@ -1,185 +1,40 @@
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:http/http.dart' as http;
-
 import '../../../core/global/constants/api_constants.dart';
-import '../../../core/utils/error_message_api.dart';
-import '../../../core/repositories/token_repository.dart';
-import '../../../core/stores/filter_search_store.dart';
+import '../../../core/network/api_client.dart';
 import '../models/publications.dart';
 
 class PublicationsRepository {
+  final _api = const ApiClient();
+
   Future<Publications> createPublication(Publications publication) async {
-    var url = Uri.parse(baseURL + publicationsURL);
-    final token = await TokenRepository().getToken();
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(publication.toMap()),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final decoded = jsonDecode(response.body);
-        final map = decoded is Map<String, dynamic>
-            ? (decoded.containsKey('data')
-                ? decoded['data'] as Map<String, dynamic>
-                : decoded)
-            : decoded as Map<String, dynamic>;
-        return Publications.fromMap(map);
-      }
-      if (response.statusCode == 204) {
-        return Publications();
-      }
-      return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
-    } catch (e, s) {
-      log('Repository: Erro ao criar Publicação.',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao criar Publicação');
-    }
+    final map = await _api.post(publicationsURL, publication.toMap(),
+        errorMessage: 'Erro ao criar Publicação');
+    return map == null ? Publications() : Publications.fromMap(map);
   }
 
   Future<List<Publications>> findAllPublications(
-      {int? page = 1, FilterSearchStore? filterSearchStore, int? take}) async {
-    final token = await TokenRepository().getToken();
-
-    final url = Uri.parse('$baseURL$publicationsURL').replace(queryParameters: {
-      'page': '$page',
-      if (take != null) 'take': '$take',
-      if (filterSearchStore != null && filterSearchStore.search.isNotEmpty)
-        'search': filterSearchStore.search,
-    });
-
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
+          {int? page = 1, String? search, int? take}) =>
+      _api.getList(
+        publicationsURL,
+        Publications.fromMap,
+        query: {
+          'page': page,
+          'take': take,
+          if (search != null && search.isNotEmpty) 'search': search,
         },
+        errorMessage: 'Erro ao buscar Publicações',
       );
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonData = jsonDecode(response.body);
-
-        final List<dynamic> data = jsonData["data"];
-        final List<Publications> publications =
-            data.map((p) => Publications.fromMap(p)).toList();
-        return publications;
-      } else {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao buscar Publicações:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao buscar Publicações');
-    }
-  }
-
-  Future<List<Publications>> findByProjectId(int projectId) async {
-    final token = await TokenRepository().getToken();
-    final url = Uri.parse('$baseURL$projectsURL$projectId/publications');
-
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
+  Future<List<Publications>> findByProjectId(int projectId) => _api.getList(
+        '$projectsURL$projectId/publications',
+        Publications.fromMap,
+        errorMessage: 'Erro ao buscar publicações do projeto',
       );
 
-      if (response.statusCode == 200) {
-        final decoded = jsonDecode(response.body);
-        final List<dynamic> data = decoded is List
-            ? decoded
-            : (decoded['data'] as List<dynamic>? ?? []);
-        return data
-            .map((p) => Publications.fromMap(p as Map<String, dynamic>))
-            .toList();
-      } else {
-        return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
-      }
-    } catch (e, s) {
-      log(
-        'PublicationsRepository: Erro ao buscar publicações do projeto $projectId',
-        error: e.toString(),
-        stackTrace: s,
-      );
-      return Future.error('Erro ao buscar publicações do projeto');
-    }
-  }
+  Future<void> editPublication(Publications publication) =>
+      _api.put('$publicationsURL${publication.id}', publication.toMap(),
+          errorMessage: 'Erro ao editar Publicação');
 
-  Future<void> editPublication(Publications publication) async {
-    var url = Uri.parse(baseURL + publicationsURL + publication.id!.toString());
-
-    final token = await TokenRepository().getToken();
-
-    try {
-      final response = await http.put(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(publication.toMap()),
-      );
-
-      if (response.statusCode != 200 &&
-          response.statusCode != 204 &&
-          response.statusCode != 201) {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao editar Publicação:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao editar Publicação');
-    }
-  }
-
-  Future<void> deletePublication(String id) async {
-    var url = Uri.parse(baseURL + publicationsURL + id);
-
-    final token = await TokenRepository().getToken();
-
-    try {
-      final response = await http.delete(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      if (response.statusCode != 200 && response.statusCode != 204) {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao deletar Publicação:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao deletar Publicação');
-    }
-  }
+  Future<void> deletePublication(String id) =>
+      _api.delete('$publicationsURL$id',
+          errorMessage: 'Erro ao deletar Publicação');
 }

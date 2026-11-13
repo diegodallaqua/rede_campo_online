@@ -37,7 +37,6 @@ class HomeRecentPublicationsSectionMobileVersion extends StatelessWidget {
             child: PublicationsListWidgetMobileVersion(
               publicationsStore: publicationsStore,
               visibleCount: 3,
-              totalCount: 10,
             ),
           ),
         ],

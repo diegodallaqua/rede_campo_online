@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../../../../core/utils/external_links.dart';
 
 import '../../../../../../core/ui/listing_tiles/research_areas/research_area_tile.dart';
 import '../../../../../../core/ui/theme/custom_colors.dart';
@@ -172,7 +172,7 @@ class _BookMetadataCard extends StatelessWidget {
         ),
       if (book.book_url != null && book.book_url!.isNotEmpty)
         InkWell(
-          onTap: () => launchUrl(Uri.parse(book.book_url!)),
+          onTap: () => openExternalUrl(book.book_url),
           child: CustomRow(
             icon: Icons.link_outlined,
             text: book.book_url!,

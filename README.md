@@ -37,30 +37,22 @@ puro use rede_campo
 
 ## Environment configuration
 
-The API address and routes are centralized in `lib/core/global/constants/api_constants.dart`:
+The API routes are centralized in `lib/core/global/constants/api_constants.dart`. The API address comes from `--dart-define=API_BASE_URL` (default: `http://192.168.0.131:3333`, the development server):
 
 ```dart
-enum BaseEnvironment {
-  development('http://127.0.0.1:3308');
-  //production('https://');
-
-  final String baseURL;
-
-  const BaseEnvironment(this.baseURL);
-}
-
-final baseURL = BaseEnvironment.development.baseURL;
+const baseURL = String.fromEnvironment(
+  'API_BASE_URL',
+  defaultValue: 'http://192.168.0.131:3333',
+);
 ```
 
-Before running the application in another environment:
-
-1. Uncomment/adjust the `production` entry of the `BaseEnvironment` enum with the public API URL.
-2. Change `final baseURL = ...` to the desired environment.
-3. Provide the JWT secret via `--dart-define` (the `jwtSecret` constant is read from `String.fromEnvironment('JWT_SECRET')`):
+To point the app at another environment, pass the URL when running or building (always HTTPS outside development):
 
 ```bash
-flutter run -d chrome --dart-define=JWT_SECRET=your_secret_here
+flutter run -d chrome -t lib/app/main.dart --dart-define=API_BASE_URL=https://<api-host>
 ```
+
+The app does not need the JWT secret: it only reads the token expiration, and the signature is validated by the API. Never pass the secret through `--dart-define`, since everything defined there is embedded in the public web bundle.
 
 ## Running the project
 
@@ -97,13 +89,13 @@ flutter run -d chrome --dart-define=JWT_SECRET=your_secret_here
 5. **Run the application:**
 
    ```bash
-   flutter run -d chrome
+   flutter run -d chrome -t lib/app/main.dart
    ```
 
    If the API uses a self-signed certificate (common on internal VMs):
 
    ```bash
-   flutter run -d chrome --web-browser-flag=--ignore-certificate-errors
+   flutter run -d chrome -t lib/app/main.dart --web-browser-flag=--ignore-certificate-errors
    ```
 
 6. **If needed, delete duplicated code generation files:**
@@ -142,7 +134,7 @@ flutter run -d chrome --dart-define=JWT_SECRET=your_secret_here
 ## Build and deployment
 
 ```bash
-flutter build web --release --dart-define=JWT_SECRET=your_secret_here
+flutter build web --release -t lib/app/main.dart --dart-define=API_BASE_URL=https://<api-host>
 ```
 
 The output is placed in `build/web/`. See [DEPLOY.md](DEPLOY.md) for VM hosting instructions (Nginx, `--base-href`, HTTPS, and CORS).
@@ -158,10 +150,11 @@ The project follows a **feature-first** architecture with a shared `core/` layer
   - `core/`: code shared across features.
     - `global/`: `injection.dart` (GetIt) and `constants/api_constants.dart` (base URL + API routes).
     - `models/`: cross-cutting models (addresses, cities, states, organizations, contributors, roles, auth token, media, etc.).
-    - `repositories/`: cross-cutting repositories (addresses, organizations, research areas, image upload, token, translation, etc.).
-    - `stores/`: base MobX stores - `BaseStore`, `PagedStore<T>` (paginated listings), `MediaMapStore<M>`, `FilterSearchStore`, `TranslationStore`, and `UserManagerStore` (session).
+    - `network/`: `ApiClient`, the single HTTP client (base URL, headers, token, and error handling).
+    - `repositories/`: cross-cutting repositories (addresses, organizations, research areas, image upload, token, translation, etc.) and the generic `MediaRepository<M>`.
+    - `stores/`: base MobX stores - `BaseStore`, `PagedStore<T>` (server-paginated listings), `ClientPagedStore<T>` (listings paginated in memory), `MediaMapStore<M>`, `FilterSearchStore`, `TranslationStore`, and `UserManagerStore` (session).
     - `ui/`: reusable components - `buttons/`, `forms/`, `listing_tiles/`, `sections/`, `theme/` (`CustomColors`), and `widgets/` (including the generic admin listing widgets in `widgets/admin/`).
-    - `utils/`: pure utilities (formatters, placeholders, toasts, API error message handling).
+    - `utils/`: pure utilities (formatters, validators, placeholders, safe external links, API error message).
   - `features/`: one folder per domain (`home`, `about_us`, `news`, `projects`, `events`, `publications`, `articles`, `books`, `book_chapters`, `thesis`, `members`, `login`, `admin`). Each feature follows the same internal layout:
     - `models/`: models for that domain.
     - `repositories/`: HTTP access for that domain.
@@ -181,12 +174,14 @@ The project follows a **feature-first** architecture with a shared `core/` layer
 | Responsiveness | `responsive_framework` (breakpoints: mobile 400, tablet 768, desktop 1024) |
 | HTTP communication | `http` + `http_parser` |
 | Authentication | `dart_jsonwebtoken` (reads `exp`) + `flutter_secure_storage` (token persistence) |
-| Images | `image_picker`, `image_cropper`, `cached_network_image` |
-| Formatting | `intl`, `brasil_fields` |
+| Images | `image_picker` |
+| Formatting | `intl` |
 
 Conventions new code should follow:
 
-- Paginated listings extend `PagedStore<T>` and implement only `fetchPage(int)` - they do not need their own `.g.dart`.
+- Repositories call the API only through `ApiClient` (never `http` directly); media repositories extend `MediaRepository<M>` and publication-type repositories extend `PublicationTypeRepository<T>`.
+- Paginated listings extend `PagedStore<T>` and implement only `fetchPage(int)`; listings loaded in full and paginated in memory extend `ClientPagedStore<T>` and implement `fetchAll()` and `matches()`. Neither needs its own `.g.dart`.
+- External links open through `openExternalUrl` (`core/utils/external_links.dart`), which only accepts http(s), mailto, and tel.
 - Admin panel listings reuse the generic `AdminEntityListSection{Desktop,Mobile}Version<T>` and `AdminEntityList{Desktop,Mobile}Version<T>` widgets (`core/ui/widgets/admin/`), parameterized by store, texts, `itemBuilder`, and `gridDelegate`.
 - Media upload uses `MediaUploadField`, generic over the `MediaAttachment` interface (`core/models/`).
 - Models, repositories, and stores shared by more than one feature live in `core/models`, `core/repositories`, and `core/stores` - never in `core/utils`.

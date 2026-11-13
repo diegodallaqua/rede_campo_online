@@ -32,7 +32,7 @@ abstract class AdminCreateNewsStoreBase with Store {
 
   final News news;
   final _repository = NewsRepository();
-  final _newsMediaRepository = NewsMediaRepository();
+  final _newsMediaRepository = const NewsMediaRepository();
   final _imageUploadRepository = ImageUploadRepository();
   final _researchAreasRepository = ResearchAreasRepository();
   final _userStore = getIt<UserManagerStore>();

@@ -16,9 +16,11 @@ part 'project_detail_store.g.dart';
 class ProjectDetailStore = ProjectDetailStoreBase with _$ProjectDetailStore;
 
 abstract class ProjectDetailStoreBase with Store {
-  final ProjectMediaRepository _mediaRepository = ProjectMediaRepository();
+  final ProjectMediaRepository _mediaRepository =
+      const ProjectMediaRepository();
   final EventsRepository _eventsRepository = EventsRepository();
-  final EventMediaRepository _eventMediaRepository = EventMediaRepository();
+  final EventMediaRepository _eventMediaRepository =
+      const EventMediaRepository();
   final PublicationsRepository _publicationsRepository =
       PublicationsRepository();
 
@@ -71,10 +73,10 @@ abstract class ProjectDetailStoreBase with Store {
     _mediaLoading = true;
     _mediaError = null;
     try {
-      final all = await _mediaRepository.findAll();
+      final items = await _mediaRepository.findByProjectId(projectId);
       _projectMedia
         ..clear()
-        ..addAll(all.where((m) => m.project?.id == projectId));
+        ..addAll(items);
     } catch (e, s) {
       log(
         'ProjectDetailStore: Erro ao carregar mídia do projeto $projectId',

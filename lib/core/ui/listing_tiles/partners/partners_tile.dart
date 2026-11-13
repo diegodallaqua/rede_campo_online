@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../utils/external_links.dart';
 
 import '../../../models/partner.dart';
 import '../../theme/custom_colors.dart';
@@ -12,10 +12,6 @@ const Color _lineColor = Color(0x5925422B); // pine_shadow a 35%
 const double _lineWidth = 2.0;
 const double _nodeSize = 18.0;
 const Duration _hoverDuration = Duration(milliseconds: 180);
-
-Future<void> _openSite(String url) async {
-  await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-}
 
 String _domain(String url) =>
     (Uri.tryParse(url)?.host ?? url).replaceFirst(RegExp(r'^www\.'), '');
@@ -68,7 +64,7 @@ class _PartnerNodeDesktopVersionState extends State<PartnerNodeDesktopVersion> {
         onExit: (_) => setState(() => _hovered = false),
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: () => _openSite(partner.url),
+          onTap: () => openExternalUrl(partner.url),
           child: Column(
             children: [
               SizedBox(
@@ -81,7 +77,8 @@ class _PartnerNodeDesktopVersionState extends State<PartnerNodeDesktopVersion> {
                   ],
                 ),
               ),
-              Container(width: _lineWidth, height: _stemHeight, color: _lineColor),
+              Container(
+                  width: _lineWidth, height: _stemHeight, color: _lineColor),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: _contentMaxWidth),
                 child: Padding(
@@ -158,8 +155,7 @@ class PartnerNodeMobileVersion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Alinha o centro do nó ao centro do logo.
-    const double nodeTop =
-        _verticalPadding + _plateHeight / 2 - _nodeSize / 2;
+    const double nodeTop = _verticalPadding + _plateHeight / 2 - _nodeSize / 2;
 
     Widget segment(bool visible, {double? height}) {
       final line = Container(
@@ -176,7 +172,7 @@ class PartnerNodeMobileVersion extends StatelessWidget {
       label: 'Abrir o site de ${partner.name}',
       excludeSemantics: true,
       child: InkWell(
-        onTap: () => _openSite(partner.url),
+        onTap: () => openExternalUrl(partner.url),
         borderRadius: BorderRadius.circular(16),
         splashColor: CustomColors.pine_shadow.withOpacity(0.08),
         highlightColor: CustomColors.pine_shadow.withOpacity(0.05),

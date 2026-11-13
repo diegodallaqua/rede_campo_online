@@ -2,47 +2,22 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../core/stores/media_map_store.dart';
 import '../../../../core/stores/paged_store.dart';
-import '../../../projects/models/project_media.dart';
 import '../../../projects/models/projects.dart';
+import '../../../projects/models/project_media.dart';
 import '../../../projects/repositories/project_media_repository.dart';
 import '../../../projects/repositories/projects_repository.dart';
 
-part 'admin_projects_store.g.dart';
-
-class AdminProjectsStore = AdminProjectsStoreBase with _$AdminProjectsStore;
-
-abstract class AdminProjectsStoreBase extends PagedStore<Projects> with Store {
-  final ProjectsRepository _repository = ProjectsRepository();
-
-  AdminProjectsStoreBase({super.pageSize}) {
+class AdminProjectsStore extends PagedStore<Projects> {
+  AdminProjectsStore({super.pageSize}) {
     loadMedia();
   }
 
-  // Estado da listagem como observável próprio (espelha o de BaseStore).
-  @observable
-  bool isLoading = false;
-
-  @observable
-  String? errorMessage;
-
-  @override
-  @action
-  void setLoading(bool value) {
-    super.setLoading(value);
-    isLoading = value;
-  }
-
-  @override
-  @action
-  void setError(String? message) {
-    super.setError(message);
-    errorMessage = message;
-  }
+  final _repository = ProjectsRepository();
 
   @override
   Future<List<Projects>> fetchPage(int page) => _repository.findAllProjects(
         page: page,
-        filterSearchStore: filterStore,
+        search: filterStore.search,
         take: pageSize,
       );
 
@@ -52,9 +27,8 @@ abstract class AdminProjectsStoreBase extends PagedStore<Projects> with Store {
     loadMedia();
   }
 
-  // Mídias dos projetos
-  late final MediaMapStore<ProjectMedia> _media = MediaMapStore(
-    fetchAll: ProjectMediaRepository().findAll,
+  late final _media = MediaMapStore<ProjectMedia>(
+    fetchAll: const ProjectMediaRepository().findAll,
     ownerId: (m) => m.project?.id,
     logLabel: 'AdminProjectsStore',
   );

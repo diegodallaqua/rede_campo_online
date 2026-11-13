@@ -1,152 +1,33 @@
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:http/http.dart' as http;
-
 import '../../../core/global/constants/api_constants.dart';
-import '../../../core/utils/error_message_api.dart';
-import '../../../core/repositories/token_repository.dart';
-import '../../../core/stores/filter_search_store.dart';
+import '../../../core/network/api_client.dart';
 import '../models/projects.dart';
 
 class ProjectsRepository {
-  Future<Projects> createProject(Projects projects) async {
-    var url = Uri.parse(baseURL + projectsURL);
-    final token = await TokenRepository().getToken();
+  final _api = const ApiClient();
 
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(projects.toMap()),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final decoded = jsonDecode(response.body);
-        final map = decoded is Map<String, dynamic>
-            ? (decoded.containsKey('data')
-                ? decoded['data'] as Map<String, dynamic>
-                : decoded)
-            : decoded as Map<String, dynamic>;
-        return Projects.fromMap(map);
-      }
-      if (response.statusCode == 204) {
-        return Projects();
-      }
-      return Future.error(ErrorsAPI.fromMap(json.decode(response.body)));
-    } catch (e, s) {
-      log('Repository: Erro ao criar Projeto.',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao criar Projeto');
-    }
+  Future<Projects> createProject(Projects project) async {
+    final map = await _api.post(projectsURL, project.toMap(),
+        errorMessage: 'Erro ao criar Projeto');
+    return map == null ? Projects() : Projects.fromMap(map);
   }
 
   Future<List<Projects>> findAllProjects(
-      {int? page = 1,
-      FilterSearchStore? filterSearchStore,
-      int take = 3}) async {
-    final token = await TokenRepository().getToken();
-
-    final url = Uri.parse('$baseURL$projectsURL').replace(queryParameters: {
-      'page': '$page',
-      'take': '$take',
-      if (filterSearchStore != null && filterSearchStore.search.isNotEmpty)
-        'project_name': filterSearchStore.search,
-    });
-
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
+          {int? page = 1, String? search, int take = 3}) =>
+      _api.getList(
+        projectsURL,
+        Projects.fromMap,
+        query: {
+          'page': page,
+          'take': take,
+          if (search != null && search.isNotEmpty) 'project_name': search,
         },
+        errorMessage: 'Erro ao buscar Projetos',
       );
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+  Future<void> editProject(Projects project) =>
+      _api.put('$projectsURL${project.id}', project.toMap(),
+          errorMessage: 'Erro ao editar Projeto');
 
-        final List<dynamic> data = jsonData["data"];
-        final List<Projects> projects =
-            data.map((p) => Projects.fromMap(p)).toList();
-        return projects;
-      } else {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao buscar Projetos:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao buscar Projetos');
-    }
-  }
-
-  Future<void> editProject(Projects projects) async {
-    var url = Uri.parse(baseURL + projectsURL + projects.id!.toString());
-
-    final token = await TokenRepository().getToken();
-
-    try {
-      final response = await http.put(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(projects.toMap()),
-      );
-
-      if (response.statusCode != 200 &&
-          response.statusCode != 204 &&
-          response.statusCode != 201) {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao editar Projeto:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao editar Projeto');
-    }
-  }
-
-  Future<void> deleteProject(String id) async {
-    var url = Uri.parse(baseURL + projectsURL + id);
-
-    final token = await TokenRepository().getToken();
-
-    try {
-      final response = await http.delete(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      if (response.statusCode != 200 && response.statusCode != 204) {
-        return Future.error(
-          ErrorsAPI.fromMap(
-            json.decode(response.body),
-          ),
-        );
-      }
-    } catch (e, s) {
-      log('Repository: Erro ao deletar Projeto:',
-          error: e.toString(), stackTrace: s);
-      return Future.error('Erro ao deletar Projeto');
-    }
-  }
+  Future<void> deleteProject(String id) =>
+      _api.delete('$projectsURL$id', errorMessage: 'Erro ao deletar Projeto');
 }

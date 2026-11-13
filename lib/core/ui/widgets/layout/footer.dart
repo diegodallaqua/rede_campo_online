@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../utils/external_links.dart';
 
 import '../../theme/custom_colors.dart';
 import 'nav_items.dart';
@@ -26,14 +26,6 @@ final Color _divider = CustomColors.midnight_slate.withOpacity(0.18);
 final Border _topBorder = Border(
   top: BorderSide(color: CustomColors.midnight_slate.withOpacity(0.25)),
 );
-
-Future<void> _launchUrl(String url) async {
-  if (url.isEmpty) return;
-  final uri = Uri.parse(url);
-  if (await canLaunchUrl(uri)) {
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
-  }
-}
 
 class Footer extends StatelessWidget {
   const Footer({super.key});
@@ -260,13 +252,13 @@ class _ContactLinks extends StatelessWidget {
           label: _phoneLabel,
           icon: Icons.phone_outlined,
           underline: true,
-          onTap: () => _launchUrl(_phoneUri),
+          onTap: () => openExternalUrl(_phoneUri),
         ),
         _FooterLink(
           label: _email,
           icon: Icons.mail_outline_rounded,
           underline: true,
-          onTap: () => _launchUrl('mailto:$_email'),
+          onTap: () => openExternalUrl('mailto:$_email'),
         ),
       ],
     );
@@ -283,13 +275,13 @@ class _SocialLinks extends StatelessWidget {
         _SocialIconButton(
           icon: FontAwesomeIcons.instagram,
           tooltip: 'Instagram da Rede Campo',
-          onTap: () => _launchUrl(_instagramUrl),
+          onTap: () => openExternalUrl(_instagramUrl),
         ),
         /*const SizedBox(width: 12),
         _SocialIconButton(
           icon: FontAwesomeIcons.linkedinIn,
           tooltip: 'LinkedIn da Rede Campo',
-          onTap: () => _launchUrl(_linkedinUrl),
+          onTap: () => openExternalUrl(_linkedinUrl),
         ),*/
       ],
     );

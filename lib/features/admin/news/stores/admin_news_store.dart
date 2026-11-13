@@ -7,42 +7,17 @@ import '../../../news/models/news_media.dart';
 import '../../../news/repositories/news_media_repository.dart';
 import '../../../news/repositories/news_repository.dart';
 
-part 'admin_news_store.g.dart';
-
-class AdminNewsStore = AdminNewsStoreBase with _$AdminNewsStore;
-
-abstract class AdminNewsStoreBase extends PagedStore<News> with Store {
-  final NewsRepository _repository = NewsRepository();
-
-  AdminNewsStoreBase({super.pageSize}) {
+class AdminNewsStore extends PagedStore<News> {
+  AdminNewsStore({super.pageSize}) {
     loadMedia();
   }
 
-  // Estado da listagem como observável próprio (espelha o de BaseStore).
-  @observable
-  bool isLoading = false;
-
-  @observable
-  String? errorMessage;
-
-  @override
-  @action
-  void setLoading(bool value) {
-    super.setLoading(value);
-    isLoading = value;
-  }
-
-  @override
-  @action
-  void setError(String? message) {
-    super.setError(message);
-    errorMessage = message;
-  }
+  final _repository = NewsRepository();
 
   @override
   Future<List<News>> fetchPage(int page) => _repository.findAllNews(
         page: page,
-        filterSearchStore: filterStore,
+        search: filterStore.search,
         take: pageSize,
       );
 
@@ -52,9 +27,8 @@ abstract class AdminNewsStoreBase extends PagedStore<News> with Store {
     loadMedia();
   }
 
-  // Mídias das notícias
-  late final MediaMapStore<NewsMedia> _media = MediaMapStore(
-    fetchAll: NewsMediaRepository().findAll,
+  late final _media = MediaMapStore<NewsMedia>(
+    fetchAll: const NewsMediaRepository().findAll,
     ownerId: (m) => m.news?.id,
     logLabel: 'AdminNewsStore',
   );
