@@ -28,14 +28,15 @@ class ListErrorState extends StatelessWidget {
             Icon(
               Icons.wifi_off_rounded,
               color: iconColor,
-              size: 32,
+              size: 36,
             ),
             const SizedBox(height: 8),
             Text(
               message,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 14,
+                height: 1.4,
                 color: messageColor,
               ),
             ),
@@ -45,7 +46,7 @@ class ListErrorState extends StatelessWidget {
               child: Text(
                 'Tentar novamente',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                   color: messageColor,
                   fontWeight: FontWeight.w700,
                 ),

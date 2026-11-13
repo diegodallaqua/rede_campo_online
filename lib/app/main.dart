@@ -3,6 +3,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../core/global/injection.dart';
 import '../core/stores/user_manager_store.dart';
+import '../core/ui/theme/custom_theme.dart';
 import 'router.dart';
 
 void main() async {
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: appRouter,
+      theme: CustomTheme.light,
       builder: (context, widget) => ResponsiveWrapper.builder(
         ClampingScrollWrapper.builder(context, widget!),
         defaultScale: true,

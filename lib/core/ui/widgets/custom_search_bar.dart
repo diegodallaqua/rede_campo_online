@@ -11,6 +11,9 @@ class CustomSearchBar extends StatelessWidget {
   final Color hintColor;
   final Color iconColor;
 
+  /// Abre os filtros avançados. Sem ele, o botão de filtros não aparece.
+  final VoidCallback? onFilterTap;
+
   const CustomSearchBar({
     super.key,
     required this.controller,
@@ -21,6 +24,7 @@ class CustomSearchBar extends StatelessWidget {
     this.textColor = CustomColors.concrete_mist,
     this.hintColor = CustomColors.concrete_mist,
     this.iconColor = CustomColors.concrete_mist,
+    this.onFilterTap,
   });
 
   @override
@@ -81,27 +85,29 @@ class CustomSearchBar extends StatelessWidget {
               color: iconColor,
               size: 20,
             ),
+            tooltip: 'Pesquisar',
             onPressed: () => onSubmitted(controller.text),
             padding: const EdgeInsets.symmetric(horizontal: 8),
             constraints: const BoxConstraints(),
           ),
-          Container(
-            width: 1,
-            height: 24,
-            color: borderColor,
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.tune_rounded,
-              color: iconColor,
-              size: 20,
+          if (onFilterTap != null) ...[
+            Container(
+              width: 1,
+              height: 24,
+              color: borderColor,
             ),
-            onPressed: () {
-              // TODO: abrir filtros avançados
-            },
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            constraints: const BoxConstraints(),
-          ),
+            IconButton(
+              tooltip: 'Filtros',
+              icon: Icon(
+                Icons.tune_rounded,
+                color: iconColor,
+                size: 20,
+              ),
+              onPressed: onFilterTap,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              constraints: const BoxConstraints(),
+            ),
+          ],
         ],
       ),
     );

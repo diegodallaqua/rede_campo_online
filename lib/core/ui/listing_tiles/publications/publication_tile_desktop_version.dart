@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:rede_campo_online/core/utils/formatters.dart';
 import '../../../../features/publications/models/publications.dart';
 import '../../theme/custom_colors.dart';
+import '../../theme/custom_text_styles.dart';
 import '../../widgets/custom_row.dart';
+import '../tile_card.dart';
+import 'publication_tile_info.dart';
 
+/// Card vertical de publicação: faixa com o tipo (artigo, livro...), título,
+/// autores e, no rodapé, data e áreas de pesquisa. Quando tocável, exibe o
+/// atalho "Ver publicação" e o card inteiro leva ao detalhe.
 class PublicationTileDesktopVersion extends StatelessWidget {
   final Publications publication;
   final VoidCallback? onTap;
@@ -16,122 +22,121 @@ class PublicationTileDesktopVersion extends StatelessWidget {
     this.margin,
   });
 
+  /// Altura que as listagens reservam para cada card.
+  static const double height = 290.0;
+
   @override
   Widget build(BuildContext context) {
-    const double borderRadius = 12.0;
+    final authors = publication.authorsLabel();
+    final areas = publication.areasLabel();
+    final date = publication.publication_date;
 
-    final content = Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: CustomColors.honey_cream,
-        borderRadius: BorderRadius.circular(borderRadius),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.10),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
+    return TileCard(
+      margin: margin,
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            height: 3,
-            decoration: const BoxDecoration(
-              color: CustomColors.copper_spice,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(borderRadius),
-                topRight: Radius.circular(borderRadius),
-              ),
-            ),
+          _TypeHeader(
+            icon: publication.typeIcon,
+            label: publication.typeLabel,
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: CustomColors.copper_spice.withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.article_outlined,
-                            size: 12, color: CustomColors.copper_spice),
-                        SizedBox(width: 4),
-                        Text(
-                          'PUBLICAÇÃO',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            color: CustomColors.copper_spice,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
                   Text(
                     publication.title ?? '-',
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
+                    style: CustomTextStyles.cardTitleDesktop.copyWith(
                       color: CustomColors.pine_shadow,
-                      height: 1.3,
                     ),
                   ),
+                  if (authors != null) ...[
+                    const SizedBox(height: 8),
+                    CustomRow(
+                      icon: Icons.person_outline_rounded,
+                      text: authors,
+                      textColor: CustomColors.midnight_slate,
+                      fontSize: 13,
+                      iconSize: 15,
+                    ),
+                  ],
                   const Spacer(),
-                  if (publication.publication_date != null) ...[
+                  if (date != null)
                     CustomRow(
                       icon: Icons.calendar_today_outlined,
-                      text: publication.publication_date!.formattedDate(),
+                      text: date.formattedDate(),
+                      textColor: CustomColors.midnight_slate,
+                      fontSize: 13,
+                      iconSize: 15,
                     ),
-                    const SizedBox(height: 4),
-                  ],
-                  if (publication.research_areas != null &&
-                      publication.research_areas!.isNotEmpty)
+                  if (areas != null) ...[
+                    const SizedBox(height: 6),
                     CustomRow(
                       icon: Icons.sell_outlined,
-                      text: () {
-                        final areas = publication.research_areas!
-                            .map((e) => e.name ?? '')
-                            .where((n) => n.isNotEmpty)
-                            .toList();
-                        if (areas.length > 2) {
-                          return '${areas.take(2).join(', ')} +${areas.length - 2}';
-                        }
-                        return areas.join(', ');
-                      }(),
+                      text: areas,
+                      textColor: CustomColors.midnight_slate,
+                      fontSize: 13,
+                      iconSize: 15,
                     ),
+                  ],
                 ],
+              ),
+            ),
+          ),
+          if (onTap != null) const TileReadMore(label: 'Ver publicação'),
+        ],
+      ),
+    );
+  }
+}
+
+/// Faixa superior com o ícone e o nome do tipo da publicação. Ocupa o lugar
+/// da imagem de capa dos demais cards, já que publicações não têm uma.
+class _TypeHeader extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _TypeHeader({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+      decoration: BoxDecoration(
+        color: CustomColors.copper_spice.withOpacity(0.10),
+        border: const Border(
+          bottom: BorderSide(color: CustomColors.copper_spice, width: 2),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 32,
+            height: 32,
+            decoration: const BoxDecoration(
+              color: CustomColors.copper_spice,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, size: 18, color: CustomColors.salt_flower),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              label.toUpperCase(),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: CustomTextStyles.label.copyWith(
+                color: CustomColors.copper_spice,
               ),
             ),
           ),
         ],
       ),
-    );
-
-    return Container(
-      margin: margin,
-      child: onTap == null
-          ? content
-          : Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(borderRadius),
-                onTap: onTap,
-                child: content,
-              ),
-            ),
     );
   }
 }

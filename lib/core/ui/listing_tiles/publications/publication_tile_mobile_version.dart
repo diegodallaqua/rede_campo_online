@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rede_campo_online/core/utils/formatters.dart';
 import '../../../../features/publications/models/publications.dart';
 import '../../theme/custom_colors.dart';
-import '../../widgets/custom_chip.dart';
+import '../../theme/custom_text_styles.dart';
+import '../../widgets/custom_row.dart';
+import '../tile_card.dart';
+import 'publication_tile_info.dart';
 
+/// Card horizontal de publicação: à esquerda, o ícone do tipo e o ano; à
+/// direita, tipo, título, autores e áreas de pesquisa.
 class PublicationTileMobileVersion extends StatelessWidget {
   final Publications publication;
   final VoidCallback? onTap;
@@ -16,137 +20,95 @@ class PublicationTileMobileVersion extends StatelessWidget {
     this.margin,
   });
 
-  static const double _height = 145.0;
-  static const double _accentWidth = 5.0;
-  static const double _borderRadius = 12.0;
+  /// Altura fixa do card, usada também pelas listagens para calcular o
+  /// espaço visível.
+  static const double height = 136.0;
+  static const double _sideWidth = 64.0;
 
   @override
   Widget build(BuildContext context) {
-    final title = publication.title ?? '-';
-    final abstract = publication.abstract?.trim();
-    final date = publication.publication_date;
-    final year = date != null ? date.year.toString() : '';
+    final authors = publication.authorsLabel();
+    final areas = publication.areasLabel();
+    final year = publication.publication_date?.year;
 
-    final areas = (publication.research_areas ?? [])
-        .map((e) => e.name ?? '')
-        .where((name) => name.isNotEmpty)
-        .toList();
-
-    final areasLabel = areas.isEmpty
-        ? ''
-        : areas.length > 3
-            ? '${areas.take(3).join(', ')}  +${areas.length - 3}'
-            : areas.join(', ');
-
-    final hasDoi =
-        publication.doi != null && publication.doi!.trim().isNotEmpty;
-
-    final card = SizedBox(
-      height: _height,
-      child: Container(
-        decoration: BoxDecoration(
-          color: CustomColors.honey_cream,
-          borderRadius: BorderRadius.circular(_borderRadius),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 6,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        clipBehavior: Clip.antiAlias,
+    return TileCard(
+      margin: margin,
+      onTap: onTap,
+      child: SizedBox(
+        height: height,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              width: _accentWidth,
-              color: CustomColors.copper_spice,
+              width: _sideWidth,
+              decoration: BoxDecoration(
+                color: CustomColors.copper_spice.withOpacity(0.10),
+                border: const Border(
+                  right: BorderSide(color: CustomColors.copper_spice, width: 2),
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    publication.typeIcon,
+                    size: 26,
+                    color: CustomColors.copper_spice,
+                  ),
+                  if (year != null) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      '$year',
+                      style: CustomTextStyles.label.copyWith(
+                        color: CustomColors.pine_shadow,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(12, 11, 12, 11),
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      publication.typeLabel.toUpperCase(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
+                      style: CustomTextStyles.label.copyWith(
+                        fontSize: 11,
+                        color: CustomColors.copper_spice,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      publication.title ?? '-',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: CustomTextStyles.cardTitleMobile.copyWith(
+                        fontSize: 15,
                         color: CustomColors.pine_shadow,
-                        height: 1.35,
                       ),
                     ),
-                    if (abstract != null && abstract.isNotEmpty) ...[
-                      const SizedBox(height: 3),
-                      Text(
-                        abstract,
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w400,
-                          color: CustomColors.pine_shadow.withOpacity(0.7),
-                          height: 1.3,
-                        ),
-                      ),
-                    ],
                     const Spacer(),
-                    Divider(
-                      height: 1,
-                      thickness: 0.8,
-                      color: CustomColors.copper_spice.withOpacity(0.4),
-                    ),
-                    const SizedBox(height: 7),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.sell_outlined,
-                          size: 12,
-                          color: CustomColors.pine_shadow,
-                        ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Text(
-                            areasLabel,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: CustomColors.pine_shadow,
-                              height: 1.3,
-                            ),
-                          ),
-                        ),
-                        if (hasDoi) ...[
-                          const SizedBox(width: 8),
-                          const CustomChip(
-                              label: 'DOI', color: CustomColors.copper_spice),
-                        ],
-                      ],
-                    ),
-                    if (year.isNotEmpty) ...[
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.calendar_today_outlined,
-                            size: 11,
-                            color: CustomColors.pine_shadow,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            date!.formattedDate(),
-                            style: const TextStyle(
-                              fontSize: 11,
-                              color: CustomColors.pine_shadow,
-                              height: 1.3,
-                            ),
-                          ),
-                        ],
+                    if (authors != null)
+                      CustomRow(
+                        icon: Icons.person_outline_rounded,
+                        text: authors,
+                        textColor: CustomColors.midnight_slate,
+                        fontSize: 12,
+                        iconSize: 14,
+                      ),
+                    if (areas != null) ...[
+                      if (authors != null) const SizedBox(height: 4),
+                      CustomRow(
+                        icon: Icons.sell_outlined,
+                        text: areas,
+                        textColor: CustomColors.midnight_slate,
+                        fontSize: 12,
+                        iconSize: 14,
                       ),
                     ],
                   ],
@@ -156,20 +118,6 @@ class PublicationTileMobileVersion extends StatelessWidget {
           ],
         ),
       ),
-    );
-
-    return Container(
-      margin: margin,
-      child: onTap == null
-          ? card
-          : Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(_borderRadius),
-                onTap: onTap,
-                child: card,
-              ),
-            ),
     );
   }
 }
