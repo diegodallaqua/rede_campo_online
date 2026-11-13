@@ -43,7 +43,7 @@ class AboutUsHistorySectionMobileVersion extends StatelessWidget {
               color: CustomColors.pine_shadow,
               height: 1.7,
             ),
-            textAlign: TextAlign.justify,
+            textAlign: TextAlign.start,
           ),
           const SizedBox(height: 32),
           const Text(

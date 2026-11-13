@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rede_campo_online/core/ui/widgets/section_title.dart';
 
 import '../../../../../../core/ui/theme/custom_colors.dart';
 import '../../../../../members/stores/members_store.dart';
@@ -22,13 +23,10 @@ class AboutUsMembersSectionDesktopVersion extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                'Nossa Equipe',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w700,
-                  color: CustomColors.copper_spice,
-                ),
+              const SectionTitle(
+                title: 'Nossa Equipe',
+                color: CustomColors.copper_spice,
+                centered: true,
               ),
               const SizedBox(height: 32),
               AboutUsMembersListWidget(membersStore: membersStore),
