@@ -372,26 +372,10 @@ abstract class AdminCreatePublicationStoreBase with Store {
     return false;
   }
 
-  PublicationType? _typeFromString(String? value) {
-    switch (value) {
-      case 'article':
-        return PublicationType.article;
-      case 'book':
-        return PublicationType.book;
-      case 'book_chapter':
-        return PublicationType.bookChapter;
-      // `thesis` é aceito por compatibilidade com o nome anterior do tipo.
-      case 'academic_work':
-      case 'thesis':
-        return PublicationType.academicWork;
-    }
-    return null;
-  }
-
   /// Aplica o tipo e os atributos vindos inline em `details`.
   @action
   void _applyTypeFromPublication() {
-    final type = _typeFromString(publication.publication_type);
+    final type = PublicationType.fromApi(publication.publication_type);
     if (type == null) return;
     final d = publication.details ?? const {};
     _publicationType = type;
