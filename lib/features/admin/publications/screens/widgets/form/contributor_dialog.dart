@@ -9,10 +9,8 @@ import 'package:rede_campo_online/core/models/contributor_roles.dart';
 import 'package:rede_campo_online/core/models/external_author.dart';
 import 'package:rede_campo_online/features/members/models/members.dart';
 
-/// Diálogo de criação de um contribuidor da publicação. O contribuidor pode
-/// ser um membro do grupo ou um autor externo criado na hora - neste caso o
-/// autor externo é persistido junto com o salvamento da publicação, antes do
-/// próprio contribuidor.
+/// Diálogo de novo contribuidor: membro do grupo ou autor externo (criado
+/// ao salvar a publicação, antes do contribuidor).
 class ContributorDialog extends StatefulWidget {
   const ContributorDialog({
     super.key,
@@ -270,8 +268,7 @@ class _ContributorDialogState extends State<ContributorDialog> {
           iconColor: CustomColors.muted_text,
         ),
         const SizedBox(height: 8),
-        // Altura fixa com rolagem própria: a lista de membros nunca faz o
-        // diálogo crescer além do tamanho previsto, mesmo com muitos itens.
+        // Altura fixa com rolagem: o diálogo não cresce com muitos membros.
         SizedBox(
           height: 220,
           child: widget.availableMembers.isEmpty

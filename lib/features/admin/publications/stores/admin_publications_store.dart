@@ -15,8 +15,7 @@ abstract class AdminPublicationsStoreBase extends PagedStore<Publications>
 
   AdminPublicationsStoreBase({super.pageSize});
 
-  // Estado de carregamento/erro da listagem, exposto como observável próprio
-  // do store (espelha o estado herdado de BaseStore via setLoading/setError).
+  // Estado da listagem como observável próprio (espelha o de BaseStore).
   @observable
   bool isLoading = false;
 

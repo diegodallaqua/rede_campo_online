@@ -4,8 +4,7 @@ import 'package:rede_campo_online/core/ui/forms/form_field_shell.dart';
 import 'package:rede_campo_online/core/ui/theme/custom_colors.dart';
 import 'package:rede_campo_online/features/admin/publications/models/publication_type.dart';
 
-/// Dropdown do tipo de publicação. Na edição o tipo detectado fica travado
-/// ([enabled] falso) e o valor atual é exibido como dica desabilitada.
+/// Dropdown do tipo de publicação; travado na edição ([enabled] falso).
 class PublicationTypeField extends StatelessWidget {
   const PublicationTypeField({
     super.key,

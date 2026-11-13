@@ -6,9 +6,8 @@ import 'package:rede_campo_online/core/models/contributor_roles.dart';
 import 'package:rede_campo_online/features/admin/publications/screens/widgets/form/contributor_dialog.dart';
 import 'package:rede_campo_online/features/members/models/members.dart';
 
-/// Campo de gestão dos contribuidores da publicação: abre o
-/// [ContributorDialog] para adicionar e lista os já escolhidos como chips
-/// removíveis.
+/// Contribuidores da publicação: adiciona via [ContributorDialog] e lista
+/// em chips removíveis.
 class ContributorsField extends StatelessWidget {
   const ContributorsField({
     super.key,
@@ -26,9 +25,8 @@ class ContributorsField extends StatelessWidget {
   final void Function(int index) onRemove;
 
   Future<void> _openDialog(BuildContext context) async {
-    // Próxima ordem livre = maior ordem existente + 1. Usar o tamanho da lista
-    // colide quando um contribuidor do meio é removido (ex.: [1,3] tem tamanho
-    // 2, mas a ordem 3 já existe), gerando 409 AUTHOR_ORDER_CONFLICT no backend.
+    // Próxima ordem = maior existente + 1. Usar o tamanho da lista colide
+    // após remoções (ex.: [1,3]) e gera 409 AUTHOR_ORDER_CONFLICT.
     final nextOrder = contributors.fold<int>(
           0,
           (max, c) => (c.order ?? 0) > max ? c.order! : max,

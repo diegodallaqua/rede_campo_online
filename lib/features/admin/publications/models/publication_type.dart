@@ -1,5 +1,4 @@
-/// Tipos de publicação suportados. O registro do tipo é criado junto com a
-/// publicação e não pode ser alterado na edição.
+/// Tipos de publicação. O tipo é fixado na criação.
 enum PublicationType {
   article('Artigo'),
   book('Livro'),
@@ -10,8 +9,7 @@ enum PublicationType {
 
   const PublicationType(this.label);
 
-  /// Converte o `publication_type` da API. `thesis` é aceito por
-  /// compatibilidade com o nome anterior do tipo.
+  /// Converte o `publication_type` da API (`thesis` por compatibilidade).
   static PublicationType? fromApi(String? value) {
     switch (value) {
       case 'article':
