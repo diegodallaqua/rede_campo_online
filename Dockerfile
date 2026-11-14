@@ -5,6 +5,7 @@ COPY pubspec.yaml ./
 RUN flutter pub get
 COPY . .
 RUN dart run build_runner build --delete-conflicting-outputs
+RUN test -n "$API_BASE_URL" || (echo "ERRO: defina a variavel API_BASE_URL no servico (ex.: https://sua-api.up.railway.app)" && exit 1)
 RUN flutter build web --release -t lib/app/main.dart \
     --dart-define=API_BASE_URL=${API_BASE_URL}
 
