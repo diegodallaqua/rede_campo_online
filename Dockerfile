@@ -1,7 +1,7 @@
 FROM ghcr.io/cirruslabs/flutter:3.16.4 AS build
 WORKDIR /app
 ARG API_BASE_URL
-COPY pubspec.yaml pubspec.lock ./
+COPY pubspec.yaml ./
 RUN flutter pub get
 COPY . .
 RUN dart run build_runner build --delete-conflicting-outputs
