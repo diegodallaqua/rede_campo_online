@@ -12,7 +12,7 @@ class ListEmptyState extends StatelessWidget {
     this.message = 'Nenhum item encontrado.',
     this.messageColor = CustomColors.pine_shadow,
     this.height = 200,
-    this.iconColor = CustomColors.vanilla_haze,
+    this.iconColor,
   });
 
   @override
@@ -26,7 +26,7 @@ class ListEmptyState extends StatelessWidget {
             Icon(
               Icons.search_off,
               size: 40,
-              color: iconColor,
+              color: iconColor ?? messageColor,
             ),
             const SizedBox(height: 8),
             Text(
