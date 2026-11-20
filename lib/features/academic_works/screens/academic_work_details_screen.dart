@@ -26,8 +26,7 @@ class _AcademicWorkDetailsScreenState extends State<AcademicWorkDetailsScreen> {
   late final TranslationStore translationStore;
 
   static const _authorsTitle = 'Autores do Trabalho';
-  static const _authorsEmptyMessage =
-      'Nenhum autor vinculado a este trabalho.';
+  static const _authorsEmptyMessage = 'Nenhum autor vinculado a este trabalho.';
 
   @override
   void initState() {

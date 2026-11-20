@@ -32,8 +32,8 @@ class _ProjectsListWidgetMobileVersionState
     extends State<ProjectsListWidgetMobileVersion> {
   void _notifyPageDiscovered(int discovered) {
     final shouldGrow = discovered > widget.maxDiscoveredPage;
-    final shouldShrink = widget.projectsStore.lastPage &&
-        discovered < widget.maxDiscoveredPage;
+    final shouldShrink =
+        widget.projectsStore.lastPage && discovered < widget.maxDiscoveredPage;
     if (shouldGrow || shouldShrink) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         widget.onPageDiscovered(discovered);

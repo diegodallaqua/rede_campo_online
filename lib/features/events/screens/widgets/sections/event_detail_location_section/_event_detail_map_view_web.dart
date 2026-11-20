@@ -10,8 +10,7 @@ void registerMapViewFactory(String viewType, String mapUrl) {
     (int viewId) {
       return html.IFrameElement()
         ..src = mapUrl
-        ..setAttribute(
-            'sandbox',
+        ..setAttribute('sandbox',
             'allow-scripts allow-same-origin allow-forms allow-popups')
         ..style.border = 'none'
         ..style.width = '100%'

@@ -58,8 +58,7 @@ class _InfiniteScrollListState extends State<InfiniteScrollList> {
 
   @override
   Widget build(BuildContext context) {
-    final totalCount =
-        widget.hasMore ? widget.itemCount + 1 : widget.itemCount;
+    final totalCount = widget.hasMore ? widget.itemCount + 1 : widget.itemCount;
 
     return RefreshIndicator(
       onRefresh: widget.onRefresh,

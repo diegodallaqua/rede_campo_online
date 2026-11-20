@@ -101,7 +101,8 @@ class _ProfileImageFieldState extends State<ProfileImageField> {
                       const SizedBox(width: 8),
                       IconButton(
                         onPressed: widget.onRemove,
-                        icon: const Icon(Icons.delete_outline_rounded, size: 18),
+                        icon:
+                            const Icon(Icons.delete_outline_rounded, size: 18),
                         color: CustomColors.copper_spice,
                         style: IconButton.styleFrom(
                           backgroundColor: CustomColors.danger_surface,
