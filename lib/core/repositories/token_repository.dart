@@ -74,22 +74,28 @@ class TokenRepository {
     if (token == null || token.isEmpty) return false;
 
     try {
-      final exp = JWT.decode(token).payload['exp'] as int?;
-
-      if (exp == null) return false;
-
-      final expiresAt =
-          DateTime.fromMillisecondsSinceEpoch(exp * 1000, isUtc: true);
-
-      // Margem de 30s contra race conditions de expiração.
-      return DateTime.now().toUtc().isBefore(
-            expiresAt.subtract(const Duration(seconds: 30)),
-          );
+      return isTokenUnexpired(token);
     } catch (e) {
       await exit();
       log('Erro ao recuperar Token de acesso: $e');
       return false;
     }
+  }
+
+  /// Se o `exp` do [token] ainda não passou, com margem de 30s.
+  /// Retorna `false` sem `exp`; lança exceção se o token for malformado.
+  static bool isTokenUnexpired(String token, {DateTime? now}) {
+    final exp = JWT.decode(token).payload['exp'] as int?;
+
+    if (exp == null) return false;
+
+    final expiresAt =
+        DateTime.fromMillisecondsSinceEpoch(exp * 1000, isUtc: true);
+
+    // Margem de 30s contra race conditions de expiração.
+    return (now ?? DateTime.now()).toUtc().isBefore(
+          expiresAt.subtract(const Duration(seconds: 30)),
+        );
   }
 
   /// Limpa todos os dados de autenticação (logout).
