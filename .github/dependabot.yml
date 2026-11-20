@@ -9,6 +9,18 @@ updates:
       # One PR for all minor/patch bumps; majors still come one by one.
       pub-minor-and-patch:
         update-types: ["minor", "patch"]
+    ignore:
+      # The Flutter SDK is pinned (3.16.4, Dart 3.2) in CI and the Dockerfile,
+      # so versions that need a newer SDK cannot resolve or compile.
+      # flutter_localizations pins intl to the exact version in pubspec.yaml.
+      - dependency-name: "intl"
+      - dependency-name: "cupertino_icons"
+        update-types: ["version-update:semver-major"]
+      # Major rewrites that need code migration, not a plain bump.
+      - dependency-name: "responsive_framework"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "dart_jsonwebtoken"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
