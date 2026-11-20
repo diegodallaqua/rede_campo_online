@@ -44,7 +44,7 @@ dependencies:
 
   # UI, Ícones e Animações
   cupertino_icons: ^1.0.2
-  font_awesome_flutter: 10.7.0
+  font_awesome_flutter: 11.0.0
 
   # Links externos
   url_launcher: ^6.3.0
