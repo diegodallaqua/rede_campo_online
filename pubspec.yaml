@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: 0.18.1
+  intl: 0.20.3
 
   # Gerenciamento de estado
   mobx: ^2.3.3+2
