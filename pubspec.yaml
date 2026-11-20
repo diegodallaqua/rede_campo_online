@@ -43,7 +43,7 @@ dependencies:
   responsive_framework: ^0.1.9
 
   # UI, Ícones e Animações
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^2.0.0
   font_awesome_flutter: 10.7.0
 
   # Links externos
