@@ -37,7 +37,7 @@ dependencies:
   flutter_mobx: ^2.2.1+1
 
   # Injeção de dependência
-  get_it: ^7.6.7
+  get_it: ^9.3.0
 
   # Responsividade
   responsive_framework: ^0.1.9
